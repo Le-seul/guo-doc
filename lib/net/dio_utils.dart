@@ -1,11 +1,9 @@
 
 import 'dart:convert';
-
+import 'package:flutter_first/event/login_event.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_fist/util/log_utils.dart';
-import 'package:flutter_fist/util/toast.dart';
-
-
+import 'package:flutter_first/util/log_utils.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'base_entity.dart';
@@ -39,7 +37,7 @@ class DioUtils {
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
         return true;
       },
-      baseUrl: "https://api.github.com/",
+      baseUrl: "http://testedu.iyangcong.com",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);
@@ -57,46 +55,48 @@ class DioUtils {
   Future<BaseEntity<T>> _request<T>(String method, String url, {Map<String, dynamic> data, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options}) async {
     var response = await _dio.request(url, data: data, queryParameters: queryParameters, options: _checkOptions(method, options), cancelToken: cancelToken);
 
-    int _code;
+    int _statusCode;
     String _msg;
     T _data;
 
     try {
       Map<String, dynamic> _map = json.decode(response.data.toString());
-      _code = _map["code"];
-      _msg = _map["message"];
-      if (_map.containsKey("data")){
-        _data = EntityFactory.generateOBJ(_map["data"]);
+      Map<String,dynamic> dataMap = _map["data"];
+      _statusCode = dataMap["statusCode"];
+      _msg = dataMap["msg"];
+      if (dataMap.containsKey("data")){
+        _data = EntityFactory.generateOBJ(dataMap["data"]);
       }
     }catch(e){
       print(e);
       return parseError();
     }
-    return BaseEntity(_code, _msg, _data);
+    return BaseEntity(_statusCode, _msg, _data);
   }
 
   Future<BaseEntity<List<T>>> _requestList<T>(String method, String url, {Map<String, dynamic> data, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options}) async {
     var response = await _dio.request(url, data: data, queryParameters: queryParameters, options: _checkOptions(method, options), cancelToken: cancelToken);
-    int _code;
+    int _statusCode;
     String _msg;
     List<T> _data = [];
 
     try {
       Map<String, dynamic> _map = json.decode(response.data.toString());
-      _code = _map["code"];
-      _msg = _map["message"];
-      if (_map.containsKey("data")){
+      Map<String,dynamic> dataMap = _map["data"];
+      _statusCode = dataMap["statusCode"];
+      _msg = dataMap["msg"];
+      if (dataMap.containsKey("data")){
         ///  List类型处理，暂不考虑Map
-        (_map["data"] as List).forEach((item){
+        (dataMap["data"] as List).forEach((item){
           _data.add(EntityFactory.generateOBJ<T>(item));
         });
-        BaseEntity(_code, _msg, _data);
+        BaseEntity(_statusCode, _msg, _data);
       }
     }catch(e){
       print(e);
       return parseError();
     }
-    return BaseEntity(_code, _msg, _data);
+    return BaseEntity(_statusCode, _msg, _data);
   }
 
   BaseEntity parseError(){
@@ -146,10 +146,19 @@ class DioUtils {
     request<T>(m, url, params: params, queryParameters: queryParameters, options: options, cancelToken: cancelToken))
         .asBroadcastStream()
         .listen((result){
-      if (result.code == 0){
+      if (result.statusCode == 0){
         isList ? onSuccessList(result.data) : onSuccess(result.data);
+
+      }else if(result.statusCode == 104){
+        eventBus.fire(LoginEvent());
+        Toast.show("用户授权信息无效");
+      }else if(result.statusCode == 105){
+        Toast.show("用户收取信息已过期");
+      }else if(result.statusCode == 106){
+        Toast.show("用户账户被禁用");
       }else{
-        onError == null ? _onError(result.code, result.message) : onError(result.code, result.message);
+        onError == null ? _onError(result.statusCode, result.msg) : onError(result.statusCode, result.msg);
+        eventBus.fire(LoginEvent());
       }
     }, onError: (e){
       if (CancelToken.isCancel(e)){
