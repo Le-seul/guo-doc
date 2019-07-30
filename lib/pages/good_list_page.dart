@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/event/login_event.dart';
+import 'package:flutter_first/net/mock_request.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/toast.dart';
 
 //商品列表页面
@@ -26,7 +28,12 @@ class _GoodListPageState extends State<GoodListPage> {
               child: new Image.asset('assets/images/${index + 1}.jpeg'),
             ));
   }
-
+  void getMock() async{
+    var result = await MockRequest.get('douban');
+    var abd = result['subjects'];
+    ad = abd.toString();
+    Toast.show(ad);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +60,7 @@ class _GoodListPageState extends State<GoodListPage> {
                           onSuccess: (data) {
                             setState(() {
                               ad = "你好";
-                              Toast.show("这是一个Toast");
+                              Toast.show("这是一个Toast",duration: 2000);
                             });
                           },
                           onError: (code, msg) {
@@ -63,6 +70,8 @@ class _GoodListPageState extends State<GoodListPage> {
                             });
                           },
                         );
+
+//                        getMock();
                       },
                     ),
                     new RaisedButton(
@@ -72,7 +81,7 @@ class _GoodListPageState extends State<GoodListPage> {
                       },
                       child: new Text("点击退出登录"),
                     ),
-                    new Text(ad == null?"":ad),
+                    new Text(ad == null ? "": ad ),
                   ],
                 ),
               );
@@ -80,62 +89,14 @@ class _GoodListPageState extends State<GoodListPage> {
             childCount: 6,
           ),
         )));
+
+
   }
 }
 
-//主页，显示一个列表
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
 
-class _HomePageState extends State<HomePage> {
-  StreamSubscription exitLogin;
-  @override
-  void initState() {
-    super.initState();
-    //获取商品数据
-    exitLogin = eventBus.on<LoginEvent>().listen((event) {
-      Future.delayed(Duration(seconds: 3)).then((value) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
-      });
-    });
-  }
 
-  @override
-  void dispose() {
-    super.dispose();
-    //取消订阅
-    exitLogin.cancel();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: AppBar(
-        title: Text('主页'),
-        backgroundColor: Colors.orange,
-      ),
-      body: new Container(
-          child: new ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return new ListTile(
-                  title: new Text("第$index项"),
-                  onTap: () {
-                    Navigator.of(context).pushNamed("/detail");
-//                    Navigator.of(context)
-//                        .push(new MaterialPageRoute(builder: (context) {
-//                      return new DetailPage();
-//                    })
-//                    );
-                  },
-                );
-              })),
-    );
-  }
-}
 
 //详细界面
 class DetailPage extends StatefulWidget {
@@ -165,101 +126,50 @@ class _DetailPageState extends State<DetailPage> {
                 },
                 child: new Text("点击再跳转"),
               ),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyMaterialDialog(context);
+                  },
+                  child: new Text("显示SimpleDialog,Material风格")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyMaterialDialog(context);
+                  },
+                  child: new Text("显示AlertDialog,Material风格")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyCupertinoDialog(context);
+                  },
+                  child: new Text("显示AlertDialog,IOS风格")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyDialogWithValue(context);
+                  },
+                  child: new Text("显示一个有返回值的对话框")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyDialogWithColumn(context);
+                  },
+                  child: new Text("显示一个SingleChildScrollView+Column的对话框")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyDialogWithListView(context);
+                  },
+                  child: new Text("显示一个ListView的对话框")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyDialogWithStateBuilder(context);
+                  },
+                  child: new Text("显示一个StatefulBuilder的对话框")),
+              new RaisedButton(
+                  onPressed: () {
+                    MyDialog.showMyCustomLoadingDialog(context);
+                  },
+                  child: new Text("显示一个自定义的对话框")),
             ],
+        
           ),
         ),
-      ),
-    );
-  }
-}
-
-//启动页面
-class SplashPage extends StatefulWidget {
-  @override
-  _SplashPageState createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    Future.delayed(Duration(seconds: 3)).then((value) {
-      Navigator.of(context).pushReplacementNamed("/login");
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('启动页'),
-        backgroundColor: Colors.green,
-      ),
-      body: new Container(
-        child: new Center(
-          child: new Text("启动界面"),
-        ),
-      ),
-    );
-  }
-}
-
-//登录界面
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('登录页'),
-        backgroundColor: Colors.redAccent,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Text("这是登录界面"),
-          new RaisedButton(
-            child: new Text("点击登录成功，跳转到主页"),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed("/home");
-            },
-          ),
-          new RaisedButton(
-            child: new Text("点击跳转到NotFoundPage"),
-            onPressed: () {
-//              跳转到路由错误的界面
-              Navigator.of(context).pushNamed("/111");
-            },
-          ),
-          new RaisedButton(
-            child: new Text("点击登录成功，自定义动画，跳转到主页"),
-            onPressed: () {
-//              自定义跳转动画
-              Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                      opaque: true,
-                      pageBuilder: (BuildContext context, _, __) {
-                        return new HomePage();
-                      },
-                      transitionsBuilder: (context, Animation<double> animation,
-                          Animation<double> secondaryAnimation, Widget child) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: RotationTransition(
-                            turns: Tween<double>(begin: 0.5, end: 1.0)
-                                .animate(animation),
-                            child: child,
-                          ),
-                        );
-                      }));
-            },
-          ),
-        ],
       ),
     );
   }

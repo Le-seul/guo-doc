@@ -1,6 +1,11 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/login_page.dart';
+import 'package:flutter_first/pages/splash_widget.dart';
 import 'package:oktoast/oktoast.dart';
+import 'event/login_event.dart';
 import 'pages/good_list_page.dart';
 
 void main() => runApp(MyApp());
@@ -14,9 +19,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp>{
-
+//  StreamSubscription exitLogin;
   @override
   void initState() {
+//    exitLogin = eventBus.on<LoginEvent>().listen((event) {
+//        Navigator.of(context)
+//            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
+//    });
+  }
+
+  @override
+  void dispose() {
+//    exitLogin.cancel();
   }
 
   @override
@@ -29,9 +43,6 @@ class _MyAppState extends State<MyApp>{
             "/myapp" : (context) => new MyApp(),
             "/splash": (context) => new SplashPage(),
             "/login": (context) => new LoginPage(),
-            "/home": (context) => new HomePage(),
-            "/detail": (context) => new DetailPage(),
-            "/goodList": (context) => new GoodListPage(),
           },
           //没有路由可以进行匹配的时候
           onUnknownRoute: (RouteSettings setting) {
@@ -45,7 +56,7 @@ class _MyAppState extends State<MyApp>{
           //debugShowCheckedModeBanner: false,
           home: Scaffold(
             body: new Center(
-                child: new SplashPage()
+                child: SplashPage(),
             ),
           ),
 
