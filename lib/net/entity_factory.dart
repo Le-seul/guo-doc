@@ -1,6 +1,6 @@
 
 
-import 'package:flutter_first/models/user_entity.dart';
+import 'package:flutter_first/bean/user_entity.dart';
 import 'account_entity.dart';
 
 class EntityFactory {
