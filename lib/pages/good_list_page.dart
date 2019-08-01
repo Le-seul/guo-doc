@@ -94,10 +94,6 @@ class _GoodListPageState extends State<GoodListPage> {
   }
 }
 
-
-
-
-
 //详细界面
 class DetailPage extends StatefulWidget {
   @override

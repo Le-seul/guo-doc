@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/Information_page.dart';
 import 'package:flutter_first/pages/consultation/consultation_page.dart';
 import 'package:flutter_first/pages/home/home_page.dart';
 import 'package:flutter_first/pages/mine/mine_page.dart';
@@ -50,8 +49,8 @@ class _ContainerPageState extends State<ContainerPage> {
       pages = [
         HomePage(),
         ConsulationPage(),
-        InformationPage(),
-        SelfhelpPage(),
+        ServicePage(),
+        SelfHelpPage(),
         MinePage()
       ];
     }

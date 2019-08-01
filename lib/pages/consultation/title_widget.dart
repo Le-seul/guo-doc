@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
+import 'package:flutter_first/util/router.dart';
 typedef TapCallback = void Function();
 
 ///《书影业》顶部四个TAB
@@ -6,28 +8,28 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only( top: 5.0, bottom: 5.0),
+      padding: const EdgeInsets.only( top: 10.0, bottom: 10.0,left: 15.0,right: 15.0),
       color: Colors.white,
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _TextImgWidget(
             '心理分中心',
-            'assets/images/psychological_subcenter.jpeg',
+            'assets/images/psychological_subcenter.png',
             tabCallBack: () {
-
+              Router.pushNoParams(context, Router.psychologicalServiceCenterPage);
             },
           ),
           _TextImgWidget(
             '教官风采',
-            'assets/images/instructor_demeanor.jpeg',
+            'assets/images/instructor_demeanor.png',
             tabCallBack: () {
 
             },
           ),
           _TextImgWidget(
             '门诊信息',
-            'assets/images/outpatient_information.jpeg',
+            'assets/images/outpatient_information.png',
             tabCallBack: () {
 
             },

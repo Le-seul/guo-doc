@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/splash_widget.dart';
 import 'package:oktoast/oktoast.dart';
@@ -38,13 +39,8 @@ class _MyAppState extends State<MyApp>{
     return OKToast(
         child: MaterialApp(
           //定义路由
-          routes: {
-            //Map<String, WidgetBuilder>
-            "/myapp" : (context) => new MyApp(),
-            "/splash": (context) => new SplashPage(),
-            "/login": (context) => new LoginPage(),
-          },
           //没有路由可以进行匹配的时候
+          debugShowCheckedModeBanner: false,
           onUnknownRoute: (RouteSettings setting) {
             String name = setting.name;
             print("onUnknownRoute:$name");
