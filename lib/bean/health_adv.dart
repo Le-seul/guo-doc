@@ -3,6 +3,8 @@ class HealthAdv {
   var title;
   var net_name;
   var num;
+  var time;
+  var content;
   Images images;
 
 
@@ -11,6 +13,8 @@ class HealthAdv {
 
     title = map['title'];
     net_name = map['net_name'];
+    content = map['content'];
+    time = map['time'];
     var img = map['images'];
     images = Images(img['small'], img['large'], img['medium']);
     num = map['num'];

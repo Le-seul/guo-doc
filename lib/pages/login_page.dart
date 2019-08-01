@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/container_page.dart';
-import 'package:flutter_first/pages/home/home_page.dart';
+
+import 'package:flutter_first/util/router.dart';
 
 import 'good_list_page.dart';
 //登录界面
@@ -25,9 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           new RaisedButton(
             child: new Text("点击登录成功，跳转到主页"),
             onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return new ContainerPage();
-                }));
+              Router.pushNoParams(context, Router.containerPage);
             },
           ),
           new RaisedButton(

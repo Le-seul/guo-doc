@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/router.dart';
 //启动页面
 class SplashPage extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 3)).then((value) {
-      Navigator.of(context).pushReplacementNamed("/login");
+      Router.pushReplacementNamed(context, Router.loginPage);
     });
   }
 
