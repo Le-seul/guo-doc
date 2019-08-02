@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/bean/health_adv.dart';
@@ -165,25 +166,33 @@ class _SelectedPageState extends State<SelectedPage> {
                     ),
                   ),
                   Expanded(
-                      child: Align(
-                        child:Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Align(
-                                child:Text(item.net_name),
-                                alignment: Alignment.bottomLeft,
-                              ),
+                    child: Align(
+                      child:Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Text(item.net_name),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: <Widget>[
+                                Gaps.hGap10,
+                                Icon(Icons.remove_red_eye,color: Colors.grey,size: 15,),
+                                Text(item.browseNum),
+                                Gaps.hGap10,
+                                Icon(Icons.thumb_up,color: Colors.grey,size: 15,),
+                                Text(item.likeNum),
+                                Gaps.hGap10,
+                                Icon(Icons.share,color: Colors.grey,size: 15,),
+                                Text(item.shareNum),
+                              ],
                             ),
-                            Expanded(
-                              child: Align(
-                                child:Text(item.num),
-                                alignment: Alignment.bottomLeft,
-                              ),
-                            ),
-                            ],
-                        ) ,
-                        alignment: Alignment.bottomLeft,
-                      )
+                          ),
+                          ],
+                      ) ,
+                      alignment: Alignment.bottomLeft,
+                    )
                   )
 
                 ],

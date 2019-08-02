@@ -3,16 +3,25 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/event/login_event.dart';
+import 'package:flutter_first/res/colors.dart';
 
 //主页，显示一个列表
-class ConsulationDetailPage extends StatelessWidget {
+class ConsulationDetailPage extends StatefulWidget {
+  HealthAdv healthAdv;
+  ConsulationDetailPage({Key key, @required this.healthAdv}) : super(key: key);
+  _ConsulationDetailPageState createState() => _ConsulationDetailPageState(healthAdv);
+}
+
+
+class _ConsulationDetailPageState extends State<ConsulationDetailPage>{
 
   HealthAdv healthAdv;
-  ConsulationDetailPage({Key key,@required this.healthAdv}) : super(key: key);
+  bool isSupport = false;
+  bool isFavor = false;
+  _ConsulationDetailPageState(this.healthAdv);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       body: Stack(
@@ -81,7 +90,7 @@ class ConsulationDetailPage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   height: 1.0,
-                  color: Color(0xffe5e5e5),
+                  color: Colours.line,
                 ),
                 Container(
                   height: 40,
@@ -89,15 +98,37 @@ class ConsulationDetailPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.feedback),
+                      GestureDetector(
+                        child:IconButton(
+                          icon: Icon(Icons.chat_bubble_outline),
+                        ),
+                        onTap: () {
+
+                        },
                       ),
-                      IconButton(
-                        icon: Icon(Icons.star_border),
+                      GestureDetector(
+                        child:IconButton(
+                          icon: Icon(isFavor?Icons.star:Icons.star_border),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isFavor = !isFavor;
+                          });
+
+                        },
                       ),
-                      IconButton(
-                        icon: Icon(Icons.thumb_up),
-                      )
+                      GestureDetector(
+                        child:IconButton(
+                          icon: Icon(isSupport?Icons.thumb_up:Icons.thumb_down),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isSupport = !isSupport;
+                          });
+
+                        },
+                      ),
+
                     ],
                   ),
                 ),
@@ -109,5 +140,7 @@ class ConsulationDetailPage extends StatelessWidget {
       ),
     );
   }
-
 }
+
+  
+ 

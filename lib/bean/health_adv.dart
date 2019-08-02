@@ -2,7 +2,9 @@ class HealthAdv {
 
   var title;
   var net_name;
-  var num;
+  var browseNum;
+  var likeNum;
+  var shareNum;
   var time;
   var content;
   Images images;
@@ -17,7 +19,9 @@ class HealthAdv {
     time = map['time'];
     var img = map['images'];
     images = Images(img['small'], img['large'], img['medium']);
-    num = map['num'];
+    browseNum = map['browseNum'];
+    likeNum = map['likeNum'];
+    shareNum = map['shareNum'];
   }
 }
 class Images {

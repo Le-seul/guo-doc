@@ -1,17 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/consultation/consulation_detail_page.dart';
+import 'package:flutter_first/res/styles.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/pages/consultation/title_widget.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_first/res/styles.dart';
-import 'package:flutter_first/util/toast.dart';
 
-//GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-//GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
-//GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 var numb = 0;
 
 class HealthPage extends StatefulWidget {
@@ -25,6 +20,7 @@ class HealthPage extends StatefulWidget {
 }
 
 class _HealthPageState extends State<HealthPage> {
+
   List<HealthAdv> list = List();
   List<HealthAdv> tmplist;
 
@@ -32,7 +28,6 @@ class _HealthPageState extends State<HealthPage> {
   void initState() {
     super.initState();
     _requestAPI();
-
   }
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
@@ -49,16 +44,18 @@ class _HealthPageState extends State<HealthPage> {
   }
 
   void _onLoading() async{
+    _refreshController.requestLoading();
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
+//    await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if(numb<2){
       numb++;
       _requestAPI();
+
     }else{
-      Toast.show("已加载完毕！");
+      _refreshController.loadNoData();
     }
-    _refreshController.loadComplete();
+
   }
 
   void _requestAPI() async{
@@ -68,6 +65,7 @@ class _HealthPageState extends State<HealthPage> {
     tmplist = resultList.map<HealthAdv>((item) => HealthAdv.fromMap(item)).toList();
     list.addAll(tmplist);
     setState(() {
+      _refreshController.loadComplete();
     });
   }
   @override
@@ -87,7 +85,7 @@ class _HealthPageState extends State<HealthPage> {
         builder: (BuildContext context,LoadStatus mode){
           Widget body ;
           if(mode==LoadStatus.idle){
-            body =  Text("pull up load");
+            body =  Text("加载完成！");
           }
           else if(mode==LoadStatus.loading){
             body =  CupertinoActivityIndicator();
@@ -136,7 +134,7 @@ class _HealthPageState extends State<HealthPage> {
     return GestureDetector(
       child: showThree?getThreeImagItem(item):getContentItem(item) ,
       onTap: () {
-        Navigator.push(context,new MaterialPageRoute(builder: (context) =>new ConsulationDetailPage(healthAdv: list[index],)));
+        Router.push(context, Router.consulationDetailPage, list[index]);
       },
 
     );
@@ -145,7 +143,7 @@ class _HealthPageState extends State<HealthPage> {
     return Container(
         height: 120,
         color: Colors.white,
-        margin: const EdgeInsets.only(bottom: 5.0),
+        margin: const EdgeInsets.only(top: 5.0),
         padding: const EdgeInsets.only(
             left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
         child: Row(
@@ -165,15 +163,23 @@ class _HealthPageState extends State<HealthPage> {
                         child:Row(
                           children: <Widget>[
                             Expanded(
-                              child: Align(
-                                child:Text(item.net_name),
-                                alignment: Alignment.bottomLeft,
-                              ),
+                              flex: 1,
+                              child: Text(item.net_name),
                             ),
                             Expanded(
-                              child: Align(
-                                child:Text(item.num),
-                                alignment: Alignment.bottomLeft,
+                              flex: 2,
+                              child: Row(
+                                children: <Widget>[
+                                  Gaps.hGap10,
+                                  Icon(Icons.remove_red_eye,color: Colors.grey,size: 15,),
+                                  Text(item.browseNum),
+                                  Gaps.hGap10,
+                                  Icon(Icons.thumb_up,color: Colors.grey,size: 15,),
+                                  Text(item.likeNum),
+                                  Gaps.hGap10,
+                                  Icon(Icons.share,color: Colors.grey,size: 15,),
+                                  Text(item.shareNum),
+                                ],
                               ),
                             ),
                           ],
@@ -201,7 +207,7 @@ class _HealthPageState extends State<HealthPage> {
     return Container(
         height: 120,
         color: Colors.white,
-        margin: const EdgeInsets.only(bottom: 5.0),
+        margin: const EdgeInsets.only(top: 5.0),
         padding: const EdgeInsets.only(
             left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
         child: Column(
