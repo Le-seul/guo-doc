@@ -21,7 +21,7 @@ class _ConsulationPageState extends State<ConsulationPage>with SingleTickerProvi
 
   @override
   void initState() {
-    tabBar = HomePageTabBar();
+    tabBar = HomePageTabBar() ;
     tabList = getTabList();
     _tabController = TabController(vsync: this, length: tabList.length);
   }
@@ -36,10 +36,16 @@ class _ConsulationPageState extends State<ConsulationPage>with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      child: SafeArea(
+    return Scaffold(
+//      appBar: AppBar(
+//        title: Text('资讯'),
+//        backgroundColor: Colors.blue,
+//        centerTitle: true,
+//      ),
+      body: SafeArea(
           child: DefaultTabController(
-              length: titleList.length, child: _getNestedScrollView(tabBar))),
+              length: titleList.length, child: _getNestedScrollView(tabBar)),
+      ),
     );
   }
 }
@@ -49,31 +55,23 @@ Widget _getNestedScrollView(Widget tabBar) {
   return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
-          SliverPersistentHeader(
-              floating: true,
-              pinned: true,
-              delegate: _SliverAppBarDelegate(
-                  maxHeight: 49.0,
-                  minHeight: 49.0,
-                  child: Container(
-                    color: Colors.white,
-                    child: tabBar,
-                  )))
+         SliverPersistentHeader(
+                floating: true,
+                pinned: true,
+                delegate: _SliverAppBarDelegate(
+                    maxHeight: 40.0,
+                    minHeight: 35.0,
+                    child: Container(
+                      height: 37.0,
+                      color: Colors.white,
+                      child: tabBar,
+                    ))) ,
         ];
       },
       body: FlutterTabBarView(
         tabController: _tabController,
       ));
 }
-class HomePageTabBar extends StatefulWidget {
-  HomePageTabBar({Key key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _HomePageTabBarState();
-  }
-}
-
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
     @required this.minHeight,
@@ -102,6 +100,15 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return maxHeight != oldDelegate.maxHeight ||
         minHeight != oldDelegate.minHeight ||
         child != oldDelegate.child;
+  }
+}
+
+class HomePageTabBar extends StatefulWidget {
+  HomePageTabBar({Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _HomePageTabBarState();
   }
 }
 
@@ -147,7 +154,6 @@ class _HomePageTabBarState extends State<HomePageTabBar> {
 //   void Function(T value) this.onTap,按下时的响应事件
     return Container(
 //      margin: EdgeInsets.only(top:0),
-      height: 60,
       color: Color(0xFFFFEBEE),
       child: TabBar(
         tabs: tabList,
