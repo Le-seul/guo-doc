@@ -1,18 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/consultation/consulation_detail_page.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/pages/consultation/title_widget.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_first/res/styles.dart';
-import 'package:flutter_first/util/toast.dart';
 
-//GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-//GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
-//GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 var numb = 0;
 
 class SelectedPage extends StatefulWidget {
@@ -37,9 +30,7 @@ class _SelectedPageState extends State<SelectedPage> {
 //      padding: EdgeInsets.only(top: 10.0),
       child: TitleWidget(),
     );
-
     _requestAPI();
-
   }
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
