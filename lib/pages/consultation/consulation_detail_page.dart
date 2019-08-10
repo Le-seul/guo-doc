@@ -1,8 +1,13 @@
-import 'dart:async';
 
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/health_adv.dart';
-import 'package:flutter_first/event/login_event.dart';
+
 import 'package:flutter_first/res/colors.dart';
 
 //主页，显示一个列表
@@ -30,10 +35,11 @@ class _ConsulationDetailPageState extends State<ConsulationDetailPage>{
             physics: const BouncingScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
+//                floating: true, //不随着滑动隐藏标题
+                pinned: false, //不固定在顶部
                 iconTheme: IconThemeData(color: Colors.black,),
                 title: Text('资讯',style: new TextStyle(color: Color(0xFF333333),fontWeight: FontWeight.w600,),),
                 centerTitle: true,
-                pinned: true,
                 backgroundColor: Colors.white,
               ),
               SliverToBoxAdapter(
@@ -98,17 +104,15 @@ class _ConsulationDetailPageState extends State<ConsulationDetailPage>{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      GestureDetector(
-                        child:IconButton(
-                          icon: Icon(Icons.chat_bubble_outline),
+                     IconButton(
+                          icon: Icon(Icons.share,color: Colors.black26,size: 20),
+                          onPressed: ()async{
+                            Share.text('my text title', '${healthAdv.title}:\nhttps://www.baidu.com/index.php?tn=02049043_6_pg', 'text/plain');
+                          },
                         ),
-                        onTap: () {
-
-                        },
-                      ),
                       GestureDetector(
                         child:IconButton(
-                          icon: Icon(isFavor?Icons.star:Icons.star_border),
+                          icon: Icon(isFavor?Icons.star:Icons.star_border,size: 24,),
                         ),
                         onTap: () {
                           setState(() {
@@ -119,7 +123,7 @@ class _ConsulationDetailPageState extends State<ConsulationDetailPage>{
                       ),
                       GestureDetector(
                         child:IconButton(
-                          icon: Icon(isSupport?Icons.thumb_up:Icons.thumb_down),
+                          icon: Icon(isSupport?Icons.favorite:Icons.favorite_border,size: 20),
                         ),
                         onTap: () {
                           setState(() {

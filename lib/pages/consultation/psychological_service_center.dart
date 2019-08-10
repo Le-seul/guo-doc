@@ -58,6 +58,7 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black,),
         title: Text('心理服务分中心',style: new TextStyle(color: Color(0xFF333333),fontWeight: FontWeight.w600,),),
         backgroundColor: Colors.white,
@@ -101,7 +102,13 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
                 child:Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Align(
-                    child:  Text(item.name,textAlign: TextAlign.center,style: TextStyle(fontSize: 18),),
+                    child:  Text(
+                      item.name,
+                      softWrap: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18),
+                    ),
                     alignment: Alignment.centerLeft,
                   ),
                 )

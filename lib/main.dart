@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/splash_widget.dart';
@@ -12,6 +13,8 @@ import 'pages/good_list_page.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -20,6 +23,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp>{
+
+  final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
 //  StreamSubscription exitLogin;
   @override
   void initState() {
@@ -36,6 +41,8 @@ class _MyAppState extends State<MyApp>{
 
   @override
   Widget build(BuildContext context) {
+
+//    SystemChrome.setSystemUIOverlayStyle(_style);
     return OKToast(
         child: MaterialApp(
           //定义路由

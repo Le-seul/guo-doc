@@ -8,6 +8,9 @@ import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
 import 'package:flutter_first/pages/login_page.dart';
+import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
+import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
+import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
 import 'package:flutter_first/pages/service/servicenext/HealthyconsultationPage.dart';
 import 'package:flutter_first/pages/service/servicenext/activity1.dart';
 import 'package:flutter_first/pages/service/servicenext/activity2.dart';
@@ -25,6 +28,10 @@ class Router {
   static const psychologicalTest = 'app://PsychologicalTest';
   static const serviceActivity1 = 'app://ServiceActivity1';
   static const serviceActivity2 = 'app://ServiceActivity2';
+  static const dietrecordsPage = 'app://DietrecordsPage';
+  static const sleepRecordsPage = 'app://SleepRecordsPage';
+  static const movementClockPage = 'app://MovementClockPage';
+
 
 
 
@@ -55,6 +62,12 @@ class Router {
           return ServiceActivity1();
         case serviceActivity2:
           return ServiceActivity2();
+        case dietrecordsPage:
+          return DietRecordsPage();
+        case sleepRecordsPage:
+          return SleepRecordsPage();
+        case movementClockPage:
+          return MovementClockPage();
       }
     }
     return null;

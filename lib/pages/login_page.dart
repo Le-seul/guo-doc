@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/container_page.dart';
+import 'package:flutter_first/util/dialog.dart';
 
 import 'package:flutter_first/util/router.dart';
 
@@ -15,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.arrow_back_ios,color: Colors.white,),
         title: Text('登录页'),
         backgroundColor: Colors.redAccent,
       ),
@@ -63,5 +65,6 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+
   }
 }

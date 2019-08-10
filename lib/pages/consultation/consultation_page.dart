@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/consultation/consulation_tab.dart';
 import 'dart:math' as math;
 
-var titleList = ['精选', '生理', '政策宣传', '感情', '职业', '健康','人际'];
+var titleList = ['精选', '生理', '政策宣传', '感情', '职业', '健康', '人际'];
 TabController _tabController;
 List<Widget> tabList;
 
@@ -15,33 +15,38 @@ class ConsulationPage extends StatefulWidget {
   }
 }
 
-class _ConsulationPageState extends State<ConsulationPage>with SingleTickerProviderStateMixin{
-
+class _ConsulationPageState extends State<ConsulationPage>
+    with SingleTickerProviderStateMixin {
   var tabBar;
 
   @override
   void initState() {
-    tabBar = HomePageTabBar() ;
+    tabBar = HomePageTabBar();
     tabList = getTabList();
     _tabController = TabController(vsync: this, length: tabList.length);
   }
 
   List<Widget> getTabList() {
-    return titleList.map((item) => Text(
-      '$item', style: TextStyle(fontSize: 15),
-    )).toList();
+    return titleList
+        .map((item) => Text(
+              '$item',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ))
+        .toList();
   }
-
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('资讯'),
-//        backgroundColor: Colors.blue,
-//        centerTitle: true,
-//      ),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: Text('资讯'),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+      ),
       body: SafeArea(
           child: DefaultTabController(
               length: titleList.length, child: _getNestedScrollView(tabBar)),
@@ -55,17 +60,17 @@ Widget _getNestedScrollView(Widget tabBar) {
   return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
-         SliverPersistentHeader(
-                floating: true,
-                pinned: true,
-                delegate: _SliverAppBarDelegate(
-                    maxHeight: 40.0,
-                    minHeight: 35.0,
-                    child: Container(
-                      height: 37.0,
-                      color: Colors.white,
-                      child: tabBar,
-                    ))) ,
+          SliverPersistentHeader(
+              floating: true,
+              pinned: true,
+              delegate: _SliverAppBarDelegate(
+                  maxHeight: 40.0,
+                  minHeight: 35.0,
+                  child: Container(
+                    height: 37.0,
+                    color: Colors.white,
+                    child: tabBar,
+                  ))),
         ];
       },
       body: FlutterTabBarView(
@@ -120,7 +125,7 @@ class _HomePageTabBarState extends State<HomePageTabBar> {
   void initState() {
     super.initState();
     selectColor = Colors.orangeAccent;
-    unselectedColor = Color.fromARGB(255, 117, 117, 117);
+    unselectedColor = Colors.black;
     selectStyle = TextStyle(fontSize: 18, color: selectColor);
     unselectedStyle = TextStyle(fontSize: 18, color: selectColor);
   }

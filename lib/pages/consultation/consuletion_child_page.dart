@@ -7,7 +7,7 @@ import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/pages/consultation/title_widget.dart';
 
-var numb = 0;
+
 
 class ChildPage extends StatefulWidget {
   bool offstage;
@@ -21,6 +21,7 @@ class ChildPage extends StatefulWidget {
 }
 
 class _ChildPageState extends State<ChildPage> {
+  var numb = 0;
   bool offstage;
   Widget titleWidget;
   List<HealthAdv> list = List();
@@ -57,12 +58,12 @@ class _ChildPageState extends State<ChildPage> {
 //    await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if(numb<2){
-      numb++;
       _requestAPI();
 
     }else{
       _refreshController.loadNoData();
     }
+    numb++;
   }
 
   void _requestAPI() async{
@@ -83,6 +84,7 @@ class _ChildPageState extends State<ChildPage> {
   }
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return new SmartRefresher(
       enablePullDown: true,

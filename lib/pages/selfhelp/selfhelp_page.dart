@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/router.dart';
 
 
 class SelfHelpPage extends StatelessWidget {
@@ -147,7 +148,9 @@ class SelfHelpPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 FlatButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Router.pushNoParams(context, Router.dietrecordsPage);
+                                  },
                                   child: Image.asset(
                                     'assets/images/mifan.png',
                                     height: 60,
@@ -163,7 +166,10 @@ class SelfHelpPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 FlatButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Router.pushNoParams(context, Router.sleepRecordsPage);
+
+                                  },
                                   child: Image.asset(
                                     'assets/images/shuimian.png',
                                     height: 60,
@@ -179,7 +185,9 @@ class SelfHelpPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 FlatButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Router.pushNoParams(context, Router.movementClockPage);
+                                  },
                                   child: Image.asset(
                                     'assets/images/paobu.png',
                                     height: 60,

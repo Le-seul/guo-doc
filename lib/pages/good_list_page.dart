@@ -103,6 +103,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
+    MyDialog.showMyMaterialDialog(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('详情页'),
