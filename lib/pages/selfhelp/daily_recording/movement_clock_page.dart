@@ -1,14 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/bean/item_view.dart';
-import 'package:flutter_first/pages/consultation/consulation_tab.dart';
-import 'package:flutter_first/pages/consultation/feeling.dart';
-import 'package:flutter_first/pages/consultation/health_page.dart';
-import 'package:flutter_first/pages/consultation/occupation_page.dart';
-import 'package:flutter_first/pages/consultation/physiology_page.dart';
-import 'package:flutter_first/pages/consultation/policy_advocacy_page.dart';
-import 'package:flutter_first/pages/consultation/relationship_page.dart';
-import 'package:flutter_first/pages/consultation/selected_page.dart';
-import 'package:flutter_first/pages/selfhelp/daily_recording/movement_list.dart';
 import 'package:flutter_first/util/date_utils.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/selected_text.dart';
@@ -132,7 +122,6 @@ class _MovementClockPageState extends State<MovementClockPage>  with SingleTicke
                 ),
               ),
               Container(
-
                 color: Colors.black12,
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                 child: ListView.builder(

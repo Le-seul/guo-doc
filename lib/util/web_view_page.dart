@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatelessWidget {
   final String url;
@@ -7,20 +7,20 @@ class WebViewPage extends StatelessWidget {
   static final String TITLE = 'title';
 
   WebViewPage(this.url, {Key key, this.params}) : super(key: key);
-//  final _webviewReference = FlutterWebviewPlugin();
+
   @override
   Widget build(BuildContext context) {
-//    _webviewReference.close();
-//    _webviewReference.dispose();
-
-    return WebviewScaffold(
-      url: url,
-      appBar: AppBar(
-        title: Text(params[TITLE]),
-        backgroundColor: Colors.green,
-        centerTitle: true,
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(params[TITLE]),
+          backgroundColor: Colors.green,
+          centerTitle: true,
+        ),
+      body: WebView(
+        onWebViewCreated: (WebViewController webViewController) {},
+        initialUrl: url,
+        javascriptMode: JavascriptMode.unrestricted,
+      )
+    ) ;
   }
-
 }

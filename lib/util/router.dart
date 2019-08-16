@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_first/pages/consultation/consulation_detail_page.dart';
+import 'package:flutter_first/pages/consultation/consultation_child_page.dart';
+
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
+import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/EatingPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
@@ -12,7 +15,7 @@ import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.d
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
 import 'package:flutter_first/pages/service/servicenext/HealthyconsultationPage.dart';
-import 'package:flutter_first/pages/service/servicenext/activity1.dart';
+import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/pages/service/servicenext/activity2.dart';
 import 'package:flutter_first/util/web_view_page.dart';
 
@@ -26,12 +29,12 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
-  static const serviceActivity1 = 'app://ServiceActivity1';
+  static const serviceActivity = 'app://ServiceActivity';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
   static const sleepRecordsPage = 'app://SleepRecordsPage';
   static const movementClockPage = 'app://MovementClockPage';
-
+  static const topicPage = 'app://TopicPage';
 
 
 
@@ -40,6 +43,8 @@ class Router {
       return WebViewPage(url, params: params);
     } else {
       switch (url) {
+        case topicPage:
+          return TopicPage();
         case loginPage:
           return LoginPage();
         case containerPage:
@@ -47,7 +52,7 @@ class Router {
         case psychologicalServiceCenterPage:
           return PsychologicalServiceCenterPage();
         case consulationDetailPage:
-          return ConsulationDetailPage(healthAdv: params);
+          return ConsultationDetailPage(consulationColumnsInfo: params,);
         case imagesPage:
           return ImagesPage(indext: params);
         case psychologicalConcult:
@@ -58,8 +63,8 @@ class Router {
           return Healthyconsultation();
         case psychologicalTest:
           return PsychologicalTest();
-        case serviceActivity1:
-          return ServiceActivity1();
+        case serviceActivity:
+          return ServiceActivity(offstage: params);
         case serviceActivity2:
           return ServiceActivity2();
         case dietrecordsPage:

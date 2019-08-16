@@ -1,3 +1,4 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_entity.dart';
@@ -107,7 +108,7 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
                       softWrap: false,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 18),
+                          fontSize: 17),
                     ),
                     alignment: Alignment.centerLeft,
                   ),

@@ -3,7 +3,7 @@ class BaseEntity<T>{
 
   int statusCode;
   String msg;
-  T data;
+  T obj;
   
-  BaseEntity(this.statusCode, this.msg, this.data);
+  BaseEntity(this.statusCode, this.msg, this.obj);
 }

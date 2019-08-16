@@ -37,7 +37,8 @@ class DioUtils {
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
         return true;
       },
-      baseUrl: "http://testedu.iyangcong.com",
+//      baseUrl: "http://10.112.222.111:8080/jeecg",
+      baseUrl: "http://10.28.215.30:8080/jeecg",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);
@@ -57,46 +58,46 @@ class DioUtils {
 
     int _statusCode;
     String _msg;
-    T _data;
+    T _obj;
 
     try {
       Map<String, dynamic> _map = json.decode(response.data.toString());
       Map<String,dynamic> dataMap = _map["data"];
       _statusCode = dataMap["statusCode"];
       _msg = dataMap["msg"];
-      if (dataMap.containsKey("data")){
-        _data = EntityFactory.generateOBJ(dataMap["data"]);
+      if (dataMap.containsKey("obj")){
+        _obj = EntityFactory.generateOBJ(dataMap["obj"]);
       }
     }catch(e){
       print(e);
       return parseError();
     }
-    return BaseEntity(_statusCode, _msg, _data);
+    return BaseEntity(_statusCode, _msg, _obj);
   }
 
   Future<BaseEntity<List<T>>> _requestList<T>(String method, String url, {Map<String, dynamic> data, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options}) async {
     var response = await _dio.request(url, data: data, queryParameters: queryParameters, options: _checkOptions(method, options), cancelToken: cancelToken);
     int _statusCode;
     String _msg;
-    List<T> _data = [];
+    List<T> _obj = [];
 
     try {
       Map<String, dynamic> _map = json.decode(response.data.toString());
       Map<String,dynamic> dataMap = _map["data"];
       _statusCode = dataMap["statusCode"];
       _msg = dataMap["msg"];
-      if (dataMap.containsKey("data")){
+      if (dataMap.containsKey("obj")){
         ///  List类型处理，暂不考虑Map
-        (dataMap["data"] as List).forEach((item){
-          _data.add(EntityFactory.generateOBJ<T>(item));
+        (dataMap["obj"] as List).forEach((item){
+          _obj.add(EntityFactory.generateOBJ<T>(item));
         });
-        BaseEntity(_statusCode, _msg, _data);
+        BaseEntity(_statusCode, _msg, _obj);
       }
     }catch(e){
       print(e);
       return parseError();
     }
-    return BaseEntity(_statusCode, _msg, _data);
+    return BaseEntity(_statusCode, _msg, _obj);
   }
 
   BaseEntity parseError(){
@@ -146,8 +147,8 @@ class DioUtils {
     request<T>(m, url, params: params, queryParameters: queryParameters, options: options, cancelToken: cancelToken))
         .asBroadcastStream()
         .listen((result){
-      if (result.statusCode == 0){
-        isList ? onSuccessList(result.data) : onSuccess(result.data);
+      if (result.statusCode == 1){
+        isList ? onSuccessList(result.obj) : onSuccess(result.obj);
 
       }else if(result.statusCode == 104){
         eventBus.fire(LoginEvent());

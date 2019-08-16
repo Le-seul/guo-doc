@@ -1,40 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/consultation/consulation_tab.dart';
+import 'package:flutter_first/bean/consultation_columns_entity.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/consultation_tab.dart';
 import 'dart:math' as math;
 
-var titleList = ['精选', '生理', '政策宣传', '感情', '职业', '健康', '人际'];
+import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
+
 TabController _tabController;
 List<Widget> tabList;
 
 //资讯页面
-class ConsulationPage extends StatefulWidget {
+class ConsultationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ConsulationPageState();
+    return _ConsultationPageState();
   }
 }
 
-class _ConsulationPageState extends State<ConsulationPage>
+class _ConsultationPageState extends State<ConsultationPage>
     with SingleTickerProviderStateMixin {
-  var tabBar;
+  bool isShowLoading = true;
+  List<ConsulationColumns> columnsList = List();
 
   @override
   void initState() {
-    tabBar = HomePageTabBar();
-    tabList = getTabList();
-    _tabController = TabController(vsync: this, length: tabList.length);
+    _getColumns();
+  }
+
+  _getColumns() {
+    DioUtils.instance.requestNetwork<ConsulationColumns>(
+      Method.get,
+      Api.GETAllCOlUMN,
+      isList: true,
+      onSuccessList: (data) {
+        setState(() {
+          columnsList = data;
+          tabList = getTabList();
+          isShowLoading = false;
+          _tabController = TabController(vsync: this, length: tabList.length);
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          isShowLoading = false;
+          Toast.show('请求失败！');
+        });
+      },
+    );
   }
 
   List<Widget> getTabList() {
-    return titleList
-        .map((item) => Text(
-              '$item',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ))
-        .toList();
+    if (columnsList != null || columnsList.length > 0) {
+      return columnsList
+          .map((item) => Text(
+                item.name,
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ))
+          .toList();
+    }
   }
 
   @override
@@ -47,36 +75,47 @@ class _ConsulationPageState extends State<ConsulationPage>
         backgroundColor: Colors.blue,
         centerTitle: true,
       ),
-      body: SafeArea(
-          child: DefaultTabController(
-              length: titleList.length, child: _getNestedScrollView(tabBar)),
-      ),
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : columnsList.length == 0
+              ? Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  child: Text('暂无数据'),
+                )
+              : SafeArea(
+                  child: DefaultTabController(
+                      length: columnsList.length,
+                      child: _getNestedScrollView(HomePageTabBar())),
+                ),
     );
+  }
+
+  Widget _getNestedScrollView(Widget tabBar) {
+    return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverPersistentHeader(
+                floating: true,
+                pinned: true,
+                delegate: _SliverAppBarDelegate(
+                    maxHeight: 40.0,
+                    minHeight: 35.0,
+                    child: Container(
+                      height: 37.0,
+                      color: Colors.white,
+                      child: tabBar,
+                    ))),
+          ];
+        },
+        body: FlutterTabBarView(
+          tabController: _tabController,
+          columnsList: columnsList,
+        ));
   }
 }
 
-Widget _getNestedScrollView(Widget tabBar) {
-
-  return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverPersistentHeader(
-              floating: true,
-              pinned: true,
-              delegate: _SliverAppBarDelegate(
-                  maxHeight: 40.0,
-                  minHeight: 35.0,
-                  child: Container(
-                    height: 37.0,
-                    color: Colors.white,
-                    child: tabBar,
-                  ))),
-        ];
-      },
-      body: FlutterTabBarView(
-        tabController: _tabController,
-      ));
-}
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
     @required this.minHeight,
