@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 
 class ServicePage extends StatefulWidget {
@@ -7,6 +10,29 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+
+  List<ServiceActivity> serviceActivityList;
+
+  @override
+  void initState() {
+    _requestActivity();
+  }
+
+ void _requestActivity() {
+   DioUtils.instance.requestNetwork<ServiceActivity>(
+       Method.get,
+       Api.GETACTIVITIES,
+       queryParameters: {"columnId": 1, "pageSize": 1, "pageNumber": 1},
+       isList: true,
+       onSuccessList: (data) {
+         setState(() {
+           serviceActivityList = data;
+         });
+
+       },
+       onError: (code, msg) {
+       });
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -416,7 +442,7 @@ class _ServicePageState extends State<ServicePage> {
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 3,
+                itemCount: serviceActivityList.length,
                 itemBuilder: (context, index) => _buildItem(index),
               ),
             ),
@@ -451,7 +477,7 @@ class _ServicePageState extends State<ServicePage> {
               ),
               Container(
                 child: Image.network(
-                  'http://s.114study.com/images/admin_xly_upload/upload/xly/big/20180408181106136040.jpg',
+                  serviceActivityList[index].cover,
                   height: 150,
                   fit: BoxFit.fill,
                 ),
@@ -465,19 +491,19 @@ class _ServicePageState extends State<ServicePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '监督总队心血管防治讲座',
+                    serviceActivityList[index].name,
                     style: TextStyle(color: Colors.black, fontSize: 13),
                   ),
                   SizedBox(
                     width: 8
                   ),
                   Text(
-                    '25人报名',
+                    '${serviceActivityList[index].signInCount}人报名',
                     style: TextStyle(color: Colors.black26, fontSize: 11,
                     ),
                   ),
                   Text(
-                    '25人参加',
+                    '${serviceActivityList[index].signInCount}人参加',
                     style: TextStyle(color: Colors.black26, fontSize: 11),
                   ),
                   SizedBox(
@@ -498,6 +524,8 @@ class _ServicePageState extends State<ServicePage> {
         )
     );
   }
+
+
 
 
 }

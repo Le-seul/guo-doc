@@ -163,7 +163,9 @@ class _ChildPageState extends State<ChildPage> {
     ConsulationColumnsInfo item = items[index];
     bool showThree = (index + 1) % 4 == 0;
     return GestureDetector(
-      child: showThree ? getThreeImagItem(item) : getContentItem(item),
+      child: (item.cover2 == null || item.cover3 == null)
+          ? getContentItem(item)
+          : getThreeImagItem(item),
       onTap: () {
         if (item.type == 'T') {
           Router.push(context, Router.topicPage, true);
