@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/container_page.dart';
-import 'package:flutter_first/util/dialog.dart';
 
 import 'package:flutter_first/util/router.dart';
 
@@ -12,6 +11,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                       }));
             },
           ),
+
         ],
       ),
     );

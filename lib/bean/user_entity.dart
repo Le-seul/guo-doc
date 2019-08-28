@@ -1,4 +1,3 @@
-
 class UserEntity {
 	String name;
 

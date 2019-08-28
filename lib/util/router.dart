@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_first/pages/consultation/consultation_child_page.dart';
-
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
@@ -10,6 +8,7 @@ import 'package:flutter_first/pages/home/home_widgets/EatingPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
+import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
@@ -29,13 +28,13 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
-  static const serviceActivity = 'app://ServiceActivity';
+  static const serviceActivityPage = 'app://ServiceActivityPagey';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
   static const sleepRecordsPage = 'app://SleepRecordsPage';
   static const movementClockPage = 'app://MovementClockPage';
   static const topicPage = 'app://TopicPage';
-
+  static const curriculum = 'app://Curriculum';
 
 
   Widget _getPage(String url, dynamic params) {
@@ -63,8 +62,8 @@ class Router {
           return Healthyconsultation();
         case psychologicalTest:
           return PsychologicalTest();
-        case serviceActivity:
-          return ServiceActivity(offstage: params);
+        case serviceActivityPage:
+          return ServiceActivityPage(offstage: params['offstage'],serviceActivity: params['serviceActivity']);
         case serviceActivity2:
           return ServiceActivity2();
         case dietrecordsPage:
@@ -73,6 +72,8 @@ class Router {
           return SleepRecordsPage();
         case movementClockPage:
           return MovementClockPage();
+        case curriculum:
+          return Curriculum();
       }
     }
     return null;

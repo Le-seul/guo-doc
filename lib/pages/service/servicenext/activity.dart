@@ -1,18 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/activity_detail_entity.dart';
+import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 
 
-class ServiceActivity extends StatefulWidget {
+class ServiceActivityPage extends StatefulWidget {
 
   bool offstage = true;
+  ServiceActivity serviceActivity;
   @override
-  _ServiceActivityState createState() => _ServiceActivityState();
+  _ServiceActivityPageState createState() => _ServiceActivityPageState();
 
-  ServiceActivity({Key key, @required this.offstage}): super(key: key);
+  ServiceActivityPage({Key key, @required this.offstage,@required this.serviceActivity}): super(key: key);
 }
 
-class _ServiceActivityState extends State<ServiceActivity> {
+class _ServiceActivityPageState extends State<ServiceActivityPage> {
+
+  ActivityDetail activityDetail;
+
+  @override
+  void initState() {
+    _getActivityDetail();
+  }
+
+
+  _getActivityDetail(){
+    DioUtils.instance.requestNetwork<ActivityDetail>(
+      Method.get,
+      Api.GETACTIVITIEDETAIL,
+      onSuccess: (data) {
+        setState(() {
+          activityDetail = data;
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          Toast.show('请求失败！');
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +60,7 @@ class _ServiceActivityState extends State<ServiceActivity> {
               children: <Widget>[
                 Container(
                   width: double.infinity,
-                  child:Image.network('http://s.114study.com/images/admin_xly_upload/upload/xly/big/20180408181106136040.jpg',
+                  child:Image.network(activityDetail.cover,
                     height: 180,
                     fit: BoxFit.fill,
                   ),
@@ -44,11 +74,11 @@ class _ServiceActivityState extends State<ServiceActivity> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('活动时间: 2019.07.15  -  2019.08.20',style: TextStyle(fontSize: 16),),
+                        Text('活动时间: ${activityDetail.startTime}',style: TextStyle(fontSize: 16),),
                         SizedBox(height: 10,),
-                        Text('活动地点: 808心理服务分中心',style: TextStyle(fontSize: 16),),
+                        Text('活动地点: ${activityDetail.location}',style: TextStyle(fontSize: 16),),
                         SizedBox(height: 10,),
-                        Text('报名人数: 30人   先到先得',style: TextStyle(fontSize: 16),),
+                        Text('报名人数: ${activityDetail.signInCount}人   先到先得',style: TextStyle(fontSize: 16),),
                       ],
                     ),
 
@@ -59,7 +89,7 @@ class _ServiceActivityState extends State<ServiceActivity> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Icon(Icons.people),
-                    Text("1人已报名    ")
+                    Text("${activityDetail.signInCount}人已报名    ")
                   ],
                 ),
                 SizedBox(height: 10,),
@@ -134,16 +164,17 @@ class _ServiceActivityState extends State<ServiceActivity> {
   _childItem(int index) {
     return GestureDetector(
       onTap: (){
-        Router.push(context, Router.serviceActivity,true);
+        Router.push(context, Router.serviceActivityPage,{'offstage': true, 'serviceActivity': widget.serviceActivity});
       },
       child:Container(
         padding: EdgeInsets.only(left: 10,right:15,top: 10,bottom: 8),
         child: Column(
           children: <Widget>[
-            Image.network('http://s.114study.com/images/admin_xly_upload/upload/xly/big/20180408181106136040.jpg',
+            Image.network(activityDetail.childActivity[0].cover,
               height: 80,
-              width: 120,) ,
-            Text('808分中心活动')
+              width: 120,
+              fit: BoxFit.fitHeight,) ,
+            Text(activityDetail.childActivity[0].name)
           ],
         ),
       ),
@@ -158,13 +189,15 @@ class _ServiceActivityState extends State<ServiceActivity> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text('808分中心活动',style: TextStyle(fontSize: 15),),
-          Image.network('http://s.114study.com/images/admin_xly_upload/upload/xly/big/20180408181106136040.jpg',
+          Text(activityDetail.name,style: TextStyle(fontSize: 15),),
+          Image.network(activityDetail.cover,
             height: 80,
-            width: 120,)
+            width: 120,
+            fit: BoxFit.fitHeight)
         ],
       ),
     );
   }
+
 }
 

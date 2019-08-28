@@ -37,6 +37,9 @@ class DioUtils {
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
         return true;
       },
+
+//      baseUrl: "http://10.128.244.149:8080/jeecg",
+
 //      baseUrl: "http://10.112.222.111:8080/jeecg",
       baseUrl: "http://10.28.215.30:8080/jeecg",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
@@ -149,7 +152,6 @@ class DioUtils {
         .listen((result){
       if (result.statusCode == 1){
         isList ? onSuccessList(result.obj) : onSuccess(result.obj);
-
       }else if(result.statusCode == 104){
         eventBus.fire(LoginEvent());
         Toast.show("用户授权信息无效");

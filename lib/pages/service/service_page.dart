@@ -3,6 +3,7 @@ import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/toast.dart';
 
 class ServicePage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class ServicePage extends StatefulWidget {
 
 class _ServicePageState extends State<ServicePage> {
 
-  List<ServiceActivity> serviceActivityList;
+  List<ServiceActivity> serviceActivityList = List();
 
   @override
   void initState() {
@@ -22,7 +23,7 @@ class _ServicePageState extends State<ServicePage> {
    DioUtils.instance.requestNetwork<ServiceActivity>(
        Method.get,
        Api.GETACTIVITIES,
-       queryParameters: {"columnId": 1, "pageSize": 1, "pageNumber": 1},
+       queryParameters: {"pageSize": 1, "pageNumber": 1},
        isList: true,
        onSuccessList: (data) {
          setState(() {
@@ -31,6 +32,8 @@ class _ServicePageState extends State<ServicePage> {
 
        },
        onError: (code, msg) {
+
+         Toast.show('请求失败！');
        });
  }
 
@@ -458,7 +461,7 @@ class _ServicePageState extends State<ServicePage> {
   _buildItem(int index) {
     return GestureDetector(
         onTap: () {
-          Router.push(context, Router.serviceActivity,false);
+          Router.push(context, Router.serviceActivityPage,{'offstage': false, 'serviceActivity': serviceActivityList[index]});
         },
         child: Container(
           margin: EdgeInsets.only(top: 5.0, bottom: 5.0),

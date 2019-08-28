@@ -1,5 +1,7 @@
+import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/consultation_columns_entity.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
+import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 
 
@@ -13,7 +15,11 @@ class EntityFactory {
       return ConsulationColumnsInfo.fromJson(json) as T;
     } else if (T.toString() == "ServiceActivity") {
       return ServiceActivity.fromJson(json) as T;
-    } else {
+    } else if (T.toString() == "Psycourse") {
+      return Psycourse.fromJson(json) as T;
+    } else if (T.toString() == "ActivityDetail") {
+      return ActivityDetail.fromJson(json) as T;
+    }else {
       return null;
     }
   }

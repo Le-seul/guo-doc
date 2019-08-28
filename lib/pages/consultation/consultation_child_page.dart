@@ -8,7 +8,6 @@ import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/pages/consultation/title_widget.dart';
 
 class ChildPage extends StatefulWidget {
