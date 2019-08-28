@@ -50,7 +50,7 @@ dependencies:
   intl: 0.15.8
   fl_chart: 0.1.5
   esys_flutter_share: 1.0.2
-
+  jpush_flutter: 0.0.11
 
 
 

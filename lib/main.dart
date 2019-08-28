@@ -4,6 +4,8 @@ import 'package:flutter_first/pages/splash_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'pages/good_list_page.dart';
 
+import 'package:jpush_flutter/jpush_flutter.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -17,7 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp>{
-
+  JPush jpush = new JPush();
   final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
 //  StreamSubscription exitLogin;
   @override
@@ -26,6 +28,18 @@ class _MyAppState extends State<MyApp>{
 //        Navigator.of(context)
 //            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
 //    });
+
+    jpush.setup(appKey: "29b0c3835843e02814ff021a" ,channel: 'developer-default');
+    // 监听jpush
+    jpush.addEventHandler(
+      onReceiveNotification: (Map<String, dynamic> message) async {
+        print("flutter 接收到推送: $message");
+      },
+      onOpenNotification: (Map<String, dynamic> message) {
+        // 点击通知栏消息，在此时通常可以做一些页面跳转等
+      },
+    );
+
   }
 
   @override
