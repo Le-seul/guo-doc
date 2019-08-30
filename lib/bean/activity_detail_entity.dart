@@ -6,13 +6,13 @@ class ActivityDetail{
   String description;
   String cover;
   String parentActivityId;
-  DateTime startTime;
-  DateTime endTime;
+  String startTime;
+  String endTime;
   String location;
-  String state;
+  int state;
   String detail;
   String onlineSignIn;
-  String signInCount;
+  int signInCount;
   String publishChanel;
   String chanelInfoMethod;
 
@@ -37,15 +37,16 @@ class ActivityDetail{
 
 
   factory ActivityDetail.fromJson(Map<String, dynamic> json) => new ActivityDetail(
-    childActivity: new List<ChildActivity>.from(json["childActivity"].map((x) => ChildActivity.fromJson(x))),
+
+    childActivity:json["childActivity"] == null ? null: new List<ChildActivity>.from(json["childActivity"].map((x) => ChildActivity.fromJson(x))),
     id: json["id"],
     name: json["name"],
     type: json["type"],
     description: json["description"],
     cover: json["cover"],
     parentActivityId: json["parentActivityId"],
-    startTime: DateTime.parse(json["startTime"]),
-    endTime: DateTime.parse(json["endTime"]),
+    startTime: json["startTime"],
+    endTime: json["endTime"],
     location: json["location"],
     state: json["state"],
     detail: json["detail"],
@@ -60,7 +61,7 @@ class ChildActivity{
   String name;
   String type;
   String cover;
-  String state;
+  int state;
 
   ChildActivity({
     this.id,

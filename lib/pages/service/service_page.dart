@@ -461,7 +461,7 @@ class _ServicePageState extends State<ServicePage> {
   _buildItem(int index) {
     return GestureDetector(
         onTap: () {
-          Router.push(context, Router.serviceActivityPage,{'offstage': false, 'serviceActivity': serviceActivityList[index]});
+          Router.push(context, Router.serviceActivityPage,{'offstage': false, 'activityId': serviceActivityList[index].id});
         },
         child: Container(
           margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -493,33 +493,44 @@ class _ServicePageState extends State<ServicePage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    serviceActivityList[index].name,
-                    style: TextStyle(color: Colors.black, fontSize: 13),
-                  ),
-                  SizedBox(
-                    width: 8
-                  ),
-                  Text(
-                    '${serviceActivityList[index].signInCount}人报名',
-                    style: TextStyle(color: Colors.black26, fontSize: 11,
-                    ),
-                  ),
-                  Text(
-                    '${serviceActivityList[index].signInCount}人参加',
-                    style: TextStyle(color: Colors.black26, fontSize: 11),
-                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Text(
+                        serviceActivityList[index].name,
+                        overflow:  TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.black, fontSize: 13,),
+                      ),
+                    ),),
                   SizedBox(
                     width: 8,
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 2.0,right: 2.0,top: 1.0, bottom: 1.0),
-                    child: Text('进行中',
-                      style: TextStyle(fontSize: 8, color: Colors.green),),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green, width: 1),
-                        borderRadius: BorderRadius.circular(10)),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '${serviceActivityList[index].signInCount}人报名',
+                          style: TextStyle(color: Colors.black26, fontSize: 11,
+                          ),
+                        ),
+                        Text(
+                          '${serviceActivityList[index].signInCount}人参加',
+                          style: TextStyle(color: Colors.black26, fontSize: 11),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 2.0,right: 2.0,top: 1.0, bottom: 1.0),
+                          child: Text('进行中',
+                            style: TextStyle(fontSize: 8, color: Colors.green),),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green, width: 1),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ],
+                    ),
                   ),
+
                 ],
               ),
             ],

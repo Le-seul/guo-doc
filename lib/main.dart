@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/splash_widget.dart';
+import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:oktoast/oktoast.dart';
 import 'pages/good_list_page.dart';
 
@@ -13,7 +16,7 @@ class MyApp extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+
     return _MyAppState();
   }
 }
@@ -29,17 +32,20 @@ class _MyAppState extends State<MyApp>{
 //            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
 //    });
 
-    jpush.setup(appKey: "29b0c3835843e02814ff021a" ,channel: 'developer-default');
-    // 监听jpush
-    jpush.addEventHandler(
-      onReceiveNotification: (Map<String, dynamic> message) async {
-        print("flutter 接收到推送: $message");
-      },
-      onOpenNotification: (Map<String, dynamic> message) {
-        // 点击通知栏消息，在此时通常可以做一些页面跳转等
-      },
-    );
-
+    SchedulerBinding.instance.addPostFrameCallback((_) => {
+      jpush.setup(appKey: "29b0c3835843e02814ff021a" ,channel: 'developer-default'),
+        // 监听jpush
+      jpush.addEventHandler(
+        onReceiveNotification: (Map<String, dynamic> message) async {
+          print("flutter 接收到推送: $message");
+        },
+        onOpenNotification: (Map<String, dynamic> message) {
+        // 点击通知栏消息，在此时通常可以做一些页面跳转等v
+          Toast.show('点击通知');
+          Router.pushNoParams(context, Router.sleepRecordsPage);
+        },
+      ),
+    });
   }
 
   @override

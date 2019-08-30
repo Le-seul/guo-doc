@@ -199,34 +199,37 @@ class _ChildPageState extends State<ChildPage> {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          flex: 1,
-                          child: Text(item.type),
+                          flex: 2,
+                          child: Text(
+                            item.description,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Gaps.hGap10,
                               Icon(
                                 Icons.remove_red_eye,
                                 color: Colors.grey,
                                 size: 15,
                               ),
-                              Text(item.id),
-                              Gaps.hGap10,
+                              Text('${item.readCount}'),
+                              Gaps.hGap8,
                               Icon(
                                 Icons.thumb_up,
                                 color: Colors.grey,
                                 size: 15,
                               ),
-                              Text(item.id),
-                              Gaps.hGap10,
+                              Text('${item.likeCount}'),
+                              Gaps.hGap8,
                               Icon(
                                 Icons.share,
                                 color: Colors.grey,
                                 size: 15,
                               ),
-                              Text(item.id),
+                              Text('${item.transmitCount}'),
                             ],
                           ),
                         ),

@@ -63,7 +63,7 @@ class Router {
         case psychologicalTest:
           return PsychologicalTest();
         case serviceActivityPage:
-          return ServiceActivityPage(offstage: params['offstage'],serviceActivity: params['serviceActivity']);
+          return ServiceActivityPage(offstage: params['offstage'],activityId: params['activityId']);
         case serviceActivity2:
           return ServiceActivity2();
         case dietrecordsPage:
