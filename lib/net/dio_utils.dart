@@ -58,7 +58,7 @@ class DioUtils {
   // 数据返回格式统一，统一处理异常
   Future<BaseEntity<T>> _request<T>(String method, String url, {Map<String, dynamic> data, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options}) async {
     var response = await _dio.request(url, data: data, queryParameters: queryParameters, options: _checkOptions(method, options), cancelToken: cancelToken);
-
+    int _customCode;
     int _statusCode;
     String _msg;
     T _obj;
@@ -66,6 +66,7 @@ class DioUtils {
     try {
       Map<String, dynamic> _map = json.decode(response.data.toString());
       Map<String,dynamic> dataMap = _map["data"];
+      _customCode = dataMap['customCode'];
       _statusCode = dataMap["statusCode"];
       _msg = dataMap["msg"];
       if (dataMap.containsKey("obj")){
@@ -75,11 +76,12 @@ class DioUtils {
       print(e);
       return parseError();
     }
-    return BaseEntity(_statusCode, _msg, _obj);
+    return BaseEntity(_customCode,_statusCode, _msg, _obj);
   }
 
   Future<BaseEntity<List<T>>> _requestList<T>(String method, String url, {Map<String, dynamic> data, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options}) async {
     var response = await _dio.request(url, data: data, queryParameters: queryParameters, options: _checkOptions(method, options), cancelToken: cancelToken);
+    int _customCode;
     int _statusCode;
     String _msg;
     List<T> _obj = [];
@@ -87,6 +89,7 @@ class DioUtils {
     try {
       Map<String, dynamic> _map = json.decode(response.data.toString());
       Map<String,dynamic> dataMap = _map["data"];
+      _customCode = dataMap['customCode'];
       _statusCode = dataMap["statusCode"];
       _msg = dataMap["msg"];
       if (dataMap.containsKey("obj")){
@@ -94,17 +97,17 @@ class DioUtils {
         (dataMap["obj"] as List).forEach((item){
           _obj.add(EntityFactory.generateOBJ<T>(item));
         });
-        BaseEntity(_statusCode, _msg, _obj);
+        BaseEntity(_customCode,_statusCode, _msg, _obj);
       }
     }catch(e){
       print(e);
       return parseError();
     }
-    return BaseEntity(_statusCode, _msg, _obj);
+    return BaseEntity(_customCode,_statusCode, _msg, _obj);
   }
 
   BaseEntity parseError(){
-    return BaseEntity(ExceptionHandle.parse_error, "数据解析错误", null);
+    return BaseEntity(ExceptionHandle.parse_error,ExceptionHandle.parse_error, "数据解析错误", null);
   }
 
   Options _checkOptions(method, options) {
@@ -126,7 +129,7 @@ class DioUtils {
   }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
-  requestNetwork<T>(Method method, String url, {Function(T t) onSuccess, Function(List<T> list) onSuccessList, Function(int code, String mag) onError,
+  requestNetwork<T>(Method method, String url, {Function(T t) onSuccess,Function() onParseError, Function(List<T> list) onSuccessList, Function(int code, String mag) onError,
     Map<String, dynamic> params, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options, bool isList : false}){
     String m;
     switch(method){
@@ -151,7 +154,12 @@ class DioUtils {
         .asBroadcastStream()
         .listen((result){
       if (result.statusCode == 1){
-        isList ? onSuccessList(result.obj) : onSuccess(result.obj);
+        if(result.customCode == 0){
+          onParseError();
+        }else{
+          isList ? onSuccessList(result.obj) : onSuccess(result.obj);
+        }
+
       }else if(result.statusCode == 104){
         eventBus.fire(LoginEvent());
         Toast.show("用户授权信息无效");

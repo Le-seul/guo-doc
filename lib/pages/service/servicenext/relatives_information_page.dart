@@ -17,8 +17,8 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
   String name;
   String birthday = '';
   int groupValue1 = 0;
-  String gender;
-  String relation;
+  String gender = 'M';
+  String relation = 'CHIL';
   genderChange(val) {
     this.setState(() {
       groupValue1 = val;
@@ -185,38 +185,35 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
                           flex: 1,
                         ),
                         Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(right: 10),
-                            height: 25,
-                            width: 200,
-                            child: GestureDetector(
-                              child: birthday == ''
-                                  ? Text(
-                                      '2013-01-04',style: TextStyle(fontSize: 16),)
-                                  : Text(
-                                      birthday.split(' ')[0],style: TextStyle(fontSize: 16),
-                                    ),
-                              onTap: () {
-                                DatePicker.showDatePicker(
-                                  context,
-                                  showTitleActions: true,
-                                  minTime: DateTime(1949, 10, 1),
-                                  maxTime: DateTime.now(),
-                                  theme: DatePickerTheme(),
-                                  onChanged: (date) {
-                                    setState(() {
-                                      birthday = date.toString();
-                                    });
-                                  },
-                                  onConfirm: (date) {},
-                                  currentTime: DateTime.now(),
-                                );
-                              },
+                          child: GestureDetector(
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(right: 10),
+                              height: 25,
+                              width: 200,
+                              child:Text(
+                                  birthday.split(' ')[0],style: TextStyle(fontSize: 16),
+                                ),
+
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black, width: 1),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
-                            ),
+                            onTap: () {
+                              DatePicker.showDatePicker(
+                                context,
+                                showTitleActions: true,
+                                minTime: DateTime(1949, 10, 1),
+                                maxTime: DateTime.now(),
+                                theme: DatePickerTheme(),
+                                onConfirm: (date) {
+                                  setState(() {
+                                    birthday = date.toString();
+                                  });
+                                },
+                                currentTime: DateTime.now(),
+                              );
+                            },
                           ),
                           flex: 3,
                         ),

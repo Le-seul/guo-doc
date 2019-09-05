@@ -388,6 +388,12 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
           Toast.show('提交失败!');
         });
       },
+      onParseError: (){
+        setState(() {
+          Toast.show('已提交，勿重复提交!');
+        });
+
+      }
     );
   }
 
