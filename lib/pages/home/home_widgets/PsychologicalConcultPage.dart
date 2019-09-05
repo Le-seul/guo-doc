@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayerPage.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/util/router.dart';
 
 class PsychologicalConcult extends StatefulWidget {
   @override
@@ -120,31 +121,15 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
             ],
           ),
         ),
+      resizeToAvoidBottomPadding: false,
       bottomSheet:
          Row(children: <Widget>[
            Expanded(child: Container(
-             height: 60,
+             height: 45,
              child: RaisedButton(
                onPressed:(){
-                 showDialog(
-                   context: context,
-                 builder: (context){
-                    return AlertDialog(
-                      title:Text('提示') ,
-                      content: Text('请确定与本人的关系'),
-                      actions: <Widget>[
-                         Container(
-                          color: Colors.yellow,
-                          child: FlatButton(onPressed:(){}, child: Text('本人',style: TextStyle(color: Colors.black),)),
-                        ),
-
-                          Container(
-                          color: Colors.green,
-                          child: FlatButton(onPressed:(){}, child: Text('家属',style: TextStyle(color: Colors.black))),
-                        ),
-                      ],
-                    );
-                 },);},
+                 MyDialog.showMyMaterialDialog(context);
+               },
                child: Text('咨询',style: TextStyle(fontSize: 17),),
                color: Colors.blue,),
            ),)
@@ -152,6 +137,5 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
          )
 
     );
-
   }
 }

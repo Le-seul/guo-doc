@@ -9,5 +9,8 @@ class Api{
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
   //课程接口
   static const String PSYCOURSE = "/api/psycourse.do?getPsyCourse";
-
+  //获取服务中心列表getServiceCenterList
+  static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";
+  //创建心理咨询订单
+  static const String GREATEORDER = "/api/psyConsult.do?createOrder";
 }

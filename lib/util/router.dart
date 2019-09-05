@@ -13,9 +13,11 @@ import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
-import 'package:flutter_first/pages/service/servicenext/HealthyconsultationPage.dart';
+import 'package:flutter_first/pages/service/servicenext/healthyconsultation_page.dart';
+import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/pages/service/servicenext/activity2.dart';
+import 'package:flutter_first/pages/service/servicenext/relatives_information_page.dart';
 import 'package:flutter_first/util/web_view_page.dart';
 
 class Router {
@@ -35,6 +37,9 @@ class Router {
   static const movementClockPage = 'app://MovementClockPage';
   static const topicPage = 'app://TopicPage';
   static const curriculum = 'app://Curriculum';
+  static const initiateConsultationPage = 'app://InitiateConsultationPage';
+  static const relativesInformationPage = 'app://RelativesInformationPage';
+
 
 
   Widget _getPage(String url, dynamic params) {
@@ -74,6 +79,10 @@ class Router {
           return MovementClockPage();
         case curriculum:
           return Curriculum();
+        case initiateConsultationPage:
+          return InitiateConsultationPage('FAMI',name: params['name'],gender: params['gender'],birthday: params['birthday'],relation: params['relation'],);
+        case relativesInformationPage:
+          return RelativesInformationPage();
       }
     }
     return null;

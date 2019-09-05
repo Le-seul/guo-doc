@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
+import 'package:flutter_first/util/router.dart';
 
 class MyDialog {
   static void showMyMaterialDialog(BuildContext context) {
@@ -7,21 +9,48 @@ class MyDialog {
         context: context,
         builder: (context) {
           return new AlertDialog(
-            title: new Text("title"),
-            content: new Text("内容内容内容内容内容内容内容内容内容内容内容"),
+            title: new Container(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "提示",
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Colors.orange,
+            ),
+            contentPadding: EdgeInsets.only(left: 24, top: 24, bottom: 80),
+            titlePadding: EdgeInsets.all(0.0),
+            content: Text("与本人的关系"),
             actions: <Widget>[
-              new FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: new Text("确认"),
+              Container(
+                width: 125,
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>InitiateConsultationPage('SELF')));
+                  },
+                  child: new Text(
+                    "本人",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Colors.lightBlueAccent,
+                ),
               ),
-              new FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: new Text("取消"),
+              Container(
+                width: 125,
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Router.pushNoParams(
+                        context, Router.relativesInformationPage);
+                  },
+                  child: new Text(
+                    "家属",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Colors.red,
+                ),
               ),
+
             ],
           );
         });
@@ -164,26 +193,27 @@ class MyDialog {
       builder: (BuildContext context) {
         return new AlertDialog(
             content: new Container(
-              /*
+          /*
               暂时的解决方法：要将ListView包装在具有特定宽度和高度的Container中
               如果Container没有定义这两个属性的话，会报错，无法显示ListView
                */
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.9,
-              child: new ListView.builder(
-                itemBuilder: (context, index) {
-                  return new SizedBox(
-                    height: 100,
-                    child: new Text("1"),
-                  );
-                },
-                itemCount: 10,
-                shrinkWrap: true,
-              ),
-            ));
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: new ListView.builder(
+            itemBuilder: (context, index) {
+              return new SizedBox(
+                height: 100,
+                child: new Text("1"),
+              );
+            },
+            itemCount: 10,
+            shrinkWrap: true,
+          ),
+        ));
       },
     );
-}
+  }
+
   static void showMyDialogWithStateBuilder(BuildContext context) {
     showDialog(
         context: context,
@@ -192,7 +222,7 @@ class MyDialog {
           return new AlertDialog(
             title: new Text("StatefulBuilder"),
             content:
-            new StatefulBuilder(builder: (context, StateSetter setState) {
+                new StatefulBuilder(builder: (context, StateSetter setState) {
               return Container(
                 child: new CheckboxListTile(
                     title: new Text("选项"),

@@ -1,8 +1,9 @@
 
-//interface for picker data model
-import 'package:flutter_first/pages/selfhelp/daily_recording/datetime_picer/date_format.dart';
-import 'package:flutter_first/pages/selfhelp/daily_recording/datetime_picer/i18n_model.dart';
+import 'package:flutter_first/util/datetime_picer/date_format.dart';
+import 'package:flutter_first/util/datetime_picer/i18n_model.dart';
+import 'datetime_util.dart';
 
+//interface for picker data model
 abstract class BasePickerModel {
   //a getter method for left column data, return null to end list
   String leftStringAtIndex(int index);
@@ -357,8 +358,6 @@ class DatePickerModel extends CommonPickerModel {
   DateTime finalTime() {
     return currentTime;
   }
-
-  int calcDateCount(int year, int month) {}
 }
 
 //a time picker model

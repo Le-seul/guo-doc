@@ -2,15 +2,45 @@ library flutter_datetime_picker;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/selfhelp/daily_recording/datetime_picer/date_model.dart';
-import 'package:flutter_first/pages/selfhelp/daily_recording/datetime_picer/datetime_picker_theme.dart';
-import 'package:flutter_first/pages/selfhelp/daily_recording/datetime_picer/i18n_model.dart';
+import 'package:flutter_first/util/datetime_picer/date_model.dart';
+import 'package:flutter_first/util/datetime_picer/datetime_picker_theme.dart';
+import 'package:flutter_first/util/datetime_picer/i18n_model.dart';
+
 
 typedef DateChangedCallback(DateTime time);
 typedef String StringAtIndexCallBack(int index);
 
 class DatePicker {
-
+  ///
+  /// Display date picker bottom sheet.
+  ///
+  static void showDatePicker(
+    BuildContext context, {
+    bool showTitleActions: true,
+    DateTime minTime,
+    DateTime maxTime,
+    DateChangedCallback onChanged,
+    DateChangedCallback onConfirm,
+    locale: LocaleType.en,
+    DateTime currentTime,
+    DatePickerTheme theme,
+  }) {
+    Navigator.push(
+        context,
+        new _DatePickerRoute(
+            showTitleActions: showTitleActions,
+            onChanged: onChanged,
+            onConfirm: onConfirm,
+            locale: locale,
+            theme: theme,
+            barrierLabel:
+                MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            pickerModel: DatePickerModel(
+                currentTime: currentTime,
+                maxTime: maxTime,
+                minTime: minTime,
+                locale: locale)));
+  }
 
   ///
   /// Display time picker bottom sheet.
@@ -24,7 +54,6 @@ class DatePicker {
     DateTime currentTime,
     DatePickerTheme theme,
   }) {
-
     Navigator.push(
         context,
         new _DatePickerRoute(
@@ -38,7 +67,59 @@ class DatePicker {
             pickerModel:
                 TimePickerModel(currentTime: currentTime, locale: locale)));
   }
+
+  ///
+  /// Display date&time picker bottom sheet.
+  ///
+  static void showDateTimePicker(
+    BuildContext context, {
+    bool showTitleActions: true,
+    DateChangedCallback onChanged,
+    DateChangedCallback onConfirm,
+    locale: LocaleType.en,
+    DateTime currentTime,
+    DatePickerTheme theme,
+  }) {
+    Navigator.push(
+        context,
+        new _DatePickerRoute(
+            showTitleActions: showTitleActions,
+            onChanged: onChanged,
+            onConfirm: onConfirm,
+            locale: locale,
+            theme: theme,
+            barrierLabel:
+                MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            pickerModel:
+                DateTimePickerModel(currentTime: currentTime, locale: locale)));
+  }
+
+  ///
+  /// Display date picker bottom sheet witch custom picker model.
+  ///
+  static void showPicker(
+    BuildContext context, {
+    bool showTitleActions: true,
+    DateChangedCallback onChanged,
+    DateChangedCallback onConfirm,
+    locale: LocaleType.en,
+    BasePickerModel pickerModel,
+    DatePickerTheme theme,
+  }) {
+    Navigator.push(
+        context,
+        new _DatePickerRoute(
+            showTitleActions: showTitleActions,
+            onChanged: onChanged,
+            onConfirm: onConfirm,
+            locale: locale,
+            theme: theme,
+            barrierLabel:
+                MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            pickerModel: pickerModel));
+  }
 }
+
 class _DatePickerRoute<T> extends PopupRoute<T> {
   _DatePickerRoute({
     this.showTitleActions,
@@ -106,10 +187,10 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
 class _DatePickerComponent extends StatefulWidget {
   _DatePickerComponent(
       {Key key,
-        @required this.route,
-        this.onChanged,
-        this.locale,
-        this.pickerModel});
+      @required this.route,
+      this.onChanged,
+      this.locale,
+      this.pickerModel});
 
   final DateChangedCallback onChanged;
 
@@ -201,7 +282,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
           padding: EdgeInsets.all(8.0),
           height: theme.containerHeight,
           decoration:
-          BoxDecoration(color: theme.backgroundColor ?? Colors.white),
+              BoxDecoration(color: theme.backgroundColor ?? Colors.white),
           child: NotificationListener(
               onNotification: (ScrollNotification notification) {
                 if (notification.depth == 0 &&
