@@ -166,7 +166,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CheckboxDefault(this, 8, '个人职场'),
-                CheckboxDefault(this, 9, '性心理'),
+                CheckboxDefault(this, 9, '性心理  '),
               ],
             ),
             Container(
@@ -267,27 +267,54 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
                 CheckboxSelect(context.widget, this, 7, '18:00-21:00'),
               ],
             ),
-            Center(
-              child: DropdownButtonHideUnderline(
-                child: new DropdownButton(
-                  items: getListData(),
-                  hint: new Text("808心理服务分中心"), //当没有默认值的时候可以设置的提示
-                  value: value, //下拉菜单选择完之后显示给用户的值
-                  onChanged: (T) {
-                    //下拉菜单item点击之后的回调
-                    setState(() {
-                      value = T;
-                    });
-                  },
-                  style: new TextStyle(
-                      //设置文本框里面文字的样式
-                      color: Colors.black),
-                  //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
-                  iconSize: 20.0, //设置三角标icon的大小
+            SizedBox(height: 20,),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Text('地点：'),
+                  padding: EdgeInsets.only(left: 20),
                 ),
-              ),
-            )
-          ],
+                SizedBox(width: 40,),
+                Center(
+                  child: Container(
+                      height: 30,
+                      child: DropdownButtonHideUnderline(
+                        child: new DropdownButton(
+                          items: getListData(),
+                          hint: new Text("808心理服务分中心"), //当没有默认值的时候可以设置的提示
+                          value: value, //下拉菜单选择完之后显示给用户的值
+                          onChanged: (T) {
+                            //下拉菜单item点击之后的回调
+                            setState(() {
+                              value = T;
+                            });
+                          },
+                          style: new TextStyle(
+                            //设置文本框里面文字的样式
+                              color: Colors.black),
+                          //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
+                          iconSize: 20.0, //设置三角标icon的大小
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 1),
+                      )
+                  ),
+                ),
+                SizedBox(width: 5,),
+                Container(
+                  height: 30,
+                  alignment: Alignment.center,
+                  child: Text('详情',style: TextStyle(color: Colors.blue),),
+                ),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Center(child: value == null?Text('地址：808心理服务分中心'):
+            Text('地址：${serviceCenterList[int.parse(value)-1].location}',style: TextStyle(fontSize: 12),),),
+            SizedBox(height: 20,)
+          ]
         ),
       ),
       bottomSheet: Container(
@@ -362,6 +389,12 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
         });
       },
     );
+  }
+
+
+  @override
+  void dispose() {
+    list = List();
   }
 
   List<DropdownMenuItem> getListData() {
@@ -469,7 +502,7 @@ class CheckboxSelect extends StatelessWidget {
                       }
                       expectStartTime = text.split('-')[0].replaceAll(':', '');
                       expectEndTime = text.split('-')[1].replaceAll(':', '');
-                      Toast.show(date);
+                      Toast.show(date+'  '+expectStartTime+'  '+expectEndTime);
                     });
                   }
                 })),

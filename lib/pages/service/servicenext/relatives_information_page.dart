@@ -16,15 +16,15 @@ class RelativesInformationPage extends StatefulWidget {
 class _RelativesInformationPageState extends State<RelativesInformationPage> {
   String name;
   String birthday = '';
-   int groupValue1 = 0;
-  String gender ;
+  int groupValue1 = 0;
+  String gender;
   String relation;
   genderChange(val) {
     this.setState(() {
       groupValue1 = val;
-      if(groupValue1==0){
+      if (groupValue1 == 0) {
         gender = 'M';
-      }else if (groupValue1 == 1){
+      } else if (groupValue1 == 1) {
         gender = 'F';
       }
     });
@@ -34,15 +34,16 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
   onChange(val) {
     this.setState(() {
       groupValue = val;
-      if(groupValue == 1){
+      if (groupValue == 1) {
         relation = 'CHIL';
-      }else if(groupValue == 2){
+      } else if (groupValue == 2) {
         relation = 'PARE';
-      }else if(groupValue == 3){
+      } else if (groupValue == 3) {
         relation = 'SPOU';
       }
     });
   }
+
   RadioItem(int value, String text) {
     return Row(
       children: <Widget>[
@@ -185,15 +186,20 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
                         ),
                         Expanded(
                           child: Container(
+                            alignment: Alignment.center,
                             margin: EdgeInsets.only(right: 10),
                             height: 25,
                             width: 200,
                             child: GestureDetector(
-                              child: Text(
-                                 birthday.split(' ')[0],
-                              ),
-                              onTap:() {
-                                DatePicker.showDatePicker(context,
+                              child: birthday == ''
+                                  ? Text(
+                                      '2013-01-04',style: TextStyle(fontSize: 16),)
+                                  : Text(
+                                      birthday.split(' ')[0],style: TextStyle(fontSize: 16),
+                                    ),
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
                                   showTitleActions: true,
                                   minTime: DateTime(1949, 10, 1),
                                   maxTime: DateTime.now(),
@@ -234,7 +240,6 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
               style: TextStyle(fontSize: 17),
             ),
             onTap: () {
-
               if (name == '' || name == null) {
                 Toast.show('请输入姓名!');
               } else if (birthday == '' || birthday == null) {
@@ -251,7 +256,5 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
           )),
       resizeToAvoidBottomPadding: false,
     );
-
-
   }
 }
