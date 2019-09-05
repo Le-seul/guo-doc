@@ -236,9 +236,9 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
             onTap: () {
 
               if (name == '' || name == null) {
-                Toast.show('姓名不能为空!');
+                Toast.show('请输入姓名!');
               } else if (birthday == '' || birthday == null) {
-                Toast.show('生日不能为空!');
+                Toast.show('请输入生日!');
               } else {
                 Router.push(context, Router.initiateConsultationPage, {
                   'name': name,

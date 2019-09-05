@@ -301,14 +301,38 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
               style: TextStyle(fontSize: 17),
             ),
             onTap: () {
-              _postInfometion();
+              if(emergePerson == ""||emergePerson == null){
+                Toast.show('请输入紧急联络人!');
+              }else if(emergePhone == ""|| emergePhone == null){
+                Toast.show('请输入紧急联络人联系电话!');
+              }else if(category == ""|| category == null){
+                Toast.show('请选择咨询内容!');
+              }else if(expectStartTime == ""|| expectStartTime == null){
+                Toast.show('请选择咨询时间!');
+              }else if(value == ""|| value == null){
+                Toast.show('请选择咨询地点!');
+              }else if(!checkMobile(emergePhone)){
+                Toast.show('请输入正确手机号!');
+              }else{
+                _postInfometion();
+              }
             },
           )),
       resizeToAvoidBottomPadding: false,
     );
   }
 
+   bool checkMobile(var sMobile){
+     RegExp exp = RegExp(
+         r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
+     bool matched = exp.hasMatch(sMobile);
+     return matched;
+  }
+
+
+
   _postInfometion(){
+
     DioUtils.instance.requestNetwork<String>(
       Method.post,
       Api.GREATEORDER,
@@ -378,7 +402,6 @@ class _CheckboxDefault extends State {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
         width: 90,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
