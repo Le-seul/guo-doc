@@ -28,12 +28,14 @@ class _GoodListPageState extends State<GoodListPage> {
               child: new Image.asset('assets/images/${index + 1}.jpeg'),
             ));
   }
-  void getMock() async{
+
+  void getMock() async {
     var result = await MockRequest.get('douban');
     var abd = result['subjects'];
     ad = abd.toString();
     Toast.show(ad);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,12 +57,13 @@ class _GoodListPageState extends State<GoodListPage> {
                       child: new Text("网络请求强制退出"),
                       onPressed: () {
                         DioUtils.instance.requestNetwork<String>(
-                          Method.get, "/signController/sign",
+                          Method.get,
+                          "/signController/sign",
                           queryParameters: {"deviceType": 3, "userId": 15},
                           onSuccess: (data) {
                             setState(() {
                               ad = "你好";
-                              Toast.show("这是一个Toast",duration: 2000);
+                              Toast.show("这是一个Toast", duration: 2000);
                             });
                           },
                           onError: (code, msg) {
@@ -81,7 +84,7 @@ class _GoodListPageState extends State<GoodListPage> {
                       },
                       child: new Text("点击退出登录"),
                     ),
-                    new Text(ad == null ? "": ad ),
+                    new Text(ad == null ? "" : ad),
                   ],
                 ),
               );
@@ -89,8 +92,6 @@ class _GoodListPageState extends State<GoodListPage> {
             childCount: 6,
           ),
         )));
-
-
   }
 }
 
@@ -164,7 +165,6 @@ class _DetailPageState extends State<DetailPage> {
                   },
                   child: new Text("显示一个自定义的对话框")),
             ],
-        
           ),
         ),
       ),
@@ -177,11 +177,32 @@ class NotFoundPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new Container(
-        child: new Center(
-          child: new Text("NotFoundPage"),
-        ),
+      body: ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 3,
+        itemBuilder: (context, index) => _buildItem(index),
       ),
     );
+  }
+
+  _buildItem(int index) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Text('这是一级列表'),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) => _buildItem1(index),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildItem1(int index) {
+    return Text('这是二级列表');
   }
 }

@@ -116,7 +116,6 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
               ),
               IconButton(
                 icon: Icon(Icons.chevron_right),
-
               )
             ],
           )

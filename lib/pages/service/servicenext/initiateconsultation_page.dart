@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 
 class InitiateConsultationPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
   String emergePerson;
   String emergePhone;
   String consultContent;
+  int textNum = 0;
   List<SeviceLocation> serviceCenterList = List();
 
   @override
@@ -166,7 +168,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CheckboxDefault(this, 8, '个人职场'),
-                CheckboxDefault(this, 9, '性心理  '),
+                CheckboxDefault(this, 9, '性心理    '),
               ],
             ),
             Container(
@@ -175,14 +177,17 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
               margin: EdgeInsets.only(left: 20, right: 20, top: 10),
               child: TextField(
                   onChanged: (val) {
-                    consultContent = val;
+                    setState(() {
+                      consultContent = val;
+                      textNum = consultContent.length;
+                    });
                   },
                   maxLines: 20,
                   maxLength: 300,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     hintText: '请简要描述需要咨询的内容，以及期待达到的咨询效果。',
-                    counterText: '0/300字',
+                    counterText: '$textNum/300字',
                     counterStyle: TextStyle(color: Colors.black, fontSize: 12),
                     contentPadding: EdgeInsets.all(5.0),
                     border: InputBorder.none,
@@ -303,11 +308,17 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
                   ),
                 ),
                 SizedBox(width: 5,),
-                Container(
-                  height: 30,
-                  alignment: Alignment.center,
-                  child: Text('详情',style: TextStyle(color: Colors.blue),),
+                GestureDetector(
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.center,
+                    child: Text('详情',style: TextStyle(color: Colors.blue),),
+                  ),
+                  onTap: (){
+                    Router.pushNoParams(context, Router.psychologicalDetailPage);
+                  },
                 ),
+
               ],
             ),
             SizedBox(height: 10,),
