@@ -13,4 +13,14 @@ class Api{
   static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";
   //创建心理咨询订单
   static const String GREATEORDER = "/api/psyConsult.do?createOrder";
+  //获取所有歌单
+  static const String GETAllMUSICLIST = "/api/music.do?getAllMusicList";
+  //获取所有Tag
+  static const String GETMUSICTAG = "/api/music.do?getAllTag";
+  //获取某个歌单的所有音乐
+  static const String GETMUSICLIST = "/api/music.do?getSongOfMusicList";
+  //获取包含某个Tag的所有歌单
+  static const String GETMUSICLISTBYTAG = "/api/music.do?getMusicListByTag";
+  //获取歌曲详情
+  static const String GETMUSICDETAIL = "/api/music.do?getSongDetail";
 }

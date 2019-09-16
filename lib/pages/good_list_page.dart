@@ -203,6 +203,11 @@ class NotFoundPage extends StatelessWidget {
   }
 
   _buildItem1(int index) {
-    return Text('这是二级列表');
+    return Slider(
+      onChanged: (newValue) {
+
+      },
+      value:  0.5,);
+
   }
 }

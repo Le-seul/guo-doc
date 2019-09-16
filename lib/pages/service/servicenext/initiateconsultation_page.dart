@@ -287,7 +287,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
                       child: DropdownButtonHideUnderline(
                         child: new DropdownButton(
                           items: getListData(),
-                          hint: new Text("808心理服务分中心"), //当没有默认值的时候可以设置的提示
+                          hint: serviceCenterList.length == 0?Text(''):Text(serviceCenterList[0].name), //当没有默认值的时候可以设置的提示
                           value: value, //下拉菜单选择完之后显示给用户的值
                           onChanged: (T) {
                             //下拉菜单item点击之后的回调

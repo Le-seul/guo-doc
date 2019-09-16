@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
@@ -9,6 +10,9 @@ import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
@@ -41,8 +45,10 @@ class Router {
   static const initiateConsultationPage = 'app://InitiateConsultationPage';
   static const relativesInformationPage = 'app://RelativesInformationPage';
   static const psychologicalDetailPage = 'app://PsychologicalDetailPage';
-
-
+  static const musicPage = 'app://MusicPage';
+  static const musicSortPage = 'app://MusicSortPage';
+  static const musicListPage = 'app://MusicListPage';
+  static const playingPage = 'app://PlayingPage';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -87,6 +93,14 @@ class Router {
           return RelativesInformationPage();
         case psychologicalDetailPage:
           return PsychologicalDetailPage();
+        case musicPage:
+          return MusicPage(num: params['num'],tagId: params['tagId']);
+        case musicSortPage:
+          return MusicSortPage();
+        case musicListPage:
+          return MusicListPage(musicListId: params,);
+        case playingPage:
+          return PlayingPage(songId: params,);
       }
     }
     return null;

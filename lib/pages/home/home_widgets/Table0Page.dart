@@ -14,12 +14,6 @@ class _Table0State extends State<Table0> {
   @override
   Widget build(BuildContext context) {
     return Table(
-            columnWidths: <int,TableColumnWidth>{
-              0:FixedColumnWidth(47),           
-              1:FixedColumnWidth(47),
-              2:FixedColumnWidth(47),
-              3:FixedColumnWidth(47),
-            },
             border:TableBorder.all(style:BorderStyle.none) ,
             children:<TableRow>[
               TableRow(
@@ -50,10 +44,12 @@ class _Table0State extends State<Table0> {
                  ),
                  FlatButton(
                    child: Container(
+                     width: double.infinity,
                      child: Column(
                        children: <Widget>[
                          Image.asset('assets/images/运动评估.png'),
-                         Text('运动评估',style: TextStyle(fontSize: 12),)
+                         Text('身体状况评估',
+                           style: TextStyle(fontSize: 12),)
                        ],
                      ),
                    ),
@@ -61,14 +57,18 @@ class _Table0State extends State<Table0> {
                  ),
                  FlatButton(
                    child: Container(
+                     width: double.infinity,
                      child: Column(
                        children: <Widget>[
                          Image.asset('assets/images/身体状况评估.png'),
-                         Text('身体状况评估',style: TextStyle(fontSize: 12),)
+                         Text('音乐播放',
+                           style: TextStyle(fontSize: 12),)
                        ],
                      ),
                    ),
-                   onPressed: (){},
+                   onPressed: (){
+                     Router.push(context, Router.musicPage,{'num': 0,'tagId':""});
+                   },
                  ),
                   
                 ]
