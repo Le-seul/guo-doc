@@ -67,6 +67,7 @@ class _MusicSortPageState extends State<MusicSortPage> {
 
   getItemContainer(int index) {
     return Container(
+//      margin: EdgeInsets.only(top:5,bottom: 5,left:5,right: 5),
       child: FlatButton(onPressed: () {
         Router.push(context, Router.musicPage,{
           'num': 1,'tagId':musicTagList[index].id
@@ -74,7 +75,8 @@ class _MusicSortPageState extends State<MusicSortPage> {
       }, child: Text(musicTagList[index].name)),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black12, width: 0.5),
-    ));
+          borderRadius: BorderRadius.circular(16)),
+    );
   }
 
 
