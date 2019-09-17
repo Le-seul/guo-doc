@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flukit/flukit.dart' as lib1;
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_swiper/flutter_swiper.dart' as lib2;
 import 'package:flutter_first/util/router.dart';
@@ -11,6 +12,9 @@ import 'package:flutter_first/pages/home/home_widgets/Table1Page.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+import '../../net/api.dart';
+import '../../net/dio_utils.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -18,10 +22,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static String tu0;
-  static String tu1;
-  static String tu2;
+//  static String tu0;
+//  static String tu1;
+//  static String tu2;
   List<BannerModel> testList;
+  List<BannerImage> bannerlist;
 
   List TableList = [
     Table0(),
@@ -29,10 +34,24 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   void initState() {
-    requestLunBoTu();
+    _requestBanner();
   }
+  void _requestBanner() {
+    DioUtils.instance.requestNetwork<BannerImage>(
+        Method.get,
+        Api.BANNER,
+        isList: true,
+        onSuccessList: (data) {
+          setState(() {
+            bannerlist = data;
 
-  Widget buildBanner(BuildContext context, List<BannerModel> list) {
+          });
+        },
+        onError: (code, msg) {
+          print("sssss");
+        });
+  }
+  Widget buildBanner(BuildContext context, List<BannerImage> list) {
     if (list == null) {
       return new Container(height: 0.0);
     }
@@ -46,11 +65,11 @@ class _HomePageState extends State<HomePage> {
         children: list.map((model) {
           return new InkWell(
             onTap: () {
-              Router.push(context, model.url, {'title': model.title});
+              Router.push(context, model.imgId, {'title': model.name});
             },
             child: new CachedNetworkImage(
               fit: BoxFit.fill,
-              imageUrl: model.imagePath,
+              imageUrl: model.imgId,
               placeholder: (context, url) => new ProgressView(),
               errorWidget: (context, url, error) => new Icon(Icons.error),
             ),
@@ -85,7 +104,10 @@ class _HomePageState extends State<HomePage> {
                   )))
         ],
       ),
-      buildBanner(context, testList), //扫码搜索栏
+      SizedBox(
+        height: 190,
+        child: buildBanner(context, bannerlist),
+      ), //扫码搜索栏
       Container(
         //通知栏
         height: 25,

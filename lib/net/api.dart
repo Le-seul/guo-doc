@@ -9,7 +9,7 @@ class Api{
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
   //课程接口
   static const String PSYCOURSE = "/api/psycourse.do?getPsyCourse";
-  //获取服务中心列表getServiceCenterList
+  //获取服务中心列表
   static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";
   //创建心理咨询订单
   static const String GREATEORDER = "/api/psyConsult.do?createOrder";
@@ -23,4 +23,19 @@ class Api{
   static const String GETMUSICLISTBYTAG = "/api/music.do?getMusicListByTag";
   //获取歌曲详情
   static const String GETMUSICDETAIL = "/api/music.do?getSongDetail";
+  //轮播图
+  static const String BANNER = "/api/homepage.do?getBanner";
+  //心理课程详情1
+  static const String COURSEDETAIL1 = "/api/psycourse.do?getCouserDetail&id=1";
+  //心理课程详情2
+  static const String COURSEDETAIL2 = "/api/psycourse.do?getCouserDetail&id=2";
+  //心理课程目录1
+  static const String PSYCOURSECATELOG = "/api/psycourse.do?getPsyCourseCatalog&id=1";
+  //简单共读
+  static const String Togetheread = "/api/psycoreading.do?getPsyCoReading";
+  //简单共读目录
+  static const String CoReadingCatalog = "/api/psycoreading.do?getPsyCoReadingCatalog&courseId=1";
+  //每日一测
+  static const String PsyDailyTest = "/api/psydailytest.do?getPsyDailyTest";
+
 }

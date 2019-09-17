@@ -3,10 +3,11 @@ import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
-import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 
 class Curriculum extends StatefulWidget {
+  Curriculum({Key key}) : super(key: key);
+
   @override
   _CurriculumState createState() => _CurriculumState();
 }
@@ -16,42 +17,36 @@ class _CurriculumState extends State<Curriculum> {
   List<Psycourse> psycourselist = List();
   List<Psycourse> mycourselist = List(); //我的课程
   List<Psycourse> emotionlist = List(); //情绪调节
-
   @override
   void initState() {
-    super.initState();
     _requestPsycourse1();
   }
 
   void _requestPsycourse1() {
-
     DioUtils.instance.requestNetwork<Psycourse>(
-      Method.get,
-      Api.PSYCOURSE,
-      isList: true,
-      onSuccessList: (data) {
-        setState(() {
-          psycourselist = data;
-          isShowLoading = false;
-          for(Psycourse index in psycourselist) {
-            if (index.categoryId == '情绪调节') {
-              emotionlist.add(index);
+        Method.get,
+        Api.PSYCOURSE,
+        isList: true,
+        onSuccessList: (data) {
+          setState(() {
+            psycourselist = data;
+            isShowLoading = false;
+            for(Psycourse index in psycourselist) {
+              if (index.categoryId == "情绪调节") {
+                emotionlist.add(index);
+              }
+              if (index.recmmend == "1") {
+                mycourselist.add(index);
+              }
             }
-            if (index.recmmend == "1") {
-              mycourselist.add(index);
-            }
-          }
+          });
+          },
+
+        onError: (code, msg) {
+          print("sssss");
         });
-      },
-      onError: (code, msg) {
-        setState(() {
-          isShowLoading = false;
-          Toast.show("请求失败");
-        });
-      },
-    );
   }
-  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -60,7 +55,7 @@ class _CurriculumState extends State<Curriculum> {
         ),
         body: isShowLoading
             ? LoadingWidget.childWidget()
-            : (emotionlist == null||mycourselist==null)
+            : (mycourselist.length == 0 && emotionlist.length == 0)
                 ? Container(
                     width: double.infinity,
                     height: double.infinity,
@@ -102,15 +97,15 @@ class _CurriculumState extends State<Curriculum> {
                               ),
                               InkWell(
                                 child: Image.network(
-                                  mycourselist[0].image,
+                                  mycourselist[0].coverImgId,
                                   height: 150,
                                   width: 450,
                                   fit: BoxFit.fill,
                                 ),
-//                                onTap: () {
-//                                  Router.pushNoParams(
-//                                      context, Router.curriculumcatalog1);
-//                                },
+                                onTap: () {
+                                  Router.pushNoParams(
+                                      context, Router.curriculumcatalog1);
+                                },
                               ),
                               SizedBox(
                                 height: 30,
@@ -146,8 +141,8 @@ class _CurriculumState extends State<Curriculum> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10)),
                                                 image: DecorationImage(
-                                                    image: AssetImage(
-                                                        emotionlist[0].image),
+                                                    image: NetworkImage(
+                                                        emotionlist[0].coverImgId),
                                                     fit: BoxFit.fill)),
                                             child: Column(
                                               children: <Widget>[
@@ -232,20 +227,13 @@ class _CurriculumState extends State<Curriculum> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Text(
-                                                    '${emotionlist[0].learnedUserCount}人',
+                                                    "${emotionlist[0].learnedUserCount}+人",
                                                     style: TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.grey),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                    '199元',
-                                                    style:
-                                                        TextStyle(fontSize: 12),
-                                                  ),
-                                                ),
+
                                               ],
                                             )),
                                       ],
@@ -263,8 +251,8 @@ class _CurriculumState extends State<Curriculum> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10)),
                                                 image: DecorationImage(
-                                                    image: AssetImage(
-                                                        emotionlist[1].image),
+                                                    image: NetworkImage(
+                                                        emotionlist[1].coverImgId),
                                                     fit: BoxFit.fill)),
                                             child: Column(
                                               children: <Widget>[
@@ -308,7 +296,7 @@ class _CurriculumState extends State<Curriculum> {
                                                               Colors.white,
                                                           radius: 10,
                                                           child: Image(
-                                                            image: AssetImage(
+                                                            image: NetworkImage(
                                                                 'assets/images/aixin.png'),
                                                             width: 10,
                                                             height: 10,
@@ -349,20 +337,13 @@ class _CurriculumState extends State<Curriculum> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Text(
-                                                    '${emotionlist[1].learnedUserCount}人',
+                                                    "${emotionlist[1].learnedUserCount}+人",
                                                     style: TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.grey),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                    '199元',
-                                                    style:
-                                                        TextStyle(fontSize: 12),
-                                                  ),
-                                                ),
+
                                               ],
                                             )),
                                       ],
@@ -384,8 +365,8 @@ class _CurriculumState extends State<Curriculum> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10)),
                                                 image: DecorationImage(
-                                                    image: AssetImage(
-                                                        emotionlist[2].image),
+                                                    image: NetworkImage(
+                                                        emotionlist[2].coverImgId),
                                                     fit: BoxFit.fill)),
                                             child: Column(
                                               children: <Widget>[
@@ -470,20 +451,13 @@ class _CurriculumState extends State<Curriculum> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Text(
-                                                   '${emotionlist[2].learnedUserCount}人',
+                                                    "${emotionlist[2].learnedUserCount}+人",
                                                     style: TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.grey),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                    '199元',
-                                                    style:
-                                                        TextStyle(fontSize: 12),
-                                                  ),
-                                                ),
+
                                               ],
                                             )),
                                       ],
@@ -492,20 +466,7 @@ class _CurriculumState extends State<Curriculum> {
                                   SizedBox(
                                     width: 30,
                                   ),
-                                  Container(
-                                    height: 30,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.pinkAccent,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Icon(Icons.lightbulb_outline),
-                                        Text('  定制课程')
-                                      ],
-                                    ),
-                                  ),
+
                                 ],
                               ),
                             ],

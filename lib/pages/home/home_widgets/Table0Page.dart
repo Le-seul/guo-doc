@@ -84,7 +84,9 @@ class _Table0State extends State<Table0> {
                        ],
                      ),
                    ),
-                   onPressed: (){},
+                   onPressed: (){
+                     Router.pushNoParams(context, Router.everydaytest);
+                   },
                  ),
                  FlatButton(
                    child: Container(
@@ -121,7 +123,9 @@ class _Table0State extends State<Table0> {
                        ],
                      ),
                    ),
-                   onPressed: (){},
+                   onPressed: (){
+                     Router.pushNoParams(context, Router.togethereading);
+                   },
                  ),
                   
                 ]

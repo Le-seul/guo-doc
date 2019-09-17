@@ -9,11 +9,8 @@ class Psycourse{
   String introPageImgId;
   String courseCount;
   int learnedUserCount;
-  String image;
-
   Psycourse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    image = json['image'];
     name = json['name'];
     categoryId = json['categoryId'];
     shortDesc = json['shortDesc'];

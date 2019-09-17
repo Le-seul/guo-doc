@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_first/music/page_playing.dart';
+import 'package:flutter_first/pages/consultation/consultation_child_page.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
@@ -9,7 +10,14 @@ import 'package:flutter_first/pages/home/home_widgets/EatingPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
+import 'package:flutter_first/pages/home/home_widgets/CoreadingCoursePage.dart';
+import 'package:flutter_first/pages/home/home_widgets/SimpleCoreading.dart';
+import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage1.dart';
+import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage2.dart';
 import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytestpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/myselfpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/relativespage.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
@@ -35,6 +43,7 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
+static const serviceActivity = 'app://ServiceActivity';
   static const serviceActivityPage = 'app://ServiceActivityPagey';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
@@ -49,6 +58,13 @@ class Router {
   static const musicSortPage = 'app://MusicSortPage';
   static const musicListPage = 'app://MusicListPage';
   static const playingPage = 'app://PlayingPage';
+  static const curriculumcatalog1 = 'app://CurriculumCatalog1';
+  static const curriculumcatalog2 = 'app://CurriculumCatalog2';
+  static const simplereading = 'app://SimpleReading';
+  static const togethereading = 'app://Togethereading';
+  static const everydaytest = 'app://Everydaytest';
+  static const myself = 'app://Myself';
+  static const relatives = 'app://Relatives';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -57,6 +73,12 @@ class Router {
       switch (url) {
         case topicPage:
           return TopicPage();
+        case everydaytest:
+          return EverydayTest();
+        case togethereading:
+          return SimpleCoreading();
+        case simplereading:
+          return SimpleReading();//简单共读
         case loginPage:
           return LoginPage();
         case containerPage:
@@ -71,6 +93,16 @@ class Router {
           return PsychologicalConcult();
         case eating:
           return Eating();
+        case myself:
+          return Myself();
+        case relatives:
+          return Relatives();
+        case curriculum:
+          return Curriculum();
+        case curriculumcatalog1:
+          return CurriculumCatalog1();
+        case curriculumcatalog2:
+          return CurriculumCatalog2();
         case healthyconsultation:
           return Healthyconsultation();
         case psychologicalTest:
