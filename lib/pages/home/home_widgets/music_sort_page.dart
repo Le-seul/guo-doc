@@ -11,7 +11,6 @@ class MusicSortPage extends StatefulWidget {
 }
 
 class _MusicSortPageState extends State<MusicSortPage> {
-
   List<MusicTag> musicTagList = List();
 
   @override
@@ -19,20 +18,15 @@ class _MusicSortPageState extends State<MusicSortPage> {
     _getMusicTag();
   }
 
-  _getMusicTag(){
-    DioUtils.instance.requestNetwork<MusicTag>(
-        Method.get,
-        Api.GETMUSICTAG,
-        isList: true,
-        onSuccessList: (data) {
-          setState(() {
-            musicTagList = data;
-          });
-
-        },
-        onError: (code, msg) {
-          Toast.show('请求失败！');
-        });
+  _getMusicTag() {
+    DioUtils.instance.requestNetwork<MusicTag>(Method.get, Api.GETMUSICTAG,
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        musicTagList = data;
+      });
+    }, onError: (code, msg) {
+      Toast.show('请求失败！');
+    });
   }
 
   @override
@@ -67,17 +61,21 @@ class _MusicSortPageState extends State<MusicSortPage> {
 
   getItemContainer(int index) {
     return Container(
-//      margin: EdgeInsets.only(top:5,bottom: 5,left:5,right: 5),
-      child: FlatButton(onPressed: () {
-        Router.push(context, Router.musicPage,{
-          'num': 1,'tagId':musicTagList[index].id
-        });
-      }, child: Text(musicTagList[index].name)),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black12, width: 0.5),
-          borderRadius: BorderRadius.circular(16)),
+      alignment: Alignment.center,
+
+      child: GestureDetector(
+          onTap: () {
+            Router.push(context, Router.musicPage,
+                {'num': 1, 'tagId': musicTagList[index].id});
+          },
+          child: Container(
+            padding: EdgeInsets.only(top:2,bottom: 2,left:6,right: 6),
+            child: Text(musicTagList[index].name,maxLines: 1,),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 1),
+                borderRadius: BorderRadius.circular(12)),
+          ),
+          ),
     );
   }
-
-
 }
