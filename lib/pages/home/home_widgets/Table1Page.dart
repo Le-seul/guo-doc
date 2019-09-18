@@ -11,59 +11,71 @@ class _Table1State extends State<Table1> {
   @override
   Widget build(BuildContext context) {
     return Table(
-            columnWidths: <int,TableColumnWidth>{
-              0:FixedColumnWidth(47),           
-              1:FixedColumnWidth(47),
-              2:FixedColumnWidth(47),
-              3:FixedColumnWidth(47),
-            },
             border:TableBorder.all(style:BorderStyle.none) ,
             children:<TableRow>[
               TableRow(
                 children:<Widget>[
-                  FlatButton(
-                   child: Container(
-                     child: Column(
-                       children: <Widget>[
-                         Image.asset('assets/images/体检报告.png'),
-                         Text('体检报告',style: TextStyle(fontSize: 12),)
-                       ],
-                     ),
-                   ),
-                   onPressed: (){},
-                 ),
-                 FlatButton(
-                   child: Container(
-                     child: Column(
-                       children: <Widget>[
-                         Image.asset('assets/images/医疗咨询.png'),
-                         Text('医疗咨询',style: TextStyle(fontSize: 12),)
-                       ],
-                     ),
-                   ),
-                   onPressed: (){},
-                 ),
-                 FlatButton(
-                   child: Container(
-                     child: Column(
-                       children: <Widget>[
-                         Image.asset('assets/images/药品库查询.png'),
-                         Text('药品库查询',style: TextStyle(fontSize: 12),)
-                       ],
-                     ),
-                   ),
-                   onPressed: (){},
-                 ),
-                 FlatButton(
-                   child: Container(
-                     child: Column(
-                       children: <Widget>[
-                         Image.asset('assets/images/门诊意见建议.png'),
-                         Text('门诊意见建议',style: TextStyle(fontSize: 12),)
-                       ],
-                     ),
-                   ),
-                   onPressed: (){},)
+                  GestureDetector(
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset('assets/images/easy_music.png',height: 50,
+                          width: 50,),
+                        SizedBox(height: 8,),
+                        Text(
+                          '体检报告',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: 10,)
+                      ],
+                    ),
+                    onTap: () {},
+                  ),
+
+                  GestureDetector(
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset('assets/images/exercise_evaluation.png',height: 50,
+                          width: 50,),
+                        SizedBox(height: 8,),
+                        Text(
+                          '医疗咨询',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: 10,)
+                      ],
+                    ),
+                    onTap: () {},
+                  ),
+                  GestureDetector(
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset('assets/images/course_consultation.png',height: 50,
+                          width: 50,),
+                        SizedBox(height: 8,),
+                        Text(
+                          '药品查询',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: 10,)
+                      ],
+                    ),
+                    onTap: () {},
+                  ),
+                  GestureDetector(
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset('assets/images/medical_consultation.png',height: 50,
+                          width: 50,),
+                        SizedBox(height: 8,),
+                        Text(
+                          '门诊意见',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: 10,)
+                      ],
+                    ),
+                    onTap: () {},
+                  ),
                 ]
               ),
 
