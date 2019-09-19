@@ -7,8 +7,7 @@ class Api{
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
-  //课程接口
-  static const String PSYCOURSE = "/api/psycourse.do?getPsyCourse";
+
   //获取服务中心列表
   static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";
   //创建心理咨询订单
@@ -25,6 +24,8 @@ class Api{
   static const String GETMUSICDETAIL = "/api/music.do?getSongDetail";
   //轮播图
   static const String BANNER = "/api/homepage.do?getBanner";
+  //课程接口
+  static const String PSYCOURSE = "/api/psycourse.do?getPsyCourse";
   //心理课程详情1
   static const String COURSEDETAIL1 = "/api/psycourse.do?getCouserDetail&id=1";
   //心理课程详情2
