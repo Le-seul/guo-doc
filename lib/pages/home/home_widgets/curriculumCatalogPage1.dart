@@ -56,9 +56,9 @@ class _MyRewardPageState extends State<MyRewardPage>
   TabController _tabController;
 List<Coursedetail> coursedetaillist;
 List<Psycoursecatelog> psycoursecateloglist;
-  bool isShowLoading = true;
-  bool isShowLoading1 = true;
-  bool isShowLoading2 = true;
+  bool isShowLoading = true;  //课程图片
+  bool isShowLoading1 = true;  //课程详情
+  bool isShowLoading2 = true;  //课程目录
   String Detailurl;
   List<Psycourse> psycourselist = List();
   List<Psycourse> mycourselist = List(); //我的课程
@@ -72,6 +72,7 @@ List<Psycoursecatelog> psycoursecateloglist;
     _requestPsycoursecatelog();
     http.get('http://ygyd.aireading.top/jeecg/api/psycourse.do?getCouserDetail').then((response){
       Detailurl = response.toString();
+      isShowLoading1 = false;
     });
   }
 
@@ -117,7 +118,7 @@ List<Psycoursecatelog> psycoursecateloglist;
         onSuccessList: (data) {
           setState(() {
             psycoursecateloglist = data;
-            isShowLoading1 = false;
+            isShowLoading2 = false;
           });
 
         },
@@ -271,6 +272,8 @@ class Catalog extends StatefulWidget {
 
 class _CatalogState extends State<Catalog> {
   List<Psycoursecatelog> psycoursecateloglist;
+  bool isShowLoading2 = true;  //课程目录
+
   void initState(){
     _requestPsycoursecatelog();
   }
@@ -282,7 +285,7 @@ class _CatalogState extends State<Catalog> {
         onSuccessList: (data) {
           setState(() {
             psycoursecateloglist = data;
-
+            isShowLoading2 = false;
           });
 
         },
@@ -292,7 +295,14 @@ class _CatalogState extends State<Catalog> {
   }
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return isShowLoading2? LoadingWidget.childWidget()
+        : (psycoursecateloglist.length == 0 || psycoursecateloglist == null)
+        ? Container(
+      width: double.infinity,
+      height: double.infinity,
+      alignment: Alignment.center,
+      child: Text('暂无数据'),
+    ):SingleChildScrollView(
       child: Column(
           children: <Widget>[
             Container(
