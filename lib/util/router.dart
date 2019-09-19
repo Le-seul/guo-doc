@@ -15,6 +15,10 @@ import 'package:flutter_first/pages/home/home_widgets/SimpleCoreading.dart';
 import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage1.dart';
 import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage2.dart';
 import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/Forth.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/Second.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/Third.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/myselfpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/relativespage.dart';
@@ -22,6 +26,8 @@ import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
+import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
+import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
@@ -60,11 +66,17 @@ static const serviceActivity = 'app://ServiceActivity';
   static const playingPage = 'app://PlayingPage';
   static const curriculumcatalog1 = 'app://CurriculumCatalog1';
   static const curriculumcatalog2 = 'app://CurriculumCatalog2';
+  static const test0 = 'app://test0';
+  static const test1 = 'app://test1';
+  static const test2 = 'app://test2';
+  static const test3 = 'app://test3';
   static const simplereading = 'app://SimpleReading';
   static const togethereading = 'app://Togethereading';
   static const everydaytest = 'app://Everydaytest';
   static const myself = 'app://Myself';
   static const relatives = 'app://Relatives';
+  static const reporylist = 'app://reporylist';
+  static const bodyreport = 'app://bodyreport';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -73,6 +85,10 @@ static const serviceActivity = 'app://ServiceActivity';
       switch (url) {
         case topicPage:
           return TopicPage();
+        case reporylist:
+          return ReportList();
+        case bodyreport:
+          return BodyReport();
         case everydaytest:
           return EverydayTest();
         case togethereading:
@@ -97,6 +113,14 @@ static const serviceActivity = 'app://ServiceActivity';
           return Myself();
         case relatives:
           return Relatives();
+        case test0:
+          return Test0();
+        case test1:
+          return Test1();
+        case test2:
+          return Test2();
+        case test3:
+          return Test3();
         case curriculum:
           return Curriculum();
         case curriculumcatalog1:

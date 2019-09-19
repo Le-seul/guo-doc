@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+
+
+	<title>手机端问卷调查</title>
+
+</head>
+
+<body class='swiper-no-swiping'>
+	<div class="con">
+		<section id="t1">
+			<div class="header">
+				<a href="#" class="back"><img src="images/Back icon icon.png" alt=""></a>
+				<span>测评简介</span>
+			</div>
+			<div class="banner"><img src="images/qinmi.jpg" alt=""></div>
+			<div class="introduce">
+				<h3>{{title}}</h3>
+				<p>{{introduce}}</p>
+				<p>{{notice}}</p>
+			</div>
+			<div class="start">
+				<input class="startSurvey" type="button" value="马上测评">
+			</div>
+		</section>
+		<section class="survey" id="t2">
+			<div class="swiper-container">
+				<div class="header">
+					<a href="" class="back"><img src="images/Back icon icon.png" alt=""></a>
+					<span>测评详情</span>
+				</div>
+				<div class="progressbar1">
+					<div class="pre">
+						<img src="images/arrow.png" alt="">&nbsp;上一题</div>
+					<div class="swiper-num">
+						<span class="active"></span>/
+						<span class="total"></span>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" v-for="(list,index) in lists">
+						<div class="question">{{list.question}}</div>
+						<div class="choose">
+							<div v-for="(choose, index) in list.choose" class="input" @click='skip'><input type="radio" name="score" :value="String.fromCharCode(65+index)"><label
+									for="1-1">{{choose}}</label>
+								<div class="circle"></div>
+							</div>
+							<!-- <div class="input" @click='skip'><input type="radio" name="score" value="A"><label
+									for="1-1">{{list.a}}</label>
+								<div class="circle"></div>
+							</div>
+							<div class="input" @click='skip'><input type="radio" value="F" name="score"><label
+									for="1-6">{{list.f}}</label>
+								<div class="circle"></div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="end">
+				<input class="endSurvey" type="button" value="提交测评">
+			</div>
+		</section>
+		<section id="t3">
+			<div class="container3">
+				<div class="header">
+					<a href="#t2" class="back"><img src="images/Back icon icon.png" alt=""></a>
+					<span>{{title}}</span>
+				</div>
+				<div class="summary">
+					<p>近两周您的情绪状态良好，表明您在过去两周</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<script src="swiper/swiper.min.js"></script>
+	<script src="js/index.js"></script>
+
+
+</body>
+
+</html>

@@ -167,7 +167,7 @@ class _DetailState extends State<Detail> {
   }
   void _requestCoreadingDetail() async {
       Dio dio =Dio();
-      Response response =await dio.get("http://10.128.228.120:8080/jeecg/api/psycoreading.do?getPsyCoReadingDetail&id=1");
+      Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psycoreading.do?getPsyCoReadingDetail&id=1");
       Detail = response.toString();
   }
   @override

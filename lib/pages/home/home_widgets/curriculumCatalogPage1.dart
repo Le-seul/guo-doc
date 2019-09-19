@@ -56,16 +56,21 @@ class _MyRewardPageState extends State<MyRewardPage>
   TabController _tabController;
 List<Coursedetail> coursedetaillist;
 List<Psycoursecatelog> psycoursecateloglist;
+  bool isShowLoading = true;
   bool isShowLoading1 = true;
   bool isShowLoading2 = true;
   String Detailurl;
+  List<Psycourse> psycourselist = List();
+  List<Psycourse> mycourselist = List(); //我的课程
+  List<Psycourse> emotionlist = List();
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
 //    _requestCoursedetail();
+    _requestPsycourse1();
     _requestPsycoursecatelog();
-    http.get('http://10.28.195.109:8080/jeecg/api/psycourse.do?getCouserDetail').then((response){
+    http.get('http://ygyd.aireading.top/jeecg/api/psycourse.do?getCouserDetail').then((response){
       Detailurl = response.toString();
     });
   }
@@ -79,6 +84,31 @@ List<Psycoursecatelog> psycoursecateloglist;
 
 
   @override
+  void _requestPsycourse1() {
+    DioUtils.instance.requestNetwork<Psycourse>(
+        Method.get,
+        Api.PSYCOURSE,
+        isList: true,
+        onSuccessList: (data) {
+          setState(() {
+            psycourselist = data;
+            isShowLoading = false;
+            for(Psycourse index in psycourselist) {
+              if (index.categoryId == "情绪调节") {
+                emotionlist.add(index);
+              }
+              if (index.recmmend == "1") {
+                mycourselist.add(index);
+              }
+            }
+          });
+        },
+
+        onError: (code, msg) {
+          print("sssss");
+        });
+  }
+
   void _requestPsycoursecatelog() {
     DioUtils.instance.requestNetwork<Psycoursecatelog>(
         Method.get,
@@ -133,7 +163,16 @@ List<Psycoursecatelog> psycoursecateloglist;
             centerTitle: false,
             background: new Container(
               margin: new EdgeInsets.only(top: kToolbarHeight),
-              child: Image.asset('assets/images/tu1.jpg',fit: BoxFit.fill,),
+              child:isShowLoading
+                  ? LoadingWidget.childWidget()
+                  : (mycourselist.length == 0 && emotionlist.length == 0)
+                  ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                alignment: Alignment.center,
+                child: Text('暂无数据'),
+              )
+                  : Image.network(mycourselist[0].coverImgId,fit: BoxFit.fill,),
             ),
           ),
           actions: <Widget>[

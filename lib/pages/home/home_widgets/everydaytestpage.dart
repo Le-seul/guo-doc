@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/bean/togetheread.dart';
+import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 
 
@@ -57,6 +59,14 @@ class _AllState extends State<All> {
   void initState() {
     //生命周期函数,固定写法
     _requestData();
+
+    requestLunBoTu();
+  }
+
+  void requestLunBoTu() async {
+    var numb = 0;
+    var result = await MockRequest().getNoParams('index');
+
   }
   void _requestData() {
     DioUtils.instance.requestNetwork<PsyDailyTest>(
@@ -98,7 +108,9 @@ class _AllState extends State<All> {
         itemCount: Alllist.length,
         itemBuilder: (context , index){
           return InkWell(
-            onTap:null,
+            onTap:(){
+              Router.pushNoParams(context, 'app://test${index}');
+            },
             child: Container(
               margin: EdgeInsets.fromLTRB(10, 5,10, 5),
               child: Column(
