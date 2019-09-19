@@ -8,7 +8,7 @@ class Colours {
   static const Color text_normal = Color(0xFF666666);
   static const Color text_gray = Color(0xFF999999);
   static const Color text_gray_c = Color(0xFFcccccc);
-  static const Color bg_gray = Color(0xF9F9F9);
+  static const Color bg_gray = Color(0xffF9F9F9);
   static const Color text_blue = Color(0xFF4688FA);
   static const Color line = Color(0xFFEEEEEE);
   static const Color order_line = Color(0xFFDDDDDD);

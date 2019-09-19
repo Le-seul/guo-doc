@@ -10,14 +10,17 @@ class WebViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return  Scaffold(
         appBar: AppBar(
           title: Text(params[TITLE]),
           backgroundColor: Colors.green,
           centerTitle: true,
         ),
       body: WebView(
-        onWebViewCreated: (WebViewController webViewController) {},
+        onWebViewCreated: (WebViewController webViewController) {
+          webViewController.canGoBack();
+        },
         initialUrl: url,
         javascriptMode: JavascriptMode.unrestricted,
       )

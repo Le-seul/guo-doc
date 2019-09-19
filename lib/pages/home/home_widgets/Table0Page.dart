@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 
 class Table0 extends StatefulWidget {
@@ -17,7 +18,7 @@ class _Table0State extends State<Table0> {
           GestureDetector(
             child:  Container(child: Column(
               children: <Widget>[
-                Image.asset('assets/images/chronic_disease_assessment.png',
+                loadAssetImage('entry/chronic_disease_assessment.png',
                 height: 50,
                 width: 50,),
                 SizedBox(height: 8,),
@@ -28,12 +29,12 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),),
-            onTap: () {},
+            onTap: () { Router.pushNoParams(context, Router.eating);},
           ),
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/easy_music.png',height: 50,
+                loadAssetImage('entry/easy_music.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -48,7 +49,7 @@ class _Table0State extends State<Table0> {
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/exercise_evaluation.png',height: 50,
+                loadAssetImage('entry/exercise_evaluation.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -63,7 +64,7 @@ class _Table0State extends State<Table0> {
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/physical_assessment.png',height: 50,
+                loadAssetImage('entry/physical_assessment.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -78,7 +79,7 @@ class _Table0State extends State<Table0> {
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/medical_report.png',height: 50,
+                loadAssetImage('entry/medical_report.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -97,7 +98,7 @@ class _Table0State extends State<Table0> {
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/daily_test.png',height: 50,
+                loadAssetImage('entry/daily_test.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -107,12 +108,14 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              Router.pushNoParams(context, Router.everydaytest);
+            },
           ),
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/psychological_consultation.png',height: 50,
+                loadAssetImage('entry/psychological_consultation.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -122,12 +125,12 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),
-            onTap: () {},
+            onTap: () {Router.pushNoParams(context, Router.psychologicalConcult);},
           ),
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/course_consultation.png',height: 50,
+                loadAssetImage('entry/course_consultation.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -137,12 +140,12 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),
-            onTap: () {},
+            onTap: () {Router.pushNoParams(context, Router.curriculum);},
           ),
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/simple_reading.png',height: 50,
+                loadAssetImage('entry/simple_reading.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
@@ -152,12 +155,12 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),
-            onTap: () {},
+            onTap: () {Router.pushNoParams(context, Router.togethereading);},
           ),
           GestureDetector(
             child: Column(
               children: <Widget>[
-                Image.asset('assets/images/medical_consultation.png',height: 50,
+                loadAssetImage('entry/medical_consultation.png',height: 50,
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(

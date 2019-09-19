@@ -4,6 +4,7 @@ import 'package:flutter_first/pages/consultation/consultation_page.dart';
 import 'package:flutter_first/pages/home/home_page.dart';
 import 'package:flutter_first/pages/mine/mine_page.dart';
 import 'package:flutter_first/pages/selfhelp/selfhelp_page.dart';
+import 'package:flutter_first/util/image_utils.dart';
 
 import 'service/service_page.dart';
 
@@ -28,16 +29,16 @@ class _ContainerPageState extends State<ContainerPage> {
   final defaultItemColor = Color.fromARGB(255, 125, 125, 125);
 
   final itemNames = [
-    _Item('首页', 'assets/images/ic_tab_home_active.png',
-        'assets/images/ic_tab_home_normal.png'),
-    _Item('资讯', 'assets/images/ic_tab_subject_active.png',
-        'assets/images/ic_tab_subject_normal.png'),
-    _Item('服务', 'assets/images/ic_tab_group_active.png',
-        'assets/images/ic_tab_group_normal.png'),
-    _Item('自助', 'assets/images/ic_tab_shiji_active.png',
-        'assets/images/ic_tab_shiji_normal.png'),
-    _Item('我的', 'assets/images/ic_tab_profile_active.png',
-        'assets/images/ic_tab_profile_normal.png')
+    _Item('首页', 'navigation/ic_tab_home_active.png',
+        'navigation/ic_tab_home_normal.png'),
+    _Item('资讯', 'navigation/ic_tab_information_active.png',
+        'navigation/ic_tab_information_normal.png'),
+    _Item('服务', 'navigation/ic_tab_service_active.png',
+        'navigation/ic_tab_service_normal.png'),
+    _Item('自助', 'navigation/ic_tab_selfhelp_active.png',
+        'navigation/ic_tab_selfhelp_normal.png'),
+    _Item('我的', 'navigation/ic_tab_mine_active.png',
+        'navigation/ic_tab_mine_normal.png')
   ];
 
   List<BottomNavigationBarItem> itemList;
@@ -58,17 +59,17 @@ class _ContainerPageState extends State<ContainerPage> {
     if(itemList == null){
       itemList = itemNames
           .map((item) => BottomNavigationBarItem(
-          icon: Image.asset(
+          icon: loadAssetImage(
             item.normalIcon,
-            width: 30.0,
-            height: 30.0,
+            width: 22.0,
+            height: 22.0,
           ),
           title: Text(
             item.name,
             style: TextStyle(fontSize: 10.0),
           ),
           activeIcon:
-          Image.asset(item.activeIcon, width: 30.0, height: 30.0)))
+          loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
           .toList();
     }
   }

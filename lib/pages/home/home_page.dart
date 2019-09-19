@@ -7,6 +7,7 @@ import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -104,40 +105,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colours.bg_green,
-          automaticallyImplyLeading: false,
-          title: Container(
-            child: Row(
-              //扫码加搜索栏
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: SearchTextFieldWidget(
-                      hintText: '请输入搜索内容',
-                      margin: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      onTab: () {},
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  child: IconButton(
-                    icon: Image.asset('assets/images/saomiao.png'),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-          child: Container(
-            color: Colours.bg_gray,
-            child: ListView(children: <Widget>[
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+      child: Container(
+        color: Colours.bg_green,
+        child: ListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            children: <Widget>[
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -145,199 +120,240 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                padding: EdgeInsets.all(10),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    height: 190,
-                    child: buildBanner(context, bannerlist),
-                  ),
-                ),
-              ),
-              Container(
-                  //通知栏
-                  padding: EdgeInsets.only(right: 8, left: 15),
-                  height: 25,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '公告',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
-                        ),
-                        padding: EdgeInsets.only(
-                            top: 2, bottom: 2, right: 5, left: 5),
-                        color: Colors.green,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        '今年心理健康状况采集活动开始啦！',
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      Expanded(
-                          child: Align(
-                        child: Icon(Icons.chevron_right),
-                        alignment: Alignment.centerRight,
-                      ))
-                    ],
-                  )), //消息通知
-              Padding(
-                  //测评小表格
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: Container(
-                    height: 175,
-                    child: lib2.Swiper(
-                      itemCount: 2,
-                      itemBuilder: (BuildContext context, int index) {
-                        return TableList[index];
-                      },
-                      autoplay: false,
-                      pagination: SwiperPagination(
-                          alignment: Alignment.bottomCenter,
-                          margin: EdgeInsets.only(bottom: 0),
-                          builder: DotSwiperPaginationBuilder(
-                              color: Colors.black12)),
-                    ),
-                  )), //测评表格
-              Container(
-                padding: EdgeInsets.only(left: 10.0, right: 10),
-                child: MyCard(
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      //扫码加搜索栏
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  '张警官',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  '上午好,欢迎您进入系统!',
-                                  style: TextStyle(
-                                      color: Colors.black12, fontSize: 12),
-                                ),
-                              ],
+                        Expanded(
+                          child: Container(
+                            child: SearchTextFieldWidget(
+                              hintText: '请输入搜索内容',
+                              margin: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0),
+                              onTab: () {},
                             ),
-                            Expanded(
-                                child: Container(
-                              height: 50,
-                              width: 50,
-                              alignment: Alignment.centerRight,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  'http://pic.51yuansu.com/pic2/cover/00/32/66/5810fed3aa0df_610.jpg',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ))
-                          ],
+                          ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10, bottom: 10),
-                          height: 2,
-                          color: Colors.black12,
+                          padding: EdgeInsets.only(right: 10),
+                          height: 25,
+                          child:loadAssetImage('scanning.png'),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                                child: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.star,
-                                  size: 15,
-                                  color: Colors.green,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '健康排名：5',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            )),
-                            Expanded(
-                                child: Row(
-                              children: <Widget>[
-                                Icon(Icons.add_circle_outline,
-                                    size: 15, color: Colors.black12),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '健康积分:768',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            )),
-                            Expanded(
-                                child: Row(
-                              children: <Widget>[
-                                Icon(Icons.access_time,
-                                    size: 15, color: Colors.black12),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '运动步数:16480',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            ))
-                          ],
-                        )
                       ],
                     ),
-                  ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 190,
+                          child: buildBanner(context, bannerlist),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(10.0),
-                child: MyCard(
-                    child: Column(
+                color: Colours.bg_gray,
+                child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //通知栏
+                        padding: EdgeInsets.only(right: 8, left: 15),
+                        height: 25,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                '公告',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
+                              padding: EdgeInsets.only(
+                                  top: 2, bottom: 2, right: 5, left: 5),
+                              color: Colors.green,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '今年心理健康状况采集活动开始啦！',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            Expanded(
+                                child: Align(
+                              child: loadAssetImage('arrow.png',height: 12,width: 12),
+                              alignment: Alignment.centerRight,
+                            ))
+                          ],
+                        )), //消息通知
+                    Padding(
+                        //测评小表格
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Container(
+                          height: 175,
+                          child: lib2.Swiper(
+                            itemCount: 2,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TableList[index];
+                            },
+                            autoplay: false,
+                            pagination: SwiperPagination(
+                                alignment: Alignment.bottomCenter,
+                                margin: EdgeInsets.only(bottom: 0),
+                                builder: DotSwiperPaginationBuilder(
+                                    color: Colors.black12)),
+                          ),
+                        )), //测评表格
+                    Container(
+                      color: Colours.bg_gray,
+                      padding: EdgeInsets.only(left: 10.0, right: 10),
+                      child: MyCard(
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        '张警官',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        '上午好,欢迎您进入系统!',
+                                        style: TextStyle(
+                                            color: Colors.black12,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    alignment: Alignment.centerRight,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        'http://pic.51yuansu.com/pic2/cover/00/32/66/5810fed3aa0df_610.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ))
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10, bottom: 10),
+                                height: 2,
+                                color: Colors.black12,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                      child: Row(
+                                    children: <Widget>[
+                                      Image.asset('assets/images/ranking.png',
+                                          height: 14, width: 14),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        '健康排名：5',
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
+                                  )),
+                                  Expanded(
+                                      child: Row(
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/integral.png',
+                                        height: 14,
+                                        width: 14,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        '健康积分:768',
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
+                                  )),
+                                  Expanded(
+                                      child: Row(
+                                    children: <Widget>[
+                                      Image.asset('assets/images/step_num.png',
+                                          height: 14, width: 14),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        '运动步数:16480',
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
+                                  ))
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: MyCard(
+                          child: Column(
                         children: <Widget>[
-                          Text('健康知识'),
                           Container(
+                            padding: EdgeInsets.all(10),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text('更多'),
-                                Icon(Icons.chevron_right),
+                                Text('健康知识'),
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text('更多',style: TextStyle(color: Colors.black12),),
+                                      SizedBox(width: 10,),
+                                      loadAssetImage('arrow.png',height: 12,width: 12),
+
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
+                          Container(
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: columnsInfoList.length,
+                              itemBuilder: (context, index) =>
+                                  _buildItem(index),
+                            ),
+                          )
                         ],
-                      ),
+                      )),
                     ),
-                    Container(
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: columnsInfoList.length,
-                        itemBuilder: (context, index) => _buildItem(index),
-                      ),
-                    )
                   ],
-                )),
+                ),
               ),
             ]),
-          ),
-        ));
+      ),
+    );
   }
 
   _buildItem(int index) {

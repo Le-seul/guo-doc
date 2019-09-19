@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/image_utils.dart';
 
 
 class Table1 extends StatefulWidget {
@@ -18,38 +19,7 @@ class _Table1State extends State<Table1> {
                   GestureDetector(
                     child: Column(
                       children: <Widget>[
-                        Image.asset('assets/images/easy_music.png',height: 50,
-                          width: 50,),
-                        SizedBox(height: 8,),
-                        Text(
-                          '体检报告',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(height: 10,)
-                      ],
-                    ),
-                    onTap: () {},
-                  ),
-
-                  GestureDetector(
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/images/exercise_evaluation.png',height: 50,
-                          width: 50,),
-                        SizedBox(height: 8,),
-                        Text(
-                          '医疗咨询',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(height: 10,)
-                      ],
-                    ),
-                    onTap: () {},
-                  ),
-                  GestureDetector(
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/images/course_consultation.png',height: 50,
+                        loadAssetImage('entry/drug_inquiry.png',height: 50,
                           width: 50,),
                         SizedBox(height: 8,),
                         Text(
@@ -61,14 +31,15 @@ class _Table1State extends State<Table1> {
                     ),
                     onTap: () {},
                   ),
+
                   GestureDetector(
                     child: Column(
                       children: <Widget>[
-                        Image.asset('assets/images/medical_consultation.png',height: 50,
+                        loadAssetImage('entry/outpatient_advice.png',height: 50,
                           width: 50,),
                         SizedBox(height: 8,),
                         Text(
-                          '门诊意见',
+                          '门诊建议',
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: 10,)
