@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/router.dart';
 
   class MinePage extends StatelessWidget {
   @override
@@ -7,236 +8,238 @@ import 'package:flutter/material.dart';
       body: ListView(
         children: <Widget>[
 
-          SizedBox(
-            height: 3,
-            child: Container(
-              color: Colors.grey[200],
-            ),
-          ),
-          Container(
-            height: 60,
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 30,
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Image.network(
-                    'http://pic.51yuansu.com/pic2/cover/00/32/66/5810fed3aa0df_610.jpg',
-                    fit: BoxFit.fill,
-                    height: 60,
-                  ),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                Expanded(
-                  flex: 7,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[Text('张警官'), Text('189******09')],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Image.asset('assets/images/erweima.png'),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: IconButton(
-                      icon: Icon(Icons.arrow_forward_ios), onPressed: () {}),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-          ), //用户信息
-          Row(
-            //健康运动步数
+          
+          Stack(
             children: <Widget>[
-              SizedBox(
-                width: 10,
+            Image.asset('assets/images/myBackground.png'),
+              Positioned(
+                top: 0,
+                left: 160,
+                child: Text('我的',style: TextStyle(color: Colors.white,fontSize: 18)),
               ),
-              Expanded(
-                  flex: 4,
-                  child: FlatButton(
-                    child: Container(
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '768',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Text(
-                                  '积分',
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '5',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Text(
-                                  '排名',
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+              Positioned(
+                top: 40,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 20,),
+                    Container(
+                      height: 70,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/dangao.jpg'))
                       ),
                     ),
-                    onPressed: () {},
-                  )),
-              SizedBox(
-                width: 20,
+                    SizedBox(width: 15,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('张警官',style: TextStyle(color: Colors.white,fontSize: 18)),
+                        Text('189*****111',style: TextStyle(color: Colors.white,fontSize: 15)),
+
+                      ],
+                    ),
+                    SizedBox(width: 80,),
+                    Container(
+                      height: 70,
+                      width: 70,
+                      color: Colors.white,
+                      child: Image.asset('assets/images/erweima.png'),
+                    )
+
+                  ],
+                ),
               ),
-              Expanded(
-                  flex: 4,
-                  child: FlatButton(
-                    child: Container(
-                      child: Row(
+              Positioned(
+                top: 130,
+                left: 30,
+                child: Container(
+                  height: 150,
+                    width: 300,
+                    padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(6.0)),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 10,),
+                        Row(
+                        //健康运动步数
                         children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '12008',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Text(
-                                  '步数',
-                                )
-                              ],
-                            ),
-                          ),
                           SizedBox(
-                            width: 10,
+                            width: 5,
                           ),
                           Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '5',
-                                  style: TextStyle(fontSize: 15),
+                              flex: 4,
+                              child: FlatButton(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 1,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              '积分',
+                                            ),
+                                            Text(
+                                              '768',
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              '排名',
+                                            ),
+                                            Text(
+                                              '5/100',
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  '排名',
-                                )
-                              ],
-                            ),
-                          )
+                                onPressed: () {},
+                              )),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Expanded(
+                              flex: 4,
+                              child: FlatButton(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 1,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              '步数',
+                                            ),
+                                            Text(
+                                              '12008',
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 17,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              '排名',
+                                            ),
+                                            Text(
+                                              '5/100',
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                onPressed: () {},
+                              )),
+                          SizedBox(
+                            width: 5,
+                          ),
                         ],
                       ),
+                        SizedBox(height: 4,),
+                        SizedBox(
+                          height: 1,
+                          child: Container(
+                            color: Colors.black12,
+                          ),
+                        ),
+                        SizedBox(height: 8,),
+
+                        Row(
+                          children: <Widget>[
+                           SizedBox(width: 5,),
+                           Container(
+                              padding: EdgeInsets.all(0),
+                              height: 60,
+                              child: Row(children: <Widget>[
+                                SizedBox(width: 17,),
+                                InkWell(
+                                  child: Container(
+                                    height: 60,
+                                    width: 40,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[Image.asset('assets/images/xin.png',fit:BoxFit.fill,),
+                                        Text('我的收藏',style: TextStyle(fontSize: 10),)],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 22,),
+                                InkWell(
+                                  child: Container(
+                                    height: 60,
+                                    width: 40,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[Image.asset('assets/images/qiche.png',fit:BoxFit.fill,),
+                                        Text('我的步数',style: TextStyle(fontSize: 10),)],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 43,),
+                                InkWell(
+                                  child: Container(
+                                    height: 60,
+                                    width: 40,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[Image.asset('assets/images/naozhong.png',fit:BoxFit.fill,),
+                                        Text('我的活动',style: TextStyle(fontSize: 10),)],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 20,),
+                                InkWell(
+                                  child: Container(
+                                    height: 60,
+                                    width: 40,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[Image.asset('assets/images/lingdang.png',fit:BoxFit.fill,),
+                                        Text('消息提醒',style: TextStyle(fontSize: 10),)],
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                            ),
+                           SizedBox(width: 5,),
+                          ],
+                        ),
+                      ],
                     ),
-                    onPressed: () {},
-                  )),
-              SizedBox(
-                width: 10,
+                ),
               ),
-            ],
-          ), //积分排名
-          SizedBox(
-            height: 9,
-            child: Container(
-              color: Colors.grey[200],
-            ),
+
+          ],
           ),
-          Container(
-            padding: EdgeInsets.all(0),
-            height: 60,
-            child: Row(children: <Widget>[
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                width: 73,
-                child: FlatButton(
-                  //padding: EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[Image.asset('assets/images/xin.png',fit:BoxFit.fill,),
-                      Text('我的收藏',style: TextStyle(fontSize: 10),)],
-                  ),
 
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 73,
-                child: FlatButton(
-                  //padding: EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[Image.asset('assets/images/qiche.png',fit:BoxFit.fill,),
-                      Text('我的步数',style: TextStyle(fontSize: 10),)],
-                  ),
-
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 73,
-                child: FlatButton(
-                  //padding: EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[Image.asset('assets/images/naozhong.png',fit:BoxFit.fill,),
-                      Text('我的活动',style: TextStyle(fontSize: 10),)],
-                  ),
-
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 73,
-                child: FlatButton(
-                  //padding: EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[Image.asset('assets/images/lingdang.png',),
-                      Text('消息提醒',style: TextStyle(fontSize: 10),)],
-                  ),
-
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-            ]),
-          ),//4个小图标
-          SizedBox(
-            height: 9,
-            child: Container(
-              color: Colors.grey[200],
-            ),
-          ),
           FlatButton(
             child:Container(
               height: 40,
@@ -248,7 +251,9 @@ import 'package:flutter/material.dart';
                 ],
               ),
             ) ,
-            onPressed: (){},
+            onPressed: (){
+              Router.pushNoParams(context, Router.reporylist);
+            },
           ),// 体检报告
           SizedBox(
             height: 2,

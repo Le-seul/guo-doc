@@ -128,10 +128,15 @@ class _CurriculumState extends State<Curriculum> {
                                 height: 30,
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
                                     height: 100,
-                                    width: 160,
+                                    width: 20,
+                                  ),
+                                  Container(
+                                    height: 100,
+                                    width: 100,
                                     child: Column(
                                       children: <Widget>[
                                         Expanded(
@@ -144,28 +149,8 @@ class _CurriculumState extends State<Curriculum> {
                                                     image: NetworkImage(
                                                         emotionlist[0].coverImgId),
                                                     fit: BoxFit.fill)),
-                                            child: Column(
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
-                                                Text(
-                                                  emotionlist[0].name,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  emotionlist[0].shortDesc,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 11),
-                                                )
-                                              ],
-                                            ),
+
+
                                           ),
                                         ),
                                         Expanded(
@@ -241,7 +226,11 @@ class _CurriculumState extends State<Curriculum> {
                                   ),
                                   Container(
                                     height: 100,
-                                    width: 160,
+                                    width: 20,
+                                  ),
+                                  Container(
+                                    height: 100,
+                                    width: 100,
                                     child: Column(
                                       children: <Widget>[
                                         Expanded(
@@ -254,28 +243,7 @@ class _CurriculumState extends State<Curriculum> {
                                                     image: NetworkImage(
                                                         emotionlist[1].coverImgId),
                                                     fit: BoxFit.fill)),
-                                            child: Column(
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
-                                                Text(
-                                                  emotionlist[1].name,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  emotionlist[1].shortDesc,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 11),
-                                                )
-                                              ],
-                                            ),
+
                                           ),
                                         ),
                                         Expanded(
@@ -349,13 +317,22 @@ class _CurriculumState extends State<Curriculum> {
                                       ],
                                     ),
                                   ),
+                                  Container(
+                                    height: 100,
+                                    width: 20,
+                                  ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
                                     height: 100,
-                                    width: 160,
+                                    width: 20,
+                                  ),
+                                  Container(
+                                    height: 100,
+                                    width: 100,
                                     child: Column(
                                       children: <Widget>[
                                         Expanded(
@@ -368,28 +345,7 @@ class _CurriculumState extends State<Curriculum> {
                                                     image: NetworkImage(
                                                         emotionlist[2].coverImgId),
                                                     fit: BoxFit.fill)),
-                                            child: Column(
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
-                                                Text(
-                                                  emotionlist[2].name,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  emotionlist[2].shortDesc,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 11),
-                                                )
-                                              ],
-                                            ),
+
                                           ),
                                         ),
                                         Expanded(
@@ -463,10 +419,18 @@ class _CurriculumState extends State<Curriculum> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 30,
+                                  Container(
+                                    height: 100,
+                                    width: 20,
                                   ),
-
+                                  Container(
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                  Container(
+                                    height: 100,
+                                    width: 20,
+                                  ),
                                 ],
                               ),
                             ],

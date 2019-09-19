@@ -56,7 +56,7 @@ dependencies:
   overlay_support: ^1.0.1
   url_launcher: ^4.0.1
   flutter_webview_plugin: ^0.2.1+2
-
+  jaguar_flutter_asset: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +80,7 @@ flutter:
     - assets/images/navigation/
     - assets/images/entry/
     - mock/
+    - mock/mobile_survy/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

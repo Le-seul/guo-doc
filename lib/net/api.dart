@@ -30,7 +30,7 @@ class Api{
   //心理课程详情2
   static const String COURSEDETAIL2 = "/api/psycourse.do?getCouserDetail&id=2";
   //心理课程目录1
-  static const String PSYCOURSECATELOG = "/api/psycourse.do?getPsyCourseCatalog&id=1";
+  static const String PSYCOURSECATELOG = "/api/psycourse.do?getPsyCourseCatalog&courseId=1";
   //简单共读
   static const String Togetheread = "/api/psycoreading.do?getPsyCoReading";
   //简单共读目录
