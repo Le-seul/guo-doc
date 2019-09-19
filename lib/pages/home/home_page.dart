@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 5,),
                     Row(
                       //扫码加搜索栏
                       children: <Widget>[
@@ -159,36 +160,42 @@ class _HomePageState extends State<HomePage> {
                 color: Colours.bg_gray,
                 child: Column(
                   children: <Widget>[
-                    Container(
+                    GestureDetector(
+                      child: Container(
                         //通知栏
-                        padding: EdgeInsets.only(right: 8, left: 15),
-                        height: 25,
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                '公告',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                          padding: EdgeInsets.only(right: 8, left: 15),
+                          height: 25,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  '公告',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 10),
+                                ),
+                                padding: EdgeInsets.only(
+                                    top: 2, bottom: 2, right: 5, left: 5),
+                                color: Colors.green,
                               ),
-                              padding: EdgeInsets.only(
-                                  top: 2, bottom: 2, right: 5, left: 5),
-                              color: Colors.green,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '今年心理健康状况采集活动开始啦！',
-                              style: TextStyle(fontSize: 13),
-                            ),
-                            Expanded(
-                                child: Align(
-                              child: loadAssetImage('arrow.png',height: 12,width: 12),
-                              alignment: Alignment.centerRight,
-                            ))
-                          ],
-                        )), //消息通知
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '今年心理健康状况采集活动开始啦！',
+                                style: TextStyle(fontSize: 13),
+                              ),
+                              Expanded(
+                                  child: Align(
+                                    child: loadAssetImage('arrow.png',height: 12,width: 12),
+                                    alignment: Alignment.centerRight,
+                                  ))
+                            ],
+                          )),
+                      onTap: (){
+                        Router.push(context, 'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1', {'title': '专业测评'});
+                      },
+                    ),
+                     //消息通知
                     Padding(
                         //测评小表格
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 10),

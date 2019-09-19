@@ -16,37 +16,45 @@ class _Table1State extends State<Table1> {
             children:<TableRow>[
               TableRow(
                 children:<Widget>[
-                  GestureDetector(
-                    child: Column(
-                      children: <Widget>[
-                        loadAssetImage('entry/drug_inquiry.png',height: 50,
-                          width: 50,),
-                        SizedBox(height: 8,),
-                        Text(
-                          '药品查询',
-                          style: TextStyle(fontSize: 12),
+                  Align(
+                    child:Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Column(
+                          children: <Widget>[
+                            loadAssetImage('entry/drug_inquiry.png',height: 50,
+                              width: 50,),
+                            SizedBox(height: 8,),
+                            Text(
+                              '药品查询',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            SizedBox(height: 10,)
+                          ],
                         ),
-                        SizedBox(height: 10,)
-                      ],
-                    ),
-                    onTap: () {},
-                  ),
+                        onTap: () {},
+                      ),
 
-                  GestureDetector(
-                    child: Column(
-                      children: <Widget>[
-                        loadAssetImage('entry/outpatient_advice.png',height: 50,
-                          width: 50,),
-                        SizedBox(height: 8,),
-                        Text(
-                          '门诊建议',
-                          style: TextStyle(fontSize: 12),
+                      SizedBox(width: 18,),
+                      GestureDetector(
+                        child: Column(
+                          children: <Widget>[
+                            loadAssetImage('entry/outpatient_advice.png',height: 50,
+                              width: 50,),
+                            SizedBox(height: 8,),
+                            Text(
+                              '门诊建议',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            SizedBox(height: 10,)
+                          ],
                         ),
-                        SizedBox(height: 10,)
-                      ],
-                    ),
-                    onTap: () {},
+                        onTap: () {},
+                      ),
+                    ],
                   ),
+                  alignment: Alignment.centerLeft,),
+
                 ]
               ),
 

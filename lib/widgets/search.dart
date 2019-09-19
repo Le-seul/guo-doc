@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/image_utils.dart';
+
 ///文本搜索框
 class SearchTextFieldWidget extends StatelessWidget {
   final ValueChanged<String> onSubmitted;
