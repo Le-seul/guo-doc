@@ -2,7 +2,7 @@ class Psycoursecatelog{
   String id;
   String courseId;
   String chapterName;
-  //String detailDesc;
+  String detailDesc;
   int orderNo;
   int state;
   String learnedUserCount;
@@ -14,7 +14,7 @@ class Psycoursecatelog{
     orderNo = json['orderNo'];
     state = json['state'];
     learnedUserCount = json['learnedUserCount'];
-    //detailDesc = json['detailDesc'];
+    detailDesc = json['detailDesc'];
 
   }
 }
