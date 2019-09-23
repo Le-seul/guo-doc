@@ -1,5 +1,8 @@
 
 import 'dart:convert';
+import 'dart:io';
+import 'package:flustars/flustars.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_first/util/log_utils.dart';
@@ -11,7 +14,7 @@ import 'entity_factory.dart';
 import 'error_handle.dart';
 import 'intercept.dart';
 
-/// @weilu https://github.com/simplezhli
+
 class DioUtils {
 
   static final DioUtils _singleton = DioUtils._internal();
@@ -39,8 +42,8 @@ class DioUtils {
       },
 
 //      baseUrl: "http://10.128.244.149:8080/jeecg",
-//      baseUrl: "http://10.28.198.220:8080/jeecg",
-      baseUrl: 'http://ygyd.aireading.top/jeecg',
+      baseUrl: "http://10.28.198.220:8080/jeecg",
+//      baseUrl: 'http://ygyd.aireading.top/jeecg',
 //      baseUrl: "http://10.28.207.228:8080/jeecg",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );

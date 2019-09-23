@@ -1,10 +1,11 @@
 
-
 import 'dart:convert';
 import 'package:flustars/flustars.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/util/log_utils.dart';
+import 'package:flutter_first/util/storage_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sprintf/sprintf.dart';
 import 'dio_utils.dart';
 import 'error_handle.dart';
@@ -12,11 +13,18 @@ import 'error_handle.dart';
 class AuthInterceptor extends Interceptor{
   @override
   onRequest(RequestOptions options) {
-    String accessToken = SpUtil.getString(Constant.access_Token);
-    if (accessToken.isNotEmpty){
-      options.headers["Authorization"] = "Bearer ${SpUtil.getString(Constant.access_Token)}";
+    Future<String> get() async {
+      var accessToken;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      accessToken = await prefs.getString(Constant.access_Token);
+      return accessToken;
     }
-   
+    Future<String> accessToken = get();
+    accessToken.then((String accessToken) {
+      if (accessToken.isNotEmpty) {
+        options.headers["token"] = accessToken;
+      }
+    });
     return super.onRequest(options);
   }
 }

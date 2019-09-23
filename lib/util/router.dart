@@ -37,11 +37,13 @@ import 'package:flutter_first/pages/service/servicenext/initiateconsultation_pag
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/pages/service/servicenext/activity2.dart';
 import 'package:flutter_first/pages/service/servicenext/relatives_information_page.dart';
+import 'package:flutter_first/pages/sms_login_page.dart';
 import 'package:flutter_first/util/web_view_page.dart';
 
 class Router {
   static const loginPage = 'app://LoginPage';
   static const containerPage = 'app://ContainerPage';
+  static const smsLogin = 'app://SMSLogin';
   static const psychologicalServiceCenterPage = 'app://PsychologicalServiceCenterPage';
   static const consulationDetailPage = 'app://ConsulationDetailPage';
   static const imagesPage = 'app://ImagesPage';
@@ -97,6 +99,8 @@ static const serviceActivity = 'app://ServiceActivity';
           return SimpleReading();//简单共读
         case loginPage:
           return LoginPage();
+        case smsLogin:
+          return SMSLogin();
         case containerPage:
           return ContainerPage();
         case psychologicalServiceCenterPage:

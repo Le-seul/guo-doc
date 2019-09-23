@@ -10,7 +10,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 3)).then((value) {
-      Router.pushReplacementNamed(context, Router.containerPage);
+      Router.pushReplacementNamed(context, Router.loginPage);
     });
   }
 

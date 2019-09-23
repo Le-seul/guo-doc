@@ -57,6 +57,10 @@ dependencies:
   url_launcher: ^4.0.1
   flutter_webview_plugin: ^0.2.1+2
   jaguar_flutter_asset: ^2.2.0
+  # 处理键盘事件 https://github.com/diegoveloper/flutter_keyboard_actions
+  keyboard_actions: ^2.1.1
+  crypto: 2.1.3
+  shared_preferences: 0.5.3+4
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +83,7 @@ flutter:
     - assets/images/
     - assets/images/navigation/
     - assets/images/entry/
+    - assets/images/login/
     - mock/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
