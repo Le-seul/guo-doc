@@ -1,14 +1,8 @@
-
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/net/error_handle.dart';
-import 'package:flutter_first/util/log_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -90,60 +84,64 @@ class _SMSLoginState extends State<SMSLogin> {
       ),
     );
   }
-  _sendVerificationCode(){
 
-    DioUtils.instance.requestNetwork<String>(
-        Method.post,
-        Api.SENDVCODE,
-        queryParameters: {
-          'userId':"1",
-          'phonrNumberBODY':_phoneController.text,
-        },
-        onSuccess: (data) {
-          setState(() {
-            Toast.show('获取验证码成功!');
-          });
-        },
-        onError: (code, msg) {
-          setState(() {
-            Toast.show('获取验证码失败!');
-          });
-
-        }
-    );
+  _sendVerificationCode() {
+    DioUtils.instance
+        .requestNetwork<String>(Method.post, Api.SENDVCODE, queryParameters: {
+      'userId': "1",
+      'phonrNumberBODY': _phoneController.text,
+    }, onSuccess: (data) {
+      setState(() {
+        Toast.show('获取验证码成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('获取验证码失败!');
+      });
+    }, mismatchingError: () {
+      setState(() {
+        Toast.show('手机号不匹配!');
+      });
+    });
   }
 
-  _checkVerificationCode() async{
-    DioUtils.instance.requestNetwork<Token>(
-        Method.get,
-        Api.CHECKVCODE,
-        queryParameters: {
-          'userId':"1",
-          'verificationCode':_vCodeController.text,
-        },
-        onSuccess: (data) {
-          setState(() {
-            Toast.show('验证成功!');
-            tokenData = data;
-            Toast.show(tokenData.token.toString());
-            Dio dio = DioUtils.instance.getDio();
-            dio.lock();
-            saveToken(tokenData.token);
-            dio.unlock();
-            Router.pushNoParams(context, Router.containerPage);
-//            saveToken(tokenData.token);
-          });
-        },
-        onError: (code, msg) {
-          setState(() {
-            Toast.show('验证失败!');
-          });
-
-        }
-    );
-  }
   static saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(Constant.access_Token,token);
+  }
+
+  _checkVerificationCode() async {
+    DioUtils.instance
+        .requestNetwork<Token>(Method.get, Api.CHECKVCODE, queryParameters: {
+      'userId': "1",
+      'verificationCode': _vCodeController.text,
+    }, onSuccess: (data) {
+      setState(() {
+        Toast.show('验证成功!');
+        tokenData = data;
+        Toast.show(tokenData.token.toString());
+        Dio dio = DioUtils.instance.getDio();
+        dio.lock();
+        saveToken(tokenData.token);
+        dio.unlock();
+        Router.pushNoParams(context, Router.containerPage);
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('验证失败!');
+      });
+    }, noExistError: () {
+      setState(() {
+        Toast.show('验证码不存在!');
+      });
+    }, mismatchingError: () {
+      setState(() {
+        Toast.show('验证码不匹配!');
+      });
+    }, expiredError: () {
+      setState(() {
+        Toast.show('验证码过期!');
+      });
+    });
   }
 }

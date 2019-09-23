@@ -137,7 +137,12 @@ class _LoginPageState extends State<LoginPage> {
           setState(() {
             Toast.show('账号验证失败!');
           });
-
+        },
+        noExistError: (){
+          setState(() {
+            Toast.show('用户不存在!');
+            Router.pushNoParams(context, Router.smsLogin);
+          });
         }
     );
   }
