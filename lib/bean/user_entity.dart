@@ -1,15 +1,18 @@
-class UserEntity {
-	String name;
+class User {
+	String userName;
+	String userId;
 
-	UserEntity({ this.name});
+	User({ this.userName});
 
-	UserEntity.fromJson(Map<String, dynamic> json) {
-		name = json['name'];
+	User.fromJson(Map<String, dynamic> json) {
+		userName = json['userName'];
+		userId = json['userId'];
 
 	}
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['name'] = this.name;
+		data['userName'] = this.userName;
+		data['userId'] = this.userId;
 		return data;
 	}
 }

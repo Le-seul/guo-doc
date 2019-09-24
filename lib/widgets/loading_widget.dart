@@ -18,7 +18,7 @@ class LoadingWidget {
         new Padding(
           padding: new EdgeInsets.fromLTRB(0.0, 35.0, 0.0, 0.0),
           child: new Center(
-            child: new Text("兄台莫急噻~~"),
+            child: new Text("加载中，请稍后~~"),
           ),
         ),
       ],

@@ -18,6 +18,7 @@ class MyTextField extends StatefulWidget {
     this.autoFocus: false,
     this.keyboardType: TextInputType.text,
     this.hintText: "",
+    this.isChange:false,
     this.focusNode,
     this.isInputPwd: false,
     this.getVCode,
@@ -27,6 +28,7 @@ class MyTextField extends StatefulWidget {
   final TextEditingController controller;
   final int maxLength;
   final bool autoFocus;
+  final bool isChange;
   final TextInputType keyboardType;
   final String hintText;
   final FocusNode focusNode;
@@ -42,11 +44,6 @@ class _MyTextFieldState extends State<MyTextField> {
   bool _isShowPwd = false;
   bool _isShowDelete = true;
   bool _isClick = true;
-  /// 倒计时秒数
-  final int second = 30;
-  /// 当前秒数
-  int s;
-  StreamSubscription _subscription;
 
   @override
   void initState() {
@@ -65,8 +62,7 @@ class _MyTextFieldState extends State<MyTextField> {
   
   @override
   void dispose() {
-    _subscription?.cancel();
-    super.dispose();
+
   }
   
   @override
@@ -142,47 +138,6 @@ class _MyTextFieldState extends State<MyTextField> {
                 ),
               ),
             ),
-            Offstage(
-              offstage: widget.getVCode == null,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Container(
-                  height: 26.0,
-                  width: 76.0,
-                  child: FlatButton(
-                    onPressed: _isClick ? (){
-                      widget.getVCode();
-                      setState(() {
-                        s = second;
-                        _isClick = false;
-                      });
-                      _subscription = Observable.periodic(Duration(seconds: 1), (i) => i).take(second).listen((i){
-                        setState(() {
-                          s = second - i - 1;
-                          _isClick = s < 1;
-                        });
-                      });
-                    }: null,
-                    padding: const EdgeInsetsDirectional.only(start: 8.0, end: 8.0),
-                    textColor: Colors.black,
-                    color: Colors.transparent,
-                    disabledTextColor: Colors.white,
-                    disabledColor: Colors.black12,
-                    shape:RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(1.0), 
-                      side: BorderSide(
-                        color: _isClick ? Colors.black : Colors.black,
-                        width: 0.8,
-                      )
-                    ),
-                    child: Text(
-                      _isClick ? "获取验证码" : "（$s s）",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         )
       ],

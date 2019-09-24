@@ -1,9 +1,9 @@
 
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
@@ -49,19 +49,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    //监听输入改变
-    _nameController.addListener(_verify);
-    _passwordController.addListener(_verify);
-//    _nameController.text = FlutterStars.SpUtil.getString(Constant.phone);
-  }
-
-  void _verify(){
-//    String identityNum = _nameController.text;
-//    Toast.show(identityNum);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               isInputPwd: true,
               controller: _passwordController,
               maxLength: 16,
-              hintText: "请输入警号",
+              hintText: "请输入警号(民警输入)",
             ),
             SizedBox(height: 25,),
             FlatButton(
@@ -113,24 +100,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   _userAuthCheck(){
-
     var bytes1 = utf8.encode(_nameController.text); // data being hashed
     var bytes2 = utf8.encode(_passwordController.text);
     var identityNum = sha1.convert(bytes1);
     var policeNum = sha1.convert(bytes2);
     Toast.show('加密身份证号：$identityNum\n加密警号：$policeNum');
 
-    DioUtils.instance.requestNetwork<String>(
+    DioUtils.instance.requestNetwork<User>(
         Method.post,
         Api.USERAUTHCHECK,
         queryParameters: {
           'IDCardNumberSHA1Code':identityNum,
-          'policemanIdSHA1Code':policeNum,
+          'policemanIdSHA1Code':(_passwordController.text.isEmpty) ? null : policeNum,
         },
         onSuccess: (data) {
           setState(() {
-            Toast.show(data.toString());
-            Router.pushNoParams(context, Router.smsLogin);
+            Router.pushReplacementNamed(context, Router.smsLogin,data);
           });
         },
         onError: (code, msg) {

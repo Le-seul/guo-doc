@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        '张警官',
+                                        '张三',
                                         style: TextStyle(fontSize: 15),
                                       ),
                                       SizedBox(

@@ -6,6 +6,7 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/container_page.dart';
+import 'package:flutter_first/pages/good_list_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/EatingPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
@@ -79,6 +80,7 @@ static const serviceActivity = 'app://ServiceActivity';
   static const relatives = 'app://Relatives';
   static const reporylist = 'app://reporylist';
   static const bodyreport = 'app://bodyreport';
+  static const goodListPage = 'app://GoodListPage';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -100,7 +102,7 @@ static const serviceActivity = 'app://ServiceActivity';
         case loginPage:
           return LoginPage();
         case smsLogin:
-          return SMSLogin();
+          return SMSLogin(user: params,);
         case containerPage:
           return ContainerPage();
         case psychologicalServiceCenterPage:
@@ -161,14 +163,16 @@ static const serviceActivity = 'app://ServiceActivity';
           return MusicListPage(musicListId: params,);
         case playingPage:
           return PlayingPage(songId: params,);
+        case goodListPage:
+          return GoodListPage();
       }
     }
     return null;
   }
 
-  Router.pushReplacementNamed(BuildContext context, String url){
+  Router.pushReplacementNamed(BuildContext context, String url, dynamic params){
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return _getPage(url, null);
+      return _getPage(url, params);
     }));
   }
 

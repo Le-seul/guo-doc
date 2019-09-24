@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/pages/container_page.dart';
+import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/splash_widget.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
@@ -27,6 +30,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp>{
   JPush jpush = new JPush();
+  String token;
+
   final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
 //  StreamSubscription exitLogin;
   @override
@@ -36,6 +41,7 @@ class _MyAppState extends State<MyApp>{
 //            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
 //    });
 
+    token = StorageManager.sharedPreferences.getString(Constant.access_Token);
     SchedulerBinding.instance.addPostFrameCallback((_) => {
       jpush.setup(appKey: "29b0c3835843e02814ff021a" ,channel: 'developer-default'),
         // 监听jpush
@@ -72,11 +78,14 @@ class _MyAppState extends State<MyApp>{
               return new NotFoundPage();
             });
           },
+          routes:  <String, WidgetBuilder> {
+          '/login': (BuildContext context) => new LoginPage(),
+        },
           title: 'Dio请求',
           //debugShowCheckedModeBanner: false,
           home: Scaffold(
             body: new Center(
-                child: SplashPage(),
+                child: (token == null||token == '')?LoginPage():ContainerPage(),
             ),
           ),
           theme: new ThemeData(
