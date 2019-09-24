@@ -3,13 +3,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/splash_widget.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:oktoast/oktoast.dart';
 import 'pages/good_list_page.dart';
 
 import 'package:jpush_flutter/jpush_flutter.dart';
 
-void main() => runApp(MyApp());
+void main() async{
+  await StorageManager.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
 

@@ -106,8 +106,7 @@ class _SMSLoginState extends State<SMSLogin> {
   }
 
   static saveToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(Constant.access_Token,token);
+    StorageManager.sharedPreferences.setString(Constant.access_Token,token);
   }
 
   _checkVerificationCode() async {

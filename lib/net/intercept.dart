@@ -11,19 +11,11 @@ import 'error_handle.dart';
 
 class AuthInterceptor extends Interceptor{
   @override
-  onRequest(RequestOptions options) {
-    Future<String> get() async {
-      var accessToken;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      accessToken = await prefs.getString(Constant.access_Token);
-      return accessToken;
-    }
-    Future<String> accessToken = get();
-    accessToken.then((String accessToken) {
+  onRequest(RequestOptions options) async{
+    String accessToken = await StorageManager.sharedPreferences.getString(Constant.access_Token);
       if (accessToken.isNotEmpty) {
         options.headers["token"] = accessToken;
       }
-    });
     return super.onRequest(options);
   }
 }
