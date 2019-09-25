@@ -12,14 +12,14 @@ import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.d
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/CoreadingCoursePage.dart';
 import 'package:flutter_first/pages/home/home_widgets/SimpleCoreading.dart';
-import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage1.dart';
-import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage2.dart';
-import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/catalogDetail.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/curriculumCatalogPage1.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/curriculumpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Forth.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Second.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Third.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytestpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/myselfpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/relativespage.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
@@ -49,7 +49,7 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
-static const serviceActivity = 'app://ServiceActivity';
+  static const serviceActivity = 'app://ServiceActivity';
   static const serviceActivityPage = 'app://ServiceActivityPagey';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
@@ -65,7 +65,6 @@ static const serviceActivity = 'app://ServiceActivity';
   static const musicListPage = 'app://MusicListPage';
   static const playingPage = 'app://PlayingPage';
   static const curriculumcatalog1 = 'app://CurriculumCatalog1';
-  static const curriculumcatalog2 = 'app://CurriculumCatalog2';
   static const test0 = 'app://test0';
   static const test1 = 'app://test1';
   static const test2 = 'app://test2';
@@ -77,6 +76,7 @@ static const serviceActivity = 'app://ServiceActivity';
   static const relatives = 'app://Relatives';
   static const reporylist = 'app://reporylist';
   static const bodyreport = 'app://bodyreport';
+  static const catalogdetail = 'app://catalogdetail';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -95,6 +95,8 @@ static const serviceActivity = 'app://ServiceActivity';
           return SimpleCoreading();
         case simplereading:
           return SimpleReading();//简单共读
+        case catalogdetail:
+          return CatalogDetail(Detail : params['Detail']);
         case loginPage:
           return LoginPage();
         case containerPage:
@@ -125,8 +127,6 @@ static const serviceActivity = 'app://ServiceActivity';
           return Curriculum();
         case curriculumcatalog1:
           return CurriculumCatalog1();
-        case curriculumcatalog2:
-          return CurriculumCatalog2();
         case healthyconsultation:
           return Healthyconsultation();
         case psychologicalTest:

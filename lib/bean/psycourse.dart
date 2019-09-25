@@ -6,7 +6,7 @@ class Psycourse{
   int state;
   String coverImgId;
   String recmmend;
-  String introPageImgId;
+  //String introPageImgId;
   String courseCount;
   int learnedUserCount;
   Psycourse.fromJson(Map<String, dynamic> json) {
@@ -17,7 +17,7 @@ class Psycourse{
     state = json['state'];
     coverImgId = json['coverImgId'];
     recmmend = json['recmmend'];
-    introPageImgId = json['introPageImgId'];
+   // introPageImgId = json['introPageImgId'];
     courseCount = json['courseCount'];
     learnedUserCount = json['learnedUserCount'];
 
