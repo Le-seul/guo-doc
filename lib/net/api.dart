@@ -38,5 +38,10 @@ class Api{
   static const String CoReadingCatalog = "/api/psycoreading.do?getPsyCoReadingCatalog&courseId=1";
   //每日一测
   static const String PsyDailyTest = "/api/psydailytest.do?getPsyDailyTest";
-
+  //用户身份验证
+  static const String USERAUTHCHECK = "/api/login.do?userAuthCheck";
+  //获取验证码
+  static const String SENDVCODE = "/api/login.do?sendVerificationCode";
+  //验证验证码
+  static const String CHECKVCODE = "/api/login.do?checkVerificationCode";
 }

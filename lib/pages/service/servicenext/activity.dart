@@ -3,6 +3,7 @@ import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
@@ -193,7 +194,12 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                           padding: EdgeInsets.only(left: 30.0, right: 30.0),
                           child: FlatButton(
                             onPressed: () {
-                              Toast.show('报名成功!');
+                              showDialog<Null>(
+                                  context: context, //BuildContext对象
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return LoadingDialog();
+                                  });
                             },
                             color: Colors.orange,
                             child: Text(

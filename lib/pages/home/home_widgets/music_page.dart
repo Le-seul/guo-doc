@@ -5,13 +5,10 @@ import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 
-
-
 class MusicPage extends StatefulWidget {
-
   String tagId;
   int num;
-  MusicPage({Key key, @required this.num,this.tagId}) : super(key: key);
+  MusicPage({Key key, @required this.num, this.tagId}) : super(key: key);
 
   @override
   _MusicPageState createState() => _MusicPageState();
@@ -20,49 +17,39 @@ class MusicPage extends StatefulWidget {
 class _MusicPageState extends State<MusicPage> {
   List<GetAllMusic> GetAllMusicList = List();
 
-
   @override
   void initState() {
-    if(widget.num == 0){
+    if (widget.num == 0) {
       _getAllMusicList();
-    }else if(widget.num == 1){
+    } else if (widget.num == 1) {
       _getMusicListByTag();
     }
-
   }
 
-  _getMusicListByTag(){
+  _getMusicListByTag() {
     DioUtils.instance.requestNetwork<GetAllMusic>(
-        Method.get,
-        Api.GETMUSICLISTBYTAG,
+        Method.get, Api.GETMUSICLISTBYTAG,
         queryParameters: {"tagId": widget.tagId},
-        isList: true,
-        onSuccessList: (data) {
-          setState(() {
-            GetAllMusicList = data;
-          });
-
-        },
-        onError: (code, msg) {
-          Toast.show('请求失败！');
-        });
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        GetAllMusicList = data;
+      });
+    }, onError: (code, msg) {
+      Toast.show('请求失败！');
+    });
   }
 
-  _getAllMusicList(){
+  _getAllMusicList() {
     DioUtils.instance.requestNetwork<GetAllMusic>(
-        Method.get,
-        Api.GETAllMUSICLIST,
+        Method.get, Api.GETAllMUSICLIST,
         queryParameters: {"pageSize": 1, "pageNumber": 1},
-        isList: true,
-        onSuccessList: (data) {
-          setState(() {
-            GetAllMusicList = data;
-          });
-
-        },
-        onError: (code, msg) {
-          Toast.show('请求失败！');
-        });
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        GetAllMusicList = data;
+      });
+    }, onError: (code, msg) {
+      Toast.show('请求失败！');
+    });
   }
 
   @override
@@ -82,7 +69,7 @@ class _MusicPageState extends State<MusicPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Router.pushNoParams(context, Router.musicSortPage);
                 },
                 child: Container(
@@ -124,9 +111,9 @@ class _MusicPageState extends State<MusicPage> {
                         //纵轴间距
                         mainAxisSpacing: 10.0,
                         //横轴间距
-                        crossAxisSpacing: 5.0,
+                        crossAxisSpacing: 0.0,
                         //子组件宽高长度比例
-                        childAspectRatio: 0.8),
+                        ),
                     itemBuilder: (BuildContext context, int index) {
                       //Widget Function(BuildContext context, int index)
                       return getItemContainer(index);
@@ -139,18 +126,21 @@ class _MusicPageState extends State<MusicPage> {
 
   getItemContainer(int index) {
     return Container(
+      width: double.infinity,
       child: GestureDetector(
         onTap: () {
-          Router.push(context, Router.musicListPage,GetAllMusicList[index].id);
+          Router.push(context, Router.musicListPage, GetAllMusicList[index].id);
         },
         child: Column(
           children: <Widget>[
             Expanded(
+                child: AspectRatio(
+              aspectRatio: 1.0,
               child: Image.network(
                 GetAllMusicList[index].image,
                 fit: BoxFit.fill,
               ),
-            ),
+            )),
             SizedBox(
               height: 5,
             ),

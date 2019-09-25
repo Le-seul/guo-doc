@@ -5,22 +5,34 @@ class WebViewPage extends StatelessWidget {
   final String url;
   final dynamic params;
   static final String TITLE = 'title';
-
+  WebViewController _webViewController;
   WebViewPage(this.url, {Key key, this.params}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(params[TITLE]),
-          backgroundColor: Colors.green,
-          centerTitle: true,
-        ),
-      body: WebView(
-        onWebViewCreated: (WebViewController webViewController) {},
-        initialUrl: url,
-        javascriptMode: JavascriptMode.unrestricted,
-      )
-    ) ;
+    return WillPopScope(
+        onWillPop: () {
+          Future<bool> canGoBack = _webViewController.canGoBack();
+          canGoBack.then((str) {
+            if (str) {
+              _webViewController.goBack();
+            } else {
+              Navigator.of(context).pop();
+            }
+          });
+        },
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(params[TITLE]),
+              backgroundColor: Colors.green,
+              centerTitle: true,
+            ),
+            body: WebView(
+              onWebViewCreated: (WebViewController webViewController) {
+                _webViewController = webViewController;
+              },
+              initialUrl: url,
+              javascriptMode: JavascriptMode.unrestricted,
+            )));
   }
 }

@@ -13,6 +13,8 @@ import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/togetheread.dart';
+import 'package:flutter_first/bean/user_entity.dart';
+import 'package:flutter_first/common/common.dart';
 
 
 class EntityFactory {
@@ -53,6 +55,10 @@ class EntityFactory {
       return CoreadingDetail.fromJson(json) as T;
     }else if (T.toString() == "PsyDailyTest") {
       return PsyDailyTest.fromJson(json) as T;
+    }else if (T.toString() == "Token") {
+      return Token.fromJson(json) as T;
+    }else if (T.toString() == "User") {
+      return User.fromJson(json) as T;
     }else {
       return null;
     }

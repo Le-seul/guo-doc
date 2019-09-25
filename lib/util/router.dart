@@ -12,14 +12,14 @@ import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.d
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/CoreadingCoursePage.dart';
 import 'package:flutter_first/pages/home/home_widgets/SimpleCoreading.dart';
-import 'package:flutter_first/pages/home/home_widgets/course/catalogDetail.dart';
-import 'package:flutter_first/pages/home/home_widgets/course/curriculumCatalogPage1.dart';
-import 'package:flutter_first/pages/home/home_widgets/course/curriculumpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage1.dart';
+import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage2.dart';
+import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Forth.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Second.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Third.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/myselfpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/relativespage.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
@@ -49,7 +49,7 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
-  static const serviceActivity = 'app://ServiceActivity';
+static const serviceActivity = 'app://ServiceActivity';
   static const serviceActivityPage = 'app://ServiceActivityPagey';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
@@ -76,6 +76,7 @@ class Router {
   static const relatives = 'app://Relatives';
   static const reporylist = 'app://reporylist';
   static const bodyreport = 'app://bodyreport';
+  static const goodListPage = 'app://GoodListPage';
   static const catalogdetail = 'app://catalogdetail';
 
   Widget _getPage(String url, dynamic params) {
@@ -99,6 +100,8 @@ class Router {
           return CatalogDetail(Detail : params['Detail']);
         case loginPage:
           return LoginPage();
+        case smsLogin:
+          return SMSLogin(user: params,);
         case containerPage:
           return ContainerPage();
         case psychologicalServiceCenterPage:
@@ -157,14 +160,16 @@ class Router {
           return MusicListPage(musicListId: params,);
         case playingPage:
           return PlayingPage(songId: params,);
+        case goodListPage:
+          return GoodListPage();
       }
     }
     return null;
   }
 
-  Router.pushReplacementNamed(BuildContext context, String url){
+  Router.pushReplacementNamed(BuildContext context, String url, dynamic params){
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return _getPage(url, null);
+      return _getPage(url, params);
     }));
   }
 

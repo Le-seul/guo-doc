@@ -1,5 +1,8 @@
 
 import 'dart:convert';
+import 'dart:io';
+import 'package:flustars/flustars.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_first/util/log_utils.dart';
@@ -11,7 +14,7 @@ import 'entity_factory.dart';
 import 'error_handle.dart';
 import 'intercept.dart';
 
-/// @weilu https://github.com/simplezhli
+
 class DioUtils {
 
   static final DioUtils _singleton = DioUtils._internal();
@@ -129,7 +132,8 @@ class DioUtils {
   }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
-  requestNetwork<T>(Method method, String url, {Function(T t) onSuccess,Function() onParseError, Function(List<T> list) onSuccessList, Function(int code, String mag) onError,
+  requestNetwork<T>(Method method, String url, {Function(T t) onSuccess,Function() onParseError,Function() noExistError,
+    Function() mismatchingError,Function() expiredError,Function(List<T> list) onSuccessList, Function(int code, String mag) onError,
     Map<String, dynamic> params, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options, bool isList : false}){
     String m;
     switch(method){
@@ -156,6 +160,12 @@ class DioUtils {
       if (result.statusCode == 1){
         if(result.customCode == 0){
           onParseError();
+        }else if(result.customCode == -1){
+          noExistError();
+        }else if(result.customCode == -2){
+          mismatchingError();
+        }else if(result.customCode == -3){
+          expiredError();
         }else{
           isList ? onSuccessList(result.obj) : onSuccess(result.obj);
         }

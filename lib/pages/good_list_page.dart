@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/mock_request.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 
 //商品列表页面
@@ -79,6 +82,7 @@ class _GoodListPageState extends State<GoodListPage> {
                     ),
                     new RaisedButton(
                       onPressed: () {
+                        exite();
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             "/login", (Route<dynamic> route) => false);
                       },
@@ -93,82 +97,8 @@ class _GoodListPageState extends State<GoodListPage> {
           ),
         )));
   }
-}
-
-//详细界面
-class DetailPage extends StatefulWidget {
-  @override
-  _DetailPageState createState() => _DetailPageState();
-}
-
-class _DetailPageState extends State<DetailPage> {
-  @override
-  Widget build(BuildContext context) {
-    MyDialog.showMyMaterialDialog(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('详情页'),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: SafeArea(
-        child: new Container(
-          child: new Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              new Text("详细界面"),
-              new RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/goodList");
-                },
-                child: new Text("点击再跳转"),
-              ),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyMaterialDialog(context);
-                  },
-                  child: new Text("显示SimpleDialog,Material风格")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyMaterialDialog(context);
-                  },
-                  child: new Text("显示AlertDialog,Material风格")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyCupertinoDialog(context);
-                  },
-                  child: new Text("显示AlertDialog,IOS风格")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyDialogWithValue(context);
-                  },
-                  child: new Text("显示一个有返回值的对话框")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyDialogWithColumn(context);
-                  },
-                  child: new Text("显示一个SingleChildScrollView+Column的对话框")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyDialogWithListView(context);
-                  },
-                  child: new Text("显示一个ListView的对话框")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyDialogWithStateBuilder(context);
-                  },
-                  child: new Text("显示一个StatefulBuilder的对话框")),
-              new RaisedButton(
-                  onPressed: () {
-                    MyDialog.showMyCustomLoadingDialog(context);
-                  },
-                  child: new Text("显示一个自定义的对话框")),
-            ],
-          ),
-        ),
-      ),
-    );
+  static exite() async {
+    await StorageManager.sharedPreferences.setString(Constant.access_Token, '');
   }
 }
 
@@ -205,9 +135,7 @@ class NotFoundPage extends StatelessWidget {
   _buildItem1(int index) {
     return Slider(
       onChanged: (newValue) {
-
       },
       value:  0.5,);
-
   }
 }
