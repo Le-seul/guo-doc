@@ -104,7 +104,6 @@ class _LoginPageState extends State<LoginPage> {
     var bytes2 = utf8.encode(_passwordController.text);
     var identityNum = sha1.convert(bytes1);
     var policeNum = sha1.convert(bytes2);
-    Toast.show('加密身份证号：$identityNum\n加密警号：$policeNum');
 
     DioUtils.instance.requestNetwork<User>(
         Method.post,
@@ -126,7 +125,6 @@ class _LoginPageState extends State<LoginPage> {
         noExistError: (){
           setState(() {
             Toast.show('用户不存在!');
-            Router.pushNoParams(context, Router.smsLogin);
           });
         }
     );

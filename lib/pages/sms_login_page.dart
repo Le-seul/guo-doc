@@ -118,10 +118,9 @@ class _SMSLoginState extends State<SMSLogin> {
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Container(
                   height: 26.0,
-                  width: 76.0,
+                  width: 85.0,
                   child: FlatButton(
                     onPressed: _isClick ?(){
-                      Toast.show('userid：${widget.user.userId}'+'手机号：${_phoneController.text}');
                       _sendVerificationCode();
 
                     }: null,
@@ -191,7 +190,6 @@ class _SMSLoginState extends State<SMSLogin> {
       'verificationCode': _vCodeController.text,
     }, onSuccess: (data) {
       setState(() {
-        Toast.show('验证成功!');
         tokenData = data;
         Dio dio = DioUtils.instance.getDio();
         dio.lock();

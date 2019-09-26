@@ -6,7 +6,7 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/container_page.dart';
-import 'package:flutter_first/pages/good_list_page.dart';
+import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/EatingPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
@@ -52,7 +52,7 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
-static const serviceActivity = 'app://ServiceActivity';
+  static const serviceActivity = 'app://ServiceActivity';
   static const serviceActivityPage = 'app://ServiceActivityPagey';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
@@ -80,7 +80,7 @@ static const serviceActivity = 'app://ServiceActivity';
   static const relatives = 'app://Relatives';
   static const reporylist = 'app://reporylist';
   static const bodyreport = 'app://bodyreport';
-  static const goodListPage = 'app://GoodListPage';
+  static const exitLoginPage = 'app://ExitLoginPage';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -163,8 +163,8 @@ static const serviceActivity = 'app://ServiceActivity';
           return MusicListPage(musicListId: params,);
         case playingPage:
           return PlayingPage(songId: params,);
-        case goodListPage:
-          return GoodListPage();
+        case exitLoginPage:
+          return ExitLoginPage();
       }
     }
     return null;

@@ -9,7 +9,7 @@ import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:oktoast/oktoast.dart';
-import 'pages/good_list_page.dart';
+import 'pages/exit_login_page.dart';
 
 import 'package:jpush_flutter/jpush_flutter.dart';
 
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp>{
           //debugShowCheckedModeBanner: false,
           home: Scaffold(
             body: new Center(
-                child: (token == null||token == '')?LoginPage():ContainerPage(),
+                child: (token == null || token == '') ? LoginPage():ContainerPage(),
             ),
           ),
           theme: new ThemeData(

@@ -2,12 +2,11 @@ class User {
 	String userName;
 	String userId;
 
-	User({ this.userName});
+	User({ this.userName,this.userId});
 
 	User.fromJson(Map<String, dynamic> json) {
 		userName = json['userName'];
 		userId = json['userId'];
-
 	}
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();

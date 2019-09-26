@@ -565,7 +565,7 @@ class MinePage extends StatelessWidget {
                         style: TextStyle(fontSize: 16),
                       ),
                       onTap: (){
-                        Router.pushNoParams(context, Router.goodListPage);
+                        Router.pushNoParams(context, Router.exitLoginPage);
                       },
                     ),
                   ),
