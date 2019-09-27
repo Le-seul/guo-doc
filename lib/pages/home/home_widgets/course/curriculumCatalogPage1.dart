@@ -5,6 +5,7 @@ import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -338,7 +339,9 @@ class _CatalogState extends State<Catalog> {
                       ],
                     ),
                   ),
-                  onTap: (){},
+                  onTap: (){
+                    Router.push(context, Router.catalogdetail, {'Detail':psycoursecateloglist[index].detailDesc});
+                  },
                 );
               } ,
             ),
