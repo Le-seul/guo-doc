@@ -2,13 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
-import 'package:flutter_first/event/login_event.dart';
-import 'package:flutter_first/net/mock_request.dart';
-import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/pages/login_page.dart';
-import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:flutter_first/util/toast.dart';
+
 
 //商品列表页面
 class ExitLoginPage extends StatefulWidget {

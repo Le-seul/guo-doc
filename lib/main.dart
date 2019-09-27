@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp>{
 
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
     SchedulerBinding.instance.addPostFrameCallback((_) => {
-      jpush.setup(appKey: "29b0c3835843e02814ff021a" ,channel: 'developer-default'),
+      jpush.setup(appKey: "565a2f927e82c11287326979" ,channel: 'developer-default'),
         // 监听jpush
       jpush.addEventHandler(
         onReceiveNotification: (Map<String, dynamic> message) async {
