@@ -13,14 +13,14 @@ import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.d
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalTestPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/CoreadingCoursePage.dart';
 import 'package:flutter_first/pages/home/home_widgets/SimpleCoreading.dart';
-import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage1.dart';
-import 'package:flutter_first/pages/home/home_widgets/curriculumCatalogPage2.dart';
-import 'package:flutter_first/pages/home/home_widgets/curriculumpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/catalogDetail.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/curriculumCatalogPage1.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/curriculumpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Forth.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Second.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Third.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/myselfpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/relativespage.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
@@ -81,6 +81,7 @@ class Router {
   static const reporylist = 'app://reporylist';
   static const bodyreport = 'app://bodyreport';
   static const exitLoginPage = 'app://ExitLoginPage';
+  static const catalogdetail = 'app://catalogdetail';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -119,6 +120,8 @@ class Router {
           return Myself();
         case relatives:
           return Relatives();
+        case catalogdetail:
+          return CatalogDetail(Detail: params,);
         case test0:
           return Test0();
         case test1:
@@ -127,12 +130,8 @@ class Router {
           return Test2();
         case test3:
           return Test3();
-        case curriculum:
-          return Curriculum();
         case curriculumcatalog1:
           return CurriculumCatalog1();
-        case curriculumcatalog2:
-          return CurriculumCatalog2();
         case healthyconsultation:
           return Healthyconsultation();
         case psychologicalTest:
