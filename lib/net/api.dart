@@ -7,7 +7,6 @@ class Api{
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
-
   //获取服务中心列表
   static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";
   //创建心理咨询订单
@@ -44,4 +43,6 @@ class Api{
   static const String SENDVCODE = "/api/login.do?sendVerificationCode";
   //验证验证码
   static const String CHECKVCODE = "/api/login.do?checkVerificationCode";
+  //上传极光RegistrationID
+  static const String UPDATEREGISTRATIONID = "/api/push.do?saveOrUpdateRegistrationID";
 }

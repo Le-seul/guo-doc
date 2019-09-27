@@ -6,8 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -23,7 +25,11 @@ import '../../net/api.dart';
 import '../../net/dio_utils.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+
+
+
+  HomePage({Key key,})
+      : super(key: key);
 
   _HomePageState createState() => _HomePageState();
 }
@@ -32,7 +38,7 @@ class _HomePageState extends State<HomePage> {
 //  static String tu0;
 //  static String tu1;
 //  static String tu2;
-
+  String registrationID;
   List<BannerModel> testList;
   List<BannerImage> bannerlist;
   List<ConsulationColumnsInfo> columnsInfoList = List();
@@ -42,8 +48,30 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   void initState() {
+    _UpdateRegistrationID();
     _requestBanner();
     _getColumnsInfo();
+  }
+
+  void _UpdateRegistrationID() async{
+    registrationID = await StorageManager.sharedPreferences.getString(Constant.registrationID);
+    print('极光id：$registrationID');
+    if(registrationID!=null){
+      DioUtils.instance.requestNetwork<String>(
+          Method.post, Api.UPDATEREGISTRATIONID,
+          queryParameters: {
+            'deviceType': "android",
+            'registrationID': registrationID,
+          }, onSuccess: (data) {
+        setState(() {
+          print('上传registrationID成功!');
+        });
+      }, onError: (code, msg) {
+        setState(() {
+          print('上传registrationID失败!');
+        });
+      });
+    }
   }
 
   void _getColumnsInfo() {

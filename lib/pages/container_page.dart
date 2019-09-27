@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_page.dart';
 
 import 'package:flutter_first/pages/home/home_page.dart';
 import 'package:flutter_first/pages/mine/mine_page.dart';
 import 'package:flutter_first/pages/selfhelp/selfhelp_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/storage_manager.dart';
+import 'package:flutter_first/util/toast.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 
 import 'service/service_page.dart';
 
@@ -47,7 +55,31 @@ class _ContainerPageState extends State<ContainerPage> {
   void initState() {
     super.initState();
     print('initState _ContainerPageState');
-    if(pages == null){
+    JPush jpush = StorageManager.jpush;
+    SchedulerBinding.instance.addPostFrameCallback((_) => {
+          jpush.getRegistrationID().then((rid) {
+            setState(() {
+              print("获取注册的id:$rid");
+              saveRegistrationID(rid);
+            });
+
+          }),
+          jpush.setup(
+              appKey: "565a2f927e82c11287326979", channel: 'developer-default'),
+          // 监听jpush
+          jpush.addEventHandler(
+            onReceiveNotification: (Map<String, dynamic> message) async {
+              print("flutter 接收到推送: $message");
+            },
+            onOpenNotification: (Map<String, dynamic> message) {
+              // 点击通知栏消息，在此时通常可以做一些页面跳转等v
+              Toast.show('点击通知');
+              Router.pushNoParams(context, Router.sleepRecordsPage);
+            },
+          ),
+        });
+
+    if (pages == null) {
       pages = [
         HomePage(),
         ConsultationPage(),
@@ -56,24 +88,30 @@ class _ContainerPageState extends State<ContainerPage> {
         MinePage()
       ];
     }
-    if(itemList == null){
+    if (itemList == null) {
       itemList = itemNames
           .map((item) => BottomNavigationBarItem(
-          icon: loadAssetImage(
-            item.normalIcon,
-            width: 22.0,
-            height: 22.0,
-          ),
-          title: Text(
-            item.name,
-            style: TextStyle(fontSize: 10.0),
-          ),
-          activeIcon:
-          loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
+              icon: loadAssetImage(
+                item.normalIcon,
+                width: 22.0,
+                height: 22.0,
+              ),
+              title: Text(
+                item.name,
+                style: TextStyle(fontSize: 10.0),
+              ),
+              activeIcon:
+                  loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
           .toList();
     }
+
   }
+
   int _selectIndex = 0;
+
+  static saveRegistrationID(String registrationID) async {
+    StorageManager.sharedPreferences.setString(Constant.registrationID,registrationID);
+  }
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题
   Widget _getPagesWidget(int index) {
@@ -85,6 +123,7 @@ class _ContainerPageState extends State<ContainerPage> {
       ),
     );
   }
+
 
 
   @override

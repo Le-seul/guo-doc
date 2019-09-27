@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp>{
-  JPush jpush = new JPush();
+
   String token;
 
   final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
@@ -42,20 +42,7 @@ class _MyAppState extends State<MyApp>{
 //    });
 
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
-    SchedulerBinding.instance.addPostFrameCallback((_) => {
-      jpush.setup(appKey: "565a2f927e82c11287326979" ,channel: 'developer-default'),
-        // 监听jpush
-      jpush.addEventHandler(
-        onReceiveNotification: (Map<String, dynamic> message) async {
-          print("flutter 接收到推送: $message");
-        },
-        onOpenNotification: (Map<String, dynamic> message) {
-        // 点击通知栏消息，在此时通常可以做一些页面跳转等v
-          Toast.show('点击通知');
-          Router.pushNoParams(context, Router.sleepRecordsPage);
-        },
-      ),
-    });
+
   }
 
   @override
