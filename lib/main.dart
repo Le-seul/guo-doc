@@ -9,7 +9,7 @@ import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:oktoast/oktoast.dart';
-import 'pages/good_list_page.dart';
+import 'pages/exit_login_page.dart';
 
 import 'package:jpush_flutter/jpush_flutter.dart';
 
@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp>{
-  JPush jpush = new JPush();
+
   String token;
 
   final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
@@ -42,20 +42,7 @@ class _MyAppState extends State<MyApp>{
 //    });
 
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
-    SchedulerBinding.instance.addPostFrameCallback((_) => {
-      jpush.setup(appKey: "29b0c3835843e02814ff021a" ,channel: 'developer-default'),
-        // 监听jpush
-      jpush.addEventHandler(
-        onReceiveNotification: (Map<String, dynamic> message) async {
-          print("flutter 接收到推送: $message");
-        },
-        onOpenNotification: (Map<String, dynamic> message) {
-        // 点击通知栏消息，在此时通常可以做一些页面跳转等v
-          Toast.show('点击通知');
-          Router.pushNoParams(context, Router.sleepRecordsPage);
-        },
-      ),
-    });
+
   }
 
   @override
@@ -85,7 +72,7 @@ class _MyAppState extends State<MyApp>{
           //debugShowCheckedModeBanner: false,
           home: Scaffold(
             body: new Center(
-                child: (token == null||token == '')?LoginPage():ContainerPage(),
+                child: (token == null || token == '') ? LoginPage():ContainerPage(),
             ),
           ),
           theme: new ThemeData(

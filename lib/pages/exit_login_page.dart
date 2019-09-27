@@ -2,41 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
-import 'package:flutter_first/event/login_event.dart';
-import 'package:flutter_first/net/mock_request.dart';
-import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/pages/login_page.dart';
-import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:flutter_first/util/toast.dart';
+
 
 //商品列表页面
-class GoodListPage extends StatefulWidget {
-  _GoodListPageState createState() => _GoodListPageState();
+class ExitLoginPage extends StatefulWidget {
+  _ExitLoginPageState createState() => _ExitLoginPageState();
 }
 
-class _GoodListPageState extends State<GoodListPage> {
-  String ad;
+class _ExitLoginPageState extends State<ExitLoginPage> {
+
 
   @override
   void initState() {
     super.initState();
     //获取商品数据
-  }
-
-  List<Container> _buildGridTitleList(int count) {
-    return new List<Container>.generate(
-        count,
-        (int index) => new Container(
-              child: new Image.asset('assets/images/${index + 1}.jpeg'),
-            ));
-  }
-
-  void getMock() async {
-    var result = await MockRequest.get('douban');
-    var abd = result['subjects'];
-    ad = abd.toString();
-    Toast.show(ad);
   }
 
   @override
@@ -57,30 +37,6 @@ class _GoodListPageState extends State<GoodListPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     new RaisedButton(
-                      child: new Text("网络请求强制退出"),
-                      onPressed: () {
-                        DioUtils.instance.requestNetwork<String>(
-                          Method.get,
-                          "/signController/sign",
-                          queryParameters: {"deviceType": 3, "userId": 15},
-                          onSuccess: (data) {
-                            setState(() {
-                              ad = "你好";
-                              Toast.show("这是一个Toast", duration: 2000);
-                            });
-                          },
-                          onError: (code, msg) {
-                            setState(() {
-                              ad = msg;
-                              Toast.show("强制退出");
-                            });
-                          },
-                        );
-
-//                        getMock();
-                      },
-                    ),
-                    new RaisedButton(
                       onPressed: () {
                         exite();
                         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -88,7 +44,6 @@ class _GoodListPageState extends State<GoodListPage> {
                       },
                       child: new Text("点击退出登录"),
                     ),
-                    new Text(ad == null ? "" : ad),
                   ],
                 ),
               );

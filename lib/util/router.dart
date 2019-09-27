@@ -6,7 +6,7 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/container_page.dart';
-import 'package:flutter_first/pages/good_list_page.dart';
+import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/EatingPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/ImagesPage.dart';
 import 'package:flutter_first/pages/home/home_widgets/PsychologicalConcultPage.dart';
@@ -21,7 +21,6 @@ import 'package:flutter_first/pages/home/home_widgets/everydaytest/Second.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/Third.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/myselfpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/relativespage.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
@@ -45,6 +44,7 @@ import 'package:flutter_first/util/web_view_page.dart';
 class Router {
   static const loginPage = 'app://LoginPage';
   static const containerPage = 'app://ContainerPage';
+  static const smsLogin = 'app://SMSLogin';
   static const psychologicalServiceCenterPage = 'app://PsychologicalServiceCenterPage';
   static const consulationDetailPage = 'app://ConsulationDetailPage';
   static const imagesPage = 'app://ImagesPage';
@@ -52,7 +52,7 @@ class Router {
   static const eating = 'app://eating';
   static const healthyconsultation = 'app://Healthyconsultation';
   static const psychologicalTest = 'app://PsychologicalTest';
-static const serviceActivity = 'app://ServiceActivity';
+  static const serviceActivity = 'app://ServiceActivity';
   static const serviceActivityPage = 'app://ServiceActivityPagey';
   static const serviceActivity2 = 'app://ServiceActivity2';
   static const dietrecordsPage = 'app://DietrecordsPage';
@@ -68,6 +68,7 @@ static const serviceActivity = 'app://ServiceActivity';
   static const musicListPage = 'app://MusicListPage';
   static const playingPage = 'app://PlayingPage';
   static const curriculumcatalog1 = 'app://CurriculumCatalog1';
+  static const curriculumcatalog2 = 'app://CurriculumCatalog2';
   static const test0 = 'app://test0';
   static const test1 = 'app://test1';
   static const test2 = 'app://test2';
@@ -79,9 +80,8 @@ static const serviceActivity = 'app://ServiceActivity';
   static const relatives = 'app://Relatives';
   static const reporylist = 'app://reporylist';
   static const bodyreport = 'app://bodyreport';
-  static const goodListPage = 'app://GoodListPage';
+  static const exitLoginPage = 'app://ExitLoginPage';
   static const catalogdetail = 'app://catalogdetail';
-  static const smsLogin = 'app://smsLogin';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -100,8 +100,6 @@ static const serviceActivity = 'app://ServiceActivity';
           return SimpleCoreading();
         case simplereading:
           return SimpleReading();//简单共读
-        case catalogdetail:
-          return CatalogDetail(Detail : params['Detail']);
         case loginPage:
           return LoginPage();
         case smsLogin:
@@ -122,6 +120,8 @@ static const serviceActivity = 'app://ServiceActivity';
           return Myself();
         case relatives:
           return Relatives();
+        case catalogdetail:
+          return CatalogDetail(Detail: params,);
         case test0:
           return Test0();
         case test1:
@@ -130,8 +130,6 @@ static const serviceActivity = 'app://ServiceActivity';
           return Test2();
         case test3:
           return Test3();
-        case curriculum:
-          return Curriculum();
         case curriculumcatalog1:
           return CurriculumCatalog1();
         case healthyconsultation:
@@ -164,8 +162,8 @@ static const serviceActivity = 'app://ServiceActivity';
           return MusicListPage(musicListId: params,);
         case playingPage:
           return PlayingPage(songId: params,);
-        case goodListPage:
-          return GoodListPage();
+        case exitLoginPage:
+          return ExitLoginPage();
       }
     }
     return null;
