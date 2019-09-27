@@ -126,7 +126,6 @@ class _LoginPageState extends State<LoginPage> {
         noExistError: (){
           setState(() {
             Toast.show('用户不存在!');
-            Router.pushNoParams(context, Router.smsLogin);
           });
         }
     );

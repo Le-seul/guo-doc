@@ -13,7 +13,7 @@ class AuthInterceptor extends Interceptor{
   @override
   onRequest(RequestOptions options) async{
     String accessToken = await StorageManager.sharedPreferences.getString(Constant.access_Token);
-      if (accessToken.isNotEmpty) {
+      if (accessToken!=null||accessToken!="") {
         options.headers["token"] = accessToken;
       }
     return super.onRequest(options);

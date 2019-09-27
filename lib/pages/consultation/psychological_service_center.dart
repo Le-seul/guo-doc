@@ -50,7 +50,6 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Container(
-
       child: containerBody(),
     );
   }
@@ -66,17 +65,25 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
         centerTitle: true,
       ),
       body: Container(
-        color: const Color.fromARGB(255, 247, 247, 247),
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          slivers: <Widget>[
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    ((BuildContext context, int index) {
-                      return getCommonItem(list, index);
-                    }), childCount: list.length)),
-          ],
+        color: Colors.black12,
+        child: Container(
+          margin: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: const Color.fromARGB(255, 247, 247, 247),
+          ),
+
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            slivers: <Widget>[
+              SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      ((BuildContext context, int index) {
+                        return getCommonItem(list, index);
+                      }), childCount: list.length)),
+            ],
+          ),
         ),
       )
     );
@@ -88,7 +95,10 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
     return GestureDetector(
       child: Container(
           height: 60,
-          color: Colors.white,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.white,
+          ),
           margin: const EdgeInsets.only(bottom: 5.0),
           padding: const EdgeInsets.only(
               left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),

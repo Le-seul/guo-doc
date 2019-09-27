@@ -210,25 +210,13 @@ class _ChildPageState extends State<ChildPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Icon(
-                                Icons.remove_red_eye,
-                                color: Colors.grey,
-                                size: 15,
-                              ),
+                              Image.asset('assets/images/consultation/查看.png',height: 10,),
                               Text('${item.readCount}'),
                               Gaps.hGap8,
-                              Icon(
-                                Icons.thumb_up,
-                                color: Colors.grey,
-                                size: 15,
-                              ),
+                              Image.asset('assets/images/consultation/点赞.png',height: 12,),
                               Text('${item.likeCount}'),
                               Gaps.hGap8,
-                              Icon(
-                                Icons.share,
-                                color: Colors.grey,
-                                size: 15,
-                              ),
+                              Image.asset('assets/images/consultation/分享.png',height: 12,),
                               Text('${item.transmitCount}'),
                             ],
                           ),
