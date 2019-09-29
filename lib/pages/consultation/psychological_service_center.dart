@@ -70,7 +70,7 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
           margin: EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            color: const Color.fromARGB(255, 247, 247, 247),
+            color: Colors.white
           ),
 
           child: CustomScrollView(
@@ -93,43 +93,44 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
     ServiceCenter item = items[index];
     bool showThree = (index+1) % 4 == 0;
     return GestureDetector(
-      child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            color: Colors.white,
-          ),
-          margin: const EdgeInsets.only(bottom: 5.0),
-          padding: const EdgeInsets.only(
-              left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: <Widget>[
-              Image.asset('assets/images/police.jpg',
-                height: 60,
-                fit: BoxFit.fitHeight,
-              ),
-              Expanded(
-                child:Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Align(
-                    child:  Text(
-                      item.name,
-                      softWrap: false,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 17),
-                    ),
-                    alignment: Alignment.centerLeft,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(width: 10,),
+                  Image.asset('assets/images/consultation/定位.png',
+                    height: 25,
+                    fit: BoxFit.fitHeight,
                   ),
-                )
+                  Expanded(
+                      child:Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: Align(
+                          child:  Text(
+                            item.name,
+                            softWrap: false,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 17),
+                          ),
+                          alignment: Alignment.centerLeft,
+                        ),
+                      )
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.chevron_right),
+                  )
+                ],
               ),
-              IconButton(
-                icon: Icon(Icons.chevron_right),
+              Container(
+                height: 1,
+                width: 300,
+                color: Colors.black12,
               )
             ],
           )
-      ) ,
+       ,
       onTap: () {
         Router.push(context, 'https://baike.sogou.com/v63254446.htm?fromTitle=%E8%AD%A6%E5%AF%9F%E5%BF%83%E7%90%86%E5%81%A5%E5%BA%B7%E5%8F%8A%E5%85%B6%E7%BB%B4%E6%8A%A4', {'title': '民警心理健康'});
       },

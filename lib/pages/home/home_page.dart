@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 
   void _UpdateRegistrationID() async{
     registrationID = await StorageManager.sharedPreferences.getString(Constant.registrationID);
-    print('极光id：$registrationID');
+    print('极光 id：$registrationID');
     if(registrationID!=null){
       DioUtils.instance.requestNetwork<String>(
           Method.post, Api.UPDATEREGISTRATIONID,
