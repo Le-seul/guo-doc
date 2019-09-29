@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               maxLength: 18,
               hintText: "请输入身份证号",
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 40,),
             MyTextField(
               focusNode: _nodeText2,
               config: _buildConfig(context),
@@ -87,13 +87,20 @@ class _LoginPageState extends State<LoginPage> {
               maxLength: 16,
               hintText: "请输入警号(民警输入)",
             ),
-            SizedBox(height: 25,),
-            FlatButton(
-                onPressed: (){
-                  _userAuthCheck();
-                },
-                color: Colors.blue,
-                child: Text('下一步',style: TextStyle(color: Colors.white),))
+            SizedBox(height: 40,),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.green, borderRadius: BorderRadius.circular(26)),
+              child: FlatButton(
+                  onPressed: () {
+                    _userAuthCheck();
+                  },
+                  child: Text(
+                    '下一步',
+                    style: TextStyle(color: Colors.white,fontSize: 20),
+                  )),
+            )
           ],
         ),
 

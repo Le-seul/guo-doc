@@ -26,15 +26,14 @@ class SearchTextFieldWidget extends StatelessWidget {
         onTap: onTab,
         cursorColor: Color.fromARGB(255, 0, 189, 96),
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(top: 8.0),
+            contentPadding: const EdgeInsets.symmetric(vertical: 5.0),
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: TextStyle(
                 fontSize: 17, color: Color.fromARGB(255, 192, 191, 191)),
-            prefixIcon: Icon(
-              Icons.search,
-              size: 25,
-              color: Color.fromARGB(255, 128, 128, 128),
+            prefixIcon: Container(
+              padding: EdgeInsets.only(top: 5,bottom: 5),
+              child: loadAssetImage('search.png'),
             )),
         style: TextStyle(fontSize: 17),
       ),

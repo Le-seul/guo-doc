@@ -5,6 +5,7 @@ import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/splash_widget.dart';
+import 'package:flutter_first/util/config.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';

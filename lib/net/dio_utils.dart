@@ -5,6 +5,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_first/util/config.dart';
 import 'package:flutter_first/util/log_utils.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:rxdart/rxdart.dart';
@@ -43,7 +44,7 @@ class DioUtils {
 
 //      baseUrl: "http://10.128.244.149:8080/jeecg",
 //      baseUrl: "http://10.28.141.239:8080/jeecg",
-      baseUrl: 'http://ygyd.aireading.top/jeecg',
+      baseUrl: Config.apiHost,
 //    baseUrl: "http://10.128.252.164:8080/jeecg",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
