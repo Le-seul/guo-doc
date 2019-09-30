@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/bean/music_entity.dart';
-import 'package:flutter_first/music/player_page.dart';
+import 'package:flutter_first/bean/music.dart';
+import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
@@ -16,14 +16,12 @@ class MusicListPage extends StatefulWidget {
 
 class _MusicListPageState extends State<MusicListPage> {
 
-  final GlobalKey<PlayerState> musicPlayerKey = new GlobalKey();
-
-  List<MusicList> musicList = List();
+  List<Music> musicList = List();
 
 
   @override
   void initState() {
-    DioUtils.instance.requestNetwork<MusicList>(
+    DioUtils.instance.requestNetwork<Music>(
         Method.get,
         Api.GETMUSICLIST,
         queryParameters: {"musicListId": widget.musicListId},
@@ -55,23 +53,13 @@ class _MusicListPageState extends State<MusicListPage> {
         shrinkWrap: true,
         itemCount: musicList.length,
         itemBuilder: (context, index) => _buildItem(index),),
-//      bottomSheet: Container(
-//        child: Player(
-//          onPrevious: () {},
-//          onNext: () {},
-//          onCompleted: () {},
-//          onPlaying: (isPlaying) {
-//          },
-//          key: musicPlayerKey,
-//          audioUrl: 'http://music.163.com/song/media/outer/url?id=451703096.mp3',
-//        ),
-//      ),
     );
   }
   _buildItem(index){
     return GestureDetector(
       onTap: (){
-        Router.push(context,Router.playingPage,musicList[index].id);
+        Router.push(context,Router.playingPage,musicList[index]);
+        quiet.playWithList(musicList[index], musicList, 'playlist');
       },
       child:Container(
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),

@@ -31,6 +31,10 @@ class Music {
     state = json['state'];
     order = json['order'];
   }
+
+  @override
+  int get hashCode => id.hashCode;
+
   static Music fromMap(Map map) {
     if (map == null) {
       return null;

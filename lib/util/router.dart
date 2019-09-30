@@ -161,7 +161,7 @@ class Router {
         case musicListPage:
           return MusicListPage(musicListId: params,);
         case playingPage:
-          return PlayingPage(songId: params,);
+          return PlayingPage(music: params,);
         case exitLoginPage:
           return ExitLoginPage();
       }

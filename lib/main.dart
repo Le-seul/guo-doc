@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/music/lryic.dart';
+import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
-import 'package:flutter_first/pages/splash_widget.dart';
-import 'package:flutter_first/util/config.dart';
-import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:flutter_first/util/toast.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'pages/exit_login_page.dart';
 
-import 'package:jpush_flutter/jpush_flutter.dart';
-
-void main() async{
+void main() async {
   await StorageManager.init();
   runApp(MyApp());
 }
@@ -29,8 +25,9 @@ class MyApp extends StatefulWidget {
   }
 }
 
-class _MyAppState extends State<MyApp>{
+class _MyAppState extends State<MyApp> {
 
+  final model = PlayingLyric(quiet);
   String token;
 
   final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
@@ -55,38 +52,42 @@ class _MyAppState extends State<MyApp>{
   Widget build(BuildContext context) {
 
     return OKToast(
-        child: MaterialApp(
-          //定义路由
-          //没有路由可以进行匹配的时候
-          debugShowCheckedModeBanner: false,
-          onUnknownRoute: (RouteSettings setting) {
-            String name = setting.name;
-            print("onUnknownRoute:$name");
-            return new MaterialPageRoute(builder: (context) {
-              return new NotFoundPage();
-            });
-          },
-          routes:  <String, WidgetBuilder> {
-          '/login': (BuildContext context) => new LoginPage(),
-        },
-          title: 'Dio请求',
-          //debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            body: new Center(
-                child: (token == null || token == '') ? LoginPage():ContainerPage(),
-            ),
-          ),
-          theme: new ThemeData(
-              platform: TargetPlatform.iOS,
-             ),
-
-        ),
+        child: ScopedModel<PlayingLyric>(
+            model: model,
+            child: Quiet(
+              child: MaterialApp(
+                //定义路由
+                //没有路由可以进行匹配的时候
+                debugShowCheckedModeBanner: false,
+                onUnknownRoute: (RouteSettings setting) {
+                  String name = setting.name;
+                  print("onUnknownRoute:$name");
+                  return new MaterialPageRoute(builder: (context) {
+                    return new NotFoundPage();
+                  });
+                },
+                routes: <String, WidgetBuilder>{
+                  '/login': (BuildContext context) => new LoginPage(),
+                },
+                title: 'Dio请求',
+                //debugShowCheckedModeBanner: false,
+                home: Scaffold(
+                  body: new Center(
+                    child: (token == null || token == '')
+                        ? LoginPage()
+                        : ContainerPage(),
+                  ),
+                ),
+                theme: new ThemeData(
+                  platform: TargetPlatform.iOS,
+                ),
+              ),
+            )),
         backgroundColor: Colors.black54,
-        textPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0, vertical: 10.0),
+        textPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         radius: 20.0,
         position: ToastPosition.bottom,
-        dismissOtherOnShow: true
-    );
+        dismissOtherOnShow: true);
   }
 }

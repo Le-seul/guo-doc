@@ -194,6 +194,7 @@ class _SMSLoginState extends State<SMSLogin> {
       'verificationCode': _vCodeController.text,
     }, onSuccess: (data) {
       setState(() {
+        Toast.show('验证成功!');
         tokenData = data;
         Dio dio = DioUtils.instance.getDio();
         dio.lock();
