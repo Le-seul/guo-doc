@@ -329,14 +329,28 @@ class _CenterSectionState extends State<_CenterSection> {
           },
           child: AlbumCover(music: widget.music),
         ),
-        secondChild: _CloudLyric(
-          music: widget.music,
-          onTap: () {
-            setState(() {
-              _showLyric = !_showLyric;
-            });
-          },
-        ),
+        secondChild: widget.music.lyric == null
+            ? GestureDetector(
+                child: Container(
+                  child: Text(
+                    '暂无歌词',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    _showLyric = !_showLyric;
+                  });
+                },
+              )
+            : _CloudLyric(
+                music: widget.music,
+                onTap: () {
+                  setState(() {
+                    _showLyric = !_showLyric;
+                  });
+                },
+              ),
       ),
     );
   }

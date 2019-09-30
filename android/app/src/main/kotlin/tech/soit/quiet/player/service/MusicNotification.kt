@@ -135,11 +135,11 @@ class MusicNotification {
     private fun NotificationCompat.Builder.buildStep2(music: Music, isFavorite: Boolean, isPlaying: Boolean): NotificationCompat.Builder {
         setContentTitle(music.getTitle())
 
-        if (isFavorite) {
-            addAction(R.drawable.ic_favorite_black_24dp, "收藏", buildPlaybackAction(0))
-        } else {
-            addAction(R.drawable.ic_favorite_border_black_24dp, "取消收藏", buildPlaybackAction(0))
-        }
+//        if (isFavorite) {
+//            addAction(R.drawable.ic_favorite_black_24dp, "收藏", buildPlaybackAction(0))
+//        } else {
+//            addAction(R.drawable.ic_favorite_border_black_24dp, "取消收藏", buildPlaybackAction(0))
+//        }
 
         addAction(R.drawable.ic_skip_previous_black_24dp, "上一首", buildPlaybackAction(1))
 
