@@ -29,6 +29,7 @@ import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/mine/Report/talk_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
@@ -82,6 +83,7 @@ class Router {
   static const bodyreport = 'app://bodyreport';
   static const exitLoginPage = 'app://ExitLoginPage';
   static const catalogdetail = 'app://catalogdetail';
+  static const talk = 'app://Talk';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -164,6 +166,8 @@ class Router {
           return PlayingPage(music: params,);
         case exitLoginPage:
           return ExitLoginPage();
+        case talk:
+          return TalkPage();
       }
     }
     return null;

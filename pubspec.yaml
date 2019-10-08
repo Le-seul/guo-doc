@@ -61,6 +61,7 @@ dependencies:
   keyboard_actions: ^2.1.1
   crypto: 2.1.3
   shared_preferences: 0.5.3+4
+  image_picker : ^0.6.1+4
 
 dev_dependencies:
   flutter_test:

@@ -305,7 +305,9 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Router.pushNoParams(context, Router.talk);
+            },
           ), //健康咨询
           SizedBox(
             height: 2,

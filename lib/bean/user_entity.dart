@@ -1,8 +1,10 @@
 class User {
-	String userName;
+	String userName = "张警官";
 	String userId;
+	String imageUrl = 'http://ygyd.aireading.top/jeecg/api/image.do?getImage&imageId=4';
+	String imageUrl2 = 'http://ygyd.aireading.top/jeecg/api/image.do?getImage&imageId=6';
 
-	User({ this.userName,this.userId});
+	User({ this.userName,this.userId,this.imageUrl});
 
 	User.fromJson(Map<String, dynamic> json) {
 		userName = json['userName'];

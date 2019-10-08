@@ -4,9 +4,11 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/user_entity.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/text_field.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -120,7 +122,8 @@ class _LoginPageState extends State<LoginPage> {
           'policemanIdSHA1Code':(_passwordController.text.isEmpty) ? null : policeNum,
         },
         onSuccess: (data) {
-          setState(() {
+          setState(() async{
+            await StorageManager.sharedPreferences.setString(Constant.userInfo, json.encode(data));
             Router.pushReplacementNamed(context, Router.smsLogin,data);
           });
         },
