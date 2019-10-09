@@ -141,8 +141,9 @@ class _TalkPageState extends State<TalkPage>
       // 本人的信息
       widgetList = [
         new Container(
-            margin: new EdgeInsets.only(right: 20.0),
-            padding: new EdgeInsets.all(10.0),
+            margin: new EdgeInsets.only(right: 20.0,top: 2),
+            padding: item['type'] == 'image' ? EdgeInsets.all(0.0):EdgeInsets.all(10.0),
+
             decoration: new BoxDecoration(
                 color: Color(0xFFebebf3),
                 borderRadius: new BorderRadius.circular(10.0)),
@@ -161,8 +162,8 @@ class _TalkPageState extends State<TalkPage>
           backgroundImage: new NetworkImage('${item['imageUrl']}'),
         ),
         new Container(
-          margin: new EdgeInsets.only(left: 20.0),
-          padding: new EdgeInsets.all(10.0),
+          margin: new EdgeInsets.only(left: 20.0,top: 2),
+          padding: item['type'] == 'image' ? EdgeInsets.all(0.0):EdgeInsets.all(10.0),
           decoration: new BoxDecoration(
               color: Color(0xFFebebf3),
               borderRadius: new BorderRadius.circular(10.0)),
@@ -180,7 +181,7 @@ class _TalkPageState extends State<TalkPage>
             mainAxisAlignment: '2' == item['id']
                 ? MainAxisAlignment.start
                 : MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: widgetList));
   }
 
@@ -200,80 +201,87 @@ class _TalkPageState extends State<TalkPage>
         ],
         centerTitle: true,
       ),
-      body: new Container(
-          color: Colors.white,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: <Widget>[
-              new Container(
-                margin: new EdgeInsets.symmetric(horizontal: 20.0),
-                padding: new EdgeInsets.only(bottom: 50.0),
-                // width: MediaQuery.of(context).size.width - 40.0,
-                child: ListView(
-                  physics: ClampingScrollPhysics(),
-                  controller: _scrollController,
-                  children: talkWidgetList,
-                ),
-              ),
-              new Positioned(
-                bottom: 0,
-                left: 0,
-                width: MediaQuery.of(context).size.width,
-                child: Container(
-                  color: Color(0xFFebebf3),
-                  child: Row(
-                    children: <Widget>[
-                      new Container(
-                        width: 40.0,
-                        color: Color(0xFFaaaab6),
-                        child: new IconButton(
-                          icon: new Icon(Icons.keyboard_voice),
-                          onPressed: () {
-                            setState(() {
-                              fsNode1.unfocus();
-                            });
-                          },
-                        ),
-                      ),
-                      new Container(
-                        padding: new EdgeInsets.symmetric(horizontal: 10.0),
-                        width: MediaQuery.of(context).size.width - 140.0,
-                        child: new TextField(
-                          focusNode: fsNode1,
-                          controller: _textInputController,
-                          decoration: new InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '输入你的信息...',
-                              hintStyle:
-                                  new TextStyle(color: Color(0xFF7c7c7e))),
-                          onSubmitted: (val) {
-                            if (val != '' && val != null) {
-                              getTalkList();
-                              autoTalk(val, 'text');
-                            }
-                            _textInputController.clear();
-                          },
-                        ),
-                      ),
-                      new IconButton(
-                        icon: Icon(Icons.insert_emoticon,
-                            color: Color(0xFF707072)),
-                        onPressed: () {},
-                      ),
-                      new IconButton(
-                        icon: Icon(Icons.add_circle_outline,
-                            color: Color(0xFF707072)),
-                        onPressed: () {
-                          getImage();
-                        },
-                      )
-                    ],
+      body: GestureDetector(
+        onTap: (){
+          setState(() {
+            fsNode1.unfocus();
+          });
+        },
+        child: Container(
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: <Widget>[
+                new Container(
+                  margin: new EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: new EdgeInsets.only(bottom: 50.0),
+                  // width: MediaQuery.of(context).size.width - 40.0,
+                  child: ListView(
+                    physics: ClampingScrollPhysics(),
+                    controller: _scrollController,
+                    children: talkWidgetList,
                   ),
                 ),
-              )
-            ],
-          )),
-      resizeToAvoidBottomPadding: false, //输入框抵住键盘 内容不随键盘滚动
+                new Positioned(
+                  bottom: 0,
+                  left: 0,
+                  width: MediaQuery.of(context).size.width,
+                  child: Container(
+                    color: Color(0xFFebebf3),
+                    child: Row(
+                      children: <Widget>[
+                        new Container(
+                          width: 40.0,
+                          color: Color(0xFFaaaab6),
+                          child: new IconButton(
+                            icon: new Icon(Icons.keyboard_voice),
+                            onPressed: () {
+                              setState(() {
+                                fsNode1.unfocus();
+                              });
+                            },
+                          ),
+                        ),
+                        new Container(
+                          padding: new EdgeInsets.symmetric(horizontal: 10.0),
+                          width: MediaQuery.of(context).size.width - 140.0,
+                          child: new TextField(
+                            focusNode: fsNode1,
+                            controller: _textInputController,
+                            decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                hintText: '输入你的信息...',
+                                hintStyle:
+                                new TextStyle(color: Color(0xFF7c7c7e))),
+                            onSubmitted: (val) {
+                              if (val != '' && val != null) {
+                                getTalkList();
+                                autoTalk(val, 'text');
+                              }
+                              _textInputController.clear();
+                            },
+                          ),
+                        ),
+                        new IconButton(
+                          icon: Icon(Icons.insert_emoticon,
+                              color: Color(0xFF707072)),
+                          onPressed: () {},
+                        ),
+                        new IconButton(
+                          icon: Icon(Icons.add_circle_outline,
+                              color: Color(0xFF707072)),
+                          onPressed: () {
+                            getImage();
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )),
+      ),
+      resizeToAvoidBottomPadding: true, //输入框抵住键盘 内容不随键盘滚动
     );
   }
 }
