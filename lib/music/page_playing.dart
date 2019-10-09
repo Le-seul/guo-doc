@@ -76,10 +76,58 @@ class _PlayingPageState extends State<PlayingPage> {
                 ),
               ],
             ),
+
     );
   }
 }
 
+_showFloatButton(BuildContext context,Music music) {
+  OverlayEntry overlayEntry = new OverlayEntry(builder: (context) {
+    //外层使用Positioned进行定位，控制在Overlay中的位置
+    return new Positioned(
+        top: MediaQuery.of(context).size.height * 0.7,
+        left:15,
+        child: new Material(
+          child: Container(
+            height: 60,
+            constraints: BoxConstraints(minWidth: 300),
+            color: Colors.grey,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Image(
+                    width: 52,
+                    height: 52,
+                    image: CachedImage(music.image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  margin: EdgeInsets.only(left:4),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(music.name,style: TextStyle(color:Colors.white,fontSize: 16),),
+                      Text("00:20/05:43",style: TextStyle(color:Colors.white,fontSize: 13),)
+                    ],
+                  ),
+                ),
+                IconButton(icon: Icon(Icons.pause,color: Colors.white,),onPressed: ()=>print("click pause"),),
+                IconButton(icon: Icon(Icons.skip_next,color: Colors.white,),onPressed: ()=>print("click next"),),
+                IconButton(icon: Icon(Icons.close,color: Colors.white70,),onPressed: ()=>print("click close"),),
+              ],
+            )
+            ,),
+        ));
+  });
+  //往Overlay中插入插入OverlayEntry
+  Overlay.of(context).insert(overlayEntry);
+
+
+}
 ///player controller
 /// pause,play,play next,play previous...
 class _ControllerBar extends StatelessWidget {
@@ -504,7 +552,10 @@ class _PlayingTitle extends StatelessWidget {
               Icons.arrow_back,
               color: Theme.of(context).primaryIconTheme.color,
             ),
-            onPressed: () => Navigator.pop(context)),
+            onPressed: (){
+              _showFloatButton(context,music);
+              Navigator.pop(context);
+            } ),
         titleSpacing: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
