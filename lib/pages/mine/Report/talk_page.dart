@@ -60,12 +60,12 @@ class _TalkPageState extends State<TalkPage>
   }
 
   List<String> returnTalkList = [
+    '流水窗前，树影迷离，人影如尘，来来去去。那些看似匆忙的背影，不知从哪里来，又行将哪去。人生如行路，一路艰辛，一路风景，而你的目光所及之处，就是你的人生境界。',
     '这是自动留言,我的手机不在身边, 有事请直接Call我....',
     '呵呵,真好笑!!!',
     '你最近好吗?',
     '我一不小心笑出来猪叫声。',
-    'hohohohohoho, boom!',
-    '流水窗前，树影迷离，人影如尘，来来去去。那些看似匆忙的背影，不知从哪里来，又行将哪去。人生如行路，一路艰辛，一路风景，而你的目光所及之处，就是你的人生境界。',
+    '我和我的祖国，一刻也不能分离!',
   ];
 
   getTalkList() {
@@ -90,8 +90,6 @@ class _TalkPageState extends State<TalkPage>
   }
 
   autoTalk(val, type) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var mySelf = json.decode(prefs.getString('userInfo'));
 
     talkHistory.add({
       'name': user.userName,
@@ -197,9 +195,7 @@ class _TalkPageState extends State<TalkPage>
         actions: <Widget>[
           new IconButton(
             icon: Icon(Icons.add, size: 30.0),
-            onPressed: () {
-
-            },
+            onPressed: () {},
           )
         ],
         centerTitle: true,
@@ -260,10 +256,9 @@ class _TalkPageState extends State<TalkPage>
                         ),
                       ),
                       new IconButton(
-                        icon: Icon(Icons.insert_emoticon, color: Color(0xFF707072)),
-                        onPressed: (){
-
-                        },
+                        icon: Icon(Icons.insert_emoticon,
+                            color: Color(0xFF707072)),
+                        onPressed: () {},
                       ),
                       new IconButton(
                         icon: Icon(Icons.add_circle_outline,
@@ -278,6 +273,7 @@ class _TalkPageState extends State<TalkPage>
               )
             ],
           )),
+      resizeToAvoidBottomPadding: false, //输入框抵住键盘 内容不随键盘滚动
     );
   }
 }
