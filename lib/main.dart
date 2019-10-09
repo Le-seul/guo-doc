@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/data/global_user_data.dart';
 import 'package:flutter_first/music/lryic.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/pages/container_page.dart';
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> {
 
   final model = PlayingLyric(quiet);
   String token;
+  GlobalUserData globalUserData = GlobalUserData();
 
   final SystemUiOverlayStyle _style =SystemUiOverlayStyle(statusBarColor: Colors.transparent);
 //  StreamSubscription exitLogin;
@@ -51,43 +53,47 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-    return OKToast(
-        child: ScopedModel<PlayingLyric>(
-            model: model,
-            child: Quiet(
-              child: MaterialApp(
-                //定义路由
-                //没有路由可以进行匹配的时候
-                debugShowCheckedModeBanner: false,
-                onUnknownRoute: (RouteSettings setting) {
-                  String name = setting.name;
-                  print("onUnknownRoute:$name");
-                  return new MaterialPageRoute(builder: (context) {
-                    return new NotFoundPage();
-                  });
-                },
-                routes: <String, WidgetBuilder>{
-                  '/login': (BuildContext context) => new LoginPage(),
-                },
-                title: 'Dio请求',
-                //debugShowCheckedModeBanner: false,
-                home: Scaffold(
-                  body: new Center(
-                    child: (token == null || token == '')
-                        ? LoginPage()
-                        : ContainerPage(),
+    return DataProviderWidget(
+      data:globalUserData,
+      child: OKToast(
+          child: ScopedModel<PlayingLyric>(
+              model: model,
+              child: Quiet(
+                child: MaterialApp(
+                  //定义路由
+                  //没有路由可以进行匹配的时候
+                  debugShowCheckedModeBanner: false,
+                  onUnknownRoute: (RouteSettings setting) {
+                    String name = setting.name;
+                    print("onUnknownRoute:$name");
+                    return new MaterialPageRoute(builder: (context) {
+                      return new NotFoundPage();
+                    });
+                  },
+                  routes: <String, WidgetBuilder>{
+                    '/login': (BuildContext context) => new LoginPage(),
+                  },
+                  title: 'Dio请求',
+                  //debugShowCheckedModeBanner: false,
+                  home: Scaffold(
+                    body: new Center(
+                      child: (token == null || token == '')
+                          ? LoginPage()
+                          : ContainerPage(),
+                    ),
                   ),
+                  theme: new ThemeData(
+                    platform: TargetPlatform.iOS,
+                  ),
+
                 ),
-                theme: new ThemeData(
-                  platform: TargetPlatform.iOS,
-                ),
-              ),
-            )),
-        backgroundColor: Colors.black54,
-        textPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        radius: 20.0,
-        position: ToastPosition.bottom,
-        dismissOtherOnShow: true);
+              )),
+          backgroundColor: Colors.black54,
+          textPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          radius: 20.0,
+          position: ToastPosition.bottom,
+          dismissOtherOnShow: true),
+    );
   }
 }

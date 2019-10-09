@@ -1,5 +1,4 @@
 
-import 'package:doubanapp/constant/constant.dart';
 import 'package:flutter/widgets.dart';
 
 class DataProviderWidget<T> extends InheritedWidget {
@@ -20,11 +19,7 @@ class DataProviderWidget<T> extends InheritedWidget {
 }
 
 class GlobalUserData {
-  double foodCardMoney = 50;
   String userId;
-  String userName = "张警官";
-  String avatarUrl = Constant.ASSETS_IMG+"sc_user_avatar.jpg";
-  String orgnization = "北京市公安局警备保障部";
-  String phone;
-  bool isBirthday = true;
+  //是否在后台播放音乐，如果是，则显示浮动按钮
+  bool isPlayMusicBackground;
 }
