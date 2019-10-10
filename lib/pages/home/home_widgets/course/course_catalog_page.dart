@@ -109,7 +109,7 @@ List<Psycoursecatelog> psycoursecateloglist;
   }
   void _requestCourseDetail() async {
     Dio dio =Dio();
-    Response response =await dio.get("http://10.128.215.177:8080/jeecg/api/psyCoreading.do?getPsyCoReadingDetail&id=1");//http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1
+    Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1");//http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1
     setState(() {
       Detailurl = response.toString();
     });
@@ -290,13 +290,13 @@ class _CatalogState extends State<Catalog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(psycoursecateloglist[0].chapterName),
-                  FlatButton(onPressed:(){},
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.file_download,color: Colors.blueAccent,),
-                          Text('离线缓存',style: TextStyle(color: Colors.blueAccent),),
-                        ],
-                      ))
+//                  FlatButton(onPressed:(){},
+//                      child: Row(
+//                        children: <Widget>[
+//                          Icon(Icons.file_download,color: Colors.blueAccent,),
+//                          Text('离线缓存',style: TextStyle(color: Colors.blueAccent),),
+//                        ],
+//                      ))
                 ],
               ),
             ),
@@ -318,7 +318,7 @@ class _CatalogState extends State<Catalog> {
                     ),
                   ),
                   onTap: (){
-                    Router.push(context, psycoursecateloglist[index].detailDesc, {'title':'课程'});
+                    psycoursecateloglist[index].state==1?Router.push(context, psycoursecateloglist[index].detailDesc, {'title':'课程'}):null;
                   },
                 );
               } ,

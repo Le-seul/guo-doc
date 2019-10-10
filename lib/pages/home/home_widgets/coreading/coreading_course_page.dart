@@ -78,7 +78,7 @@ class _MyRewardPageState extends State<MyRewardPage>
   }
   void _requestCoreadingDetail() async {
     Dio dio =Dio();
-    Response response =await dio.get("http://10.128.215.177:8080/jeecg/api/psyCoreading.do?getPsyCoReadingDetail&id=1");
+    Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psyCoreading.do?getPsyCoReadingDetail&id=1");
     setState(() {
       Detailurl = response.toString();
     });
@@ -348,7 +348,7 @@ class _CatalogState extends State<Catalog> {
             ),
           ),
           onTap: (){
-            Router.push(context, Cateloglist[index].categoryLevel[index1].detailDesc, {'title':'课程'});
+            Cateloglist[index].categoryLevel[index1].state==1?Router.push(context, Cateloglist[index].categoryLevel[index1].detailDesc, {'title':'课程'}):null;
           },
         ),
         SizedBox(
