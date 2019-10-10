@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_first/bean/music.dart';
-import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/music/cached_image.dart';
 import 'package:flutter_first/music/channel_media_player.dart';
 import 'package:flutter_first/music/cover.dart';
@@ -13,9 +12,8 @@ import 'package:flutter_first/music/page_playing_list.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
 import 'package:flutter_first/music/time.dart';
-import 'package:flutter_first/net/api.dart';
-import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/toast.dart';
+
+import 'music_controlbar_utils.dart';
 
 ///歌曲播放页面
 class PlayingPage extends StatefulWidget {
@@ -55,6 +53,7 @@ class _PlayingPageState extends State<PlayingPage> {
 
   @override
   Widget build(BuildContext context) {
+    MusicControlBar.removeControlBar();
     return Scaffold(
       body: widget.music == null
           ? Container()
@@ -76,9 +75,11 @@ class _PlayingPageState extends State<PlayingPage> {
                 ),
               ],
             ),
+
     );
   }
 }
+
 
 ///player controller
 /// pause,play,play next,play previous...
@@ -197,6 +198,9 @@ class _DurationProgressBar extends StatefulWidget {
   State<StatefulWidget> createState() => _DurationProgressBarState();
 }
 
+String durationText = "00:00";
+String positionText = "00:00";
+
 class _DurationProgressBarState extends State<_DurationProgressBar> {
   bool isUserTracking = false;
 
@@ -209,8 +213,7 @@ class _DurationProgressBarState extends State<_DurationProgressBar> {
 
     Widget progressIndicator;
 
-    String durationText;
-    String positionText;
+
 
     if (state.initialized) {
       var duration = state.duration.inMilliseconds;
@@ -504,7 +507,10 @@ class _PlayingTitle extends StatelessWidget {
               Icons.arrow_back,
               color: Theme.of(context).primaryIconTheme.color,
             ),
-            onPressed: () => Navigator.pop(context)),
+            onPressed: (){
+              MusicControlBar.showControlBar(context,music,positionText,durationText);
+              Navigator.pop(context);
+            } ),
         titleSpacing: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
