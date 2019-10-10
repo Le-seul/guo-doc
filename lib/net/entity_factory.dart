@@ -2,10 +2,11 @@ import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
+import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/bean/consultation_columns_entity.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
-import 'package:flutter_first/bean/music_model.dart';
+
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/psycoursecatelog.dart';
@@ -39,9 +40,7 @@ class EntityFactory {
       return GetAllMusic.fromJson(json) as T;
     }else if (T.toString() == "MusicTag") {
       return MusicTag.fromJson(json) as T;
-    } else if (T.toString() == "MusicList") {
-      return MusicList.fromJson(json) as T;
-    }else if (T.toString() == "Music") {
+    } else if (T.toString() == "Music") {
       return Music.fromJson(json) as T;
     }else if (T.toString() == "Coursedetail") {
       return Coursedetail.fromJson(json) as T;

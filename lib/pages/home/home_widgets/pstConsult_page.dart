@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/widgets/search.dart';
 
 class PsychologicalConcult extends StatefulWidget {
   @override
@@ -20,8 +21,15 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
           color: Colors.white10,
           child: Column(
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(hintText: "输入搜索内容"),
+
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10),
+                child: SearchTextFieldWidget(
+                  hintText: '搜索你感兴趣的内容/咨询师',
+                  margin: const EdgeInsets.only(
+                      left: 15.0, right: 15.0),
+                  onTab: () {},
+                ),
               ),
               VideoPlayer(),
               SizedBox(

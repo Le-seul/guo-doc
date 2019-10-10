@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_first/common/common.dart';
@@ -37,16 +39,11 @@ class _ContainerPageState extends State<ContainerPage> {
   final defaultItemColor = Color.fromARGB(255, 125, 125, 125);
 
   final itemNames = [
-    _Item('首页', 'navigation/ic_tab_home_active.png',
-        'navigation/ic_tab_home_normal.png'),
-    _Item('资讯', 'navigation/ic_tab_information_active.png',
-        'navigation/ic_tab_information_normal.png'),
-    _Item('服务', 'navigation/ic_tab_service_active.png',
-        'navigation/ic_tab_service_normal.png'),
-    _Item('自助', 'navigation/ic_tab_selfhelp_active.png',
-        'navigation/ic_tab_selfhelp_normal.png'),
-    _Item('我的', 'navigation/ic_tab_mine_active.png',
-        'navigation/ic_tab_mine_normal.png')
+    _Item('首页', 'navigation/ic_tab_home_active.png', 'navigation/ic_tab_home_normal.png'),
+    _Item('资讯', 'navigation/ic_tab_information_active.png', 'navigation/ic_tab_information_normal.png'),
+    _Item('服务', 'navigation/ic_tab_service_active.png', 'navigation/ic_tab_service_normal.png'),
+    _Item('自助', 'navigation/ic_tab_selfhelp_active.png', 'navigation/ic_tab_selfhelp_normal.png'),
+    _Item('我的', 'navigation/ic_tab_mine_active.png', 'navigation/ic_tab_mine_normal.png')
   ];
 
   List<BottomNavigationBarItem> itemList;
@@ -55,38 +52,32 @@ class _ContainerPageState extends State<ContainerPage> {
   void initState() {
     super.initState();
     print('initState _ContainerPageState');
-    JPush jpush = StorageManager.jpush;
-    SchedulerBinding.instance.addPostFrameCallback((_) => {
-          jpush.getRegistrationID().then((rid) {
-            setState(() {
-              print("获取注册的id:$rid");
-              saveRegistrationID(rid);
-            });
-
-          }),
-          jpush.setup(
-              appKey: "565a2f927e82c11287326979", channel: 'developer-default'),
-          // 监听jpush
-          jpush.addEventHandler(
-            onReceiveNotification: (Map<String, dynamic> message) async {
-              print("flutter 接收到推送: $message");
-            },
-            onOpenNotification: (Map<String, dynamic> message) {
-              // 点击通知栏消息，在此时通常可以做一些页面跳转等v
-              Toast.show('点击通知');
-              Router.pushNoParams(context, Router.sleepRecordsPage);
-            },
-          ),
-        });
+    if (Platform.isAndroid) {
+      JPush jpush = StorageManager.jpush;
+      SchedulerBinding.instance.addPostFrameCallback((_) => {
+            jpush.getRegistrationID().then((rid) {
+              setState(() {
+                print("获取注册的id:$rid");
+                saveRegistrationID(rid);
+              });
+            }),
+            jpush.setup(appKey: "565a2f927e82c11287326979", channel: 'developer-default'),
+            // 监听jpush
+            jpush.addEventHandler(
+              onReceiveNotification: (Map<String, dynamic> message) async {
+                print("flutter 接收到推送: $message");
+              },
+              onOpenNotification: (Map<String, dynamic> message) {
+                // 点击通知栏消息，在此时通常可以做一些页面跳转等v
+                Toast.show('点击通知');
+                Router.pushNoParams(context, Router.sleepRecordsPage);
+              },
+            ),
+          });
+    }
 
     if (pages == null) {
-      pages = [
-        HomePage(),
-        ConsultationPage(),
-        ServicePage(),
-        SelfHelpPage(),
-        MinePage()
-      ];
+      pages = [HomePage(), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
     }
     if (itemList == null) {
       itemList = itemNames
@@ -100,17 +91,15 @@ class _ContainerPageState extends State<ContainerPage> {
                 item.name,
                 style: TextStyle(fontSize: 10.0),
               ),
-              activeIcon:
-                  loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
+              activeIcon: loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
           .toList();
     }
-
   }
 
   int _selectIndex = 0;
 
   static saveRegistrationID(String registrationID) async {
-    StorageManager.sharedPreferences.setString(Constant.registrationID,registrationID);
+    StorageManager.sharedPreferences.setString(Constant.registrationID, registrationID);
   }
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题
@@ -123,8 +112,6 @@ class _ContainerPageState extends State<ContainerPage> {
       ),
     );
   }
-
-
 
   @override
   void didUpdateWidget(ContainerPage oldWidget) {

@@ -19,8 +19,6 @@ class Api{
   static const String GETMUSICLIST = "/api/music.do?getSongOfMusicList";
   //获取包含某个Tag的所有歌单
   static const String GETMUSICLISTBYTAG = "/api/music.do?getMusicListByTag";
-  //获取歌曲详情
-  static const String GETMUSICDETAIL = "/api/music.do?getSongDetail";
   //轮播图
   static const String BANNER = "/api/homePage.do?getBanner";
   //课程接口
