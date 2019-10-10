@@ -4,6 +4,10 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music.dart';
+import 'package:flutter_first/music/player.dart';
+import 'package:flutter_first/music/playing_indicator.dart';
+import 'package:flutter_first/music/time.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:marquee/marquee.dart';
 
 import 'cached_image.dart';
@@ -58,11 +62,58 @@ class MusicControlBar {
       }
   }
 
-  static showControlBar(BuildContext context,Music music,String positionText,String durationText) {
+  static showControlBar(BuildContext context,Music music) {
     dy = ScreenUtil.getInstance().screenHeight * 0.7;
     dx = 15;
-    _positonText = positionText;
     print("show $dx $dy");
+
+    bool isUserTracking = false;
+
+    double trackingPosition = 0;
+    var state = PlayerState.of(context).value;
+    String durationText = "00:00";
+    String positionText = "00:00";
+
+    var duration = state.duration.inMilliseconds;
+    var position = isUserTracking
+        ? trackingPosition.round()
+        : state.position.inMilliseconds;
+
+    durationText = getTimeStamp(duration);
+    positionText = getTimeStamp(position);
+
+
+    final iconPlayPause = PlayingIndicator(
+      playing: IconButton(
+          tooltip: "暂停",
+
+          icon: Icon(
+            Icons.pause,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            quiet.pause();
+          }),
+      pausing: IconButton(
+          tooltip: "播放",
+
+          icon: Icon(
+            Icons.play_arrow,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            quiet.play();
+          }),
+      buffering: Container(
+        height: 56,
+        width: 56,
+        child: Center(
+          child: Container(
+              height: 24, width: 24, child: CircularProgressIndicator()),
+        ),
+      ),
+    );
+
     controlBar = new OverlayEntry(builder: (context) {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return new Positioned(
@@ -119,25 +170,28 @@ class MusicControlBar {
                             Container(
                               height: 30,
                               child: Marquee(
-                                text:music.name,style: TextStyle(color:Colors.white,fontSize: 16),),
+                                text:quiet.value.current.name,style: TextStyle(color:Colors.white,fontSize: 16),),
                             ),
-                            Expanded(child: Text("$_positonText/$durationText",style: TextStyle(color:Colors.white,fontSize: 13),))
+                            Expanded(child: Text("$positionText/$durationText",style: TextStyle(color:Colors.white,fontSize: 13),))
                           ],
                         ),
                       ),
-                      IconButton(icon: Icon(Icons.pause,color: Colors.white,),onPressed: ()=>print("click pause"),),
-                      IconButton(icon: Icon(Icons.skip_next,color: Colors.white,),onPressed: ()=>print("click next"),),
-                      IconButton(icon: Icon(Icons.close,color: Colors.white70,),onPressed: ()=>print("click close"),),
+                      iconPlayPause,
+                      IconButton(icon: Icon(Icons.skip_next,color: Colors.white,),onPressed: ()=>quiet.playNext(),),
+                      IconButton(icon: Icon(Icons.close,color: Colors.white70,),onPressed: ()=>removeControlBar()),
                     ],
                   )
                   ,),
               ),
+              onTap: (){
+                Router.pushNoParams(context, Router.playingPage);
+              },
             ),
           ));
+
     });
     //往Overlay中插入插入OverlayEntry
     Overlay.of(context).insert(controlBar);
-
-
   }
+
 }

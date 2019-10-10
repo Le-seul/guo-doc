@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/data/global_user_data.dart';
 import 'package:flutter_first/music/lryic.dart';
+import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
@@ -72,6 +73,8 @@ class _MyAppState extends State<MyApp> {
                   },
                   routes: <String, WidgetBuilder>{
                     '/login': (BuildContext context) => new LoginPage(),
+                    '/playing': (BuildContext context) => new PlayingPage(),
+
                   },
                   title: 'Dio请求',
                   //debugShowCheckedModeBanner: false,

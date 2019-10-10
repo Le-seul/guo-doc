@@ -216,7 +216,7 @@ class _DurationProgressBarState extends State<_DurationProgressBar> {
 
 
     if (state.initialized) {
-      var duration = state.duration.inMilliseconds;
+           var duration = state.duration.inMilliseconds;
       var position = isUserTracking
           ? trackingPosition.round()
           : state.position.inMilliseconds;
@@ -508,7 +508,7 @@ class _PlayingTitle extends StatelessWidget {
               color: Theme.of(context).primaryIconTheme.color,
             ),
             onPressed: (){
-              MusicControlBar.showControlBar(context,music,positionText,durationText);
+              MusicControlBar.showControlBar(context,music);
               Navigator.pop(context);
             } ),
         titleSpacing: 0,
