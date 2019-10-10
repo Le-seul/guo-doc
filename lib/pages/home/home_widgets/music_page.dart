@@ -4,6 +4,8 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/my_card.dart';
+import 'package:flutter_first/widgets/search.dart';
 
 class MusicPage extends StatefulWidget {
   String tagId;
@@ -55,99 +57,104 @@ class _MusicPageState extends State<MusicPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.red,
-          title: Text(
-            '音乐',
-          ),
-          centerTitle: true,
-        ),
+        appBar: PreferredSize(
+            child: AppBar(
+                elevation: 0.0,
+                backgroundColor: Colors.white,
+                automaticallyImplyLeading: false,
+                title: Text('音乐',style: TextStyle(color: Colors.black),),
+                flexibleSpace: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10.0,top: 10.0),
+                      child:SearchTextFieldWidget(
+                        hintText: '请输入搜索内容',
+                        margin: const EdgeInsets.only(
+                            left: 15.0, right: 15.0),
+                        onTab: () {},
+                      ),
+                    )
+                )
+            ),
+            preferredSize: Size.fromHeight(90)),
         body: Container(
-          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Router.pushNoParams(context, Router.musicSortPage);
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.only(left: 10),
-                  height: 30,
-                  width: 80,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '分类',
-                          style: TextStyle(fontSize: 15, color: Colors.black),
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_right,
-                          size: 30,
-                          color: Colors.black12,
-                        ),
-                      ],
-                    ),
+
+              child:Container(
+                padding: EdgeInsets.only(top: 10,right: 10,left: 10),
+                  decoration: new BoxDecoration(
+                    //背景
+                    color: Colors.white,
+                    //设置四周圆角 角度
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),topRight: Radius.circular(8.0)),
+                    //设置四周边框
+                    border: new Border.all(width: 1, color: Colors.white),
                   ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black12, width: 1),
-                      borderRadius: BorderRadius.circular(16)),
-                ),
+                height: double.infinity,
+                child: ListView.builder(
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: GetAllMusicList.length,
+                  itemBuilder: (context, index) => _buildItem(index),),
               ),
-              Flexible(
-                flex: 1,
-                child: GridView.builder(
-                    itemCount: GetAllMusicList.length,
-                    //SliverGridDelegateWithFixedCrossAxisCount 构建一个横轴固定数量Widget
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        //横轴元素个数
-                        crossAxisCount: 2,
-                        //纵轴间距
-                        mainAxisSpacing: 10.0,
-                        //横轴间距
-                        crossAxisSpacing: 0.0,
-                        //子组件宽高长度比例
-                        ),
-                    itemBuilder: (BuildContext context, int index) {
-                      //Widget Function(BuildContext context, int index)
-                      return getItemContainer(index);
-                    }),
-              )
-            ],
-          ),
+
+
+          color: Color(0xFFEEEEEE),
+          padding: EdgeInsets.only(left: 15,right: 15,top: 15),
         ));
   }
 
-  getItemContainer(int index) {
-    return Container(
-      width: double.infinity,
-      child: GestureDetector(
-        onTap: () {
-          Router.push(context, Router.musicListPage, GetAllMusicList[index].id);
-        },
-        child: Column(
-          children: <Widget>[
-            Expanded(
-                child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Image.network(
-                GetAllMusicList[index].image,
-                fit: BoxFit.fill,
+  _buildItem(int index) {
+    return GestureDetector(
+      onTap: (){
+        Router.push(context, Router.musicListPage, GetAllMusicList[index]);
+      },
+      child:Container(
+          height: 105,
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 100,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),child:Image.network(
+                        GetAllMusicList[index].image,
+                        height: 70,
+                        fit: BoxFit.fill,
+                      ),)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10,top: 15,bottom: 15
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(GetAllMusicList[index].name,style: TextStyle(fontSize: 18)),
+
+                              Text(
+                                '周杰伦',
+                                style: TextStyle(color: Colors.black12, fontSize: 12),
+                              ),
+
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
               ),
-            )),
-            SizedBox(
-              height: 5,
-            ),
-            Text(GetAllMusicList[index].name)
-          ],
-        ),
-      ),
+              Container(
+                height: 1,
+                color: Color(0xFFEEEEEE),
+              )
+            ],
+          )),
     );
   }
 }
