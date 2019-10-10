@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_first/bean/music.dart';
-import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/music/cached_image.dart';
 import 'package:flutter_first/music/channel_media_player.dart';
 import 'package:flutter_first/music/cover.dart';
@@ -13,9 +12,8 @@ import 'package:flutter_first/music/page_playing_list.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
 import 'package:flutter_first/music/time.dart';
-import 'package:flutter_first/net/api.dart';
-import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/toast.dart';
+
+import 'music_controlbar_utils.dart';
 
 ///歌曲播放页面
 class PlayingPage extends StatefulWidget {
@@ -55,6 +53,7 @@ class _PlayingPageState extends State<PlayingPage> {
 
   @override
   Widget build(BuildContext context) {
+    MusicControlBar.removeControlBar();
     return Scaffold(
       body: widget.music == null
           ? Container()
@@ -81,53 +80,7 @@ class _PlayingPageState extends State<PlayingPage> {
   }
 }
 
-_showFloatButton(BuildContext context,Music music) {
-  OverlayEntry overlayEntry = new OverlayEntry(builder: (context) {
-    //外层使用Positioned进行定位，控制在Overlay中的位置
-    return new Positioned(
-        top: MediaQuery.of(context).size.height * 0.7,
-        left:15,
-        child: new Material(
-          child: Container(
-            height: 60,
-            constraints: BoxConstraints(minWidth: 300),
-            color: Colors.grey,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image(
-                    width: 52,
-                    height: 52,
-                    image: CachedImage(music.image),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  margin: EdgeInsets.only(left:4),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(music.name,style: TextStyle(color:Colors.white,fontSize: 16),),
-                      Text("00:20/05:43",style: TextStyle(color:Colors.white,fontSize: 13),)
-                    ],
-                  ),
-                ),
-                IconButton(icon: Icon(Icons.pause,color: Colors.white,),onPressed: ()=>print("click pause"),),
-                IconButton(icon: Icon(Icons.skip_next,color: Colors.white,),onPressed: ()=>print("click next"),),
-                IconButton(icon: Icon(Icons.close,color: Colors.white70,),onPressed: ()=>print("click close"),),
-              ],
-            )
-            ,),
-        ));
-  });
-  //往Overlay中插入插入OverlayEntry
-  Overlay.of(context).insert(overlayEntry);
 
-
-}
 ///player controller
 /// pause,play,play next,play previous...
 class _ControllerBar extends StatelessWidget {
@@ -245,6 +198,9 @@ class _DurationProgressBar extends StatefulWidget {
   State<StatefulWidget> createState() => _DurationProgressBarState();
 }
 
+String durationText = "00:00";
+String positionText = "00:00";
+
 class _DurationProgressBarState extends State<_DurationProgressBar> {
   bool isUserTracking = false;
 
@@ -257,8 +213,7 @@ class _DurationProgressBarState extends State<_DurationProgressBar> {
 
     Widget progressIndicator;
 
-    String durationText;
-    String positionText;
+
 
     if (state.initialized) {
       var duration = state.duration.inMilliseconds;
@@ -553,7 +508,7 @@ class _PlayingTitle extends StatelessWidget {
               color: Theme.of(context).primaryIconTheme.color,
             ),
             onPressed: (){
-              _showFloatButton(context,music);
+              MusicControlBar.showControlBar(context,music,positionText,durationText);
               Navigator.pop(context);
             } ),
         titleSpacing: 0,
