@@ -133,9 +133,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      child: Container(
+    return  Container(
         color: Colours.bg_green,
         child: ListView(
             shrinkWrap: true,
@@ -387,7 +385,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ]),
-      ),
+
     );
   }
 

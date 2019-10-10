@@ -29,7 +29,10 @@ import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
-import 'package:flutter_first/pages/mine/Report/talk_page.dart';
+import 'package:flutter_first/pages/mine/consultation.dart';
+import 'package:flutter_first/pages/mine/graphic_consuitation.dart';
+import 'package:flutter_first/pages/mine/talk_page.dart';
+import 'package:flutter_first/pages/mine/telephone_consultation.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
@@ -84,6 +87,9 @@ class Router {
   static const exitLoginPage = 'app://ExitLoginPage';
   static const catalogdetail = 'app://catalogdetail';
   static const talk = 'app://Talk';
+  static const telConsultation = 'app://TelConsultation';
+  static const consultation = 'app://Consultation';
+  static const graphicConsultation = 'app://CaphicConsultation';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -168,6 +174,12 @@ class Router {
           return ExitLoginPage();
         case talk:
           return TalkPage();
+        case telConsultation:
+          return TelConsultation();
+        case consultation:
+          return Consultation();
+        case graphicConsultation:
+          return GraphicConsultation();
       }
     }
     return null;

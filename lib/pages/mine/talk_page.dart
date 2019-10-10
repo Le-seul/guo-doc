@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
@@ -193,12 +194,6 @@ class _TalkPageState extends State<TalkPage>
           '张警官',
           style: new TextStyle(fontSize: 20.0),
         ),
-        actions: <Widget>[
-          new IconButton(
-            icon: Icon(Icons.add, size: 30.0),
-            onPressed: () {},
-          )
-        ],
         centerTitle: true,
       ),
       body: GestureDetector(
@@ -242,7 +237,9 @@ class _TalkPageState extends State<TalkPage>
                             },
                           ),
                         ),
-                        new Container(
+                        Expanded(
+                          flex: 1,
+                          child: Container(
                           padding: new EdgeInsets.symmetric(horizontal: 10.0),
                           width: MediaQuery.of(context).size.width - 140.0,
                           child: new TextField(
@@ -261,13 +258,8 @@ class _TalkPageState extends State<TalkPage>
                               _textInputController.clear();
                             },
                           ),
-                        ),
-                        new IconButton(
-                          icon: Icon(Icons.insert_emoticon,
-                              color: Color(0xFF707072)),
-                          onPressed: () {},
-                        ),
-                        new IconButton(
+                        ),),
+                        IconButton(
                           icon: Icon(Icons.add_circle_outline,
                               color: Color(0xFF707072)),
                           onPressed: () {
