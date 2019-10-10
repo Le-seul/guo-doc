@@ -1,38 +1,38 @@
 class PsyDailyTest {
+  String id;
   String questionCount;
   String coverImgId;
   int testedUserCount;
   String shortDesc;
-  String id;
   int state;
   String title;
 
   PsyDailyTest({
+    this.id,
     this.questionCount,
     this.coverImgId,
     this.testedUserCount,
     this.shortDesc,
-    this.id,
     this.state,
     this.title,
   });
 
   factory PsyDailyTest.fromJson(Map<String, dynamic> json) => PsyDailyTest(
+    id: json["id"],
     questionCount: json["questionCount"],
     coverImgId: json["coverImgId"],
     testedUserCount: json["testedUserCount"],
     shortDesc: json["shortDesc"],
-    id: json["id"],
     state: json["state"],
     title: json["title"],
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "questionCount": questionCount,
     "coverImgId": coverImgId,
     "testedUserCount": testedUserCount,
     "shortDesc": shortDesc,
-    "id": id,
     "state": state,
     "title": title,
   };

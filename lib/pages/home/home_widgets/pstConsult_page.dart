@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/home/home_widgets/VideoPlayerPage.dart';
+import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/search.dart';

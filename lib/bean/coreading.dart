@@ -1,4 +1,4 @@
-class Togetheread{
+class CoReading{
 
   String id;
   String shortDesc;
@@ -8,7 +8,7 @@ class Togetheread{
 
 
   ///构造函数
-  Togetheread.fromJson(Map<String, dynamic> json) {
+  CoReading.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     shortDesc = json['shortDesc'];
     coverImgId = json['coverImgId'];

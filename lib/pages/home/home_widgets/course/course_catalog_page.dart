@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/psycourse.dart';
@@ -68,13 +69,9 @@ List<Psycoursecatelog> psycoursecateloglist;
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
-//    _requestCoursedetail();
     _requestPsycourse1();
     _requestPsycoursecatelog();
-    http.get('http://ygyd.aireading.top/jeecg/api/psycourse.do?getCouserDetail').then((response){
-      Detailurl = response.toString();
-      isShowLoading1 = false;
-    });
+    _requestCourseDetail();
   }
 
 
@@ -110,7 +107,14 @@ List<Psycoursecatelog> psycoursecateloglist;
           print("sssss");
         });
   }
+  void _requestCourseDetail() async {
+    Dio dio =Dio();
+    Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1");//http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1
+    setState(() {
+      Detailurl = response.toString();
+    });
 
+  }
   void _requestPsycoursecatelog() {
     DioUtils.instance.requestNetwork<Psycoursecatelog>(
         Method.get,
@@ -127,22 +131,7 @@ List<Psycoursecatelog> psycoursecateloglist;
           print("sssss");
         });
   }
-//  void _requestCoursedetail() {
-//    DioUtils.instance.requestNetwork<Coursedetail>(
-//        Method.get,
-//        Api.COURSEDETAIL1,
-//        isList: true,
-//        onSuccessList: (data) {
-//          setState(() {
-//            coursedetaillist = data;
-//            isShowLoading2 = false;
-//          });
-//
-//        },
-//        onError: (code, msg) {
-//          print("sssss");
-//        });
-//  }
+
   Widget build(BuildContext context) {
     List<Widget> _silverBuilder(BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
@@ -211,18 +200,7 @@ List<Psycoursecatelog> psycoursecateloglist;
             body: new TabBarView(
               controller: _tabController,
               children: <Widget>[
-                isShowLoading1? LoadingWidget.childWidget()
-                    : (Detailurl == null )
-                    ? Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  alignment: Alignment.center,
-                  child: Text('暂无数据'),
-                )
-                    :
-                WebView(
-                  initialUrl:Detailurl,
-                ),
+                Detailurl == null?LoadingWidget.childWidget():Detail(Detailurl: Detailurl,),
                 isShowLoading2? LoadingWidget.childWidget()
                     : (psycoursecateloglist.length == 0 || psycoursecateloglist == null)
                     ? Container(
@@ -299,12 +277,12 @@ class _CatalogState extends State<Catalog> {
     return isShowLoading2? LoadingWidget.childWidget()
         : (psycoursecateloglist.length == 0 || psycoursecateloglist == null)
         ? Container(
-      width: double.infinity,
-      height: double.infinity,
-      alignment: Alignment.center,
-      child: Text('暂无数据'),
-    ):SingleChildScrollView(
-      child: Column(
+           width: double.infinity,
+           height: double.infinity,
+           alignment: Alignment.center,
+           child: Text('暂无数据'),
+           ):SingleChildScrollView(
+        child: Column(
           children: <Widget>[
             Container(
               height: 30,
@@ -312,13 +290,13 @@ class _CatalogState extends State<Catalog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(psycoursecateloglist[0].chapterName),
-                  FlatButton(onPressed:(){},
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.file_download,color: Colors.blueAccent,),
-                          Text('离线缓存',style: TextStyle(color: Colors.blueAccent),),
-                        ],
-                      ))
+//                  FlatButton(onPressed:(){},
+//                      child: Row(
+//                        children: <Widget>[
+//                          Icon(Icons.file_download,color: Colors.blueAccent,),
+//                          Text('离线缓存',style: TextStyle(color: Colors.blueAccent),),
+//                        ],
+//                      ))
                 ],
               ),
             ),
@@ -333,14 +311,14 @@ class _CatalogState extends State<Catalog> {
                     margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
                     child: Row(
                       children: <Widget>[
-                        Expanded(flex: 1,child: IconButton(icon: Icon(Icons.play_circle_outline,color: Colors.grey,), onPressed: null), ),
-                        Expanded(flex: 1,child: Image.asset(psycoursecateloglist[index].state==1?'assets/images/试听.png':'assets/images/未购买.png',height: 15,width: 15,) ),
+                        Expanded(flex: 1,child:psycoursecateloglist[index].state==1?Image.asset('assets/images/bofang.png',height: 25,width: 25,): Image.asset('assets/images/未购买.png',height: 15,width: 15,)),
+                        psycoursecateloglist[index].state==1?Expanded(flex: 1,child: Image.asset('assets/images/试听.png',height: 15,width: 15,),):Container(),
                         Expanded(flex: 7,child: Text('  '+psycoursecateloglist[index].chapterName,style: TextStyle(fontSize: 15),), )
                       ],
                     ),
                   ),
                   onTap: (){
-                    Router.push(context, Router.catalogdetail, {'Detail':psycoursecateloglist[index].detailDesc});
+                    psycoursecateloglist[index].state==1?Router.push(context, psycoursecateloglist[index].detailDesc, {'title':'课程'}):null;
                   },
                 );
               } ,
@@ -350,4 +328,25 @@ class _CatalogState extends State<Catalog> {
     );
   }
 
+}
+class Detail extends StatefulWidget {
+  String Detailurl;
+  Detail({Key key, @required this.Detailurl, }): super(key: key);
+
+  @override
+  _DetailState createState() => _DetailState();
+}
+
+class _DetailState extends State<Detail> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: WebView(
+        initialUrl: widget.Detailurl,
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
+    );
+  }
 }

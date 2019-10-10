@@ -16,8 +16,8 @@ import 'package:flutter_first/widgets/search.dart';
 import 'package:flutter_swiper/flutter_swiper.dart' as lib2;
 import 'package:flutter_first/util/router.dart';
 
-import 'package:flutter_first/pages/home/home_widgets/Table0Page.dart';
-import 'package:flutter_first/pages/home/home_widgets/Table1Page.dart';
+import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
+import 'package:flutter_first/pages/home/home_widgets/Table1_Page.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 
   void _UpdateRegistrationID() async{
     registrationID = await StorageManager.sharedPreferences.getString(Constant.registrationID);
-    print('极光id：$registrationID');
+    print('极光 id：$registrationID');
     if(registrationID!=null){
       DioUtils.instance.requestNetwork<String>(
           Method.post, Api.UPDATEREGISTRATIONID,

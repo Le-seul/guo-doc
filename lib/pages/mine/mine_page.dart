@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MinePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
+
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -12,7 +15,7 @@ class MinePage extends StatelessWidget {
               Image.asset('assets/images/myBackground.png'),
               Positioned(
                 top: 0,
-                left: 160,
+                left:  ScreenUtil().setWidth(45),
                 child: Text('我的',
                     style: TextStyle(color: Colors.white, fontSize: 18)),
               ),

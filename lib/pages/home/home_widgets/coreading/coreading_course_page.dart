@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
+import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:dio/dio.dart';
 
@@ -54,11 +57,18 @@ class MyRewardPage extends StatefulWidget {
 class _MyRewardPageState extends State<MyRewardPage>
     with TickerProviderStateMixin {
   TabController _tabController;
+  List<CoReading> Togethereadinglist = List();
+  List<CoReading> Imagelist = List();
+  bool isShowLoading = true;
+  String Detailurl;
+
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    _requestImage();
+    _requestCoreadingDetail();
   }
 
   @override
@@ -66,7 +76,36 @@ class _MyRewardPageState extends State<MyRewardPage>
     _tabController.dispose();
     super.dispose();
   }
+  void _requestCoreadingDetail() async {
+    Dio dio =Dio();
+    Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psyCoreading.do?getPsyCoReadingDetail&id=1");
+    setState(() {
+      Detailurl = response.toString();
+    });
 
+  }
+  void _requestImage() {
+    DioUtils.instance.requestNetwork<CoReading>(
+        Method.get,
+        Api.CoReading,
+        isList: true,
+        onSuccessList: (data) {
+          setState(() {
+            Togethereadinglist = data;
+            isShowLoading = false;
+            for (CoReading item in Togethereadinglist){
+              for ( int i = 0;i<=Togethereadinglist.length;i++){
+                if(item.id == "$i"){
+                  Imagelist.add(item);
+                }
+              }
+            }
+          });
+        },
+        onError: (code, msg) {
+          print("sssss");
+        });
+  }
   @override
   Widget build(BuildContext context) {
     List<Widget> _silverBuilder(BuildContext context, bool innerBoxIsScrolled) {
@@ -88,9 +127,18 @@ class _MyRewardPageState extends State<MyRewardPage>
           pinned: true, // 固定在顶部
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
-            background: new Container(
+            background:  Container(
               margin: new EdgeInsets.only(top: kToolbarHeight),
-              child: Image.asset('assets/images/tu1.jpg',fit: BoxFit.fill,),
+              child:isShowLoading
+                  ? LoadingWidget.childWidget()
+                  : (Imagelist.length == 0)
+                  ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                alignment: Alignment.center,
+                child: Text('暂无数据'),
+              )
+                  : Image.network(Imagelist[0].coverImgId,fit: BoxFit.fill,),
             ),
           ),
         ),
@@ -119,7 +167,8 @@ class _MyRewardPageState extends State<MyRewardPage>
             body: new TabBarView(
               controller: _tabController,
               children: <Widget>[
-                Detail(),
+
+                Detailurl == null?LoadingWidget.childWidget():Detail(Detailurl: Detailurl,),
                 Catalog(),
 
               ],
@@ -155,27 +204,22 @@ class _SilverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class Detail extends StatefulWidget {
+  String Detailurl;
+  Detail({Key key, @required this.Detailurl, }): super(key: key);
+
   @override
   _DetailState createState() => _DetailState();
 }
 
 class _DetailState extends State<Detail> {
-  List<CoreadingDetail> Detaillist = List();
-  String Detail;
-  void initState(){
-    _requestCoreadingDetail();
-  }
-  void _requestCoreadingDetail() async {
-      Dio dio =Dio();
-      Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psycoreading.do?getPsyCoReadingDetail&id=1");
-      Detail = response.toString();
-  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  WebView(
-        initialUrl:Detail,
-
+      body: WebView(
+        initialUrl: widget.Detailurl,
+        javascriptMode: JavascriptMode.unrestricted,
       ),
     );
   }
@@ -284,23 +328,28 @@ class _CatalogState extends State<Catalog> {
   _secondbuilderitem(int index,int index1){
     return Column(
       children: <Widget>[
-        Container(
-          padding:EdgeInsets.only(left: 20) ,
-          height: 60,
-          child: Row(
-            children: <Widget>[
-              Image.asset(Cateloglist[index].categoryLevel[index1].state==1?"assets/images/试听.png":"assets/images/未购买.png",height: 20,width: 20,color: Colors.grey,),
-              SizedBox(width: 20,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(Cateloglist[index].categoryLevel[index1].chapterName,style: TextStyle(fontSize: 16),),
-                  Text(Cateloglist[index].categoryLevel[index1].createTime.split(' ')[0].split('-')[1],style: TextStyle(fontSize: 12,color: Colors.grey),)
-                ],
-              ),
-            ],
+        InkWell(
+          child: Container(
+            padding:EdgeInsets.only(left: 20) ,
+            height: 60,
+            child: Row(
+              children: <Widget>[
+                Image.asset(Cateloglist[index].categoryLevel[index1].state==1?"assets/images/试听.png":"assets/images/未购买.png",height: 20,width: 20,color: Colors.grey,),
+                SizedBox(width: 20,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(Cateloglist[index].categoryLevel[index1].chapterName,style: TextStyle(fontSize: 16),),
+                    Text(Cateloglist[index].categoryLevel[index1].createTime.split(' ')[0].split('-')[1],style: TextStyle(fontSize: 12,color: Colors.grey),)
+                  ],
+                ),
+              ],
+            ),
           ),
+          onTap: (){
+            Cateloglist[index].categoryLevel[index1].state==1?Router.push(context, Cateloglist[index].categoryLevel[index1].detailDesc, {'title':'课程'}):null;
+          },
         ),
         SizedBox(
           height: 2,
