@@ -66,6 +66,10 @@ class MusicControlBar {
   }
 
   static showControlBar(BuildContext context, Music music, String position) {
+
+    Future.delayed(Duration(seconds: 5)).then((value) {
+      hideControlBar(context);
+    });
     music = quiet.value.current;
     dy = ScreenUtil.getInstance().screenHeight * 0.7;
     dx = 15;

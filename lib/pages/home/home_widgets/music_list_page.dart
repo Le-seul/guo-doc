@@ -79,23 +79,20 @@ class _MusicListPageState extends State<MusicListPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                    loadAssetImage('play.png',height: 15,width: 15),
+                    loadAssetImage('play.png',height: 15,width: 15,color: Colors.green),
                         SizedBox(width: 5,),
                         Container(
-                          margin: EdgeInsets.only(top: 3),
+                          alignment: Alignment.center,
                           child: Text(
                             '全部播放',
-                            style: TextStyle(fontSize: 15, color: Colors.white),
+                            style: TextStyle(fontSize: 15, color: Colors.green ),
                           ),
                         ),
 
                       ],
                     ),
                   ),
-                  decoration: BoxDecoration(
-                      color: Color(0xff2CA687),
-                      border: Border.all(color: Color(0xff2CA687), width: 1),
-                      borderRadius: BorderRadius.circular(16)),
+
                 ),
               ),
 
@@ -176,19 +173,25 @@ class _MusicListPageState extends State<MusicListPage> {
         quiet.playWithList(musicList[index], musicList, 'playlist');
       },
       child:Container(
-        height: 40,
+        height: 50,
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: Text('${musicList[index].order}',style: TextStyle(fontSize: 18),),
+              child: Text('${musicList[index].order}',style: TextStyle(fontSize: 30),),
               width: 30,
             ),
-
             SizedBox(width: 15,),
-            Text(musicList[index].name,style: TextStyle(fontSize: 18),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(musicList[index].name,style: TextStyle(fontSize: 18),),
+                Text('周杰伦',style: TextStyle(color: Colors.black12,fontSize: 12),)
+              ],
+            ),
+
             Expanded(child: Align(
               alignment: Alignment.centerRight,
             )),

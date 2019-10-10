@@ -515,8 +515,8 @@ class _PlayingTitle extends StatelessWidget {
               color: Theme.of(context).primaryIconTheme.color,
             ),
             onPressed: (){
-//              MusicControlBar.showControlBar(context,music,positionText);
-//              Navigator.pop(context);
+              MusicControlBar.showControlBar(context,music,positionText);
+              Navigator.pop(context);
             } ),
         titleSpacing: 0,
         title: Column(
