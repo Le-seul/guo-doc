@@ -30,6 +30,7 @@ class _PlayingPageState extends State<PlayingPage> {
   @override
   void initState() {
     super.initState();
+    MusicControlBar.removeControlBar();
     widget.music = quiet.value.current;
     quiet.addListener(_onPlayerStateChanged);
   }
@@ -53,29 +54,35 @@ class _PlayingPageState extends State<PlayingPage> {
 
   @override
   Widget build(BuildContext context) {
-    MusicControlBar.removeControlBar();
-    return Scaffold(
-      body: widget.music == null
-          ? Container()
-          : Stack(
-              children: <Widget>[
-                _BlurBackground(music: widget.music),
-                Material(
-                  color: Colors.transparent,
-                  child: Column(
-                    children: <Widget>[
-                      _PlayingTitle(music: widget.music),
-                      _CenterSection(music: widget.music),
-                      Padding(padding: EdgeInsets.only(top: 10)),
-                      _DurationProgressBar(),
-                      _ControllerBar(),
-                      SizedBox(height: MediaQuery.of(context).padding.bottom),
-                    ],
-                  ),
-                ),
-              ],
-            ),
 
+    return  WillPopScope(
+      child: Scaffold(
+        body: widget.music == null
+            ? Container()
+            : Stack(
+          children: <Widget>[
+            _BlurBackground(music: widget.music),
+            Material(
+              color: Colors.transparent,
+              child: Column(
+                children: <Widget>[
+                  _PlayingTitle(music: widget.music),
+                  _CenterSection(music: widget.music),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  _DurationProgressBar(),
+                  _ControllerBar(),
+                  SizedBox(height: MediaQuery.of(context).padding.bottom),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      onWillPop: (){
+        Navigator.pop(context);
+        MusicControlBar.showControlBar(context,widget.music,positionText);
+
+      },
     );
   }
 }
@@ -508,8 +515,8 @@ class _PlayingTitle extends StatelessWidget {
               color: Theme.of(context).primaryIconTheme.color,
             ),
             onPressed: (){
-              MusicControlBar.showControlBar(context,music);
-              Navigator.pop(context);
+//              MusicControlBar.showControlBar(context,music,positionText);
+//              Navigator.pop(context);
             } ),
         titleSpacing: 0,
         title: Column(

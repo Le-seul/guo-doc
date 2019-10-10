@@ -140,10 +140,10 @@ class MusicPlayer implements ValueNotifier<PlayerControllerState> {
   Future<void> _performPlay(Music music) async {
     assert(music != null);
 
-//    if (value.current == music && _controller.value.playbackState != PlaybackState.none) {
-//      return await _controller.setPlayWhenReady(true);
-//    }
-//    assert(music.audioStream != null && music.audioStream.isNotEmpty, "music url can not be null");
+    if (value.current == music && _controller.value.playbackState != PlaybackState.none) {
+      return await _controller.setPlayWhenReady(true);
+    }
+    assert(music.audioStream != null && music.audioStream.isNotEmpty, "music url can not be null");
     return await _controller.playWith(music);
   }
 
