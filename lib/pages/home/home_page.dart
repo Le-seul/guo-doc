@@ -16,8 +16,8 @@ import 'package:flutter_first/widgets/search.dart';
 import 'package:flutter_swiper/flutter_swiper.dart' as lib2;
 import 'package:flutter_first/util/router.dart';
 
-import 'package:flutter_first/pages/home/home_widgets/Table0Page.dart';
-import 'package:flutter_first/pages/home/home_widgets/Table1Page.dart';
+import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
+import 'package:flutter_first/pages/home/home_widgets/Table1_Page.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 

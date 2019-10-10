@@ -185,7 +185,7 @@ class _SMSLoginState extends State<SMSLogin> {
 
   _checkVerificationCode() async {
     DioUtils.instance
-        .requestNetwork<Token>(Method.get, Api.CHECKVCODE, queryParameters: {
+        .requestNetwork<Token>(Method.post, Api.CHECKVCODE, queryParameters: {
       'userId': widget.user.userId,
       'verificationCode': _vCodeController.text,
     }, onSuccess: (data) {

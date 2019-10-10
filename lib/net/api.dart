@@ -22,21 +22,22 @@ class Api{
   //获取歌曲详情
   static const String GETMUSICDETAIL = "/api/music.do?getSongDetail";
   //轮播图
-  static const String BANNER = "/api/homepage.do?getBanner";
+  static const String BANNER = "/api/homePage.do?getBanner";
   //课程接口
-  static const String PSYCOURSE = "/api/psycourse.do?getPsyCourse";
+  static const String PSYCOURSE = "/api/psyCourse.do?getPsyCourse";
   //心理课程详情1
-  static const String COURSEDETAIL1 = "/api/psycourse.do?getCouserDetail&id=1";
+  static const String COURSEDETAIL1 = "/api/psyCourse.do?getCouserDetail&id=1";
   //心理课程详情2
-  static const String COURSEDETAIL2 = "/api/psycourse.do?getCouserDetail&id=2";
+  static const String COURSEDETAIL2 = "/api/psyCourse.do?getCouserDetail&id=2";
   //心理课程目录1
-  static const String PSYCOURSECATELOG = "/api/psycourse.do?getPsyCourseCatalog&courseId=1";
+  static const String PSYCOURSECATELOG = "/api/psyCourse.do?getPsyCourseCatalog&courseId=1";
   //简单共读
-  static const String Togetheread = "/api/psycoreading.do?getPsyCoReading";
+//  static const String CoReading = "/api/psycoreading.do?getPsyCoReading";
+  static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
   //简单共读目录
-  static const String CoReadingCatalog = "/api/psycoreading.do?getPsyCoReadingCatalog&courseId=1";
+  static const String CoReadingCatalog = "/api/psyCoreading.do?getPsyCoReadingCatalog&courseId=1";
   //每日一测
-  static const String PsyDailyTest = "/api/psydailytest.do?getPsyDailyTest";
+  static const String PsyDailyTest = "/api/psyDailyTest.do?getPsyDailyTest";
   //用户身份验证
   static const String USERAUTHCHECK = "/api/login.do?userAuthCheck";
   //获取验证码

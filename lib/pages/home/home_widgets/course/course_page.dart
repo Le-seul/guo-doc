@@ -4,6 +4,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Curriculum extends StatefulWidget {
   Curriculum({Key key}) : super(key: key);
@@ -48,6 +49,7 @@ class _CurriculumState extends State<Curriculum> {
   }
 
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
         appBar: AppBar(
           title: Text('课程'),
@@ -65,9 +67,6 @@ class _CurriculumState extends State<Curriculum> {
                 : SingleChildScrollView(
                     child: Column(
                     children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
                       Container(
                           padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                           child: SingleChildScrollView(
@@ -75,7 +74,7 @@ class _CurriculumState extends State<Curriculum> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               SizedBox(
-                                height: 20,
+                                height: ScreenUtil().setHeight(3),
                               ),
                               InkWell(
                                 child: Row(
@@ -92,14 +91,14 @@ class _CurriculumState extends State<Curriculum> {
                                 onTap: () {},
                               ),
                               SizedBox(
-                                height: 20,
-                                child: Text(psycourselist[0].name),
+                                  height: ScreenUtil().setHeight(3),
+
                               ),
                               InkWell(
                                 child: Image.network(
                                   mycourselist[0].coverImgId,
-                                  height: 150,
-                                  width: 450,
+                                  height:  ScreenUtil().setHeight(25),
+                                  width: ScreenUtil().setWidth(100),
                                   fit: BoxFit.fill,
                                 ),
                                 onTap: () {
@@ -108,7 +107,7 @@ class _CurriculumState extends State<Curriculum> {
                                 },
                               ),
                               SizedBox(
-                                height: 30,
+                                height:  ScreenUtil().setHeight(3),
                               ),
                               InkWell(
                                 child: Row(
@@ -125,18 +124,15 @@ class _CurriculumState extends State<Curriculum> {
                                 onTap: () {},
                               ),
                               SizedBox(
-                                height: 30,
+                                height:ScreenUtil().setHeight(3),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
+
                                   Container(
-                                    height: 100,
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
+                                    height: ScreenUtil().setHeight(20),
+                                    width: ScreenUtil().setWidth(42),
                                     child: Column(
                                       children: <Widget>[
                                         Expanded(
@@ -224,13 +220,10 @@ class _CurriculumState extends State<Curriculum> {
                                       ],
                                     ),
                                   ),
+
                                   Container(
-                                    height: 100,
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
+                                    height: ScreenUtil().setHeight(20),
+                                    width: ScreenUtil().setWidth(42),
                                     child: Column(
                                       children: <Widget>[
                                         Expanded(
@@ -317,22 +310,16 @@ class _CurriculumState extends State<Curriculum> {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    height: 100,
-                                    width: 20,
-                                  ),
+
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
+
                                   Container(
-                                    height: 100,
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
+                                    height: ScreenUtil().setHeight(20),
+                                    width: ScreenUtil().setWidth(42),
                                     child: Column(
                                       children: <Widget>[
                                         Expanded(
@@ -419,18 +406,12 @@ class _CurriculumState extends State<Curriculum> {
                                       ],
                                     ),
                                   ),
+
                                   Container(
-                                    height: 100,
-                                    width: 20,
+                                    height: ScreenUtil().setHeight(20),
+                                    width: ScreenUtil().setWidth(42),
                                   ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 20,
-                                  ),
+
                                 ],
                               ),
                             ],
