@@ -128,7 +128,7 @@ class _SMSLoginState extends State<SMSLogin> {
               SizedBox(width: 5,),
               Container(
                   height: 26.0,
-                  width: 85.0,
+                  width: 90.0,
                   child: FlatButton(
                     onPressed: _isClick
                         ? () {

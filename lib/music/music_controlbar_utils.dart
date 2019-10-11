@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/music/channel_media_player.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
@@ -17,6 +20,17 @@ class MusicControlBar {
   static double dx, dy;
   static bool hide = false;
   static String _positonText = "00:00";
+  static Timer _timer; //倒计时的计时器
+  static int _seconds; //当前倒计时的秒数
+
+  //启动倒计时计时器
+  static void startTimer() {
+    _seconds = 0;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        _seconds++;
+    });
+
+  }
 
   static showTinyControlbar(BuildContext context) {
     tinyControlbar = new OverlayEntry(builder: (context) {
@@ -35,6 +49,7 @@ class MusicControlBar {
                 color: Colors.white70,
               ),
               onPressed: () {
+                startTimer();
                 tinyControlbar.remove();
                 tinyControlbar = null;
                 hideControlBar(context);
@@ -67,9 +82,7 @@ class MusicControlBar {
 
   static showControlBar(BuildContext context, Music music, String position) {
 
-    Future.delayed(Duration(seconds: 5)).then((value) {
-      hideControlBar(context);
-    });
+    hide = false;
     music = quiet.value.current;
     dy = ScreenUtil.getInstance().screenHeight * 0.7;
     dx = 15;
@@ -110,47 +123,59 @@ class MusicControlBar {
     String durationText = "00:00";
     String positionText = "00:00";
 
+
+
+
     controlBar = new OverlayEntry(builder: (context) {
-      //外层使用Positioned进行定位，控制在Overlay中的位置
-      return StatefulBuilder(
-        builder: (context, state) {
-          void _onPlayerStateChanged() {
-            if (music != quiet.value.current) {
-              music = quiet.value.current;
-              if (music == null) {
-                Navigator.pop(context);
-              } else {
-                state(() {});
+
+
+      void _onPlayerStateChanged() {
+        if (music != quiet.value.current) {
+          music = quiet.value.current;
+          if (music == null) {
+            Navigator.pop(context);
+          } else {
+            Overlay.of(context).setState(() {});
+          }
+        }
+        if (quiet.value.position != position) {
+          var state = PlayerState.of(context).value;
+          if (state.initialized) {
+            var duration = state.duration.inMilliseconds;
+            var position = isUserTracking
+                ? trackingPosition.round()
+                : state.position.inMilliseconds;
+
+            durationText = getTimeStamp(duration);
+            positionText = getTimeStamp(position);
+            int maxBuffering = 0;
+            for (DurationRange range in state.buffered) {
+              final int end = range.end.inMilliseconds;
+              if (end > maxBuffering) {
+                maxBuffering = end;
               }
-            }
-            if (quiet.value.position != position) {
-              state(() {
-                var state = PlayerState.of(context).value;
-                if(state.initialized){
-                  var duration = state.duration.inMilliseconds;
-                  var position = isUserTracking
-                      ? trackingPosition.round()
-                      : state.position.inMilliseconds;
-
-                  durationText = getTimeStamp(duration);
-                  positionText = getTimeStamp(position);
-                  int maxBuffering = 0;
-                  for (DurationRange range in state.buffered) {
-                    final int end = range.end.inMilliseconds;
-                    if (end > maxBuffering) {
-                      maxBuffering = end;
-                    }
-                  }
-                }
-
-                isUserTracking = true;
-                trackingPosition =
-                    quiet.value.position.inMilliseconds.toDouble();
-              });
             }
           }
 
-          quiet.addListener(_onPlayerStateChanged);
+          isUserTracking = true;
+          trackingPosition = quiet.value.position.inMilliseconds.toDouble();
+
+          Overlay.of(context).setState(() {});
+        }
+        if(_seconds == 5){
+          hide = true;
+          if (tinyControlbar == null) {
+            Overlay.of(context).setState(() {
+              showTinyControlbar(context);
+            });
+          }
+          _seconds = 0;
+          _timer?.cancel();
+        }
+      }
+      quiet.addListener(_onPlayerStateChanged);
+
+      //外层使用Positioned进行定位，控制在Overlay中的位置
 
           return new Positioned(
               top: dy,
@@ -205,6 +230,8 @@ class MusicControlBar {
                                 Container(
                                   height: 30,
                                   child: Marquee(
+                                    blankSpace: 15,
+                                    velocity: 25.0,
                                     text: music.name,
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16),
@@ -226,7 +253,7 @@ class MusicControlBar {
                               color: Colors.white,
                             ),
                             onPressed: () {
-                              state(() {});
+                              Overlay.of(context).setState(() {});
                               quiet.playNext();
                             },
                           ),
@@ -236,6 +263,8 @@ class MusicControlBar {
                                 color: Colors.white70,
                               ),
                               onPressed: () {
+                                _seconds = 0;
+                                _timer?.cancel();
                                 quiet.removeListener(_onPlayerStateChanged);
                                 removeControlBar();
                               }),
@@ -248,10 +277,10 @@ class MusicControlBar {
                   },
                 ),
               ));
-        },
-      );
     });
     //往Overlay中插入插入OverlayEntry
+
+
     Overlay.of(context).insert(controlBar);
   }
 }

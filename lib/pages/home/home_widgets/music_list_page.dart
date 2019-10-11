@@ -149,8 +149,6 @@ class _MusicListPageState extends State<MusicListPage> {
                                   loadAssetImage('more.png',height: 15,width: 15),
                                 ],
                               ),
-
-
                               Text(
                                 '周杰伦',
                                 style: TextStyle(color: Colors.black12, fontSize: 12),
@@ -173,7 +171,6 @@ class _MusicListPageState extends State<MusicListPage> {
         quiet.playWithList(musicList[index], musicList, 'playlist');
       },
       child:Container(
-        height: 50,
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,7 +178,7 @@ class _MusicListPageState extends State<MusicListPage> {
             Container(
               alignment: Alignment.center,
               child: Text('${musicList[index].order}',style: TextStyle(fontSize: 30),),
-              width: 30,
+              width: 40,
             ),
             SizedBox(width: 15,),
             Column(

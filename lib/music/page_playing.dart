@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_first/bean/music.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/music/cached_image.dart';
 import 'package:flutter_first/music/channel_media_player.dart';
 import 'package:flutter_first/music/cover.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_first/music/page_playing_list.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
 import 'package:flutter_first/music/time.dart';
+import 'package:marquee/marquee.dart';
 
 import 'music_controlbar_utils.dart';
 
@@ -27,6 +30,9 @@ class PlayingPage extends StatefulWidget {
 }
 
 class _PlayingPageState extends State<PlayingPage> {
+
+  StreamSubscription exitLogin;
+
   @override
   void initState() {
     super.initState();
@@ -79,9 +85,9 @@ class _PlayingPageState extends State<PlayingPage> {
         ),
       ),
       onWillPop: (){
+        MusicControlBar.startTimer();
         Navigator.pop(context);
         MusicControlBar.showControlBar(context,widget.music,positionText);
-
       },
     );
   }
@@ -515,19 +521,21 @@ class _PlayingTitle extends StatelessWidget {
               color: Theme.of(context).primaryIconTheme.color,
             ),
             onPressed: (){
-              MusicControlBar.showControlBar(context,music,positionText);
               Navigator.pop(context);
+              MusicControlBar.showControlBar(context,music,positionText);
+              MusicControlBar.startTimer();
+
             } ),
+        centerTitle: true,
         titleSpacing: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              music.name,
-              style: TextStyle(fontSize: 17),
-            ),
-          ],
+        title: Container(
+          width: 200,
+          child: Marquee(
+            blankSpace: 15.0,
+            text: music.name,
+            style: TextStyle(
+                color: Colors.white, fontSize: 17),
+          ),
         ),
         backgroundColor: Colors.transparent,
       ),
