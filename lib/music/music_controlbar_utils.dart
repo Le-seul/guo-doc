@@ -123,11 +123,8 @@ class MusicControlBar {
     String durationText = "00:00";
     String positionText = "00:00";
 
-
-
-
+    GlobalKey<TextWidgetState> textKey = GlobalKey();
     controlBar = new OverlayEntry(builder: (context) {
-
 
       void _onPlayerStateChanged() {
         if (music != quiet.value.current) {
@@ -160,7 +157,7 @@ class MusicControlBar {
           isUserTracking = true;
           trackingPosition = quiet.value.position.inMilliseconds.toDouble();
 
-          Overlay.of(context).setState(() {});
+         textKey.currentState.refresh(positionText,durationText);
         }
         if(_seconds == 5){
           hide = true;
@@ -231,18 +228,15 @@ class MusicControlBar {
                                   height: 30,
                                   child: Marquee(
                                     blankSpace: 15,
-                                    velocity: 25.0,
+                                    velocity: 50.0,
                                     text: music.name,
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
                                 ),
                                 Expanded(
-                                    child: Text(
-                                  "$positionText/$durationText",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 13),
-                                ))
+                                    child:  TextWidget(textKey),
+                                )///需要更新的Text)
                               ],
                             ),
                           ),
@@ -273,6 +267,8 @@ class MusicControlBar {
                     ),
                   ),
                   onTap: () {
+                    _seconds = 0;
+                    _timer?.cancel();
                     Router.pushNoParams(context, Router.playingPage);
                   },
                 ),
@@ -282,5 +278,35 @@ class MusicControlBar {
 
 
     Overlay.of(context).insert(controlBar);
+  }
+}
+class TextWidget extends StatefulWidget {
+  TextWidget(Key key) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return TextWidgetState();
+  }
+}
+
+class TextWidgetState extends State<TextWidget> {
+
+  String durationText = "00:00";
+  String positionText = "00:00";
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "$positionText/$durationText",
+      style: TextStyle(
+          color: Colors.white, fontSize: 13),
+    );
+  }
+
+  void refresh(String startTime,String endTime) {
+    setState(() {
+      positionText = startTime;
+      durationText = endTime;
+    });
   }
 }

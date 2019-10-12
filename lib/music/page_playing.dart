@@ -528,15 +528,10 @@ class _PlayingTitle extends StatelessWidget {
             } ),
         centerTitle: true,
         titleSpacing: 0,
-        title: Container(
-          width: 200,
-          child: Marquee(
-            blankSpace: 15.0,
-            text: music.name,
+        title: Text(music.name,
             style: TextStyle(
                 color: Colors.white, fontSize: 17),
           ),
-        ),
         backgroundColor: Colors.transparent,
       ),
     );

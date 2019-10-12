@@ -127,15 +127,14 @@ class _SMSLoginState extends State<SMSLogin> {
               Container(width: 1.5,height:18,color: Colors.green,),
               SizedBox(width: 5,),
               Container(
-                  height: 26.0,
-                  width: 90.0,
+
                   child: FlatButton(
                     onPressed: _isClick
                         ? () {
                       _sendVerificationCode();
                     }
                         : null,
-                    padding: const EdgeInsetsDirectional.only(start: 8.0, end: 8.0),
+
                     textColor: Colors.black,
                     child: Text(
                       !_isClick ? "（$s s）" : "获取验证码",
