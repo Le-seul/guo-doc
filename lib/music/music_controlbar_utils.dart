@@ -10,7 +10,7 @@ import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
 import 'package:flutter_first/music/time.dart';
 import 'package:flutter_first/util/router.dart';
-import 'package:marquee/marquee.dart';
+import 'package:marquee_flutter/marquee_flutter.dart';
 
 import 'cached_image.dart';
 
@@ -23,13 +23,12 @@ class MusicControlBar {
   static Timer _timer; //倒计时的计时器
   static int _seconds; //当前倒计时的秒数
 
-  //启动倒计时计时器
+  //启动计时器
   static void startTimer() {
     _seconds = 0;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-        _seconds++;
+      _seconds++;
     });
-
   }
 
   static showTinyControlbar(BuildContext context) {
@@ -39,12 +38,26 @@ class MusicControlBar {
         top: dy,
         left: 0,
         child: new Material(
+          color: Colors.transparent,
           child: Container(
+            width: 25,
             height: 50,
-            color: Colors.grey,
+            padding: EdgeInsets.only(right: 5),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xff009a73), Color(0xff3bd3ac)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+
+              borderRadius: new BorderRadius.horizontal(right: Radius.circular(90)), // 也可控件一边圆角大小
+
+
+            ),
             child: IconButton(
-              padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+              padding:EdgeInsets.all(0.0),
               icon: Icon(
+
                 Icons.navigate_next,
                 color: Colors.white70,
               ),
@@ -78,10 +91,12 @@ class MusicControlBar {
       tinyControlbar.remove();
       tinyControlbar = null;
     }
+    if (_timer != null) {
+      _timer?.cancel();
+    }
   }
 
   static showControlBar(BuildContext context, Music music, String position) {
-
     hide = false;
     music = quiet.value.current;
     dy = ScreenUtil.getInstance().screenHeight * 0.7;
@@ -125,7 +140,6 @@ class MusicControlBar {
 
     GlobalKey<TextWidgetState> textKey = GlobalKey();
     controlBar = new OverlayEntry(builder: (context) {
-
       void _onPlayerStateChanged() {
         if (music != quiet.value.current) {
           music = quiet.value.current;
@@ -157,9 +171,9 @@ class MusicControlBar {
           isUserTracking = true;
           trackingPosition = quiet.value.position.inMilliseconds.toDouble();
 
-         textKey.currentState.refresh(positionText,durationText);
+          textKey.currentState.refresh(positionText, durationText);
         }
-        if(_seconds == 5){
+        if (_seconds == 5) {
           hide = true;
           if (tinyControlbar == null) {
             Overlay.of(context).setState(() {
@@ -170,116 +184,126 @@ class MusicControlBar {
           _timer?.cancel();
         }
       }
+
       quiet.addListener(_onPlayerStateChanged);
 
       //外层使用Positioned进行定位，控制在Overlay中的位置
 
-          return new Positioned(
-              top: dy,
-              left: dx,
-              child: Offstage(
-                offstage: hide,
-                child: GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) {
-                    final RenderObject box = context.findRenderObject();
-                    //  获得自定义Widget的大小，用来计算Widget的中心锚点
+      return new Positioned(
+          top: dy,
+          left: dx,
+          child: Offstage(
+            offstage: hide,
+            child: GestureDetector(
+              onVerticalDragUpdate: (DragUpdateDetails details) {
+                final RenderObject box = context.findRenderObject();
+                //  获得自定义Widget的大小，用来计算Widget的中心锚点
 //            dx = details.globalPosition.dx ;
-                    dy = details.globalPosition.dy;
-                    print("vertical drag $dx $dy");
+                dy = details.globalPosition.dy;
+                print("vertical drag $dx $dy");
+                Overlay.of(context).setState(() {});
+                _seconds = 0;
+                _timer?.cancel();
+              },
+              onVerticalDragEnd: (DragEndDetails details) {
+                startTimer();
+              },
+              onHorizontalDragUpdate: (DragUpdateDetails details) {
+                final RenderObject box = context.findRenderObject();
+                //  获得自定义Widget的大小，用来计算Widget的中心锚点
+//            dx = details.globalPosition.dx ;
+                if (details.delta.dx < -10) {
+                  print("hide action");
+                  hide = true;
+                  if (tinyControlbar == null) {
                     Overlay.of(context).setState(() {});
-                  },
-                  onHorizontalDragUpdate: (DragUpdateDetails details) {
-                    final RenderObject box = context.findRenderObject();
-                    //  获得自定义Widget的大小，用来计算Widget的中心锚点
-//            dx = details.globalPosition.dx ;
-                    if (details.delta.dx < -10) {
-                      print("hide action");
-                      hide = true;
-                      if (tinyControlbar == null) {
-                        Overlay.of(context).setState(() {});
-                        showTinyControlbar(context);
-                      }
-                    }
-                  },
-                  child: new Material(
-                    child: Container(
-                      height: 50,
-                      constraints: BoxConstraints(minWidth: 300),
-                      color: Colors.grey,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Image(
-                              width: 42,
-                              height: 42,
-                              image: CachedImage(music.image),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Container(
-                            width: 100,
-                            margin: EdgeInsets.only(left: 4),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  height: 30,
-                                  child: Marquee(
-                                    blankSpace: 15,
-                                    velocity: 50.0,
-                                    text: music.name,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                ),
-                                Expanded(
-                                    child:  TextWidget(textKey),
-                                )///需要更新的Text)
-                              ],
-                            ),
-                          ),
-                          iconPlayPause,
-                          IconButton(
-                            icon: Icon(
-                              Icons.skip_next,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Overlay.of(context).setState(() {});
-                              quiet.playNext();
-                            },
-                          ),
-                          IconButton(
-                              icon: Icon(
-                                Icons.close,
-                                color: Colors.white70,
-                              ),
-                              onPressed: () {
-                                _seconds = 0;
-                                _timer?.cancel();
-                                quiet.removeListener(_onPlayerStateChanged);
-                                removeControlBar();
-                              }),
-                        ],
+                    showTinyControlbar(context);
+                  }
+                  _seconds = 0;
+                  _timer?.cancel();
+                }
+              },
+              child: new Material(
+                child: Container(
+                  height: 50,
+                  constraints: BoxConstraints(minWidth: 300),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                    colors: [Color(0xff009a73), Color(0xff3bd3ac)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  )),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Image(
+                          width: 42,
+                          height: 42,
+                          image: CachedImage(music.image),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
+                      Container(
+                        width: 100,
+                        margin: EdgeInsets.only(left: 4),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: 30,
+                              child: MarqueeWidget(
+                                ratioOfBlankToScreen: 0.1,
+                                text: music.name,
+                                textStyle: new TextStyle(
+                                    fontSize: 16.0, color: Colors.white),
+                                scrollAxis: Axis.horizontal,
+                              ),
+                            ),
+                            Expanded(
+                              child: TextWidget(textKey),
+                            )
+
+                            ///需要更新的Text)
+                          ],
+                        ),
+                      ),
+                      iconPlayPause,
+                      IconButton(
+                        icon: Icon(
+                          Icons.skip_next,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Overlay.of(context).setState(() {});
+                          quiet.playNext();
+                        },
+                      ),
+                      IconButton(
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.black26,
+                          ),
+                          onPressed: () {
+                            quiet.removeListener(_onPlayerStateChanged);
+                            removeControlBar();
+                          }),
+                    ],
                   ),
-                  onTap: () {
-                    _seconds = 0;
-                    _timer?.cancel();
-                    Router.pushNoParams(context, Router.playingPage);
-                  },
                 ),
-              ));
+              ),
+              onTap: () {
+                Router.pushNoParams(context, Router.playingPage);
+              },
+            ),
+          ));
     });
     //往Overlay中插入插入OverlayEntry
-
-
     Overlay.of(context).insert(controlBar);
   }
 }
+
 class TextWidget extends StatefulWidget {
   TextWidget(Key key) : super(key: key);
 
@@ -290,7 +314,6 @@ class TextWidget extends StatefulWidget {
 }
 
 class TextWidgetState extends State<TextWidget> {
-
   String durationText = "00:00";
   String positionText = "00:00";
 
@@ -298,12 +321,11 @@ class TextWidgetState extends State<TextWidget> {
   Widget build(BuildContext context) {
     return Text(
       "$positionText/$durationText",
-      style: TextStyle(
-          color: Colors.white, fontSize: 13),
+      style: TextStyle(color: Colors.white, fontSize: 13),
     );
   }
 
-  void refresh(String startTime,String endTime) {
+  void refresh(String startTime, String endTime) {
     setState(() {
       positionText = startTime;
       durationText = endTime;

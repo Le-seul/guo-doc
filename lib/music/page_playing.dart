@@ -14,7 +14,6 @@ import 'package:flutter_first/music/page_playing_list.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
 import 'package:flutter_first/music/time.dart';
-import 'package:marquee/marquee.dart';
 
 import 'music_controlbar_utils.dart';
 

@@ -41,6 +41,8 @@ class _MusicListPageState extends State<MusicListPage> {
 
   @override
   Widget build(BuildContext context) {
+    Music music = PlayerState.of(context, aspect: PlayerStateAspect.music).value.current;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -59,7 +61,7 @@ class _MusicListPageState extends State<MusicListPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 SizedBox(width: 15,),
-              Text('${musicList.length}',style: TextStyle(color: Colors.green,fontSize: 20),),
+              Text('${musicList.length}',style: TextStyle(color: Color(0xff2CA687),fontSize: 20),),
               SizedBox(width: 5,),
               Text('条音频',style: TextStyle(color: Colors.black54),),
               Expanded(child: Container()),
@@ -79,13 +81,13 @@ class _MusicListPageState extends State<MusicListPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                    loadAssetImage('play.png',height: 15,width: 15,color: Colors.green),
+                    loadAssetImage('play.png',height: 15,width: 15,color: Color(0xff2CA687)),
                         SizedBox(width: 5,),
                         Container(
                           alignment: Alignment.center,
                           child: Text(
                             '全部播放',
-                            style: TextStyle(fontSize: 15, color: Colors.green ),
+                            style: TextStyle(fontSize: 15, color: Color(0xff2CA687) ),
                           ),
                         ),
 
@@ -103,7 +105,10 @@ class _MusicListPageState extends State<MusicListPage> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: musicList.length,
-            itemBuilder: (context, index) => _buildItem(index),),
+            itemBuilder: (context, index) {
+              Music item = musicList[index];
+             return _buildItem(index,item.id == music.id);
+            } ),
         ],
       )
     );
@@ -164,7 +169,8 @@ class _MusicListPageState extends State<MusicListPage> {
           )),
     );
   }
-  _buildItem(index){
+  _buildItem(int index,bool isPlaying){
+
     return GestureDetector(
       onTap: (){
         Router.push(context,Router.playingPage,musicList[index]);
@@ -177,14 +183,14 @@ class _MusicListPageState extends State<MusicListPage> {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: Text('${musicList[index].order}',style: TextStyle(fontSize: 30),),
+              child: Text('${musicList[index].order}',style: TextStyle(fontSize: 30,),),
               width: 40,
             ),
             SizedBox(width: 15,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(musicList[index].name,style: TextStyle(fontSize: 18),),
+                Text(musicList[index].name,style: TextStyle(fontSize: 18,color: isPlaying?Color(0xff2CA687):Colors.black),),
                 Text('周杰伦',style: TextStyle(color: Colors.black12,fontSize: 12),)
               ],
             ),
