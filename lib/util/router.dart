@@ -30,7 +30,11 @@ import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/mine/consultation.dart';
+import 'package:flutter_first/pages/mine/doctor_chunyu_home_page.dart';
 import 'package:flutter_first/pages/mine/graphic_consuitation.dart';
+import 'package:flutter_first/pages/mine/history_record.dart';
+import 'package:flutter_first/pages/mine/search_hospital.dart';
+import 'package:flutter_first/pages/mine/search_hospital_detail.dart';
 import 'package:flutter_first/pages/mine/talk_page.dart';
 import 'package:flutter_first/pages/mine/telephone_consultation.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
@@ -90,6 +94,10 @@ class Router {
   static const telConsultation = 'app://TelConsultation';
   static const consultation = 'app://Consultation';
   static const graphicConsultation = 'app://CaphicConsultation';
+  static const doctorChunyuHomePage = 'app://DoctorChunyuHomePage';
+  static const searchHospital = 'app://SearchHospital';
+  static const searchHospitalDetail = 'app://SearchHospitalDetail';
+  static const historyRecord = 'app://HistoryRecord';
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
@@ -180,6 +188,14 @@ class Router {
           return Consultation();
         case graphicConsultation:
           return GraphicConsultation();
+        case doctorChunyuHomePage:
+          return DoctorChunyuHomePage();
+        case searchHospital:
+          return SearchHospital();
+        case searchHospitalDetail:
+          return SearchHospitalDetail();
+        case historyRecord:
+          return HistoryRecord();
       }
     }
     return null;

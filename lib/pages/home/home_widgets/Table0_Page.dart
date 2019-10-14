@@ -173,7 +173,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              Router.pushNoParams(context, Router.consultation);
+              Router.pushNoParams(context, Router.doctorChunyuHomePage);
             },
           ),
         ]),

@@ -190,11 +190,21 @@ class _TalkPageState extends State<TalkPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text(
-          '张警官',
-          style: new TextStyle(fontSize: 20.0),
+        flexibleSpace: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text('问题详情',style: TextStyle(fontSize: 20,color: Colors.black),),
+              Text(
+                '22小时或9次对话后问题关闭',
+                style: TextStyle(color: Colors.black26,fontSize: 15),
+              ),
+            ],
         ),
+        elevation: 0.5,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
         centerTitle: true,
+
       ),
       body: GestureDetector(
         onTap: (){

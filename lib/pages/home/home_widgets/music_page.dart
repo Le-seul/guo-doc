@@ -68,6 +68,7 @@ class _MusicPageState extends State<MusicPage> {
                     child: Container(
                       margin: EdgeInsets.only(bottom: 10.0,top: 10.0),
                       child:SearchTextFieldWidget(
+                        isborder: true,
                         hintText: '请输入搜索内容',
                         margin: const EdgeInsets.only(
                             left: 15.0, right: 15.0),

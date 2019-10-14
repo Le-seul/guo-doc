@@ -25,6 +25,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
               Container(
                 margin: EdgeInsets.only(top: 10,bottom: 10),
                 child: SearchTextFieldWidget(
+                  isborder: true,
                   hintText: '搜索你感兴趣的内容/咨询师',
                   margin: const EdgeInsets.only(
                       left: 15.0, right: 15.0),

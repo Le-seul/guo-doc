@@ -155,6 +155,7 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           child: Container(
                             child: SearchTextFieldWidget(
+                              isborder: false,
                               hintText: '请输入搜索内容',
                               margin: const EdgeInsets.only(
                                   left: 15.0, right: 15.0),
