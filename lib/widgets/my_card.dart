@@ -7,7 +7,7 @@ class MyCard extends StatelessWidget {
     Key key,
     @required this.child,
     this.color: Colors.white,
-    this.shadowColor: const Color(0x80DCE7FA)
+    this.shadowColor: const Color(0xFFDDDDDD)
   }): super(key: key);
   
   final Widget child;
@@ -21,7 +21,7 @@ class MyCard extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
-            BoxShadow(color: shadowColor, offset: Offset(0.0, 2.0), blurRadius: 8.0, spreadRadius: 0.0),
+            BoxShadow(color: shadowColor, offset: Offset(0.0, 2.0), blurRadius: 5.0, spreadRadius: 1.0),
           ]
       ),
       child: child,

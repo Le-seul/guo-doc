@@ -12,12 +12,10 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Column(
+        body: Column(
             children: <Widget>[
               Container(
-                  height: 350,
+                  height: MediaQuery.of(context).size.height*360/667,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/images/doctor/bg_doctor.png"),
@@ -40,7 +38,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                           child: Container(
                             child: MyCard(
                                 child: Container(
-                                  height: 260,
+                                  height: MediaQuery.of(context).size.height*260/667,
                                   padding: EdgeInsets.only(left:15.0,right: 15.0,top: 15),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +55,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                                         '服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明',
                                         strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5,),
                                         style: TextStyle(fontSize: 14,),
-                                        maxLines: 8,
+                                        maxLines: 7,
                                       )
                                     ],
                                   ),)),
@@ -104,7 +102,6 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               )
             ],
           ),
-        )
     );
   }
   _gridItem(String bgImage,String icon,String text){
