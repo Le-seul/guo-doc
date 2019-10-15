@@ -298,11 +298,11 @@ class _TalkPageState extends State<TalkPage>
                                   children: <Widget>[
                                     _nameWidget('三级医院'),
                                     SizedBox(
-                                      width: 10,
+                                      width: 8,
                                     ),
                                     _nameWidget('快速回复'),
                                     SizedBox(
-                                      width: 10,
+                                      width: 8,
                                     ),
                                     _nameWidget('专业有效'),
                                   ],

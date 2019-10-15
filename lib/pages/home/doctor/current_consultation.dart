@@ -12,7 +12,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: 10,
+      itemCount: 1,
       itemBuilder: (context, index) => _buildItem(index),
     );
   }

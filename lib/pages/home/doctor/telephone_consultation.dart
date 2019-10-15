@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
@@ -105,6 +106,11 @@ class _TelConsultationState extends State<TelConsultation>
                               child: TextField(
                                   onChanged: (val) {},
                                   cursorColor: Colors.black,
+                                  inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly,//只输入数字
+                                    LengthLimitingTextInputFormatter(11)//限制长度
+                                  ],
+
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(0.0),
                                     border: InputBorder.none,

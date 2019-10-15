@@ -1,4 +1,6 @@
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -41,9 +43,19 @@ class _SearchHospitalState extends State<SearchHospital>
         backgroundColor: Colors.white,
         centerTitle: true,
         actions: <Widget>[
-          new IconButton(
-            icon: Icon(Icons.share, size: 20.0,color: Colors.black,),
-            onPressed: () {
+          GestureDetector(
+            child: Container(
+              height: 24,
+              width: 24,
+              margin: EdgeInsets.only(right: 15),
+              child: loadAssetImage('share.png'
+                 ),
+            ),
+            onTap: (){
+              Share.text(
+                  '我的分享',
+                  '北京协和医院:\nhttps://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%8D%8F%E5%92%8C%E5%8C%BB%E9%99%A2/322752?fr=aladdin',
+                  'text/plain');
             },
           )
         ],
@@ -75,7 +87,7 @@ class _SearchHospitalState extends State<SearchHospital>
                           //是否可以滚动
                           controller: mController,
                           indicatorColor: Colors.white,
-                          labelColor: Colors.red,
+                          labelColor: Color(0xff2CA687),
                           unselectedLabelColor: Color(0xff666666),
                           labelStyle: TextStyle(fontSize: 16.0),
                           tabs: <Widget>[
@@ -124,65 +136,93 @@ class _SearchHospitalState extends State<SearchHospital>
   }
 
   _buildItem(int index) {
+    Widget itemWidget;
     String num;
-    if(index<9){
-      num = "0"+"${index+1}";
-    }else{
-      num = "${index+1}";
-    }
 
+    if (index < 9) {
+      num = "0" + "${index + 1}";
+    } else {
+      num = "${index + 1}";
+    }
+    if (index == 0) {
+      itemWidget = Container(
+        child: loadAssetImage('doctor/first.png', fit: BoxFit.fill),
+        padding: EdgeInsets.only(left: 4, right: 4),
+      );
+    } else if (index == 1) {
+      itemWidget = Container(
+        child: loadAssetImage('doctor/second.png', fit: BoxFit.fill),
+        padding: EdgeInsets.only(left: 4, right: 4),
+      );
+    } else if (index == 2) {
+      itemWidget = Container(
+        child: loadAssetImage('doctor/third.png', fit: BoxFit.fill),
+        padding: EdgeInsets.only(left: 4, right: 4),
+      );
+    } else {
+      itemWidget = Container(
+        padding: EdgeInsets.all(4),
+        child: CircleAvatar(
+          backgroundColor: Colors.black12,
+          radius: 10,
+          child: Text(
+            num,
+            style: TextStyle(fontSize: 18, color: Colors.black54),
+          ),
+        ),
+      );
+    }
     return GestureDetector(
-      onTap: (){
-        Router.pushNoParams(context,Router.searchHospitalDetail);
+      onTap: () {
+        Router.pushNoParams(context, Router.searchHospitalDetail);
       },
       child: Container(
-      padding: EdgeInsets.only(left: 15, right: 15),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 1,
-            color: Colors.black26,
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 15, bottom: 15),
-            child: Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.black12,
-                  radius: 15,
-                  child: Text(
-                    num,
-                    style: TextStyle(fontSize: 20,color: Colors.black54),
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        '北京协和医院',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        '全国综合排名第一',
-                        style: TextStyle(color: Colors.black26),
-                      ),
-                    ],
-                  ),
-                ),
-                Text('北京东城区', style: TextStyle(color: Colors.black26)),
-              ],
+        color: Colors.white,
+        padding: EdgeInsets.only(left: 15, right: 15),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 1,
+              color: Colors.black26,
             ),
-          )
-        ],
+            Container(
+              padding: EdgeInsets.only(top: 15, bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: itemWidget,
+                    width: 40,
+                    height: 40,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '北京协和医院',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          '全国综合排名第一',
+                          style: TextStyle(color: Colors.black26),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text('北京东城区', style: TextStyle(color: Colors.black26)),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ),);
+    );
   }
 }
