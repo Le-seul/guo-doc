@@ -132,7 +132,7 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
           )
        ,
       onTap: () {
-        Router.push(context, 'https://baike.sogou.com/v63254446.htm?fromTitle=%E8%AD%A6%E5%AF%9F%E5%BF%83%E7%90%86%E5%81%A5%E5%BA%B7%E5%8F%8A%E5%85%B6%E7%BB%B4%E6%8A%A4', {'title': '民警心理健康'});
+        Router.pushNoParams(context, Router.center_detail);
       },
 
     );
