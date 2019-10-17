@@ -16,7 +16,6 @@ import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 
-
 class EntityFactory {
   static T generateOBJ<T>(json) {
     if (1 == 0) {

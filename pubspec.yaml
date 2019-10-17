@@ -88,6 +88,7 @@ flutter:
     - assets/images/consultation/
     - assets/images/service/
     - assets/images/mine/
+    - assets/images/mine/rank/
     - mock/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
