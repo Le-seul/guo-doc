@@ -24,6 +24,7 @@ class _TalkPageState extends State<TalkPage>
   List<Map> talkHistory = [];
   Animation animationTalk;
   AnimationController controller;
+  bool talkFOT = false;
   User user;
 
   @override
@@ -58,7 +59,9 @@ class _TalkPageState extends State<TalkPage>
 
   _focusListener() async {
     if (fsNode1.hasFocus) {
-      setState(() {});
+      setState(() {
+        talkFOT = false;
+      });
     }
   }
 
@@ -332,63 +335,122 @@ class _TalkPageState extends State<TalkPage>
                     )
                   ],
                 ),
-                new Positioned(
+                Positioned(
                   bottom: 0,
-                  left: 0,
+                  left:0,
                   width: MediaQuery.of(context).size.width,
                   child: Container(
-                    color: Color(0xFFebebf3),
-                    child: Row(
-                      children: <Widget>[
-                        new Container(
-                          width: 40.0,
-                          color: Color(0xFFaaaab6),
-                          child: new IconButton(
-                            icon: new Icon(Icons.keyboard_voice),
-                            onPressed: () {
-                              setState(() {
-                                fsNode1.unfocus();
-                              });
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            padding: new EdgeInsets.symmetric(horizontal: 10.0),
-                            width: MediaQuery.of(context).size.width - 140.0,
-                            child: new TextField(
-                              focusNode: fsNode1,
-                              controller: _textInputController,
-                              decoration: new InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: '输入你的信息...',
-                                  hintStyle:
-                                      new TextStyle(color: Color(0xFF7c7c7e))),
-                              onSubmitted: (val) {
-                                if (val != '' && val != null) {
-                                  getTalkList();
-                                  autoTalk(val, 'text');
-                                }
-                                _textInputController.clear();
-                              },
+                      color: Color(0xFFebebf3),
+                      child: new Column(
+                        children: <Widget>[
+                          new Offstage(
+                            offstage: talkFOT,
+                            child:  new Row(
+                              children: <Widget>[
+                                new Container(
+                                  width: 40.0,
+                                  color: Color(0xFFaaaab6),
+                                  child: new IconButton(
+                                    icon: new Icon(Icons.keyboard_voice),
+                                    onPressed: (){
+                                      setState(() {
+                                        fsNode1.unfocus();
+                                        talkFOT = !talkFOT;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                new Container(
+                                  padding: new EdgeInsets.symmetric(horizontal: 10.0),
+                                  width: MediaQuery.of(context).size.width - 140.0,
+                                  child: new TextField(
+                                    focusNode: fsNode1,
+                                    controller: _textInputController,
+                                    decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: '输入你的信息...',
+                                        hintStyle: new TextStyle(
+                                            color: Color(0xFF7c7c7e)
+                                        )
+                                    ),
+                                    onSubmitted: (val){
+                                      if (val != '' && val != null) {
+                                        getTalkList();
+                                        autoTalk(val, 'text');
+                                      }
+                                      _textInputController.clear();
+                                    },
+                                  ),
+                                ),
+                                new IconButton(
+                                  icon: Icon(Icons.insert_emoticon, color: Color(0xFF707072)),
+                                  onPressed: (){
+
+                                  },
+                                ),
+                                new IconButton(
+                                  icon: Icon(Icons.add_circle_outline, color: Color(0xFF707072)),
+                                  onPressed: (){
+                                    setState(() {
+                                      getImage();
+                                    });
+                                  },
+                                )
+                              ],
                             ),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.insert_emoticon,
-                              color: Color(0xFF707072)),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.add_circle_outline,
-                              color: Color(0xFF707072)),
-                          onPressed: () {
-                            getImage();
-                          },
-                        )
-                      ],
-                    ),
+                          new Offstage( // 录音按钮
+                              offstage: !talkFOT,
+                              child: new Column(
+                                children: <Widget>[
+                                  new Container(
+                                    height: 30.0,
+                                    color: Color(0xFFededed),
+                                    alignment: Alignment.centerLeft,
+                                    child: new IconButton(
+                                      icon: Icon(Icons.arrow_back_ios),
+                                      onPressed: (){
+                                        controller.reset();
+                                        controller.stop();
+                                        setState(() {
+                                          talkFOT = !talkFOT;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  new Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 170.0,
+                                    color: Color(0xFFededed),
+                                    child: new Center(
+                                        child: new AnimatedBuilder(
+                                          animation: animationTalk,
+                                          builder: (_, child){
+                                            return new GestureDetector(
+                                              child: new CircleAvatar(
+                                                radius: animationTalk.value * 30,
+                                                backgroundColor: Color(0x306b6aba),
+                                                child: new Center(
+                                                  child: Icon(Icons.keyboard_voice, size: 30.0, color:Color(0xFF6b6aba)),
+                                                ),
+                                              ),
+                                              onLongPress: () {
+                                                controller.forward();
+                                              },
+                                              onLongPressUp: () {
+                                                controller.reset();
+                                                controller.stop();
+                                              },
+                                            );
+                                          },
+                                        )
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      )
                   ),
                 )
               ],
