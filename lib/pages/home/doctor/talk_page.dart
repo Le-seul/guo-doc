@@ -1,9 +1,15 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_first/util/voice_animation_image.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 
@@ -22,13 +28,35 @@ class _TalkPageState extends State<TalkPage>
   var _textInputController = new TextEditingController();
   List<Widget> talkWidgetList = <Widget>[];
   List<Map> talkHistory = [];
+  Animation animation;
   Animation animationTalk;
   AnimationController controller;
   bool talkFOT = false;
+  bool _isRecording = false;
+  bool _isPlaying = false;
+  StreamSubscription _recorderSubscription;
+  StreamSubscription _dbPeakSubscription;
+  StreamSubscription _playerSubscription;
+  FlutterSound flutterSound;
+  double slider_current_position = 0.0;
+  double max_duration = 1.0;
+  List<String> _assetList = new List();
+  bool isStop = false;
   User user;
+
 
   @override
   void initState() {
+
+    _assetList.add("assets/images/doctor/sound_right_1.png");
+    _assetList.add("assets/images/doctor/sound_right_2.png");
+    _assetList.add("assets/images/doctor/sound_right_3.png");
+
+    flutterSound = new FlutterSound();
+    flutterSound.setSubscriptionDuration(0.01);
+    flutterSound.setDbPeakLevelUpdate(0.8);
+    flutterSound.setDbLevelEnabled(true);
+    initializeDateFormatting();
     user = User.fromJson(json
         .decode(StorageManager.sharedPreferences.getString(Constant.userInfo)));
 
@@ -67,8 +95,8 @@ class _TalkPageState extends State<TalkPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     controller.dispose();
+    flutterSound.stopRecorder();
     super.dispose();
   }
 
@@ -140,8 +168,22 @@ class _TalkPageState extends State<TalkPage>
       case 'image':
         return new Image.file(val);
         break;
-      case 'text':
-        return new Text(val);
+      case 'voice':
+        return GestureDetector(
+          child: VoiceAnimationImage(
+            _assetList,
+            width: 20,
+            height: 20,
+            isStop: isStop,
+          ),
+          onTap: (){
+            setState(() {
+              isStop = !isStop;
+              getTalkList();
+            });
+            startPlayer();
+          },
+        );
         break;
     }
   }
@@ -436,10 +478,13 @@ class _TalkPageState extends State<TalkPage>
                                               ),
                                               onLongPress: () {
                                                 controller.forward();
+                                                startRecorder();
                                               },
                                               onLongPressUp: () {
+                                                stopRecorder();
                                                 controller.reset();
                                                 controller.stop();
+                                                autoTalk(null, 'voice');
                                               },
                                             );
                                           },
@@ -458,5 +503,107 @@ class _TalkPageState extends State<TalkPage>
       ),
       resizeToAvoidBottomPadding: true, //输入框抵住键盘 内容不随键盘滚动
     );
+  }
+  void startRecorder() async {
+
+    try {
+      String path = await flutterSound.startRecorder(null,bitRate: 320000);
+      print("数据$path");
+      _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+            e.currentPosition.toInt(),
+            isUtc: true);
+        // print("时长$date");
+        String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+
+        this.setState(() {
+//          this._recorderTxt = txt.substring(0, 8);
+        });
+      });
+          // _dbPeakSubscription =
+      //     flutterSound.onRecorderDbPeakChanged.listen((value) {
+      //   print("got update -> $value");
+      //   setState(() {
+      //     this._dbLevel = value;
+      //   });
+      // });
+
+      setState(() {
+        _isRecording = true;
+      });
+    } catch (err) {
+      print('startRecorder error: $err');
+    }
+  }
+  void stopRecorder() async {
+    try {
+      String result = await flutterSound.stopRecorder();
+      print('停止录音返回结果: $result');
+
+      if (_recorderSubscription != null) {
+        _recorderSubscription.cancel();
+        _recorderSubscription = null;
+      }
+      if (_dbPeakSubscription != null) {
+        _dbPeakSubscription.cancel();
+        _dbPeakSubscription = null;
+      }
+
+      this.setState(() {
+        _isRecording = false;
+      });
+    } catch (err) {
+      print('stopRecorder error: $err');
+    }
+  }
+  void startPlayer() async {
+    String path = await flutterSound.startPlayer(null);
+    File file= await new File(path);
+    List contents = await file.readAsBytesSync();
+
+    // return print("file文件：$contents");
+    await flutterSound.setVolume(1.0);
+    print('startPlayer: $path');
+
+    try {
+      _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
+        if (e != null) {
+          slider_current_position = e.currentPosition;
+          max_duration = e.duration;
+
+          DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+              e.currentPosition.toInt(),
+              isUtc: true);
+          String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+          this.setState(() {
+            this._isPlaying = true;
+//            this._playerTxt = txt.substring(0, 8);
+          });
+        }
+      });
+    } catch (err) {
+      print('error: $err');
+    }
+  }
+
+  void stopPlayer() async {
+    try {
+      String result = await flutterSound.stopPlayer();
+      print('stopPlayer: $result');
+      if (_playerSubscription != null) {
+        _playerSubscription.cancel();
+        _playerSubscription = null;
+      }
+
+      this.setState(() {
+        this._isPlaying = false;
+      });
+    } catch (err) {
+      print('error: $err');
+    }
+  }
+  void resumePlayer() async {
+    String result = await flutterSound.resumePlayer();
+    print('resumePlayer: $result');
   }
 }
