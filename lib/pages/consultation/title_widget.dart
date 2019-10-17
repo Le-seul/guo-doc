@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/psychological_service_center.dart';
 import 'package:flutter_first/util/router.dart';
 typedef TapCallback = void Function();
 
@@ -24,14 +24,14 @@ class TitleWidget extends StatelessWidget {
             '教官风采',
             'assets/images/instructor_demeanor.png',
             tabCallBack: () {
-
+              Router.pushNoParams(context, Router.instructor_demeanorPage);
             },
           ),
           _TextImgWidget(
             '门诊信息',
             'assets/images/outpatient_information.png',
             tabCallBack: () {
-
+              Router.pushNoParams(context, Router.clinic_informationPage);
             },
           ),
         ],

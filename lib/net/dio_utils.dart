@@ -42,8 +42,8 @@ class DioUtils {
       },
 
 //      baseUrl: "http://10.128.244.149:8080/jeecg",
-//      baseUrl: 'http://10.128.215.177:8080/jeecg',
-      baseUrl: 'http://ygyd.aireading.top/jeecg',
+     baseUrl: 'http://10.28.246.165:8080/jeecg',
+//      baseUrl: 'http://ygyd.aireading.top/jeecg',
 //    baseUrl: "http://10.128.252.164:8080/jeecg",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );

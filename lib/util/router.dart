@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_first/music/page_playing.dart';
+import 'package:flutter_first/pages/consultation/clinic_information_page.dart';
 import 'package:flutter_first/pages/consultation/consultation_child_page.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
-import 'package:flutter_first/pages/consultation/psychological_service_center.dart';
+import 'package:flutter_first/pages/consultation/instructor_demeanor_detail_page.dart';
+import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/psychological_service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
@@ -29,6 +33,7 @@ import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
@@ -40,12 +45,14 @@ import 'package:flutter_first/pages/service/servicenext/activity2.dart';
 import 'package:flutter_first/pages/service/servicenext/relatives_information_page.dart';
 import 'package:flutter_first/pages/sms_login_page.dart';
 import 'package:flutter_first/util/web_view_page.dart';
-
 class Router {
   static const loginPage = 'app://LoginPage';
   static const containerPage = 'app://ContainerPage';
   static const smsLogin = 'app://SMSLogin';
   static const psychologicalServiceCenterPage = 'app://PsychologicalServiceCenterPage';
+  static const instructor_demeanorPage = 'app://instructor_demeanorPage';
+  static const instructor_demeanor_detailPage = 'app://instructor_demeanor_detailPage';
+  static const clinic_informationPage = 'app://clinic_informationPage';
   static const consulationDetailPage = 'app://ConsulationDetailPage';
   static const imagesPage = 'app://ImagesPage';
   static const psychologicalConcult = 'app://PsychologicalConcult';
@@ -82,12 +89,19 @@ class Router {
   static const bodyreport = 'app://bodyreport';
   static const exitLoginPage = 'app://ExitLoginPage';
   static const catalogdetail = 'app://catalogdetail';
+  static const step_ranking = 'app://step_ranking';
+  static const center_detail = 'app://center_detail';
+
 
   Widget _getPage(String url, dynamic params) {
     if (url.startsWith('https://') || url.startsWith('http://')) {
       return WebViewPage(url, params: params);
     } else {
       switch (url) {
+        case center_detail:
+          return PsyCenterDetail();
+        case step_ranking:
+          return StepRanking();
         case topicPage:
           return TopicPage();
         case reporylist:
@@ -108,6 +122,12 @@ class Router {
           return ContainerPage();
         case psychologicalServiceCenterPage:
           return PsychologicalServiceCenterPage();
+        case instructor_demeanorPage:
+          return instructor_demeanor();
+        case instructor_demeanor_detailPage:
+          return instructor_demeanor_detail();
+        case clinic_informationPage:
+          return Clinic_information();
         case consulationDetailPage:
           return ConsultationDetailPage(consulationColumnsInfo: params,);
         case imagesPage:

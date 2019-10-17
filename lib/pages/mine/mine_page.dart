@@ -15,12 +15,12 @@ class MinePage extends StatelessWidget {
               Image.asset('assets/images/myBackground.png'),
               Positioned(
                 top: 0,
-                left:  ScreenUtil().setWidth(45),
+                left: ScreenUtil().setWidth(45),
                 child: Text('我的',
                     style: TextStyle(color: Colors.white, fontSize: 18)),
               ),
               Positioned(
-                top: 40,
+                top: ScreenUtil().setHeight(5),
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -32,7 +32,7 @@ class MinePage extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: AssetImage('assets/images/dangao.jpg'))),
+                              image: NetworkImage('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'))),
                     ),
                     SizedBox(
                       width: 15,
@@ -54,18 +54,21 @@ class MinePage extends StatelessWidget {
                     Container(
                       height: 70,
                       width: 70,
-                      color: Colors.white,
+                      padding: EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(4))),
                       child: Image.asset('assets/images/erweima.png'),
                     )
                   ],
                 ),
               ),
               Positioned(
-                top: 130,
-                left: 16,
+                top: ScreenUtil().setHeight(20),
+                left: ScreenUtil().setWidth(5),
                 child: Container(
-                  height: 150,
-                  width: 330,
+                  height: ScreenUtil().setHeight(25),
+                  width: ScreenUtil().setWidth(90),
                   padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -79,62 +82,71 @@ class MinePage extends StatelessWidget {
                       Row(
                         //健康运动步数
                         children: <Widget>[
-                                      Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '积分',
-                                            ),
-                                            Text(
-                                              '768',
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  '积分',
+                                ),
+                                Text(
+                                  '768',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  '排名',
+                                ),
+                                Text(
+                                  '5/100',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        '步数',
                                       ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '排名',
-                                            ),
-                                            Text(
-                                              '5/100',
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
+                                      Text(
+                                        '12008',
+                                        style: TextStyle(fontSize: 15),
                                       ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '步数',
-                                            ),
-                                            Text(
-                                              '12008',
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '排名',
-                                            ),
-                                            Text(
-                                              '5/100',
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                          ],
-                                        ),
-                                      )
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Router.pushNoParams(
+                                        context, Router.step_ranking);
+                                  })),
+                          Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      '排名',
+                                    ),
+                                    Text(
+                                      '5/100',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Router.pushNoParams(
+                                      context, Router.step_ranking);
+                                },
+                              ))
                         ],
                       ),
                       SizedBox(
@@ -159,10 +171,11 @@ class MinePage extends StatelessWidget {
                                 width: 40,
                                 child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
-                                      'assets/images/mine/我的收藏.png',height: 40,
+                                      'assets/images/mine/我的收藏.png',
+                                      height: 40,
                                       fit: BoxFit.fill,
                                     ),
                                     Text(
@@ -172,20 +185,26 @@ class MinePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              onTap: (){
+
+                              },
                             ),
                           ),
                           Expanded(
                             flex: 1,
                             child: InkWell(
+                              onTap: (){
+                              },
                               child: Container(
                                 height: 60,
                                 width: 40,
                                 child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
-                                      'assets/images/mine/我的步数.png',height: 40,
+                                      'assets/images/mine/我的步数.png',
+                                      height: 40,
                                       fit: BoxFit.fill,
                                     ),
                                     Text(
@@ -205,10 +224,11 @@ class MinePage extends StatelessWidget {
                                 width: 40,
                                 child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
-                                      'assets/images/mine/我的活动.png',height: 40,
+                                      'assets/images/mine/我的活动.png',
+                                      height: 40,
                                       fit: BoxFit.fill,
                                     ),
                                     Text(
@@ -228,10 +248,11 @@ class MinePage extends StatelessWidget {
                                 width: 40,
                                 child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
-                                      'assets/images/mine/消息通知.png',height: 40,
+                                      'assets/images/mine/消息通知.png',
+                                      height: 40,
                                       fit: BoxFit.fill,
                                     ),
                                     Text(
@@ -259,7 +280,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/体检报告.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/体检报告.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -270,7 +295,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -292,7 +320,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/健康咨询.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/健康咨询.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -303,7 +335,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -323,7 +358,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/慢病评估.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/慢病评估.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -334,7 +373,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -354,7 +396,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/问卷量表.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/问卷量表.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -365,7 +411,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -385,7 +434,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/意见建议.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/意见建议.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -396,7 +449,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child:Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -416,7 +472,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/联系我们.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/联系我们.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -427,7 +487,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child:Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -447,7 +510,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/隐私服务.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/隐私服务.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -458,7 +525,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -478,7 +548,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/绑定微信.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/绑定微信.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -489,7 +563,10 @@ class MinePage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),
@@ -509,7 +586,11 @@ class MinePage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/系统设置.png',height: 25,color: Colors.black,),
+                    child: Image.asset(
+                      'assets/images/mine/系统设置.png',
+                      height: 25,
+                      color: Colors.black,
+                    ),
                   ),
                   Expanded(
                     flex: 5,
@@ -518,14 +599,17 @@ class MinePage extends StatelessWidget {
                         '    系统设置',
                         style: TextStyle(fontSize: 16),
                       ),
-                      onTap: (){
+                      onTap: () {
                         Router.pushNoParams(context, Router.exitLoginPage);
                       },
                     ),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/mine/箭头.png',height: 18,),
+                    child: Image.asset(
+                      'assets/images/mine/箭头.png',
+                      height: 18,
+                    ),
                   ),
                 ],
               ),

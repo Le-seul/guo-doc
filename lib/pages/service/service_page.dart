@@ -5,6 +5,7 @@ import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ServicePage extends StatefulWidget {
   @override
@@ -40,13 +41,15 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
+
     return SingleChildScrollView(
       child: SafeArea(
         child: Column(
           children: <Widget>[
             Container(
               color: Colors.white,
-              height: 35,
+              height:  ScreenUtil().setHeight(7),
               alignment: Alignment.center,
               child: Text(
                 '服务',

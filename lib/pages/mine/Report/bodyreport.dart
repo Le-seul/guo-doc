@@ -6,10 +6,10 @@ class BodyReport extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Scaffold(
-      appBar: AppBar(
-        title: Text('体检报告'),
-        centerTitle: true,
-      ),
+//      appBar: AppBar(
+//        title: Text('体检报告'),
+//        centerTitle: true,
+//      ),
       body: WebView(
         onWebViewCreated: (WebViewController webViewController){
           webViewController.canGoBack();
