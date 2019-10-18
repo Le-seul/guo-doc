@@ -40,17 +40,18 @@ class _TalkPageState extends State<TalkPage>
   FlutterSound flutterSound;
   double slider_current_position = 0.0;
   double max_duration = 1.0;
+  String _playMinutes = '00';
+  String _playSeconds = '00';
   List<String> _assetList = new List();
-  bool isStop = false;
   User user;
 
 
   @override
   void initState() {
 
-    _assetList.add("assets/images/doctor/sound_right_1.png");
-    _assetList.add("assets/images/doctor/sound_right_2.png");
     _assetList.add("assets/images/doctor/sound_right_3.png");
+    _assetList.add("assets/images/doctor/sound_right_2.png");
+    _assetList.add("assets/images/doctor/sound_right_1.png");
 
     flutterSound = new FlutterSound();
     flutterSound.setSubscriptionDuration(0.01);
@@ -169,20 +170,31 @@ class _TalkPageState extends State<TalkPage>
         return new Image.file(val);
         break;
       case 'voice':
-        return GestureDetector(
-          child: VoiceAnimationImage(
-            _assetList,
-            width: 20,
-            height: 20,
-            isStop: isStop,
+        return  GestureDetector(
+            child:Container(
+          width: 80,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text('$_playMinutes\'$_playSeconds\'\''),
+              VoiceAnimationImage(
+                  _assetList,
+                  width: 20,
+                  height: 20,
+                  isStop: _isPlaying,
+                ),
+
+
+
+            ],
           ),
-          onTap: (){
-            setState(() {
-              isStop = !isStop;
-              getTalkList();
-            });
-            startPlayer();
-          },
+            ),
+    onTap: (){
+    setState(() {
+    startPlayer();
+    });
+
+    },
         );
         break;
     }
@@ -517,7 +529,8 @@ class _TalkPageState extends State<TalkPage>
         String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
 
         this.setState(() {
-//          this._recorderTxt = txt.substring(0, 8);
+          _playMinutes = txt.substring(0,2);
+          _playSeconds = txt.substring(3,5);
         });
       });
           // _dbPeakSubscription =
@@ -574,10 +587,19 @@ class _TalkPageState extends State<TalkPage>
           DateTime date = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
               isUtc: true);
+          print('date: $date');
           String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+          print('txt: $txt');
+          returnTalkType(null, 'voice');
           this.setState(() {
-            this._isPlaying = true;
-//            this._playerTxt = txt.substring(0, 8);
+
+            this._isPlaying = flutterSound.isPlaying;
+            getTalkList();
+            if(_isPlaying == false){
+              getTalkList();
+            }
+            print('_isPlaying: $_isPlaying');
+
           });
         }
       });

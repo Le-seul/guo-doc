@@ -97,6 +97,7 @@ class VoiceAnimationImageState extends State<VoiceAnimationImage>
           widget._assetList[i],
           width: 0,
           height: 0,
+          color: Colors.black,
         ));
       }
     }
@@ -104,6 +105,7 @@ class VoiceAnimationImageState extends State<VoiceAnimationImage>
       widget._assetList[ix],
       width: widget.width,
       height: widget.height,
+      color: Colors.black,
     ));
     return  Stack(alignment: AlignmentDirectional.center, children: images);
   }
