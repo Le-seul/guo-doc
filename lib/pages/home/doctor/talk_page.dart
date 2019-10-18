@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/util/router.dart';
@@ -26,29 +27,30 @@ class _TalkPageState extends State<TalkPage>
   var fsNode1 = new FocusNode();
   var _scrollController = new ScrollController();
   var _textInputController = new TextEditingController();
-  List<Widget> talkWidgetList = <Widget>[];
-  List<Map> talkHistory = [];
+
+  List<Message> listMessage = List();
+
   Animation animation;
   Animation animationTalk;
   AnimationController controller;
   bool talkFOT = false;
   bool _isRecording = false;
-  bool _isPlaying = false;
+//  bool _isPlaying = false;
   StreamSubscription _recorderSubscription;
   StreamSubscription _dbPeakSubscription;
   StreamSubscription _playerSubscription;
   FlutterSound flutterSound;
   double slider_current_position = 0.0;
   double max_duration = 1.0;
-  String _playMinutes = '00';
   String _playSeconds = '00';
+  var val;
+  int num = 1;
+  String dataType;
   List<String> _assetList = new List();
   User user;
 
-
   @override
   void initState() {
-
     _assetList.add("assets/images/doctor/sound_right_3.png");
     _assetList.add("assets/images/doctor/sound_right_2.png");
     _assetList.add("assets/images/doctor/sound_right_1.png");
@@ -73,16 +75,6 @@ class _TalkPageState extends State<TalkPage>
       });
 
     fsNode1.addListener(_focusListener);
-    talkWidgetList.add(
-      Container(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
-        color: Colors.black12,
-        child: Text(
-          '医生的回复仅为建议，具体诊疗请前往医院进行',
-          style: TextStyle(color: Colors.black26),
-        ),
-      ),
-    );
     super.initState();
   }
 
@@ -110,20 +102,6 @@ class _TalkPageState extends State<TalkPage>
     '我和我的祖国，一刻也不能分离!',
   ];
 
-  getTalkList() {
-    List<Widget> widgetList = [];
-
-    for (var i = 0; i < talkHistory.length; i++) {
-      widgetList.add(returnTalkItem(talkHistory[i]));
-    }
-
-    setState(() {
-      _scrollController.animateTo(50.0 * talkHistory.length + 100,
-          duration: new Duration(seconds: 1), curve: Curves.ease);
-      talkWidgetList = widgetList;
-    });
-  }
-
   void getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -132,29 +110,73 @@ class _TalkPageState extends State<TalkPage>
   }
 
   autoTalk(val, type) async {
-    talkHistory.add({
-      'name': user.userName,
-      'id': '1',
-      'imageUrl': user.imageUrl,
-      'content': val,
-      'type': type // image text
-    });
-    getTalkList();
 
-    Future.delayed(new Duration(seconds: 1), () {
-      var item = {
-        'name': '张三',
-        'id': '2',
-        'imageUrl': user.imageUrl2,
-        'content': returnTalkList[talkHistory.length % 5],
-        'type': 'text'
+    Message message;
+    if (type == 'image') {
+      var data = {
+        'type': type,
+        'file': '你好',
       };
-      talkHistory.add(item);
-      getTalkList();
+      String content = json.encode(data);
+      message = Message(
+        file: val,
+        content: content,
+        type: 'TW',
+      );
+    } else if (type == 'audio') {
+      var data = {
+        'type': type,
+        'file': 'num$num',
+      };
+      num++;
+      String content = json.encode(data);
+      message = Message(
+        isPlaying: false,
+        createTime:_playSeconds,
+        content: content,
+        type: 'TW',
+      );
+    } else {
+      var data = {
+        'type': type,
+        'text': val,
+      };
+      String content = json.encode(data);
+      print('content:$content');
+      message = Message(
+        content: content,
+        type: 'TW',
+      );
+    }
+
+    setState(() {
+      listMessage.add(message);
+      _scrollController.animateTo(50.0 * listMessage.length + 100,
+          duration: new Duration(seconds: 1), curve: Curves.ease);
+    });
+    autoCallBack();
+  }
+
+  autoCallBack() {
+    Future.delayed(new Duration(seconds: 1), () {
+      var data = {
+        'type': 'text',
+        'text': returnTalkList[listMessage.length % 5],
+      };
+      String content = json.encode(data);
+      Message message = Message(
+        content: content,
+        type: 'HF',
+      );
+      setState(() {
+        listMessage.add(message);
+        _scrollController.animateTo(50.0 * listMessage.length + 100,
+            duration: new Duration(seconds: 1), curve: Curves.ease);
+      });
     });
   }
 
-  returnTalkType(type, val) {
+  returnTalkType(type, val,index) {
     switch (type) {
       case 'text':
         return new Text(val,
@@ -169,95 +191,32 @@ class _TalkPageState extends State<TalkPage>
       case 'image':
         return new Image.file(val);
         break;
-      case 'voice':
-        return  GestureDetector(
-            child:Container(
-          width: 80,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Text('$_playMinutes\'$_playSeconds\'\''),
-              VoiceAnimationImage(
+      case 'audio':
+        return GestureDetector(
+          child: Container(
+            width: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Text('${listMessage[index].createTime}\'\''),
+                VoiceAnimationImage(
                   _assetList,
                   width: 20,
                   height: 20,
-                  isStop: _isPlaying,
+                  isStop: listMessage[index].isPlaying,
                 ),
-
-
-
-            ],
-          ),
+              ],
             ),
-    onTap: (){
-    setState(() {
-    startPlayer();
-    });
-
-    },
+          ),
+          onTap: () {
+            setState(() {
+              print('val:$val');
+              startPlayer(val,index);
+            });
+          },
         );
         break;
     }
-  }
-
-  returnTalkItem(item) {
-    List<Widget> widgetList = [];
-
-    if (item['id'] == '1') {
-      // 本人的信息
-      widgetList = [
-        new Container(
-            margin: new EdgeInsets.only(right: 20.0, top: 2),
-            padding: item['type'] == 'image'
-                ? EdgeInsets.all(0.0)
-                : EdgeInsets.all(10.0),
-            decoration: new BoxDecoration(
-                color: Color(0xFFebebf3),
-                borderRadius: new BorderRadius.circular(10.0)),
-            child: new LimitedBox(
-              maxWidth: MediaQuery.of(context).size.width - 120.0,
-              child: returnTalkType(item['type'], item['content']),
-            )),
-        new CircleAvatar(
-          backgroundImage: new NetworkImage('${item['imageUrl']}'),
-        ),
-      ];
-    } else {
-      // 非本人的信息
-      widgetList = [
-        GestureDetector(
-          child: CircleAvatar(
-            backgroundImage:
-            AssetImage('assets/images/beijing2.jpg'),
-          ),
-          onTap: (){
-            Router.pushNoParams(context, Router.doctorPage);
-          }
-        ),
-        Container(
-          margin: new EdgeInsets.only(left: 20.0, top: 2),
-          padding: item['type'] == 'image'
-              ? EdgeInsets.all(0.0)
-              : EdgeInsets.all(10.0),
-          decoration: new BoxDecoration(
-              color: Color(0xFFebebf3),
-              borderRadius: new BorderRadius.circular(10.0)),
-          child: new LimitedBox(
-              maxWidth: MediaQuery.of(context).size.width - 120.0,
-              child: returnTalkType(item['type'], item['content'])),
-        ),
-      ];
-    }
-
-    return new Container(
-        width: MediaQuery.of(context).size.width - 120.0,
-        margin: new EdgeInsets.symmetric(vertical: 10.0),
-        child: new Row(
-            mainAxisAlignment: '2' == item['id']
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widgetList));
   }
 
   _nameWidget(String name) {
@@ -270,6 +229,86 @@ class _TalkPageState extends State<TalkPage>
       decoration: BoxDecoration(
           color: Color(0xff2CA687), borderRadius: BorderRadius.circular(5)),
     );
+  }
+
+  _buildItem(int index) {
+//    if(index == 0){
+//      return Container(
+//        padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+//        color: Colors.black12,
+//        child: Text(
+//          '医生的回复仅为建议，具体诊疗请前往医院进行',
+//          style: TextStyle(color: Colors.black26),
+//        ),
+//      );
+//    }
+    List<Widget> widgetList = [];
+    Map<String, dynamic> _map = json.decode(listMessage[index].content);
+    dataType = _map['type'];
+    if (dataType == 'text') {
+      val = _map['text'];
+      print("image1:$val");
+    } else if (dataType == 'image') {
+      val = listMessage[index].file;
+      print("image2:$val");
+    } else if (dataType == 'audio') {
+      val = _map['file'];
+    }
+
+    if (listMessage[index].type == 'TW') {
+      widgetList = [
+        new Container(
+            margin: new EdgeInsets.only(right: 20.0, top: 2),
+            padding: dataType == 'image'
+                ? EdgeInsets.all(0.0)
+                : EdgeInsets.all(10.0),
+            decoration: new BoxDecoration(
+                color: Color(0xFFebebf3),
+                borderRadius: new BorderRadius.circular(10.0)),
+            child: new LimitedBox(
+              maxWidth: MediaQuery.of(context).size.width - 120.0,
+              child: returnTalkType(dataType, val,index),
+            )),
+        new CircleAvatar(
+          backgroundImage: new NetworkImage(
+              'http://ygyd.aireading.top/jeecg/api/image.do?getImage&imageId=4'),
+        ),
+      ];
+    } else if (listMessage[index].type == 'HF') {
+      // 非本人的信息
+      widgetList = [
+        GestureDetector(
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/beijing2.jpg'),
+            ),
+            onTap: () {
+              Router.pushNoParams(context, Router.doctorPage);
+            }),
+        Container(
+            margin: new EdgeInsets.only(left: 20.0, top: 2),
+            padding: dataType == 'image'
+                ? EdgeInsets.all(0.0)
+                : EdgeInsets.all(10.0),
+            decoration: new BoxDecoration(
+                color: Color(0xFFebebf3),
+                borderRadius: new BorderRadius.circular(10.0)),
+            child: new LimitedBox(
+              maxWidth: MediaQuery.of(context).size.width - 120.0,
+              child: returnTalkType(dataType, val,index),
+            )),
+      ];
+    }
+
+    return Container(
+        width: MediaQuery.of(context).size.width - 120.0,
+        margin: new EdgeInsets.symmetric(vertical: 10.0),
+        child: new Row(
+            mainAxisAlignment: listMessage[index].type == 'HF'
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: widgetList));
+//    return
   }
 
   @override
@@ -295,7 +334,10 @@ class _TalkPageState extends State<TalkPage>
       ),
       body: GestureDetector(
         onTap: () {
+          controller.reset();
+          controller.stop();
           setState(() {
+            talkFOT = false;
             fsNode1.unfocus();
           });
         },
@@ -307,7 +349,7 @@ class _TalkPageState extends State<TalkPage>
                 Column(
                   children: <Widget>[
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Router.pushNoParams(context, Router.doctorPage);
                       },
                       child: Container(
@@ -318,7 +360,7 @@ class _TalkPageState extends State<TalkPage>
                             CircleAvatar(
                               radius: 25.0,
                               backgroundImage:
-                              AssetImage('assets/images/beijing2.jpg'),
+                                  AssetImage('assets/images/beijing2.jpg'),
                             ),
                             SizedBox(
                               width: 10,
@@ -370,28 +412,27 @@ class _TalkPageState extends State<TalkPage>
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 15,
                     ),
                     Expanded(
                       child: Container(
-                        margin: new EdgeInsets.symmetric(horizontal: 20.0),
-                        padding: new EdgeInsets.only(bottom: 50.0),
-                        // width: MediaQuery.of(context).size.width - 40.0,
-                        child: ListView(
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          controller: _scrollController,
-                          children: talkWidgetList,
-                        ),
-                      ),
-                    )
+                          margin: new EdgeInsets.symmetric(horizontal: 20.0),
+                          padding: new EdgeInsets.only(bottom: 50.0),
+                          // width: MediaQuery.of(context).size.width - 40.0,
+                          child: ListView.builder(
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            controller: _scrollController,
+                            itemCount: listMessage.length,
+                            itemBuilder: (context, index) => _buildItem(index),
+                          )),
+                    ),
                   ],
                 ),
                 Positioned(
                   bottom: 0,
-                  left:0,
+                  left: 0,
                   width: MediaQuery.of(context).size.width,
                   child: Container(
                       color: Color(0xFFebebf3),
@@ -399,14 +440,14 @@ class _TalkPageState extends State<TalkPage>
                         children: <Widget>[
                           new Offstage(
                             offstage: talkFOT,
-                            child:  new Row(
+                            child: new Row(
                               children: <Widget>[
                                 new Container(
                                   width: 40.0,
                                   color: Color(0xFFaaaab6),
                                   child: new IconButton(
                                     icon: new Icon(Icons.keyboard_voice),
-                                    onPressed: (){
+                                    onPressed: () {
                                       setState(() {
                                         fsNode1.unfocus();
                                         talkFOT = !talkFOT;
@@ -415,8 +456,10 @@ class _TalkPageState extends State<TalkPage>
                                   ),
                                 ),
                                 new Container(
-                                  padding: new EdgeInsets.symmetric(horizontal: 10.0),
-                                  width: MediaQuery.of(context).size.width - 140.0,
+                                  padding: new EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  width:
+                                      MediaQuery.of(context).size.width - 140.0,
                                   child: new TextField(
                                     focusNode: fsNode1,
                                     controller: _textInputController,
@@ -424,12 +467,9 @@ class _TalkPageState extends State<TalkPage>
                                         border: InputBorder.none,
                                         hintText: '输入你的信息...',
                                         hintStyle: new TextStyle(
-                                            color: Color(0xFF7c7c7e)
-                                        )
-                                    ),
-                                    onSubmitted: (val){
+                                            color: Color(0xFF7c7c7e))),
+                                    onSubmitted: (val) {
                                       if (val != '' && val != null) {
-                                        getTalkList();
                                         autoTalk(val, 'text');
                                       }
                                       _textInputController.clear();
@@ -437,14 +477,14 @@ class _TalkPageState extends State<TalkPage>
                                   ),
                                 ),
                                 new IconButton(
-                                  icon: Icon(Icons.insert_emoticon, color: Color(0xFF707072)),
-                                  onPressed: (){
-
-                                  },
+                                  icon: Icon(Icons.insert_emoticon,
+                                      color: Color(0xFF707072)),
+                                  onPressed: () {},
                                 ),
                                 new IconButton(
-                                  icon: Icon(Icons.add_circle_outline, color: Color(0xFF707072)),
-                                  onPressed: (){
+                                  icon: Icon(Icons.add_circle_outline,
+                                      color: Color(0xFF707072)),
+                                  onPressed: () {
                                     setState(() {
                                       getImage();
                                     });
@@ -453,62 +493,47 @@ class _TalkPageState extends State<TalkPage>
                               ],
                             ),
                           ),
-                          new Offstage( // 录音按钮
+                          new Offstage(
+                              // 录音按钮
                               offstage: !talkFOT,
                               child: new Column(
                                 children: <Widget>[
-                                  new Container(
-                                    height: 30.0,
-                                    color: Color(0xFFededed),
-                                    alignment: Alignment.centerLeft,
-                                    child: new IconButton(
-                                      icon: Icon(Icons.arrow_back_ios),
-                                      onPressed: (){
-                                        controller.reset();
-                                        controller.stop();
-                                        setState(() {
-                                          talkFOT = !talkFOT;
-                                        });
-                                      },
-                                    ),
-                                  ),
                                   new Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: 170.0,
                                     color: Color(0xFFededed),
                                     child: new Center(
                                         child: new AnimatedBuilder(
-                                          animation: animationTalk,
-                                          builder: (_, child){
-                                            return new GestureDetector(
-                                              child: new CircleAvatar(
-                                                radius: animationTalk.value * 30,
-                                                backgroundColor: Color(0x306b6aba),
-                                                child: new Center(
-                                                  child: Icon(Icons.keyboard_voice, size: 30.0, color:Color(0xFF6b6aba)),
-                                                ),
-                                              ),
-                                              onLongPress: () {
-                                                controller.forward();
-                                                startRecorder();
-                                              },
-                                              onLongPressUp: () {
-                                                stopRecorder();
-                                                controller.reset();
-                                                controller.stop();
-                                                autoTalk(null, 'voice');
-                                              },
-                                            );
+                                      animation: animationTalk,
+                                      builder: (_, child) {
+                                        return new GestureDetector(
+                                          child: new CircleAvatar(
+                                            radius: animationTalk.value * 30,
+                                            backgroundColor: Color(0x306b6aba),
+                                            child: new Center(
+                                              child: Icon(Icons.keyboard_voice,
+                                                  size: 30.0,
+                                                  color: Color(0xFF6b6aba)),
+                                            ),
+                                          ),
+                                          onLongPress: () {
+                                            controller.forward();
+                                            startRecorder('num$num');
                                           },
-                                        )
-                                    ),
+                                          onLongPressUp: () {
+                                            stopRecorder();
+                                            controller.reset();
+                                            controller.stop();
+                                            autoTalk(null, 'audio');
+                                          },
+                                        );
+                                      },
+                                    )),
                                   ),
                                 ],
-                              )
-                          ),
+                              )),
                         ],
-                      )
-                  ),
+                      )),
                 )
               ],
             )),
@@ -516,10 +541,10 @@ class _TalkPageState extends State<TalkPage>
       resizeToAvoidBottomPadding: true, //输入框抵住键盘 内容不随键盘滚动
     );
   }
-  void startRecorder() async {
 
+  void startRecorder(String num) async {
     try {
-      String path = await flutterSound.startRecorder(null,bitRate: 320000);
+      String path = await flutterSound.startRecorder(num, bitRate: 320000);
       print("数据$path");
       _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
         DateTime date = new DateTime.fromMillisecondsSinceEpoch(
@@ -527,27 +552,14 @@ class _TalkPageState extends State<TalkPage>
             isUtc: true);
         // print("时长$date");
         String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
-
-        this.setState(() {
-          _playMinutes = txt.substring(0,2);
-          _playSeconds = txt.substring(3,5);
-        });
+        _playSeconds = txt.substring(3, 5);
       });
-          // _dbPeakSubscription =
-      //     flutterSound.onRecorderDbPeakChanged.listen((value) {
-      //   print("got update -> $value");
-      //   setState(() {
-      //     this._dbLevel = value;
-      //   });
-      // });
 
-      setState(() {
-        _isRecording = true;
-      });
     } catch (err) {
       print('startRecorder error: $err');
     }
   }
+
   void stopRecorder() async {
     try {
       String result = await flutterSound.stopRecorder();
@@ -569,9 +581,10 @@ class _TalkPageState extends State<TalkPage>
       print('stopRecorder error: $err');
     }
   }
-  void startPlayer() async {
-    String path = await flutterSound.startPlayer(null);
-    File file= await new File(path);
+
+  void startPlayer(String num,int index) async {
+    String path = await flutterSound.startPlayer('/storage/emulated/0/$num');
+    File file = await new File(path);
     List contents = await file.readAsBytesSync();
 
     // return print("file文件：$contents");
@@ -590,16 +603,10 @@ class _TalkPageState extends State<TalkPage>
           print('date: $date');
           String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
           print('txt: $txt');
-          returnTalkType(null, 'voice');
+//          returnTalkType(null, 'voice');
           this.setState(() {
-
-            this._isPlaying = flutterSound.isPlaying;
-            getTalkList();
-            if(_isPlaying == false){
-              getTalkList();
-            }
-            print('_isPlaying: $_isPlaying');
-
+            listMessage[index].isPlaying = flutterSound.isPlaying;
+//            print('_isPlaying: $_isPlaying');
           });
         }
       });
@@ -618,12 +625,13 @@ class _TalkPageState extends State<TalkPage>
       }
 
       this.setState(() {
-        this._isPlaying = false;
+//        this._isPlaying = false;
       });
     } catch (err) {
       print('error: $err');
     }
   }
+
   void resumePlayer() async {
     String result = await flutterSound.resumePlayer();
     print('resumePlayer: $result');

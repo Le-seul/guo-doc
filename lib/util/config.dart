@@ -13,7 +13,7 @@ class Config {
       case Env.TEST:
         return "http://10.28.246.165:8080/jeecg";
       default:
-        return "http://ygyd.aireading.top/jeecg";
+        return "http://47.94.90.238/jeecg";
     }
   }
 }
