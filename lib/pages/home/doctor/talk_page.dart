@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/db/databaseHelper.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/voice_animation_image.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -29,7 +31,7 @@ class _TalkPageState extends State<TalkPage>
   var _textInputController = new TextEditingController();
 
   List<Message> listMessage = List();
-
+//  List<Message> list = List();
   Animation animation;
   Animation animationTalk;
   AnimationController controller;
@@ -50,7 +52,10 @@ class _TalkPageState extends State<TalkPage>
   User user;
 
   @override
-  void initState() {
+  void initState(){
+
+    init();
+
     _assetList.add("assets/images/doctor/sound_right_3.png");
     _assetList.add("assets/images/doctor/sound_right_2.png");
     _assetList.add("assets/images/doctor/sound_right_1.png");
@@ -73,7 +78,6 @@ class _TalkPageState extends State<TalkPage>
           controller.forward();
         }
       });
-
     fsNode1.addListener(_focusListener);
     super.initState();
   }
@@ -86,8 +90,17 @@ class _TalkPageState extends State<TalkPage>
     }
   }
 
+  init() async{
+    var db = DatabaseHelper();
+    List<Map> list = await db.getAllMessages();
+    setState(() {
+      listMessage = list.map<Message>((item) => Message.fromMap(item)).toList();
+    });
+  }
+
   @override
   void dispose() {
+
     controller.dispose();
     flutterSound.stopRecorder();
     super.dispose();
@@ -105,7 +118,7 @@ class _TalkPageState extends State<TalkPage>
   void getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      autoTalk(image, 'image');
+      autoTalk(image.path, 'image');
     }
   }
 
@@ -115,24 +128,23 @@ class _TalkPageState extends State<TalkPage>
     if (type == 'image') {
       var data = {
         'type': type,
-        'file': '你好',
+        'file': val,
       };
       String content = json.encode(data);
       message = Message(
-        file: val,
         content: content,
         type: 'TW',
       );
     } else if (type == 'audio') {
       var data = {
         'type': type,
-        'file': 'num$num',
+        'file': val,
       };
       num++;
       String content = json.encode(data);
       message = Message(
-        isPlaying: false,
-        createTime:_playSeconds,
+//        isPlaying: false,
+//        createTime:_playSeconds,
         content: content,
         type: 'TW',
       );
@@ -149,12 +161,18 @@ class _TalkPageState extends State<TalkPage>
       );
     }
 
+
     setState(() {
       listMessage.add(message);
       _scrollController.animateTo(50.0 * listMessage.length + 100,
           duration: new Duration(seconds: 1), curve: Curves.ease);
     });
+    print('数据库：1');
     autoCallBack();
+    var db = DatabaseHelper();
+    int count = await db.saveMessage(message);
+    List<Map> list = await db.getAllMessages();
+    print('数据库：${list}');
   }
 
   autoCallBack() {
@@ -189,7 +207,7 @@ class _TalkPageState extends State<TalkPage>
             ));
         break;
       case 'image':
-        return new Image.file(val);
+        return listMessage[index].type == 'TW'?Image.file(File(val)):Image.network(val);
         break;
       case 'audio':
         return GestureDetector(
@@ -198,12 +216,12 @@ class _TalkPageState extends State<TalkPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text('${listMessage[index].createTime}\'\''),
+//                Text('${listMessage[index].createTime}\'\''),
                 VoiceAnimationImage(
                   _assetList,
                   width: 20,
                   height: 20,
-                  isStop: listMessage[index].isPlaying,
+//                  isStop: listMessage[index].isPlaying,
                 ),
               ],
             ),
@@ -247,11 +265,7 @@ class _TalkPageState extends State<TalkPage>
     dataType = _map['type'];
     if (dataType == 'text') {
       val = _map['text'];
-      print("image1:$val");
-    } else if (dataType == 'image') {
-      val = listMessage[index].file;
-      print("image2:$val");
-    } else if (dataType == 'audio') {
+    } else {
       val = _map['file'];
     }
 
@@ -524,7 +538,7 @@ class _TalkPageState extends State<TalkPage>
                                             stopRecorder();
                                             controller.reset();
                                             controller.stop();
-                                            autoTalk(null, 'audio');
+                                            autoTalk('num$num', 'audio');
                                           },
                                         );
                                       },
@@ -605,7 +619,7 @@ class _TalkPageState extends State<TalkPage>
           print('txt: $txt');
 //          returnTalkType(null, 'voice');
           this.setState(() {
-            listMessage[index].isPlaying = flutterSound.isPlaying;
+//            listMessage[index].isPlaying = flutterSound.isPlaying;
 //            print('_isPlaying: $_isPlaying');
           });
         }

@@ -1,28 +1,56 @@
-import 'dart:io';
 
 class Message {
-  String contentId;
+//  String contentId;
   String content;
-  bool isPlaying ;
+//  bool isPlaying;
   String type = 'TW';
-  String createTime;
-  File file;
+//  String time;
+//  String createTime;
 
-  Message({this.contentId, this.content, this.type, this.createTime,this.file,this.isPlaying});
+  Message(
+      {
+//        this.contentId,
+      this.content,
+      this.type,
+//      this.createTime,
+//      this.isPlaying,
+//      this.time
+      }
+      );
 
   Message.fromJson(Map<String, dynamic> json) {
-    contentId = json['contentId'];
+//    contentId = json['contentId'];
     content = json['content'];
     type = json['type'];
-    createTime = json['createTime'];
+//    createTime = json['createTime'];
+//    time = json['time'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['contentId'] = this.contentId;
+//    data['contentId'] = this.contentId;
     data['content'] = this.content;
     data['type'] = this.type;
-    data['createTime'] = this.createTime;
+//    data['createTime'] = this.createTime;
     return data;
+  }
+
+  Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+//    map['contentId'] = contentId;
+    map['content'] = content;
+    map['type'] = type;
+//    map['time'] = time;
+//    map['createTime'] = createTime;
+    return map;
+
+  }
+
+  Message.fromMap(Map<String, dynamic> map) {
+//    contentId = map['contentId'];
+    content = map['content'];
+    type = map['type'];
+//    time = map['time'];
+//    createTime = map['createTime'];
   }
 }

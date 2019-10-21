@@ -66,6 +66,9 @@ dependencies:
   # 滚动字幕
   marquee_flutter: ^0.1.4
   flutter_sound: 1.4.8
+  sqflite: 1.1.7+1
+  path: 1.6.4
+
 
 dev_dependencies:
   flutter_test:
