@@ -176,7 +176,7 @@ class _TalkPageState extends State<TalkPage>
   }
 
   autoCallBack() {
-    Future.delayed(new Duration(seconds: 1), () {
+    Future.delayed(new Duration(seconds: 1), () async{
       var data = {
         'type': 'text',
         'text': returnTalkList[listMessage.length % 5],
@@ -186,6 +186,8 @@ class _TalkPageState extends State<TalkPage>
         content: content,
         type: 'HF',
       );
+      var db = DatabaseHelper();
+      int count = await db.saveMessage(message);
       setState(() {
         listMessage.add(message);
         _scrollController.animateTo(50.0 * listMessage.length + 100,
