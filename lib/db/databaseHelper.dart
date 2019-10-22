@@ -40,7 +40,7 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int newVersion) async {
-    await db.execute("create table $tableMessage(id integer primary key autoincrement,$content text not null ,$type text not null,$time text not null)");
+    await db.execute("create table $tableMessage(id integer primary key autoincrement,$content text not null ,$type text not null,$time text ,$contentId text)");
     print("数据库创建成功！");
   }
 
@@ -48,7 +48,7 @@ class DatabaseHelper {
     var dbClient = await db;
 //    var result = await dbClient.insert(tableMessage, message.toMap());
     var result = await dbClient.rawInsert(
-        'INSERT INTO $tableMessage ($content, $type, $time) VALUES (\'${message.content}\', \'${message.type}\', \'${message.time}\')');
+        'INSERT INTO $tableMessage ($content, $type, $time, $contentId) VALUES (\'${message.content}\', \'${message.type}\', \'${message.time}\', \'${message.contentId}\')');
     print("数据添加成功！");
     return result;
   }

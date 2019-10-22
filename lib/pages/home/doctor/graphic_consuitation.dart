@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -52,26 +54,56 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
                       contentPadding: EdgeInsets.all(10.0),
                       border: InputBorder.none,
                     )),
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: list),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Offstage(
-                        offstage: offstage,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 80,
-                          child: Text(
-                            '图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述',
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: List.generate(
+                                list.length+1,
+                                    (index) => index == 0 ?GestureDetector(
+                                      child: Image.asset(
+                                        'assets/images/add.png',
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      onTap: () {
+                                        getImage();
+                                      },
+                                    ):Image.file(
+                                      File(list[index-1]),
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    )),
                           ),
-                        )),
-                  ],
+                        ],
+                      ),
+//                    Row(
+//                        mainAxisAlignment: MainAxisAlignment.start,
+//                        children: list),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Offstage(
+                          offstage: offstage,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width - 80,
+                            child: Text(
+                              '图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述',
+                            ),
+                          )),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -91,43 +123,15 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
     );
   }
 
-  List<Widget> list = <Widget>[];
+  List<String> list = List() ;
   void getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
         offstage = true;
-        list.insert(
-            0,
-            Image.file(
-              image,
-              height: 60,
-              width: 60,
-              fit: BoxFit.fill,
-            ));
-        list.insert(
-            1,
-            SizedBox(
-              width: 10,
-            ));
+        list.add(image.path);
       });
     }
   }
 
-  @override
-  void initState() {
-    list.add(
-      GestureDetector(
-        child: Image.asset(
-          'assets/images/add.png',
-          height: 60,
-          width: 60,
-          fit: BoxFit.fill,
-        ),
-        onTap: () {
-          getImage();
-        },
-      ),
-    );
-  }
 }

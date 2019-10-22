@@ -2,6 +2,8 @@ import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
+import 'package:flutter_first/bean/doctorInfo.dart';
+import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/bean/consultation_columns_entity.dart';
@@ -57,6 +59,12 @@ class EntityFactory {
       return Token.fromJson(json) as T;
     }else if (T.toString() == "User") {
       return User.fromJson(json) as T;
+    }else if (T.toString() == "Message") {
+      return Message.fromJson(json) as T;
+    }else if (T.toString() == "OrderId") {
+      return OrderId.fromJson(json) as T;
+    }else if (T.toString() == "DoctorInfo") {
+      return DoctorInfo.fromJson(json) as T;
     }else {
       return null;
     }

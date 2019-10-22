@@ -1,7 +1,8 @@
 
 class Message {
-//  String contentId;
+  String contentId;
   String content;
+  int id;
   bool isPlaying = false;
   String type = 'TW';
   String time;
@@ -9,7 +10,8 @@ class Message {
 
   Message(
       {
-//        this.contentId,
+        this.id,
+        this.contentId,
       this.content,
       this.type,
 //      this.createTime,
@@ -19,7 +21,7 @@ class Message {
       );
 
   Message.fromJson(Map<String, dynamic> json) {
-//    contentId = json['contentId'];
+    contentId = json['contentId'];
     content = json['content'];
     type = json['type'];
 //    createTime = json['createTime'];
@@ -28,7 +30,7 @@ class Message {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-//    data['contentId'] = this.contentId;
+    data['contentId'] = this.contentId;
     data['content'] = this.content;
     data['type'] = this.type;
     data['time'] = this.time;
@@ -38,7 +40,7 @@ class Message {
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-//    map['contentId'] = contentId;
+    map['contentId'] = contentId;
     map['content'] = content;
     map['type'] = type;
     map['time'] = time;
@@ -48,7 +50,7 @@ class Message {
   }
 
   Message.fromMap(Map<String, dynamic> map) {
-//    contentId = map['contentId'];
+    contentId = map['contentId'];
     content = map['content'];
     type = map['type'];
     time = map['time'];

@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/databaseHelper.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -46,6 +48,9 @@ class _TalkPageState extends State<TalkPage>
   double max_duration = 1.0;
   String _playSeconds = '00';
   var val;
+  bool offstage = true;
+  DoctorInfo doctorInfo;
+  String orderId;
   int num = 1;
   String dataType;
   List<String> _assetList = new List();
@@ -55,7 +60,6 @@ class _TalkPageState extends State<TalkPage>
   void initState(){
 
     init();
-
     _assetList.add("assets/images/doctor/sound_right_3.png");
     _assetList.add("assets/images/doctor/sound_right_2.png");
     _assetList.add("assets/images/doctor/sound_right_1.png");
@@ -65,6 +69,8 @@ class _TalkPageState extends State<TalkPage>
     flutterSound.setDbPeakLevelUpdate(0.8);
     flutterSound.setDbLevelEnabled(true);
     initializeDateFormatting();
+
+
     user = User.fromJson(json
         .decode(StorageManager.sharedPreferences.getString(Constant.userInfo)));
 
@@ -89,8 +95,80 @@ class _TalkPageState extends State<TalkPage>
       });
     }
   }
-
+  _create(String content){
+    DioUtils.instance
+        .requestNetwork<OrderId>(Method.post, Api.CREATEORDER, queryParameters: {
+      'content': content,
+    }, onSuccess: (data) {
+      setState(() {
+        orderId = data.orderId;
+        saveOrder(orderId);
+        print('orderId成功：$orderId');
+        _getLastContent();
+        Toast.show('获取订单成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        print('orderId失败：$orderId');
+        Toast.show('获取订单失败!');
+      });
+    });
+  }
+  _ask(String content){
+    DioUtils.instance
+        .requestNetwork<String>(Method.post, Api.USERASK, queryParameters: {
+      'content': content,
+      'orderId': orderId,
+    }, onSuccess: (data) {
+      setState(() {
+        print(data);
+        Toast.show('提问成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('提问失败!');
+      });
+    });
+  }
+  static saveOrder(String orderId) async{
+    StorageManager.sharedPreferences.setString(Constant.orderId, orderId);
+    print('orderId:$orderId');
+  }
+  _getLastContent(){
+    DioUtils.instance
+        .requestNetwork<Message>(Method.get, Api.GETLASTINTERACTIONCONTENT, queryParameters: {
+      'orderId': orderId,
+    }, onSuccess: (data) {
+      setState(() {
+        print('456订单');
+        _getDoctorInfo();
+        Toast.show('获取最后一次交互成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('获取最后一次交互失败!');
+      });
+    });
+  }
+  _getDoctorInfo(){
+    DioUtils.instance
+        .requestNetwork<DoctorInfo>(Method.get, Api.GETDOCTERINFO, queryParameters: {
+      'orderId': orderId,
+    }, onSuccess: (data) {
+      setState(() {
+        print('789订单');
+        doctorInfo = data;
+        offstage = false;
+        Toast.show('获取医生信息成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('获取医生信息失败!');
+      });
+    });
+  }
   init() async{
+    orderId = await StorageManager.sharedPreferences.getString(Constant.orderId);
     var db = DatabaseHelper();
     List<Map> list = await db.getAllMessages();
     setState(() {
@@ -100,7 +178,6 @@ class _TalkPageState extends State<TalkPage>
 
   @override
   void dispose() {
-
     controller.dispose();
     flutterSound.stopRecorder();
     super.dispose();
@@ -125,14 +202,14 @@ class _TalkPageState extends State<TalkPage>
   autoTalk(val, type) async {
 
     Message message;
+    String content;
     if (type == 'image') {
       var data = {
         'type': type,
         'file': val,
       };
-      String content = json.encode(data);
+      content = json.encode(data);
       message = Message(
-        time: '00',
         content: content,
         type: 'TW',
       );
@@ -142,7 +219,7 @@ class _TalkPageState extends State<TalkPage>
         'file': val,
       };
       num++;
-      String content = json.encode(data);
+      content = json.encode(data);
       message = Message(
         isPlaying: false,
         time:_playSeconds,
@@ -154,22 +231,26 @@ class _TalkPageState extends State<TalkPage>
         'type': type,
         'text': val,
       };
-      String content = json.encode(data);
+      content = json.encode(data);
       print('content:$content');
       message = Message(
-        time: "00",
         content: content,
         type: 'TW',
       );
     }
-
-
+    if(orderId == null){
+      print('orderId:$orderId');
+      _create(content);
+    }else{
+      _ask(content);
+    }
     setState(() {
       listMessage.add(message);
       _scrollController.animateTo(50.0 * listMessage.length + 100,
           duration: new Duration(seconds: 1), curve: Curves.ease);
     });
     print('数据库：1');
+
     autoCallBack();
     var db = DatabaseHelper();
     int count = await db.saveMessage(message);
@@ -185,7 +266,6 @@ class _TalkPageState extends State<TalkPage>
       };
       String content = json.encode(data);
       Message message = Message(
-        time: '00',
         content: content,
         type: 'HF',
       );
@@ -367,70 +447,74 @@ class _TalkPageState extends State<TalkPage>
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Router.pushNoParams(context, Router.doctorPage);
-                      },
-                      child: Container(
-                        color: Colors.white,
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 25.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/beijing2.jpg'),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '季洪菊',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      '产科',
-                                      style: TextStyle(color: Colors.black26),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      '副主任医师',
-                                      style: TextStyle(color: Colors.black26),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    _nameWidget('三级医院'),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    _nameWidget('快速回复'),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    _nameWidget('专业有效'),
-                                  ],
-                                )
-                              ],
-                            )
-                          ],
+                    Offstage(
+                      offstage: offstage,
+                      child: GestureDetector(
+                        onTap: () {
+                          Router.pushNoParams(context, Router.doctorPage);
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.all(15),
+                          child: Row(
+                            children: <Widget>[
+                              CircleAvatar(
+                                radius: 25.0,
+                                backgroundImage:
+                                AssetImage('assets/images/beijing2.jpg'),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        '季洪菊',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        '产科',
+                                        style: TextStyle(color: Colors.black26),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        '副主任医师',
+                                        style: TextStyle(color: Colors.black26),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      _nameWidget('三级医院'),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      _nameWidget('快速回复'),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      _nameWidget('专业有效'),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
+
                     SizedBox(
                       height: 15,
                     ),

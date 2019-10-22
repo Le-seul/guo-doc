@@ -44,4 +44,12 @@ class Api{
   static const String CHECKVCODE = "/api/login.do?checkVerificationCode";
   //上传极光RegistrationID
   static const String UPDATEREGISTRATIONID = "/api/push.do?saveOrUpdateRegistrationID";
+  //春雨医生创建订单
+  static const String CREATEORDER = "/api/chunyuTuwen.do?createOrder";
+  //获取最后一次交互的内容
+  static const String GETLASTINTERACTIONCONTENT = "/api/chunyuTuwen.do?getLastInteractionContent";
+  //用户提问
+  static const String USERASK = "/api/chunyuTuwen.do?ask";
+  //获取医生信息
+  static const String GETDOCTERINFO = "/api/chunyuTuwen.do?getDoctorInfo";
 }
