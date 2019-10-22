@@ -40,7 +40,7 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int newVersion) async {
-    await db.execute('create table $tableMessage(id integer primary key autoincrement,$content text not null,$type text not null) ');
+    await db.execute("create table $tableMessage(id integer primary key autoincrement,$content text not null ,$type text not null,$time text not null)");
     print("数据库创建成功！");
   }
 
@@ -48,7 +48,7 @@ class DatabaseHelper {
     var dbClient = await db;
 //    var result = await dbClient.insert(tableMessage, message.toMap());
     var result = await dbClient.rawInsert(
-        'INSERT INTO $tableMessage ($content, $type) VALUES (\'${message.content}\', \'${message.type}\')');
+        'INSERT INTO $tableMessage ($content, $type, $time) VALUES (\'${message.content}\', \'${message.type}\', \'${message.time}\')');
     print("数据添加成功！");
     return result;
   }
@@ -73,15 +73,15 @@ class DatabaseHelper {
 
   Future<Message> getMessage(String id) async {
     var dbClient = await db;
-    List<Map> result = await dbClient.query(tableMessage,
-        columns: [
-//          contentId ,
-          content,
-          type ,
-        ],
-        where: '$contentId = ?',
-        whereArgs: [id]);
-//    var result = await dbClient.rawQuery('SELECT * FROM $tableMessage WHERE $columnId = $id');
+//    List<Map> result = await dbClient.query(tableMessage,
+//        columns: [
+////          contentId ,
+//          content,
+//          type ,
+//        ],
+//        where: '$id = ?',
+//        whereArgs: [id]);
+    var result = await dbClient.rawQuery('SELECT * FROM $tableMessage WHERE $id = $id');
 
     if (result.length > 0) {
       return new Message.fromMap(result.first);

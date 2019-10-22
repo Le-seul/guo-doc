@@ -2,9 +2,9 @@
 class Message {
 //  String contentId;
   String content;
-//  bool isPlaying;
+  bool isPlaying = false;
   String type = 'TW';
-//  String time;
+  String time;
 //  String createTime;
 
   Message(
@@ -13,8 +13,8 @@ class Message {
       this.content,
       this.type,
 //      this.createTime,
-//      this.isPlaying,
-//      this.time
+      this.isPlaying,
+      this.time
       }
       );
 
@@ -23,7 +23,7 @@ class Message {
     content = json['content'];
     type = json['type'];
 //    createTime = json['createTime'];
-//    time = json['time'];
+    time = json['time'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +31,7 @@ class Message {
 //    data['contentId'] = this.contentId;
     data['content'] = this.content;
     data['type'] = this.type;
+    data['time'] = this.time;
 //    data['createTime'] = this.createTime;
     return data;
   }
@@ -40,7 +41,7 @@ class Message {
 //    map['contentId'] = contentId;
     map['content'] = content;
     map['type'] = type;
-//    map['time'] = time;
+    map['time'] = time;
 //    map['createTime'] = createTime;
     return map;
 
@@ -50,7 +51,7 @@ class Message {
 //    contentId = map['contentId'];
     content = map['content'];
     type = map['type'];
-//    time = map['time'];
+    time = map['time'];
 //    createTime = map['createTime'];
   }
 }

@@ -132,6 +132,7 @@ class _TalkPageState extends State<TalkPage>
       };
       String content = json.encode(data);
       message = Message(
+        time: '00',
         content: content,
         type: 'TW',
       );
@@ -143,8 +144,8 @@ class _TalkPageState extends State<TalkPage>
       num++;
       String content = json.encode(data);
       message = Message(
-//        isPlaying: false,
-//        createTime:_playSeconds,
+        isPlaying: false,
+        time:_playSeconds,
         content: content,
         type: 'TW',
       );
@@ -156,6 +157,7 @@ class _TalkPageState extends State<TalkPage>
       String content = json.encode(data);
       print('content:$content');
       message = Message(
+        time: "00",
         content: content,
         type: 'TW',
       );
@@ -183,6 +185,7 @@ class _TalkPageState extends State<TalkPage>
       };
       String content = json.encode(data);
       Message message = Message(
+        time: '00',
         content: content,
         type: 'HF',
       );
@@ -218,12 +221,12 @@ class _TalkPageState extends State<TalkPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-//                Text('${listMessage[index].createTime}\'\''),
+                Text('${listMessage[index].time}\'\''),
                 VoiceAnimationImage(
                   _assetList,
                   width: 20,
                   height: 20,
-//                  isStop: listMessage[index].isPlaying,
+                  isStop: listMessage[index].isPlaying,
                 ),
               ],
             ),
@@ -621,7 +624,7 @@ class _TalkPageState extends State<TalkPage>
           print('txt: $txt');
 //          returnTalkType(null, 'voice');
           this.setState(() {
-//            listMessage[index].isPlaying = flutterSound.isPlaying;
+            listMessage[index].isPlaying = flutterSound.isPlaying;
 //            print('_isPlaying: $_isPlaying');
           });
         }
