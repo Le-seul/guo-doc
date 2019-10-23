@@ -233,13 +233,13 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         loadAssetImage(icon,
-                            color: Colors.white, height: 40, width: 40),
+                            color: Colors.white, height: 40, width: 40,fit: BoxFit.fill),
                         SizedBox(
-                          height: 16,
+                          height: 10,
                         ),
                         Text(
                           text,
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ],
                     ),
