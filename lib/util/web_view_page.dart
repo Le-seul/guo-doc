@@ -24,7 +24,7 @@ class WebViewPage extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
               title: Text(params[TITLE]),
-              backgroundColor: Colors.green,
+              backgroundColor: Color(0xff2CA687),
               centerTitle: true,
             ),
             body: WebView(

@@ -213,9 +213,10 @@ class SelectDialog extends Dialog {
       child:  Center(
           //保证控件居中效果
           child: Container(
-            color: Colors.white,
             height: 220,
             width: 300,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
             child: new Column(
               children: <Widget>[
                 SizedBox(

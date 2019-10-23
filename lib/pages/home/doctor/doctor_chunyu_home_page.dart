@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/order_count.dart';
 import 'package:flutter_first/net/api.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
+import 'package:flutter_first/widgets/real_rich_text.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
 
 class DoctorChunyuHomePage extends StatefulWidget {
@@ -30,7 +32,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               ),
               Center(
                 child: Text(
-                  '首页',
+                  '在线问诊',
                   style: TextStyle(fontSize: 22.0, color: Colors.white),
                 ),
               ),
@@ -42,7 +44,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   child: Container(
                     child: MyCard(
                         child: Container(
-                      height: MediaQuery.of(context).size.height * 300 / 667,
+                      height: MediaQuery.of(context).size.height * 360 / 667,
                       padding:
                           EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
                       child: Column(
@@ -56,17 +58,59 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            '服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明说明务说明服务说明服务说明',
-                            strutStyle: StrutStyle(
-                              forceStrutHeight: true,
-                              height: 1.5,
+                          RealRichText([
+                            TextSpan(
+                              text: "欢迎您使用在线问诊进行医疗咨询，该栏目是",
+                              style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
                             ),
-                            style: TextStyle(
-                              fontSize: 14,
+                            TextSpan(
+                              text: "北京市春雨医生软件有限公司",
+                              style: TextStyle(color: Colors.blue, fontSize: 14,decoration: TextDecoration.underline,height: 1.5),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Router.push(context, 'https://www.chunyuyisheng.com/', {'title': '在线问诊'});
+                                },
                             ),
-                            maxLines: 11,
-                          )
+                            TextSpan(
+                              text: "提供支持。咨询医生均为全国三甲医院医生组成。",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  height: 1.5
+                                  ),
+                            ),
+                            TextSpan(
+                              text: "如遇急重症病情，不适合网上咨询，请立即前往医院就诊。",
+                              style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
+                            ),],
+                          textScaleFactor: 1.1,),
+                          RealRichText([TextSpan(
+                            text: "《图文咨询》 ",
+                            style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
+                          ),
+                            TextSpan(
+                              text: "服务时间为7*24小时，医生将在6分钟内为您服务（夜间30分钟内）；",
+                              style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
+                            ),],
+                            textScaleFactor: 1.1,),
+                          RealRichText([
+                            TextSpan(
+                              text: "《快捷电话》",
+                              style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
+                            ),
+                            TextSpan(
+                              text: "服务时间为每日9:00 - 19:00，医生将在10分钟内向您回电。",
+                              style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
+                            ),
+                          ],
+                            textScaleFactor: 1.1,),
+                          RealRichText([
+                            TextSpan(
+                              text: "如遇急重症病情，不适合网上咨询，请立即前往医院就诊。",
+                              style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
+                            ),
+                          ],
+                            textScaleFactor: 1.1,),
                         ],
                       ),
                     )),
