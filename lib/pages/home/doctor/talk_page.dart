@@ -96,6 +96,12 @@ class _TalkPageState extends State<TalkPage>
     }
   }
   _create(String content){
+    Map<String, dynamic> _map = json.decode(content.substring(1,content.length-1));
+    String text = _map['text'];
+    if(text.length<10){
+      Toast.show('请输入超过10个字！');
+      return;
+    }
     DioUtils.instance
         .requestNetwork<OrderId>(Method.post, Api.CREATEORDER, queryParameters: {
       'content': content,
@@ -336,8 +342,6 @@ class _TalkPageState extends State<TalkPage>
 //      );
 //    }
     List<Widget> widgetList = [];
-    print('content:${listMessage[index].content}');
-    print('content:${listMessage[index].content.substring(1,listMessage[index].content.length-1)}');
     Map<String, dynamic> _map = json.decode(listMessage[index].content.substring(1,listMessage[index].content.length-1));
 
     dataType = _map['type'];
