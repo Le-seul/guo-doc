@@ -1,4 +1,3 @@
-
 class Message {
   String contentId;
   String content;
@@ -9,16 +8,13 @@ class Message {
 //  String createTime;
 
   Message(
-      {
-        this.id,
-        this.contentId,
+      {this.id,
+      this.contentId,
       this.content,
       this.type,
 //      this.createTime,
       this.isPlaying,
-      this.time
-      }
-      );
+      this.time});
 
   Message.fromJson(Map<String, dynamic> json) {
     contentId = json['contentId'];
@@ -46,7 +42,6 @@ class Message {
     map['time'] = time;
 //    map['createTime'] = createTime;
     return map;
-
   }
 
   Message.fromMap(Map<String, dynamic> map) {

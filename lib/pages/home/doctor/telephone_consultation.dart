@@ -18,7 +18,8 @@ class _TelConsultationState extends State<TelConsultation>
   final TelAndSmsService _service = locator<TelAndSmsService>();
   final String number = "123456789";
   bool offstage = true;
-  String phone;
+  String phone = '';
+
 
   @override
   void initState() {
@@ -123,11 +124,16 @@ class _TelConsultationState extends State<TelConsultation>
                               height: 40,
                               alignment: Alignment.centerLeft,
                               child: TextField(
-                                  controller: TextEditingController.fromValue(
-                                      TextEditingValue(
-                                          text:
-                                              '${phone == null ? "" : phone}')),
-                                  onChanged: (val) {},
+                                controller: TextEditingController.fromValue(TextEditingValue(
+                                    text: '${phone}',  //判断keyword是否为空
+                                    // 保持光标在最后
+
+                                    selection: TextSelection.fromPosition(TextPosition(
+                                        affinity: TextAffinity.downstream,
+                                        offset: '${phone}'.length)))),
+                                  onChanged: (val) {
+                                    phone = val;
+                                  },
                                   cursorColor: Colors.black,
                                   inputFormatters: <TextInputFormatter>[
                                     WhitelistingTextInputFormatter

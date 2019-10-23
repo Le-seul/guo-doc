@@ -141,6 +141,7 @@ class _TalkPageState extends State<TalkPage>
     }, onSuccess: (data) {
       setState(() {
         print('456订单');
+        listMessage.add(data);
         _getDoctorInfo();
         Toast.show('获取最后一次交互成功!');
       });
@@ -202,24 +203,16 @@ class _TalkPageState extends State<TalkPage>
   autoTalk(val, type) async {
 
     Message message;
-    String content;
+    String content="";
     if (type == 'image') {
-      var data = {
-        'type': type,
-        'file': val,
-      };
-      content = json.encode(data);
+      content="[{\"type\":\"$type\",\"file\":\"$val\"}]";
       message = Message(
         content: content,
         type: 'TW',
       );
     } else if (type == 'audio') {
-      var data = {
-        'type': type,
-        'file': val,
-      };
       num++;
-      content = json.encode(data);
+      content="[{\"type\":\"$type\",\"file\":\"$val\"}]";
       message = Message(
         isPlaying: false,
         time:_playSeconds,
@@ -227,11 +220,7 @@ class _TalkPageState extends State<TalkPage>
         type: 'TW',
       );
     } else {
-      var data = {
-        'type': type,
-        'text': val,
-      };
-      content = '[${json.encode(data)}]';
+      content="[{\"type\":\"$type\",\"text\":\"$val\"}]";
       print('content:$content');
       message = Message(
         content: content,
@@ -252,10 +241,10 @@ class _TalkPageState extends State<TalkPage>
     print('数据库：1');
 
     autoCallBack();
-//    var db = DatabaseHelper();
-//    int count = await db.saveMessage(message);
-//    List<Map> list = await db.getAllMessages();
-//    print('数据库：${list}');
+    var db = DatabaseHelper();
+    int count = await db.saveMessage(message);
+    List<Map> list = await db.getAllMessages();
+    print('数据库：${list}');
   }
 
   autoCallBack() {
@@ -264,7 +253,8 @@ class _TalkPageState extends State<TalkPage>
         'type': 'text',
         'text': returnTalkList[listMessage.length % 5],
       };
-      String content = json.encode(data);
+
+      String content="[{\"type\":\"text\",\"text\":\"${returnTalkList[listMessage.length % 5]}\"}]";
       Message message = Message(
         content: content,
         type: 'HF',
@@ -346,7 +336,10 @@ class _TalkPageState extends State<TalkPage>
 //      );
 //    }
     List<Widget> widgetList = [];
-    Map<String, dynamic> _map = json.decode(listMessage[index].content);
+    print('content:${listMessage[index].content}');
+    print('content:${listMessage[index].content.substring(1,listMessage[index].content.length-1)}');
+    Map<String, dynamic> _map = json.decode(listMessage[index].content.substring(1,listMessage[index].content.length-1));
+
     dataType = _map['type'];
     if (dataType == 'text') {
       val = _map['text'];
