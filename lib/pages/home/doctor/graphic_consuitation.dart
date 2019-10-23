@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GraphicConsultation extends StatefulWidget {
@@ -11,8 +12,17 @@ class GraphicConsultation extends StatefulWidget {
 class _GraphicConsultationState extends State<GraphicConsultation> {
   bool offstage = false;
 
+
+  @override
+  void initState() {
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -110,14 +120,19 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           )
         ],
       ),
-      bottomSheet: Container(
-        height: 40,
-        color: Colors.green,
-        alignment: Alignment.center,
-        child: Text(
-          '立即提交',
-          style: TextStyle(color: Colors.white, fontSize: 18),
+      bottomSheet: GestureDetector(
+        child: Container(
+          height: 40,
+          color: Colors.green,
+          alignment: Alignment.center,
+          child: Text(
+            '立即提交',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
         ),
+        onTap: (){
+
+        },
       ),
       resizeToAvoidBottomPadding: false,
     );

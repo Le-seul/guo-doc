@@ -231,7 +231,7 @@ class _TalkPageState extends State<TalkPage>
         'type': type,
         'text': val,
       };
-      content = json.encode(data);
+      content = '[${json.encode(data)}]';
       print('content:$content');
       message = Message(
         content: content,
@@ -252,10 +252,10 @@ class _TalkPageState extends State<TalkPage>
     print('数据库：1');
 
     autoCallBack();
-    var db = DatabaseHelper();
-    int count = await db.saveMessage(message);
-    List<Map> list = await db.getAllMessages();
-    print('数据库：${list}');
+//    var db = DatabaseHelper();
+//    int count = await db.saveMessage(message);
+//    List<Map> list = await db.getAllMessages();
+//    print('数据库：${list}');
   }
 
   autoCallBack() {
