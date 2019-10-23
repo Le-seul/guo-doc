@@ -72,6 +72,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(left: 10,right: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

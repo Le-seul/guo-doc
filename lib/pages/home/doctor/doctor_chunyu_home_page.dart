@@ -42,7 +42,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   child: Container(
                     child: MyCard(
                         child: Container(
-                      height: MediaQuery.of(context).size.height * 260 / 667,
+                      height: MediaQuery.of(context).size.height * 300 / 667,
                       padding:
                           EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
                       child: Column(
@@ -57,7 +57,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                             height: 10,
                           ),
                           Text(
-                            '服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明',
+                            '服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明服务说明服务说明服务说明服务说明务说明服务说明服务说明说明务说明服务说明服务说明',
                             strutStyle: StrutStyle(
                               forceStrutHeight: true,
                               height: 1.5,
@@ -65,7 +65,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                             style: TextStyle(
                               fontSize: 14,
                             ),
-                            maxLines: 7,
+                            maxLines: 11,
                           )
                         ],
                       ),
@@ -84,7 +84,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/graphic_consultation.png',
                             'doctor/graphic_icon.png',
-                            '图文咨询','12'),
+                            '图文咨询','12',false),
                         onTap: () {
                           getOrderCount();
                           Router.pushNoParams(
@@ -98,7 +98,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       flex: 1,
                       child: GestureDetector(
                         child: _gridItem('assets/images/doctor/quick_phone.png',
-                            'doctor/phone_icon.png', '快捷电话','2'),
+                            'doctor/phone_icon.png', '快捷电话','2',true),
                         onTap: () {
                           Router.pushNoParams(context, Router.telConsultation);
                         },
@@ -111,7 +111,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/historical_record.png',
                             'doctor/history_icon.png',
-                            '历史记录','6'),
+                            '历史记录','6',false),
                         onTap: () {
                           Router.pushNoParams(context, Router.historyRecord);
                         },
@@ -168,7 +168,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         });
   }
 
-  _gridItem(String bgImage, String icon, String text,String count) {
+  _gridItem(String bgImage, String icon, String text,String count,offstage) {
     return Container(
         child: Stack(
       children: <Widget>[
@@ -201,18 +201,21 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                     ),
                   ))),
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Container(
-            padding: EdgeInsets.only(left: 6,right: 6,top: 2,bottom: 2),
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
+        Offstage(
+          offstage: offstage,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              padding: EdgeInsets.only(left: 6,right: 6,top: 2,bottom: 2),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
               ),
-            ),
 
-            child: Text(count,style: TextStyle(color: Colors.white),),
+              child: Text(count,style: TextStyle(color: Colors.white),),
+            ),
           ),
         ),
       ],
