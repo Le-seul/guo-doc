@@ -6,6 +6,7 @@ import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/util/config.dart';
+import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -13,6 +14,7 @@ import 'pages/exit_login_page.dart';
 
 void main() async {
   Config.env = Env.LOCAL;
+  setupLocator();
   await StorageManager.init();
   runApp(MyApp());
 }

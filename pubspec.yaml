@@ -54,7 +54,7 @@ dependencies:
   audioplayers: ^0.13.1
   scoped_model: ^1.0.1
   overlay_support: ^1.0.1
-  url_launcher: ^4.0.1
+
   flutter_webview_plugin: ^0.2.1+2
   jaguar_flutter_asset: ^2.2.0
   # 处理键盘事件 https://github.com/diegoveloper/flutter_keyboard_actions
@@ -68,6 +68,9 @@ dependencies:
   flutter_sound: 1.4.8
   sqflite: 1.1.7+1
   path: 1.6.4
+  url_launcher: ^5.0.3
+  get_it: ^1.0.3+2
+
 
 
 dev_dependencies:

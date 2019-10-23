@@ -167,6 +167,7 @@ class _SMSLoginState extends State<SMSLogin> {
             _isClick = s < 1;
           });
         });
+        savePhone(_phoneController.text);
         Toast.show('获取验证码成功!');
       });
     }, onError: (code, msg) {
@@ -182,6 +183,9 @@ class _SMSLoginState extends State<SMSLogin> {
     });
   }
 
+  static savePhone(String phone) async {
+    StorageManager.sharedPreferences.setString(Constant.phone, phone);
+  }
   static saveToken(String token) async {
     StorageManager.sharedPreferences.setString(Constant.access_Token, token);
   }

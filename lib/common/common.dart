@@ -1,6 +1,7 @@
 class Constant {
   static const String orderId = 'orderId';
   static const String userInfo = 'userInfo';
+  static const String phone = 'phone';
   static const String registrationID = 'registrationID';
   static const String access_Token = 'accessToken';
   static const String refresh_Token = 'refreshToken';
