@@ -1,8 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class GraphicConsultation extends StatefulWidget {
   @override
@@ -11,6 +16,7 @@ class GraphicConsultation extends StatefulWidget {
 
 class _GraphicConsultationState extends State<GraphicConsultation> {
   bool offstage = false;
+  List<String> list = List();
 
 
   @override
@@ -66,13 +72,10 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+
                           Wrap(
                             alignment: WrapAlignment.start,
                             spacing: 10,
@@ -87,7 +90,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
                                         fit: BoxFit.fill,
                                       ),
                                       onTap: () {
-                                        getImage();
+                                        clickIcon();
                                       },
                                     ):Image.file(
                                       File(list[index-1]),
@@ -101,19 +104,17 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
 //                    Row(
 //                        mainAxisAlignment: MainAxisAlignment.start,
 //                        children: list),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Offstage(
-                          offstage: offstage,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width - 80,
-                            child: Text(
-                              '图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述',
-                            ),
-                          )),
-                    ],
-                  ),
+//                      SizedBox(
+//                        width: 10,
+//                      ),
+//                      Offstage(
+//                          offstage: offstage,
+//                          child: Container(
+//                            width: MediaQuery.of(context).size.width - 80,
+//                            child: Text(
+//                              '图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述图片描述',
+//                            ),
+//                          )),
                 )
               ],
             ),
@@ -138,14 +139,49 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
     );
   }
 
-  List<String> list = List() ;
-  void getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        offstage = true;
-        list.add(image.path);
-      });
+  clickIcon() async {
+    FormData formData;
+    List<UploadFileInfo> files = [];
+    try {
+      List<Asset> resultList = await MultiImagePicker.pickImages(
+          maxImages: 4,
+          enableCamera: true
+      );
+      if (resultList.length > 0) {
+        for(int i = 0; i< resultList.length; i ++) {
+          Asset asset = resultList[i];
+          ByteData byteData = await asset.requestThumbnail(200, 200);
+          List<int> imageData = byteData.buffer.asUint8List();
+
+          //获得一个uuud码用于给图片命名
+          final String uuid = Uuid().v1();
+          //获得应用临时目录路径
+          final Directory _directory = await getTemporaryDirectory();
+          final Directory _imageDirectory =
+          await new Directory('${_directory.path}/image/')
+              .create(recursive: true);
+          var path = _imageDirectory.path;
+          print('本次获得路径：${_imageDirectory.path}');
+          //将压缩的图片暂时存入应用缓存目录
+          File imageFile = new File('${path}originalImage_$uuid.png')
+            ..writeAsBytesSync(imageData);
+          setState(() {
+            list.add(imageFile.path);
+          });
+
+          print('图片path：${imageFile.path}');
+          var file = new UploadFileInfo(imageFile, '${path}originalImage_$uuid.png', contentType: ContentType.parse("image/png"));
+          files.add(file);
+        };
+        FormData formData = new FormData.from({
+          'file': files
+        });
+
+      } else {
+
+      }
+    } catch (e) {
+      print(e.message);
     }
   }
 

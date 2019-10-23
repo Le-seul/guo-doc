@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId "cn.gov.gaj.phms.v3"
-        minSdkVersion 16
+        minSdkVersion 19
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

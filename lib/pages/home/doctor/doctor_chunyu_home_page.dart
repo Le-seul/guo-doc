@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/order_count.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
 
@@ -10,6 +14,9 @@ class DoctorChunyuHomePage extends StatefulWidget {
 }
 
 class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
+
+  int orderCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,12 +84,12 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/graphic_consultation.png',
                             'doctor/graphic_icon.png',
-                            '图文咨询'),
+                            '图文咨询','12'),
                         onTap: () {
+                          getOrderCount();
                           Router.pushNoParams(
                               context, Router.graphicConsultation);
 
-                          showMySimpleDialog(context);
                         },
                       ),
                     ),
@@ -91,7 +98,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       flex: 1,
                       child: GestureDetector(
                         child: _gridItem('assets/images/doctor/quick_phone.png',
-                            'doctor/phone_icon.png', '快捷电话'),
+                            'doctor/phone_icon.png', '快捷电话','2'),
                         onTap: () {
                           Router.pushNoParams(context, Router.telConsultation);
                         },
@@ -104,7 +111,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/historical_record.png',
                             'doctor/history_icon.png',
-                            '历史记录'),
+                            '历史记录','6'),
                         onTap: () {
                           Router.pushNoParams(context, Router.historyRecord);
                         },
@@ -119,6 +126,21 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
       ),
     );
   }
+  getOrderCount(){
+    DioUtils.instance
+        .requestNetwork<OrderCount>(Method.get, Api.ORDERCOUNT,
+        onSuccess: (data) {
+      setState(() {
+        orderCount = data.count;
+        showMySimpleDialog(context);
+//        Toast.show('获取数量成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+//        Toast.show('获取数量失败!');
+      });
+    });
+  }
 
   void showMySimpleDialog(BuildContext context) {
     showDialog(
@@ -128,9 +150,11 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
             title: new Text("咨询问题"),
             children: <Widget>[
               new SimpleDialogOption(
-                child: new Text("正在咨询2"),
+                child: new Text("正在咨询$orderCount"),
                 onPressed: () {
+                  Navigator.of(context).pop();
                   Router.pushNoParams(context, Router.historyRecord);
+
                 },
               ),
               new SimpleDialogOption(
@@ -144,7 +168,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         });
   }
 
-  _gridItem(String bgImage, String icon, String text) {
+  _gridItem(String bgImage, String icon, String text,String count) {
     return Container(
         child: Stack(
       children: <Widget>[
@@ -188,7 +212,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               ),
             ),
 
-            child: Text('12',style: TextStyle(color: Colors.white),),
+            child: Text(count,style: TextStyle(color: Colors.white),),
           ),
         ),
       ],

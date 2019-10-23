@@ -10,6 +10,7 @@ import 'package:flutter_first/bean/consultation_columns_entity.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 
 import 'package:flutter_first/bean/coursedetail.dart';
+import 'package:flutter_first/bean/order_count.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
@@ -65,6 +66,8 @@ class EntityFactory {
       return OrderId.fromJson(json) as T;
     }else if (T.toString() == "DoctorInfo") {
       return DoctorInfo.fromJson(json) as T;
+    }else if (T.toString() == "OrderCount") {
+      return OrderCount.fromJson(json) as T;
     }else {
       return null;
     }
