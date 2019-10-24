@@ -3,7 +3,11 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/imageUrl.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -133,15 +137,15 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           ),
         ),
         onTap: (){
-
+          updateImage();
         },
       ),
       resizeToAvoidBottomPadding: false,
     );
   }
-
+  FormData formData;
   clickIcon() async {
-    FormData formData;
+
     List<UploadFileInfo> files = [];
     try {
       List<Asset> resultList = await MultiImagePicker.pickImages(
@@ -173,10 +177,10 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           print('图片path：${imageFile.path}');
           var file = new UploadFileInfo(imageFile, '${path}originalImage_$uuid.png', contentType: ContentType.parse("image/png"));
           files.add(file);
+          formData = new FormData.from({
+            'file': file
+          });
         };
-        FormData formData = new FormData.from({
-          'file': files
-        });
 
       } else {
 
@@ -186,4 +190,17 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
     }
   }
 
+  updateImage(){
+    DioUtils.instance
+        .requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,params: formData,
+        onSuccess: (data) {
+          setState(() {
+            Toast.show('上传成功!');
+          });
+        }, onError: (code, msg) {
+          setState(() {
+        Toast.show('上传失败!');
+          });
+        });
+  }
 }

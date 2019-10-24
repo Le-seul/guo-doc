@@ -1,8 +1,10 @@
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
+import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
+import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
@@ -68,6 +70,10 @@ class EntityFactory {
       return DoctorInfo.fromJson(json) as T;
     }else if (T.toString() == "OrderCount") {
       return OrderCount.fromJson(json) as T;
+    }else if (T.toString() == "ImageUrl") {
+      return ImageUrl.fromJson(json) as T;
+    }else if (T.toString() == "AudioUrl") {
+      return AudioUrl.fromJson(json) as T;
     }else {
       return null;
     }

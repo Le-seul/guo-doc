@@ -54,4 +54,8 @@ class Api{
   static const String GETDOCTERINFO = "/api/chunyuTuwen.do?getDoctorInfo";
   //获取正在进行中的图文订单的数量
   static const String ORDERCOUNT = "/api/chunyuTuwen.do?countOrderInProgress";
+  //上传音频
+  static const String UPLOADAUDIO = "/api/attachment.do?uploadAudio";
+  //上传图片
+  static const String UPLOADIMAGE = "/api/attachment.do?uploadImage";
 }

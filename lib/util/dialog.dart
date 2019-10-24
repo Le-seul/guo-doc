@@ -122,3 +122,43 @@ class LoadingDialog extends Dialog {
     );
   }
 }
+class ConsutationDialog extends Dialog {
+  String text;
+
+  ConsutationDialog({Key key, @required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Material( //创建透明层
+      type: MaterialType.transparency, //透明类型
+      child: new Center( //保证控件居中效果
+        child:Container(
+          color: Colors.transparent,
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(children: <Widget>[
+                Text('请选择'),
+                Icon(Icons.close),
+              ],),
+              Row(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Container(
+                      decoration: BoxDecoration(
+
+                          borderRadius: BorderRadius.circular(12)),
+                          color: Color(0xff2CA687),
+                      child: Text('继续已有咨询'),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

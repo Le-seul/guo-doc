@@ -13,6 +13,7 @@ import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/doctor_chunyu_home_page.dart';
 import 'package:flutter_first/pages/home/doctor/doctor_page.dart';
+import 'package:flutter_first/pages/home/doctor/evaluation_page.dart';
 import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/doctor/search_hospital.dart';
@@ -108,6 +109,7 @@ class Router {
   static const instructor_demeanorPage = 'app://instructor_demeanorPage';
   static const instructor_demeanor_detailPage = 'app://instructor_demeanor_detailPage';
   static const clinic_informationPage = 'app://clinic_informationPage';
+  static const evaluationPage = 'app://EvaluationPage';
 
 
   Widget _getPage(String url, dynamic params) {
@@ -217,7 +219,8 @@ class Router {
           return instructor_demeanor_detail();
         case clinic_informationPage:
           return Clinic_information();
-
+        case evaluationPage:
+          return EvaluationPage();
       }
     }
     return null;

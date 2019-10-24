@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/user_entity.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/voice_animation_image.dart';
+import 'package:flutter_first/widgets/greenBgWidget.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -57,8 +60,7 @@ class _TalkPageState extends State<TalkPage>
   User user;
 
   @override
-  void initState(){
-
+  void initState() {
     init();
     _assetList.add("assets/images/doctor/sound_right_3.png");
     _assetList.add("assets/images/doctor/sound_right_2.png");
@@ -69,7 +71,6 @@ class _TalkPageState extends State<TalkPage>
     flutterSound.setDbPeakLevelUpdate(0.8);
     flutterSound.setDbLevelEnabled(true);
     initializeDateFormatting();
-
 
     user = User.fromJson(json
         .decode(StorageManager.sharedPreferences.getString(Constant.userInfo)));
@@ -95,17 +96,19 @@ class _TalkPageState extends State<TalkPage>
       });
     }
   }
-  _create(String content){
-    Map<String, dynamic> _map = json.decode(content.substring(1,content.length-1));
+
+  _create(String content) {
+    Map<String, dynamic> _map =
+        json.decode(content.substring(1, content.length - 1));
     String text = _map['text'];
-    if(text.length<10){
+    if (text.length < 10) {
       Toast.show('请输入超过10个字！');
       return;
     }
-    DioUtils.instance
-        .requestNetwork<OrderId>(Method.post, Api.CREATEORDER, queryParameters: {
-      'content': content,
-    }, onSuccess: (data) {
+    DioUtils.instance.requestNetwork<OrderId>(Method.post, Api.CREATEORDER,
+        queryParameters: {
+          'content': content,
+        }, onSuccess: (data) {
       setState(() {
         orderId = data.orderId;
         saveOrder(orderId);
@@ -120,7 +123,8 @@ class _TalkPageState extends State<TalkPage>
       });
     });
   }
-  _ask(String content){
+
+  _ask(String content) {
     DioUtils.instance
         .requestNetwork<String>(Method.post, Api.USERASK, queryParameters: {
       'content': content,
@@ -136,15 +140,18 @@ class _TalkPageState extends State<TalkPage>
       });
     });
   }
-  static saveOrder(String orderId) async{
+
+  static saveOrder(String orderId) async {
     StorageManager.sharedPreferences.setString(Constant.orderId, orderId);
     print('orderId:$orderId');
   }
-  _getLastContent(){
-    DioUtils.instance
-        .requestNetwork<Message>(Method.get, Api.GETLASTINTERACTIONCONTENT, queryParameters: {
-      'orderId': orderId,
-    }, onSuccess: (data) {
+
+  _getLastContent() {
+    DioUtils.instance.requestNetwork<Message>(
+        Method.get, Api.GETLASTINTERACTIONCONTENT,
+        queryParameters: {
+          'orderId': orderId,
+        }, onSuccess: (data) {
       setState(() {
         print('456订单');
         listMessage.add(data);
@@ -157,11 +164,12 @@ class _TalkPageState extends State<TalkPage>
       });
     });
   }
-  _getDoctorInfo(){
-    DioUtils.instance
-        .requestNetwork<DoctorInfo>(Method.get, Api.GETDOCTERINFO, queryParameters: {
-      'orderId': orderId,
-    }, onSuccess: (data) {
+
+  _getDoctorInfo() {
+    DioUtils.instance.requestNetwork<DoctorInfo>(Method.get, Api.GETDOCTERINFO,
+        queryParameters: {
+          'orderId': orderId,
+        }, onSuccess: (data) {
       setState(() {
         print('789订单');
         doctorInfo = data;
@@ -174,8 +182,10 @@ class _TalkPageState extends State<TalkPage>
       });
     });
   }
-  init() async{
-    orderId = await StorageManager.sharedPreferences.getString(Constant.orderId);
+
+  init() async {
+    orderId =
+        await StorageManager.sharedPreferences.getString(Constant.orderId);
     var db = DatabaseHelper();
     List<Map> list = await db.getAllMessages();
     setState(() {
@@ -207,36 +217,35 @@ class _TalkPageState extends State<TalkPage>
   }
 
   autoTalk(val, type) async {
-
     Message message;
-    String content="";
+    String content = "";
     if (type == 'image') {
-      content="[{\"type\":\"$type\",\"file\":\"$val\"}]";
+      content = "[{\"type\":\"$type\",\"file\":\"$val\"}]";
       message = Message(
         content: content,
         type: 'TW',
       );
     } else if (type == 'audio') {
       num++;
-      content="[{\"type\":\"$type\",\"file\":\"$val\"}]";
+      content = "[{\"type\":\"$type\",\"file\":\"$val\"}]";
       message = Message(
         isPlaying: false,
-        time:_playSeconds,
+        time: _playSeconds,
         content: content,
         type: 'TW',
       );
     } else {
-      content="[{\"type\":\"$type\",\"text\":\"$val\"}]";
+      content = "[{\"type\":\"$type\",\"text\":\"$val\"}]";
       print('content:$content');
       message = Message(
         content: content,
         type: 'TW',
       );
     }
-    if(orderId == null){
+    if (orderId == null) {
       print('orderId:$orderId');
       _create(content);
-    }else{
+    } else {
       _ask(content);
     }
     setState(() {
@@ -254,13 +263,14 @@ class _TalkPageState extends State<TalkPage>
   }
 
   autoCallBack() {
-    Future.delayed(new Duration(seconds: 1), () async{
+    Future.delayed(new Duration(seconds: 1), () async {
       var data = {
         'type': 'text',
         'text': returnTalkList[listMessage.length % 5],
       };
 
-      String content="[{\"type\":\"text\",\"text\":\"${returnTalkList[listMessage.length % 5]}\"}]";
+      String content =
+          "[{\"type\":\"text\",\"text\":\"${returnTalkList[listMessage.length % 5]}\"}]";
       Message message = Message(
         content: content,
         type: 'HF',
@@ -275,7 +285,7 @@ class _TalkPageState extends State<TalkPage>
     });
   }
 
-  returnTalkType(type, val,index) {
+  returnTalkType(type, val, index) {
     switch (type) {
       case 'text':
         return new Text(val,
@@ -288,7 +298,9 @@ class _TalkPageState extends State<TalkPage>
             ));
         break;
       case 'image':
-        return listMessage[index].type == 'TW'?Image.file(File(val)):Image.network(val);
+        return listMessage[index].type == 'TW'
+            ? Image.file(File(val))
+            : Image.network(val);
         break;
       case 'audio':
         return GestureDetector(
@@ -310,24 +322,12 @@ class _TalkPageState extends State<TalkPage>
           onTap: () {
             setState(() {
               print('val:$val');
-              startPlayer(val,index);
+              startPlayer(val, index);
             });
           },
         );
         break;
     }
-  }
-
-  _nameWidget(String name) {
-    return Container(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 3),
-      child: Text(name,
-          style: TextStyle(
-            color: Colors.white,
-          )),
-      decoration: BoxDecoration(
-          color: Color(0xff2CA687), borderRadius: BorderRadius.circular(5)),
-    );
   }
 
   _buildItem(int index) {
@@ -342,7 +342,9 @@ class _TalkPageState extends State<TalkPage>
 //      );
 //    }
     List<Widget> widgetList = [];
-    Map<String, dynamic> _map = json.decode(listMessage[index].content.substring(1,listMessage[index].content.length-1));
+    Map<String, dynamic> _map = json.decode(listMessage[index]
+        .content
+        .substring(1, listMessage[index].content.length - 1));
 
     dataType = _map['type'];
     if (dataType == 'text') {
@@ -363,7 +365,7 @@ class _TalkPageState extends State<TalkPage>
                 borderRadius: new BorderRadius.circular(10.0)),
             child: new LimitedBox(
               maxWidth: MediaQuery.of(context).size.width - 120.0,
-              child: returnTalkType(dataType, val,index),
+              child: returnTalkType(dataType, val, index),
             )),
         new CircleAvatar(
           backgroundImage: new NetworkImage(
@@ -390,7 +392,7 @@ class _TalkPageState extends State<TalkPage>
                 borderRadius: new BorderRadius.circular(10.0)),
             child: new LimitedBox(
               maxWidth: MediaQuery.of(context).size.width - 120.0,
-              child: returnTalkType(dataType, val,index),
+              child: returnTalkType(dataType, val, index),
             )),
       ];
     }
@@ -414,9 +416,25 @@ class _TalkPageState extends State<TalkPage>
         flexibleSpace: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text(
-              '问题详情',
-              style: TextStyle(fontSize: 20, color: Colors.black),
+            Container(
+              padding: EdgeInsets.only(left: 10,right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(width: 30,),
+                  Text(
+                      '问题详情',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                 GestureDetector(
+                   onTap: (){
+                     Router.pushNoParams(context, Router.evaluationPage);
+                   },
+                   child: Text('评价'),
+                 )
+
+                ],
+              ),
             ),
             Text(
               '22小时或9次对话后问题关闭',
@@ -458,7 +476,7 @@ class _TalkPageState extends State<TalkPage>
                               CircleAvatar(
                                 radius: 25.0,
                                 backgroundImage:
-                                AssetImage('assets/images/beijing2.jpg'),
+                                    AssetImage('assets/images/beijing2.jpg'),
                               ),
                               SizedBox(
                                 width: 10,
@@ -493,15 +511,15 @@ class _TalkPageState extends State<TalkPage>
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      _nameWidget('三级医院'),
+                                      GreenBgWidget(name: '三级医院',),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      _nameWidget('快速回复'),
+                                      GreenBgWidget(name:'快速回复'),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      _nameWidget('专业有效'),
+                                      GreenBgWidget(name:'专业有效'),
                                     ],
                                   )
                                 ],
@@ -511,7 +529,6 @@ class _TalkPageState extends State<TalkPage>
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 15,
                     ),
@@ -645,6 +662,11 @@ class _TalkPageState extends State<TalkPage>
   void startRecorder(String num) async {
     try {
       String path = await flutterSound.startRecorder(num, bitRate: 320000);
+      File audioFile = new File(path);
+      var file = new UploadFileInfo(audioFile, '${path}$num.mp3',
+          contentType: ContentType.parse("video/mp3"));
+      FormData formData = new FormData.from({'file': file});
+      uploadAudio(formData);
       print("数据$path");
       _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
         DateTime date = new DateTime.fromMillisecondsSinceEpoch(
@@ -654,7 +676,6 @@ class _TalkPageState extends State<TalkPage>
         String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
         _playSeconds = txt.substring(3, 5);
       });
-
     } catch (err) {
       print('startRecorder error: $err');
     }
@@ -682,7 +703,7 @@ class _TalkPageState extends State<TalkPage>
     }
   }
 
-  void startPlayer(String num,int index) async {
+  void startPlayer(String num, int index) async {
     String path = await flutterSound.startPlayer('/storage/emulated/0/$num');
     File file = await new File(path);
     List contents = await file.readAsBytesSync();
@@ -735,5 +756,18 @@ class _TalkPageState extends State<TalkPage>
   void resumePlayer() async {
     String result = await flutterSound.resumePlayer();
     print('resumePlayer: $result');
+  }
+
+  uploadAudio(FormData formData) {
+    DioUtils.instance.requestNetwork<AudioUrl>(Method.post, Api.UPLOADAUDIO,
+        params: formData, onSuccess: (data) {
+      setState(() {
+        Toast.show('上传成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('上传失败!');
+      });
+    });
   }
 }
