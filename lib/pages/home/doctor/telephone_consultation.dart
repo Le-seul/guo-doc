@@ -125,7 +125,7 @@ class _TelConsultationState extends State<TelConsultation>
                               alignment: Alignment.centerLeft,
                               child: TextField(
                                 controller: TextEditingController.fromValue(TextEditingValue(
-                                    text: '${phone}',  //判断keyword是否为空
+                                    text: phone == null?'':'$phone',  //判断keyword是否为空
                                     // 保持光标在最后
 
                                     selection: TextSelection.fromPosition(TextPosition(

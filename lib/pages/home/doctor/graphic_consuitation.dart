@@ -145,7 +145,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
     List<UploadFileInfo> files = [];
     try {
       List<Asset> resultList = await MultiImagePicker.pickImages(
-          maxImages: 4,
+          maxImages: 9,
           enableCamera: true
       );
       if (resultList.length > 0) {

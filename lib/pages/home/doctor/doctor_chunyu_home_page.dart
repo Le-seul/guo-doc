@@ -44,9 +44,8 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   child: Container(
                     child: MyCard(
                         child: Container(
-                      height: MediaQuery.of(context).size.height * 360 / 667,
                       padding:
-                          EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                          EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0,bottom: 15.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
