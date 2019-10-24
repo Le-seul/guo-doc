@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/bean/imageUrl.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/doctor/current_consultation.dart';
 import 'package:flutter_first/pages/home/doctor/history_record_widget.dart';
 
@@ -15,15 +19,33 @@ class _HistoryRecordState extends State<HistoryRecord>
   bool isChoice1 = true;
   bool isChoice2 = false;
   Widget childWidget;
+  AllOrder allOrder = new AllOrder();
 
   @override
   void initState() {
     childWidget = CurrentConsultation();
+    _getAllOrder();
   }
   @override
   void dispose() {
     super.dispose();
   }
+
+  _getAllOrder(){
+    DioUtils.instance.requestNetwork<AllOrder>(Method.post, Api.GETALLORDER,isList: true,
+
+          onSuccessList: (data) {
+          setState(() {
+            allOrder = data[0];
+            print('获取所有订单成功!');
+          });
+        }, onError: (code, msg) {
+          setState(() {
+            print('获取所有订单失败!');
+          });
+        });
+  }
+
 
   @override
   Widget build(BuildContext context) {

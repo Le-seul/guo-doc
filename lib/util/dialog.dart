@@ -123,9 +123,6 @@ class LoadingDialog extends Dialog {
   }
 }
 class ConsutationDialog extends Dialog {
-  String text;
-
-  ConsutationDialog({Key key, @required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,25 +130,54 @@ class ConsutationDialog extends Dialog {
       type: MaterialType.transparency, //透明类型
       child: new Center( //保证控件居中效果
         child:Container(
-          color: Colors.transparent,
+          padding: EdgeInsets.all(20),
+          height: 120,
+          width: 280,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12)),
           child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Row(children: <Widget>[
-                Text('请选择'),
-                Icon(Icons.close),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                Text('请选择',style: TextStyle(fontSize: 20),),
+                GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
+                  Navigator.of(context).pop();
+                },)
               ],),
+              SizedBox(height: 20,),
               Row(
                 children: <Widget>[
                   GestureDetector(
                     child: Container(
-                      decoration: BoxDecoration(
 
-                          borderRadius: BorderRadius.circular(12)),
+                      decoration: BoxDecoration(
                           color: Color(0xff2CA687),
-                      child: Text('继续已有咨询'),
+                          borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+
+                      child: Text('继续已有问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
                     ),
+                    onTap: (){
+                      Router.pushNoParams(context, Router.historyRecord);
+                    },
+                  ),
+                  SizedBox(width: 20,),
+                  GestureDetector(
+                    child: Container(
+
+                      decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                      child: Text('创建新的问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                    ),
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+
                   )
                 ],
               )

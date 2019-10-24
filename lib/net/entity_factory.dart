@@ -1,5 +1,6 @@
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
+import 'package:flutter_first/bean/all_order_entity.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
@@ -74,6 +75,8 @@ class EntityFactory {
       return ImageUrl.fromJson(json) as T;
     }else if (T.toString() == "AudioUrl") {
       return AudioUrl.fromJson(json) as T;
+    }else if (T.toString() == "AllOrder") {
+      return AllOrder.fromJson(json) as T;
     }else {
       return null;
     }

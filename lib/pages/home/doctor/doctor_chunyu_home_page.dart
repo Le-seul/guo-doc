@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/order_count.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -175,7 +176,13 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         onSuccess: (data) {
       setState(() {
         orderCount = data.count;
-        showMySimpleDialog(context);
+        showDialog<Null>(
+            context: context, //BuildContext对象
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return ConsutationDialog();
+            });
+//        showMySimpleDialog(context);
 //        Toast.show('获取数量成功!');
       });
     }, onError: (code, msg) {

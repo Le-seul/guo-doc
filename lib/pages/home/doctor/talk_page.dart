@@ -4,12 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
+import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/databaseHelper.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -20,6 +22,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
+
+import 'package:uuid/uuid.dart';
 
 class TalkPage extends StatefulWidget {
   TalkPage({Key key, this.detail}) : super(key: key);
@@ -51,6 +55,8 @@ class _TalkPageState extends State<TalkPage>
   double max_duration = 1.0;
   String _playSeconds = '00';
   var val;
+  String leseul;
+  FormData formData;
   bool offstage = true;
   DoctorInfo doctorInfo;
   String orderId;
@@ -132,11 +138,11 @@ class _TalkPageState extends State<TalkPage>
     }, onSuccess: (data) {
       setState(() {
         print(data);
-        Toast.show('提问成功!');
+//        Toast.show('提问成功!');
       });
     }, onError: (code, msg) {
       setState(() {
-        Toast.show('提问失败!');
+//        Toast.show('提问失败!');
       });
     });
   }
@@ -212,16 +218,22 @@ class _TalkPageState extends State<TalkPage>
   void getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      autoTalk(image.path, 'image');
+      final String uuid = Uuid().v1();
+      var file = new UploadFileInfo(image, '$uuid.png',
+          contentType: ContentType.parse("image/png"));
+
+      FormData formData = new FormData.from({'file': file});
+      _updateImage(image.path, formData);
     }
   }
 
-  autoTalk(val, type) async {
+  autoTalk(val, type, url) async {
     Message message;
     String content = "";
     if (type == 'image') {
       content = "[{\"type\":\"$type\",\"file\":\"$val\"}]";
       message = Message(
+        localPath: url,
         content: content,
         type: 'TW',
       );
@@ -231,6 +243,7 @@ class _TalkPageState extends State<TalkPage>
       message = Message(
         isPlaying: false,
         time: _playSeconds,
+        localPath: url,
         content: content,
         type: 'TW',
       );
@@ -417,22 +430,23 @@ class _TalkPageState extends State<TalkPage>
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 10,right: 10),
+              padding: EdgeInsets.only(left: 10, right: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(width: 30,),
+                  SizedBox(
+                    width: 30,
+                  ),
                   Text(
-                      '问题详情',
-                      style: TextStyle(fontSize: 20, color: Colors.black),
-                    ),
-                 GestureDetector(
-                   onTap: (){
-                     Router.pushNoParams(context, Router.evaluationPage);
-                   },
-                   child: Text('评价'),
-                 )
-
+                    '问题详情',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Router.pushNoParams(context, Router.evaluationPage);
+                    },
+                    child: Text('评价'),
+                  )
                 ],
               ),
             ),
@@ -511,15 +525,17 @@ class _TalkPageState extends State<TalkPage>
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      GreenBgWidget(name: '三级医院',),
+                                      GreenBgWidget(
+                                        name: '三级医院',
+                                      ),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      GreenBgWidget(name:'快速回复'),
+                                      GreenBgWidget(name: '快速回复'),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      GreenBgWidget(name:'专业有效'),
+                                      GreenBgWidget(name: '专业有效'),
                                     ],
                                   )
                                 ],
@@ -587,7 +603,7 @@ class _TalkPageState extends State<TalkPage>
                                             color: Color(0xFF7c7c7e))),
                                     onSubmitted: (val) {
                                       if (val != '' && val != null) {
-                                        autoTalk(val, 'text');
+                                        autoTalk(val, 'text', '');
                                       }
                                       _textInputController.clear();
                                     },
@@ -641,7 +657,6 @@ class _TalkPageState extends State<TalkPage>
                                             stopRecorder();
                                             controller.reset();
                                             controller.stop();
-                                            autoTalk('num$num', 'audio');
                                           },
                                         );
                                       },
@@ -663,10 +678,10 @@ class _TalkPageState extends State<TalkPage>
     try {
       String path = await flutterSound.startRecorder(num, bitRate: 320000);
       File audioFile = new File(path);
+
       var file = new UploadFileInfo(audioFile, '${path}$num.mp3',
           contentType: ContentType.parse("video/mp3"));
-      FormData formData = new FormData.from({'file': file});
-      uploadAudio(formData);
+      formData = new FormData.from({'file': file});
       print("数据$path");
       _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
         DateTime date = new DateTime.fromMillisecondsSinceEpoch(
@@ -685,7 +700,7 @@ class _TalkPageState extends State<TalkPage>
     try {
       String result = await flutterSound.stopRecorder();
       print('停止录音返回结果: $result');
-
+      _uploadAudio(formData);
       if (_recorderSubscription != null) {
         _recorderSubscription.cancel();
         _recorderSubscription = null;
@@ -758,15 +773,30 @@ class _TalkPageState extends State<TalkPage>
     print('resumePlayer: $result');
   }
 
-  uploadAudio(FormData formData) {
-    DioUtils.instance.requestNetwork<AudioUrl>(Method.post, Api.UPLOADAUDIO,
-        params: formData, onSuccess: (data) {
+  _updateImage(String path, FormData formData) {
+    DioUtils.instance.requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,
+        params: formData, isList: true, onSuccessList: (data) {
       setState(() {
-        Toast.show('上传成功!');
+        autoTalk(path, 'image', data[0].url);
+        print('上传图片成功!');
       });
     }, onError: (code, msg) {
       setState(() {
-        Toast.show('上传失败!');
+        print('上传图片失败!');
+      });
+    });
+  }
+
+  _uploadAudio(FormData formData) {
+    DioUtils.instance.requestNetwork<AudioUrl>(Method.post, Api.UPLOADAUDIO,
+        params: formData, isList: true, onSuccessList: (data) {
+      setState(() {
+        autoTalk('num$num', 'audio', data[0].url);
+        Toast.show('上传音频成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        Toast.show('上传音频失败!');
       });
     });
   }

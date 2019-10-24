@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/all_order_entity.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 class CurrentConsultation extends StatefulWidget {
+
+
   @override
   _CurrentConsultationState createState() => _CurrentConsultationState();
 }

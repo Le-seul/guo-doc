@@ -12,6 +12,7 @@ class DatabaseHelper {
   final String tableMessage = 'message';
   final String contentId = 'contentId';
   final String content = 'content';
+  final String localPth = 'localPth';
   final String type = 'type';
   final String time = 'time';
   final String createTime = 'createTime';
@@ -40,7 +41,7 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int newVersion) async {
-    await db.execute("create table $tableMessage(id integer primary key autoincrement,$content text not null ,$type text not null,$time text ,$contentId text)");
+    await db.execute("create table $tableMessage(id integer primary key autoincrement,$content text not null ,$type text not null,$time text ,$contentId text,$localPth text)");
     print("数据库创建成功！");
   }
 
@@ -48,7 +49,7 @@ class DatabaseHelper {
     var dbClient = await db;
 //    var result = await dbClient.insert(tableMessage, message.toMap());
     var result = await dbClient.rawInsert(
-        'INSERT INTO $tableMessage ($content, $type, $time, $contentId) VALUES (\'${message.content}\', \'${message.type}\', \'${message.time}\', \'${message.contentId}\')');
+        'INSERT INTO $tableMessage ($content, $type, $time, $contentId,$localPth) VALUES (\'${message.content}\', \'${message.type}\', \'${message.time}\', \'${message.contentId}\',\'${message.localPath}\')');
     print("数据添加成功！");
     return result;
   }
@@ -71,7 +72,7 @@ class DatabaseHelper {
         await dbClient.rawQuery('SELECT COUNT(*) FROM $tableMessage'));
   }
 
-  Future<Message> getMessage(String id) async {
+  Future<Message> getMessage(String text) async {
     var dbClient = await db;
 //    List<Map> result = await dbClient.query(tableMessage,
 //        columns: [
@@ -81,7 +82,7 @@ class DatabaseHelper {
 //        ],
 //        where: '$id = ?',
 //        whereArgs: [id]);
-    var result = await dbClient.rawQuery('SELECT * FROM $tableMessage WHERE $id = $id');
+    var result = await dbClient.rawQuery('SELECT * FROM $tableMessage WHERE $content = $text');
 
     if (result.length > 0) {
       return new Message.fromMap(result.first);
@@ -97,13 +98,13 @@ class DatabaseHelper {
 ////    return await dbClient.rawDelete('DELETE FROM $tableMessage WHERE $columnId = $id');
 //  }
 
-//  Future<int> updateMessage(Message message) async {
-//    var dbClient = await db;
+  Future<int> updateMessage(Message message) async {
+    var dbClient = await db;
 //    return await dbClient.update(
 //        tableMessage, message.toMap(), where: "$contentId = ?", whereArgs: [message.contentId]);
-////    return await dbClient.rawUpdate(
-////        'UPDATE $tableMessage SET $columnTitle = \'${message.title}\', $columnDescription = \'${message.description}\' WHERE $columnId = ${message.id}');
-//  }
+//    return await dbClient.rawUpdate(
+//        'UPDATE $tableMessage SET $columnTitle = \'${message.title}\' WHERE $content = ${message.id}');
+  }
 
   Future close() async {
     var dbClient = await db;
