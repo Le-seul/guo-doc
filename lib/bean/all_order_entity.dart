@@ -1,99 +1,95 @@
 class AllOrder {
-  List<FastphoneOrder> fastphoneOrder;
-  List<TuwenOrder> tuwenOrder;
+  List<TuwenOrder> tuwenOrder = List();
+  List<FastphoneOrder> fastphoneOrder = List();
 
-  AllOrder({this.fastphoneOrder, this.tuwenOrder});
+  AllOrder({this.tuwenOrder, this.fastphoneOrder});
 
   AllOrder.fromJson(Map<String, dynamic> json) {
-    if (json['FastphoneOrder'] != null) {
-      fastphoneOrder = new List<FastphoneOrder>();
-      json['FastphoneOrder'].forEach((v) {
-        fastphoneOrder.add(new FastphoneOrder.fromJson(v));
-      });
-    }
-    if (json['TuwenOrder'] != null) {
+    if (json['tuwenOrder'] != null) {
       tuwenOrder = new List<TuwenOrder>();
-      json['TuwenOrder'].forEach((v) {
+      json['tuwenOrder'].forEach((v) {
         tuwenOrder.add(new TuwenOrder.fromJson(v));
       });
     }
+    if (json['fastphoneOrder'] != null) {
+      fastphoneOrder = new List<FastphoneOrder>();
+      json['fastphoneOrder'].forEach((v) {
+        fastphoneOrder.add(new FastphoneOrder.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.tuwenOrder != null) {
+      data['tuwenOrder'] = this.tuwenOrder.map((v) => v.toJson()).toList();
+    }
     if (this.fastphoneOrder != null) {
-      data['FastphoneOrder'] =
+      data['fastphoneOrder'] =
           this.fastphoneOrder.map((v) => v.toJson()).toList();
     }
-    if (this.tuwenOrder != null) {
-      data['TuwenOrder'] = this.tuwenOrder.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class FastphoneOrder {
-  String phone;
-  String createTime;
-  String clinicNo;
-  String serviceId;
-  String partnerOrderId;
-
-  FastphoneOrder(
-      {this.phone,
-        this.createTime,
-        this.clinicNo,
-        this.serviceId,
-        this.partnerOrderId});
-
-  FastphoneOrder.fromJson(Map<String, dynamic> json) {
-    phone = json['phone'];
-    createTime = json['createTime'];
-    clinicNo = json['clinicNo'];
-    serviceId = json['serviceId'];
-    partnerOrderId = json['partnerOrderId'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phone'] = this.phone;
-    data['createTime'] = this.createTime;
-    data['clinicNo'] = this.clinicNo;
-    data['serviceId'] = this.serviceId;
-    data['partnerOrderId'] = this.partnerOrderId;
     return data;
   }
 }
 
 class TuwenOrder {
-  String doctorId;
+  String id;
+  String doctorName;
+  String doctorImage;
   String createTime;
-  String problemId;
-  String interactionCount;
-  String partnerOrderId;
+  String hasAssess;
 
-  TuwenOrder(
-      {this.doctorId,
-        this.createTime,
-        this.problemId,
-        this.interactionCount,
-        this.partnerOrderId});
+  TuwenOrder({this.id, this.doctorName, this.doctorImage, this.createTime,this.hasAssess});
 
   TuwenOrder.fromJson(Map<String, dynamic> json) {
-    doctorId = json['doctorId'];
+    if(json.containsKey('hasAssess')){
+      hasAssess = json['hasAssess'];
+    }
+    id = json['id'];
+    doctorName = json['doctorName'];
+    doctorImage = json['doctorImage'];
     createTime = json['createTime'];
-    problemId = json['problemId'];
-    interactionCount = json['interactionCount'];
-    partnerOrderId = json['partnerOrderId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['doctorId'] = this.doctorId;
+    data['id'] = this.id;
+    data['doctorName'] = this.doctorName;
+    data['doctorImage'] = this.doctorImage;
     data['createTime'] = this.createTime;
-    data['problemId'] = this.problemId;
-    data['interactionCount'] = this.interactionCount;
-    data['partnerOrderId'] = this.partnerOrderId;
+    return data;
+  }
+}
+
+class FastphoneOrder {
+  String id;
+  String doctorName;
+  String doctorImage;
+  String clinicNo;
+  String createTime;
+
+  FastphoneOrder(
+      {this.id,
+        this.doctorName,
+        this.doctorImage,
+        this.clinicNo,
+        this.createTime});
+
+  FastphoneOrder.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    doctorName = json['doctorName'];
+    doctorImage = json['doctorImage'];
+    clinicNo = json['clinicNo'];
+    createTime = json['createTime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['doctorName'] = this.doctorName;
+    data['doctorImage'] = this.doctorImage;
+    data['clinicNo'] = this.clinicNo;
+    data['createTime'] = this.createTime;
     return data;
   }
 }

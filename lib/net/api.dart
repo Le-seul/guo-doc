@@ -88,6 +88,20 @@ class Api {
   static const String UPLOADIMAGE = "/api/image.do?uploadImage";
 
   //获取所有订单
+  static const String GETALLORDER = "/api/chunyuFastphone.do?getHistoryOrder";
 
-  static const String GETALLORDER = "/api/chuyuFastphone.do?queryOrder";
+  //创建快捷电话订单接口
+  static const String CREATEFASTPHONEORDER = "/api/chunyuFastphone.do?createFastphoneOrder";
+
+  //获取春雨医生开通快捷电话的科室信息
+  static const String GETFASTPHONEINFO = "/api/chunyuFastphone.do?getClinicInfo";
+
+  //评价图文订单
+  static const String POSTACCESSINFO = "/api/chunyuTuwen.do?assessOrder";
+
+  //获取订单的所有内容
+  static const String GETALLCONTENT = "/api/chunyuTuwen.do?getAllContent";
+
+  //获取进行中的订单
+  static const String GETORDERINPROGRESS = "/api/chunyuTuwen.do?getOrderInProgress";
 }

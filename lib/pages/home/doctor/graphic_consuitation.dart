@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -21,7 +24,7 @@ class GraphicConsultation extends StatefulWidget {
 class _GraphicConsultationState extends State<GraphicConsultation> {
   bool offstage = false;
   List<String> list = List();
-
+  TextEditingController _vCodeController = TextEditingController();
 
   @override
   void initState() {
@@ -68,6 +71,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
                 TextField(
                     onChanged: (val) {},
                     maxLines: 10,
+                    controller: _vCodeController,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                       hintText: '请简要描述需要咨询的内容，以及期待达到的咨询效果。',
@@ -129,7 +133,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
       bottomSheet: GestureDetector(
         child: Container(
           height: 40,
-          color: Colors.green,
+          color: Color(0xff2CA687),
           alignment: Alignment.center,
           child: Text(
             '立即提交',
@@ -145,7 +149,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
   }
   FormData formData;
   clickIcon() async {
-
+    var arr = new Map();
     List<UploadFileInfo> files = [];
     try {
       List<Asset> resultList = await MultiImagePicker.pickImages(
@@ -153,6 +157,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           enableCamera: true
       );
       if (resultList.length > 0) {
+        formData = new FormData.from({});
         for(int i = 0; i< resultList.length; i ++) {
           Asset asset = resultList[i];
           ByteData byteData = await asset.requestThumbnail(200, 200);
@@ -176,12 +181,12 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
 
           print('图片path：${imageFile.path}');
           var file = new UploadFileInfo(imageFile, '${path}originalImage_$uuid.png', contentType: ContentType.parse("image/png"));
-          files.add(file);
-          formData = new FormData.from({
-            'file': file
-          });
+          arr['file$i'] = file;
+          print("file$i");
+          formData["file$i"] = file;
         };
-
+//        formData = new FormData.from(arr);
+//        print("formData:${json.encode(arr)}");
       } else {
 
       }
@@ -189,17 +194,50 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
       print(e.message);
     }
   }
-
   updateImage(){
-    DioUtils.instance
-        .requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,params: formData,
-        onSuccess: (data) {
+    var content = [];
+    var text = "{\"type\":\"text\",\"text\":\"${_vCodeController.text}\"}";
+    var personIndo = "{\"type\":\"patient_meta\",\"age\":\"15岁\",\"sex\":\"男\"}";
+    content.add(personIndo);
+    content.add(text);
+
+    if (_vCodeController.text.length < 10) {
+      Toast.show('请输入咨询内容超过10个字！');
+    }else if(formData == null) {
+      _creatOrder(content.toString());
+    }else{
+      DioUtils.instance
+          .requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,params: formData,isList: true,
+          onSuccessList: (data) {
+            setState(() {
+              for(ImageUrl imageUrl in data){
+                var image = "{\"type\":\"image\",\"file\":\"${imageUrl.url}\"}";
+                content.add(image);
+              }
+              _creatOrder(content.toString());
+              Toast.show('上传成功!');
+            });
+          }, onError: (code, msg) {
+            setState(() {
+              Toast.show('上传失败!');
+            });
+          });
+    }
+  }
+
+  _creatOrder(String content){
+    print("content:$content");
+    DioUtils.instance.requestNetwork<OrderId>(Method.post, Api.CREATEORDER,
+        queryParameters: {
+          'content': content,
+        }, onSuccess: (data) {
           setState(() {
-            Toast.show('上传成功!');
+            Router.pushNoParams(context, Router.historyRecord);
+            Toast.show('获取订单成功!');
           });
         }, onError: (code, msg) {
           setState(() {
-        Toast.show('上传失败!');
+            Toast.show('获取订单失败!');
           });
         });
   }

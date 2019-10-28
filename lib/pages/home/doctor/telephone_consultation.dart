@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/tel_service.dart';
@@ -15,16 +19,30 @@ class TelConsultation extends StatefulWidget {
 class _TelConsultationState extends State<TelConsultation>
     implements OnDialogClickListener {
   String selectText = '';
+
+  String clinicNo = '';
   final TelAndSmsService _service = locator<TelAndSmsService>();
   final String number = "123456789";
   bool offstage = true;
   String phone = '';
-
+  List<FastphoneInfo> fastphoneInfoList = List();
 
   @override
   void initState() {
     phone = StorageManager.sharedPreferences.getString(Constant.phone);
+    _getFastPhoneInfo();
+
   }
+  _getFastPhoneInfo(){
+    DioUtils.instance.requestNetwork<FastphoneInfo>(
+
+        Method.post, Api.GETFASTPHONEINFO,isList: true,
+        onSuccessList: (data) {
+          fastphoneInfoList = data;
+        }, onError: (code, msg) {
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +61,8 @@ class _TelConsultationState extends State<TelConsultation>
       ),
       body: Container(
         color: Colors.black12,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          physics: ClampingScrollPhysics(),
           children: <Widget>[
             Image.asset(
               'assets/images/tel_consutation.png',
@@ -64,7 +82,9 @@ class _TelConsultationState extends State<TelConsultation>
                       Offstage(
                         offstage: offstage,
                         child: Text(
-                          selectText == "心理科"?'服务时间：10:00-18:00':'服务时间：9:00-21:00',
+                          selectText == "心理科"
+                              ? '服务时间：10:00-18:00'
+                              : '服务时间：9:00-21:00',
                           style: TextStyle(color: Colors.black26),
                         ),
                       ),
@@ -124,13 +144,18 @@ class _TelConsultationState extends State<TelConsultation>
                               height: 40,
                               alignment: Alignment.centerLeft,
                               child: TextField(
-                                controller: TextEditingController.fromValue(TextEditingValue(
-                                    text: phone == null?'':'$phone',  //判断keyword是否为空
-                                    // 保持光标在最后
+                                  controller: TextEditingController.fromValue(
+                                      TextEditingValue(
+                                          text: phone == null
+                                              ? ''
+                                              : '$phone', //判断keyword是否为空
+                                          // 保持光标在最后
 
-                                    selection: TextSelection.fromPosition(TextPosition(
-                                        affinity: TextAffinity.downstream,
-                                        offset: '${phone}'.length)))),
+                                          selection: TextSelection.fromPosition(
+                                              TextPosition(
+                                                  affinity:
+                                                      TextAffinity.downstream,
+                                                  offset: '${phone}'.length)))),
                                   onChanged: (val) {
                                     phone = val;
                                   },
@@ -152,7 +177,23 @@ class _TelConsultationState extends State<TelConsultation>
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 15,),
+            Container(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: MyCard(child: Container(
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('服务说明',style: TextStyle(fontSize: 18),),
+                    SizedBox(height: 15,),
+                    Text('除心理咨询外，各科咨询服务时间为9:00-21:00  服务时长为10分钟。心理咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日19:00-21:00 。'),
+                  ],
+                ),
+              )),
+            ),
+            SizedBox(height: 60,)
           ],
         ),
       ),
@@ -167,7 +208,7 @@ class _TelConsultationState extends State<TelConsultation>
           ),
         ),
         onTap: () {
-          Toast.show('提交成功!');
+          _createFastphoneOrder();
         },
       ),
       resizeToAvoidBottomPadding: false,
@@ -182,12 +223,41 @@ class _TelConsultationState extends State<TelConsultation>
   @override
   void onOk(str) {
     setState(() {
-      if(str == '心理科'){
+      clinicNo = "";
+      for(FastphoneInfo fastphoneInfo in fastphoneInfoList){
+        print("$str:${fastphoneInfo.clinicName}");
+        if(str == fastphoneInfo.clinicName){
+          clinicNo = fastphoneInfo.clinicNo;
+          print(clinicNo);
+        }
+
+      }
+      if (str == '心理科') {
         _service.call(number);
       }
       offstage = false;
       selectText = str;
     });
+  }
+
+  _createFastphoneOrder() {
+    if(selectText == ""){
+      Toast.show('请选择科室');
+    }else if(phone == ""){
+      Toast.show('请输入电话');
+    }else if(clinicNo == ""){
+      Toast.show('该科室未开通电话问诊');
+    }else{
+      DioUtils.instance.requestNetwork<String>(
+          Method.post, Api.CREATEFASTPHONEORDER,
+          queryParameters: {"clinicNo": clinicNo, "phone": phone},
+          onSuccess: (data) {
+            Toast.show('clinicNo:$clinicNo,phone:$phone');
+          }, onError: (code, msg) {
+        Toast.show('上传失败！');
+      });
+    }
+
   }
 }
 
@@ -208,9 +278,9 @@ class SelectDialog extends Dialog {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Material(
-      //创建透明层
-      type: MaterialType.transparency, //透明类型
-      child:  Center(
+        //创建透明层
+        type: MaterialType.transparency, //透明类型
+        child: Center(
           //保证控件居中效果
           child: Container(
             height: 220,
@@ -243,9 +313,8 @@ class SelectDialog extends Dialog {
             ),
           ),
         ),
-
       ),
-      onTap: (){
+      onTap: () {
         Navigator.of(context).pop();
       },
     );

@@ -26,8 +26,9 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 class TalkPage extends StatefulWidget {
-  TalkPage({Key key, this.detail}) : super(key: key);
-  final detail;
+  TalkPage({Key key, @required this.orderId}) : super(key: key);
+
+  String orderId;
 
   @override
   _TalkPageState createState() => new _TalkPageState();
@@ -59,18 +60,23 @@ class _TalkPageState extends State<TalkPage>
   FormData formData;
   bool offstage = true;
   DoctorInfo doctorInfo;
-  String orderId;
   int num = 1;
   String dataType;
-  List<String> _assetList = new List();
+  List<String> _rightList = new List();
+  List<String> _leftList = new List();
   User user;
 
   @override
   void initState() {
-    init();
-    _assetList.add("assets/images/doctor/sound_right_3.png");
-    _assetList.add("assets/images/doctor/sound_right_2.png");
-    _assetList.add("assets/images/doctor/sound_right_1.png");
+//    init();
+    _getLastContent();
+    _getAllContent();
+    _leftList.add("assets/images/doctor/sound_left_3.png");
+    _leftList.add("assets/images/doctor/sound_left_2.png");
+    _leftList.add("assets/images/doctor/sound_left_1.png");
+    _rightList.add("assets/images/doctor/sound_right_3.png");
+    _rightList.add("assets/images/doctor/sound_right_2.png");
+    _rightList.add("assets/images/doctor/sound_right_1.png");
 
     flutterSound = new FlutterSound();
     flutterSound.setSubscriptionDuration(0.01);
@@ -103,6 +109,24 @@ class _TalkPageState extends State<TalkPage>
     }
   }
 
+  _getAllContent() {
+    DioUtils.instance.requestNetwork<Message>(Method.get, Api.GETALLCONTENT,
+        isList: true,
+        queryParameters: {
+          'orderId': widget.orderId,
+        }, onSuccessList: (data) {
+      setState(() {
+        listMessage.addAll(data);
+//        _getDoctorInfo();
+        print('获取所有内容成功！');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        print('获取所有内容失败!');
+      });
+    });
+  }
+
   _create(String content) {
     Map<String, dynamic> _map =
         json.decode(content.substring(1, content.length - 1));
@@ -116,15 +140,12 @@ class _TalkPageState extends State<TalkPage>
           'content': content,
         }, onSuccess: (data) {
       setState(() {
-        orderId = data.orderId;
-        saveOrder(orderId);
-        print('orderId成功：$orderId');
+//        saveOrder(orderId);
         _getLastContent();
         Toast.show('获取订单成功!');
       });
     }, onError: (code, msg) {
       setState(() {
-        print('orderId失败：$orderId');
         Toast.show('获取订单失败!');
       });
     });
@@ -134,7 +155,7 @@ class _TalkPageState extends State<TalkPage>
     DioUtils.instance
         .requestNetwork<String>(Method.post, Api.USERASK, queryParameters: {
       'content': content,
-      'orderId': orderId,
+      'orderId': widget.orderId,
     }, onSuccess: (data) {
       setState(() {
         print(data);
@@ -153,49 +174,55 @@ class _TalkPageState extends State<TalkPage>
   }
 
   _getLastContent() {
+    print("orderId2:${widget.orderId}");
     DioUtils.instance.requestNetwork<Message>(
         Method.get, Api.GETLASTINTERACTIONCONTENT,
+        isList: true,
         queryParameters: {
-          'orderId': orderId,
-        }, onSuccess: (data) {
+          'orderId': widget.orderId,
+        }, onSuccessList: (data) {
       setState(() {
-        print('456订单');
-        listMessage.add(data);
+//       listMessage.addAll(data);
         _getDoctorInfo();
         Toast.show('获取最后一次交互成功!');
+        print('获取最后一次交互成功!');
       });
     }, onError: (code, msg) {
       setState(() {
         Toast.show('获取最后一次交互失败!');
+        print('获取最后一次交互失败!');
       });
     });
   }
 
   _getDoctorInfo() {
+    print('orderId:${widget.orderId}');
     DioUtils.instance.requestNetwork<DoctorInfo>(Method.get, Api.GETDOCTERINFO,
         queryParameters: {
-          'orderId': orderId,
+          'orderId': widget.orderId,
         }, onSuccess: (data) {
       setState(() {
-        print('789订单');
         doctorInfo = data;
         offstage = false;
-        Toast.show('获取医生信息成功!');
+        print('获取医生信息成功!');
       });
     }, onError: (code, msg) {
       setState(() {
-        Toast.show('获取医生信息失败!');
+        print('获取医生信息失败!');
       });
     });
   }
 
   init() async {
-    orderId =
-        await StorageManager.sharedPreferences.getString(Constant.orderId);
+//    orderId =
+//        await StorageManager.sharedPreferences.getString(Constant.orderId);
     var db = DatabaseHelper();
     List<Map> list = await db.getAllMessages();
     setState(() {
       listMessage = list.map<Message>((item) => Message.fromMap(item)).toList();
+      if (listMessage == null) {
+//        _getAllContent();
+      }
     });
   }
 
@@ -255,12 +282,13 @@ class _TalkPageState extends State<TalkPage>
         type: 'TW',
       );
     }
-    if (orderId == null) {
-      print('orderId:$orderId');
-      _create(content);
-    } else {
-      _ask(content);
-    }
+//    if (orderId == null) {
+//      print('orderId:$orderId');
+//      _create(content);
+//    } else {
+//      _ask(content);
+//    }
+    _ask(content);
     setState(() {
       listMessage.add(message);
       _scrollController.animateTo(50.0 * listMessage.length + 100,
@@ -292,7 +320,7 @@ class _TalkPageState extends State<TalkPage>
       int count = await db.saveMessage(message);
       setState(() {
         listMessage.add(message);
-        _scrollController.animateTo(50.0 * listMessage.length + 100,
+        _scrollController.animateTo(50.0 * listMessage.length ,
             duration: new Duration(seconds: 1), curve: Curves.ease);
       });
     });
@@ -323,12 +351,19 @@ class _TalkPageState extends State<TalkPage>
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text('${listMessage[index].time}\'\''),
-                VoiceAnimationImage(
-                  _assetList,
-                  width: 20,
-                  height: 20,
-                  isStop: listMessage[index].isPlaying,
-                ),
+                listMessage[index].type == 'TW'
+                    ? VoiceAnimationImage(
+                        _rightList,
+                        width: 20,
+                        height: 20,
+                        isStop: listMessage[index].isPlaying,
+                      )
+                    : VoiceAnimationImage(
+                        _leftList,
+                        width: 20,
+                        height: 20,
+                        isStop: listMessage[index].isPlaying,
+                      ),
               ],
             ),
           ),
@@ -443,7 +478,8 @@ class _TalkPageState extends State<TalkPage>
                   ),
                   GestureDetector(
                     onTap: () {
-                      Router.pushNoParams(context, Router.evaluationPage);
+                      Router.push(
+                          context, Router.evaluationPage, widget.orderId);
                     },
                     child: Text('评价'),
                   )
@@ -545,22 +581,35 @@ class _TalkPageState extends State<TalkPage>
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+
                     Expanded(
-                      child: Container(
-                          margin: new EdgeInsets.symmetric(horizontal: 20.0),
-                          padding: new EdgeInsets.only(bottom: 50.0),
-                          // width: MediaQuery.of(context).size.width - 40.0,
-                          child: ListView.builder(
-                            physics: ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            itemCount: listMessage.length,
-                            itemBuilder: (context, index) => _buildItem(index),
-                          )),
-                    ),
+                        child: ListView(
+                          physics: ClampingScrollPhysics(),
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(
+                              left: 12, right: 12, top: 10, bottom: 10),
+                          color: Colors.black12,
+                          child: Text(
+                            '医生的回复仅为建议，具体诊疗请前往医院进行',
+                            style: TextStyle(color: Colors.black26),
+                          ),
+                        ),
+                        Container(
+                            margin: new EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: new EdgeInsets.only(bottom: 50.0),
+                            // width: MediaQuery.of(context).size.width - 40.0,
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              controller: _scrollController,
+                              itemCount: listMessage.length,
+                              itemBuilder: (context, index) =>
+                                  _buildItem(index),
+                            )),
+                      ],
+                    )),
                   ],
                 ),
                 Positioned(

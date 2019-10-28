@@ -19,31 +19,15 @@ class _HistoryRecordState extends State<HistoryRecord>
   bool isChoice1 = true;
   bool isChoice2 = false;
   Widget childWidget;
-  AllOrder allOrder = new AllOrder();
 
   @override
   void initState() {
     childWidget = CurrentConsultation();
-    _getAllOrder();
+
   }
   @override
   void dispose() {
     super.dispose();
-  }
-
-  _getAllOrder(){
-    DioUtils.instance.requestNetwork<AllOrder>(Method.post, Api.GETALLORDER,isList: true,
-
-          onSuccessList: (data) {
-          setState(() {
-            allOrder = data[0];
-            print('获取所有订单成功!');
-          });
-        }, onError: (code, msg) {
-          setState(() {
-            print('获取所有订单失败!');
-          });
-        });
   }
 
 

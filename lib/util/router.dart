@@ -194,7 +194,7 @@ class Router {
         case exitLoginPage:
           return ExitLoginPage();
         case talk:
-          return TalkPage();
+          return TalkPage(orderId: params,);
         case telConsultation:
           return TelConsultation();
         case graphicConsultation:
@@ -220,7 +220,7 @@ class Router {
         case clinic_informationPage:
           return Clinic_information();
         case evaluationPage:
-          return EvaluationPage();
+          return EvaluationPage(orderId: params);
       }
     }
     return null;

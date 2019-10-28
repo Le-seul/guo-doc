@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/evaluation.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/greenBgWidget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 class EvaluationPage extends StatefulWidget {
+
+  String orderId;
+  EvaluationPage({Key key, @required this.orderId}) : super(key: key);
   @override
   _EvaluationPageState createState() => _EvaluationPageState();
 }
@@ -13,13 +19,19 @@ class EvaluationPage extends StatefulWidget {
 class _EvaluationPageState extends State<EvaluationPage>
     with SingleTickerProviderStateMixin {
   TabController mController;
+  TextEditingController _contentController = TextEditingController();
   List<Evaluation> badList = List();
   List<Evaluation> goodList = List();
   List<Evaluation> bestList = List();
+  String level = 'bad';
+  var tag_keys = [];
+  var evaluationInfo ;
 
   @override
   void initState() {
     super.initState();
+
+
     badList.add(Evaluation('不友好',1101));
     badList.add(Evaluation('不细致',1102));
     badList.add(Evaluation('等好久没回复',1201));
@@ -54,12 +66,18 @@ class _EvaluationPageState extends State<EvaluationPage>
   }
 
   _onTabChanged() {
+
+
     if (mController.indexIsChanging) {
+
+
       if (this.mounted) {
         this.setState(() {
+          tag_keys = [];
           switch (mController.index) {
             case 0:
               setState(() {
+                level = 'bad';
 
                 for(Evaluation evaluation in goodList){
                   evaluation.isSelect = false;
@@ -72,6 +90,8 @@ class _EvaluationPageState extends State<EvaluationPage>
               break;
             case 1:
               setState(() {
+
+                level = 'good';
                 for(Evaluation evaluation in badList){
                   evaluation.isSelect = false;
                 }
@@ -83,6 +103,8 @@ class _EvaluationPageState extends State<EvaluationPage>
               break;
             case 2:
               setState(() {
+
+                level = 'best';
                 for(Evaluation evaluation in goodList){
                   evaluation.isSelect = false;
                 }
@@ -97,7 +119,22 @@ class _EvaluationPageState extends State<EvaluationPage>
       }
     }
   }
+  postAccessInfo(String accessInfo){
+    if(_contentController.text == null || _contentController.text == ""){
+      Toast.show('请输入评价内容！');
+    }else{
+      String content = "[{\"type\":\"text\",\"text\":\"${_contentController.text}\"}]";
+      DioUtils.instance.requestNetwork<String>(
+          Method.post, Api.POSTACCESSINFO,
+          queryParameters: {"assessInfo": accessInfo, "content": content,"orderId": widget.orderId},
+          onSuccess: (data) {
+            Toast.show('评价成功！');
+          }, onError: (code, msg) {
+        Toast.show('评价失败！');
+      });
+    }
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +157,13 @@ class _EvaluationPageState extends State<EvaluationPage>
                     style: TextStyle(color: Colors.black),
                   ),
                 )),
-            onTap: () {},
+            onTap: () {
+              evaluationInfo = {"level": level, "tag_keys":tag_keys.toString()};
+
+              String assessInfo = evaluationInfo.toString();
+              print('assessInfo:$assessInfo');
+              postAccessInfo(assessInfo);
+            },
           )
         ],
       ),
@@ -271,6 +314,7 @@ class _EvaluationPageState extends State<EvaluationPage>
                           height: 150,
                           color: Color(0xFFEEEEEE),
                           child: TextField(
+                            controller: _contentController,
                               decoration: InputDecoration(
                                 hintText: '您的满意是对医生最大的支持和鼓励。',
                                 contentPadding: EdgeInsets.all(5.0),
@@ -324,7 +368,11 @@ class _EvaluationPageState extends State<EvaluationPage>
           )),
       onTap: (){
         setState(() {
+
           evaluation.isSelect = !evaluation.isSelect;
+          if(evaluation.isSelect){
+            tag_keys.add(evaluation.num);
+          }
         });
 
       },

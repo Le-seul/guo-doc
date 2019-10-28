@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -65,15 +66,28 @@ class _ContainerPageState extends State<ContainerPage> {
             // 监听jpush
             jpush.addEventHandler(
               onReceiveNotification: (Map<String, dynamic> message) async {
-                print("flutter 接收到推送: $message");
+//                print("flutter 接收到推送消息1: ${json.encode(message)}");
+                print("flutter 接收到推送消息1: $message");
+                print("flutter 接收到推送消息2: ${message["extras"]}");
+                print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
+//                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
+                print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
+
               },
               onOpenNotification: (Map<String, dynamic> message) {
-                // 点击通知栏消息，在此时通常可以做一些页面跳转等v
+                // 点击通知栏消息，在此时通常可以做一些页面跳转等
+                String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
+                print("orderid：$orderId");
                 Toast.show('点击通知');
-                Router.pushNoParams(context, Router.sleepRecordsPage);
+                Router.push(
+                    context,Router.talk,
+                    orderId
+                );
               },
             ),
           });
+
+
     }
 
     if (pages == null) {

@@ -5,6 +5,7 @@ import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
+import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/music.dart';
@@ -77,6 +78,8 @@ class EntityFactory {
       return AudioUrl.fromJson(json) as T;
     }else if (T.toString() == "AllOrder") {
       return AllOrder.fromJson(json) as T;
+    }else if (T.toString() == "FastphoneInfo") {
+      return FastphoneInfo.fromJson(json) as T;
     }else {
       return null;
     }

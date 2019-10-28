@@ -11,9 +11,9 @@ class Config {
       case Env.LOCAL:
         return "http://49.232.168.124/jeecg";
       case Env.TEST:
-        return "http://10.28.239.20:8080/jeecg";
+        return "http://10.28.135.182:8080/jeecg";
       default:
-        return "https://thmusic.pbsz.xyz/jeecg";
+        return "https://www.aireading.club/jeecg";
     }
   }
 }
