@@ -99,6 +99,7 @@ class _HistoryRecordState extends State<HistoryRecord>
             preferredSize: Size.fromHeight(40)),
         body: Container(
           child: childWidget,
-        ));
+        ),
+    );
   }
 }

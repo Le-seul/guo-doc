@@ -137,15 +137,18 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
 
   _buildItem(var obj,int num) {
     TuwenOrder tuwenOrder;
+    String id = "";
     FastphoneOrder fastphoneOrder;
     if(num == 0){
      tuwenOrder = obj;
+     id = tuwenOrder.id;
     }else{
       fastphoneOrder = obj;
+      id = fastphoneOrder.id;
     }
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.talk,tuwenOrder.id);
+        Router.push(context, Router.talk,{'orderId': tuwenOrder.id, 'offstage': true});
       },
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -161,7 +164,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
                       height: 50,
                       width: 50,
                       child: ClipOval(
-                        child: Image.network(num == 0?tuwenOrder.doctorImage:fastphoneOrder.doctorImage,fit: BoxFit.fill,),
+                        child: Image.network("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1935591139,4291919543&fm=26&gp=0.jpg",fit: BoxFit.fill,),
                       ),
                     ),
                     SizedBox(
@@ -172,7 +175,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
                       children: <Widget>[
 
                         Text(
-                          num == 0?tuwenOrder.doctorName:fastphoneOrder.doctorName,
+                          "测试医生",
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(

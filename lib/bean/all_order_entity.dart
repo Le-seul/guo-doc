@@ -34,12 +34,13 @@ class AllOrder {
 
 class TuwenOrder {
   String id;
+  String num;
   String doctorName;
   String doctorImage;
   String createTime;
   String hasAssess;
 
-  TuwenOrder({this.id, this.doctorName, this.doctorImage, this.createTime,this.hasAssess});
+  TuwenOrder({this.id, this.doctorName, this.doctorImage, this.createTime,this.hasAssess,this.num});
 
   TuwenOrder.fromJson(Map<String, dynamic> json) {
     if(json.containsKey('hasAssess')){
@@ -63,6 +64,7 @@ class TuwenOrder {
 
 class FastphoneOrder {
   String id;
+  String num;
   String doctorName;
   String doctorImage;
   String clinicNo;
@@ -73,7 +75,8 @@ class FastphoneOrder {
         this.doctorName,
         this.doctorImage,
         this.clinicNo,
-        this.createTime});
+        this.createTime,
+      this.num});
 
   FastphoneOrder.fromJson(Map<String, dynamic> json) {
     id = json['id'];

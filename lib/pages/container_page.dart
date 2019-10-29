@@ -3,7 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/db/order_db.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_page.dart';
@@ -72,6 +75,36 @@ class _ContainerPageState extends State<ContainerPage> {
                 print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
 //                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
                 print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
+                var db = OrderDb();
+                int num = 0;
+                String type = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["location"];
+                print("type:$type");
+                String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
+                print("orderId:$orderId");
+//                OrderNum orderNum = await db.getOrder(orderId);
+//                if(orderNum == null){
+//                  num ++;
+//                  int count = await db.saveOrder(orderId,type,"$num");
+//                }else{
+//                   num = orderNum.num??0;
+//                   num ++;
+//                  int count = await db.updateOrder(orderId,"$num");
+//                }
+                num++;
+                print("num：$num");
+
+                int count = await db.saveOrder(orderId,type,"$num");
+                eventBus.fire(refreshNum("$num",orderId: orderId,location: type));
+//                if(type == "chunyuTuwen"){
+//                  int num1 = await StorageManager.sharedPreferences.getInt(Constant.tuWenNum)??0;
+//                  num1++;
+//                  StorageManager.sharedPreferences.setInt(Constant.tuWenNum, num1);
+//                  print("num1:$num1");
+//                }else if(type == "chunyuFastphone"){
+//                  int num2 = await StorageManager.sharedPreferences.getInt(Constant.fastFhoneNum)??0;
+//                  StorageManager.sharedPreferences.setInt(Constant.fastFhoneNum, num2++);
+//                  print("num2:$num2");
+//                }
 
               },
               onOpenNotification: (Map<String, dynamic> message) {
@@ -81,7 +114,7 @@ class _ContainerPageState extends State<ContainerPage> {
                 Toast.show('点击通知');
                 Router.push(
                     context,Router.talk,
-                    orderId
+                    {'orderId': orderId, 'offstage': false}
                 );
               },
             ),

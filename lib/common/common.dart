@@ -3,8 +3,11 @@ class Constant {
   static const String userInfo = 'userInfo';
   static const String phone = 'phone';
   static const String registrationID = 'registrationID';
+  static const String tuWenNum = 'tuWenNum';
+  static const String fastFhoneNum = 'fastFhoneNum';
   static const String access_Token = 'accessToken';
   static const String refresh_Token = 'refreshToken';
+
 }
 class Token{
   String token;

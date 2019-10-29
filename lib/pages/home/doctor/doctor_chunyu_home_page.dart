@@ -1,11 +1,19 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/order_count.dart';
+import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/db/order_db.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/real_rich_text.dart';
@@ -18,7 +26,57 @@ class DoctorChunyuHomePage extends StatefulWidget {
 
 class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
 
+  StreamSubscription exitLogin;
   int orderCount = 0;
+  String tuWenNum = '';
+  String fastPhone = '';
+
+  @override
+  void initState() {
+    init();
+    exitLogin = eventBus.on<refreshNum>().listen((event) {
+      setState(() {
+        tuWenNum = event.num;
+        print("tuWen:$tuWenNum");
+      });
+    });
+
+  }
+
+  init() async{
+    var db = OrderDb();
+    List<Map> list= await db.getAllOrder();
+    print("list:$list");
+    List<OrderNum> listNum = List();
+    for(Map map in list){
+      listNum.add(OrderNum.fromJson(map));
+    }
+    int intTuWen = 0;
+    int intFastPhone = 0;
+    for(OrderNum orderNum in listNum){
+
+      setState(() {
+        if(orderNum.location == "chunyuTuwen"){
+          intTuWen += int.parse(orderNum.num);
+          tuWenNum = "$intTuWen";
+        }else{
+          intFastPhone += int.parse(orderNum.num);
+          fastPhone = "$intFastPhone";
+        }
+      });
+    }
+    print("tuWenNum:$intTuWen");
+    print("fastPhone:$intFastPhone");
+
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    exitLogin.cancel();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +186,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/graphic_consultation.png',
                             'doctor/graphic_icon.png',
-                            '图文咨询','12',false),
+                            '图文咨询',"$tuWenNum",tuWenNum == ""),
                         onTap: () {
                           getOrderCount();
                           Router.pushNoParams(
@@ -142,7 +200,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       flex: 1,
                       child: GestureDetector(
                         child: _gridItem('assets/images/doctor/quick_phone.png',
-                            'doctor/phone_icon.png', '快捷电话','2',true),
+                            'doctor/phone_icon.png', '快捷电话',"$fastPhone",fastPhone == ""),
                         onTap: () {
                           Router.pushNoParams(context, Router.telConsultation);
                         },
@@ -155,7 +213,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/historical_record.png',
                             'doctor/history_icon.png',
-                            '历史记录','6',false),
+                            '历史记录','',true),
                         onTap: () {
                           Router.pushNoParams(context, Router.historyRecord);
                         },
@@ -176,12 +234,15 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         onSuccess: (data) {
       setState(() {
         orderCount = data.count;
-        showDialog<Null>(
-            context: context, //BuildContext对象
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return ConsutationDialog();
-            });
+        if(orderCount !=0 ){
+          showDialog<Null>(
+              context: context, //BuildContext对象
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return ConsutationDialog();
+              });
+        }
+
 //        showMySimpleDialog(context);
 //        Toast.show('获取数量成功!');
       });
@@ -271,4 +332,6 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
       ],
     ));
   }
+
+
 }

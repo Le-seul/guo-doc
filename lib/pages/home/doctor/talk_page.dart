@@ -26,8 +26,9 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 class TalkPage extends StatefulWidget {
-  TalkPage({Key key, @required this.orderId}) : super(key: key);
+  TalkPage({Key key, @required this.orderId, this.offstage}) : super(key: key);
 
+  bool offstage;
   String orderId;
 
   @override
@@ -56,12 +57,12 @@ class _TalkPageState extends State<TalkPage>
   double max_duration = 1.0;
   String _playSeconds = '00';
   var val;
-  String leseul;
+  String leseul = "";
   FormData formData;
   bool offstage = true;
-  DoctorInfo doctorInfo;
+  DoctorInfo doctorInfo = new DoctorInfo();
   int num = 1;
-  String dataType;
+  String dataType = "";
   List<String> _rightList = new List();
   List<String> _leftList = new List();
   User user;
@@ -151,18 +152,26 @@ class _TalkPageState extends State<TalkPage>
     });
   }
 
-  _ask(String content) {
+  _ask(String content, Message message) {
+    print('开始提问');
     DioUtils.instance
         .requestNetwork<String>(Method.post, Api.USERASK, queryParameters: {
       'content': content,
       'orderId': widget.orderId,
     }, onSuccess: (data) {
       setState(() {
+        setState(() {
+          listMessage.add(message);
+          _scrollController.animateTo(50.0 * (listMessage.length),
+              duration: new Duration(seconds: 1), curve: Curves.ease);
+        });
         print(data);
+        print('提问成功！');
 //        Toast.show('提问成功!');
       });
     }, onError: (code, msg) {
       setState(() {
+        print('提问失败！');
 //        Toast.show('提问失败!');
       });
     });
@@ -288,19 +297,13 @@ class _TalkPageState extends State<TalkPage>
 //    } else {
 //      _ask(content);
 //    }
-    _ask(content);
-    setState(() {
-      listMessage.add(message);
-      _scrollController.animateTo(50.0 * listMessage.length + 100,
-          duration: new Duration(seconds: 1), curve: Curves.ease);
-    });
+    _ask(content, message);
     print('数据库：1');
-
     autoCallBack();
-    var db = DatabaseHelper();
-    int count = await db.saveMessage(message);
-    List<Map> list = await db.getAllMessages();
-    print('数据库：${list}');
+//    var db = DatabaseHelper();
+//    int count = await db.saveMessage(message);
+//    List<Map> list = await db.getAllMessages();
+//    print('数据库：${list}');
   }
 
   autoCallBack() {
@@ -320,13 +323,14 @@ class _TalkPageState extends State<TalkPage>
       int count = await db.saveMessage(message);
       setState(() {
         listMessage.add(message);
-        _scrollController.animateTo(50.0 * listMessage.length ,
+        _scrollController.animateTo(50.0 * listMessage.length,
             duration: new Duration(seconds: 1), curve: Curves.ease);
       });
     });
   }
 
   returnTalkType(type, val, index) {
+    print("音频2:$val");
     switch (type) {
       case 'text':
         return new Text(val,
@@ -399,6 +403,7 @@ class _TalkPageState extends State<TalkPage>
       val = _map['text'];
     } else {
       val = _map['file'];
+      print("音频1:$val");
     }
 
     if (listMessage[index].type == 'TW') {
@@ -476,12 +481,15 @@ class _TalkPageState extends State<TalkPage>
                     '问题详情',
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Router.push(
-                          context, Router.evaluationPage, widget.orderId);
-                    },
-                    child: Text('评价'),
+                  Offstage(
+                    offstage: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        Router.push(
+                            context, Router.evaluationPage, widget.orderId);
+                      },
+                      child: Text('评价'),
+                    ),
                   )
                 ],
               ),
@@ -512,79 +520,84 @@ class _TalkPageState extends State<TalkPage>
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Offstage(
-                      offstage: offstage,
-                      child: GestureDetector(
-                        onTap: () {
-                          Router.pushNoParams(context, Router.doctorPage);
-                        },
-                        child: Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.all(15),
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 25.0,
-                                backgroundImage:
-                                    AssetImage('assets/images/beijing2.jpg'),
+                    doctorInfo == null
+                        ? Container()
+                        : Offstage(
+                            offstage: offstage,
+                            child: GestureDetector(
+                              onTap: () {
+                                Router.pushNoParams(context, Router.doctorPage);
+                              },
+                              child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.all(15),
+                                child: Row(
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      radius: 25.0,
+                                      backgroundImage: AssetImage(
+                                          'assets/images/beijing2.jpg'),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              '季洪菊',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '产科',
+                                              style: TextStyle(
+                                                  color: Colors.black26),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '副主任医师',
+                                              style: TextStyle(
+                                                  color: Colors.black26),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            GreenBgWidget(
+                                              name: '三级医院',
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            GreenBgWidget(name: '快速回复'),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            GreenBgWidget(name: '专业有效'),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '季洪菊',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        '产科',
-                                        style: TextStyle(color: Colors.black26),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        '副主任医师',
-                                        style: TextStyle(color: Colors.black26),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      GreenBgWidget(
-                                        name: '三级医院',
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      GreenBgWidget(name: '快速回复'),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      GreenBgWidget(name: '专业有效'),
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-
                     Expanded(
                         child: ListView(
-                          physics: ClampingScrollPhysics(),
+                      controller: _scrollController,
+                      physics: ClampingScrollPhysics(),
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.all(15),
@@ -603,7 +616,6 @@ class _TalkPageState extends State<TalkPage>
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              controller: _scrollController,
                               itemCount: listMessage.length,
                               itemBuilder: (context, index) =>
                                   _buildItem(index),
@@ -613,109 +625,115 @@ class _TalkPageState extends State<TalkPage>
                   ],
                 ),
                 Positioned(
-                  bottom: 0,
-                  left: 0,
-                  width: MediaQuery.of(context).size.width,
-                  child: Container(
-                      color: Color(0xFFebebf3),
-                      child: new Column(
-                        children: <Widget>[
-                          new Offstage(
-                            offstage: talkFOT,
-                            child: new Row(
-                              children: <Widget>[
-                                new Container(
-                                  width: 40.0,
-                                  color: Color(0xFFaaaab6),
-                                  child: new IconButton(
-                                    icon: new Icon(Icons.keyboard_voice),
-                                    onPressed: () {
-                                      setState(() {
-                                        fsNode1.unfocus();
-                                        talkFOT = !talkFOT;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                new Container(
-                                  padding: new EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  width:
-                                      MediaQuery.of(context).size.width - 140.0,
-                                  child: new TextField(
-                                    focusNode: fsNode1,
-                                    controller: _textInputController,
-                                    decoration: new InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: '输入你的信息...',
-                                        hintStyle: new TextStyle(
-                                            color: Color(0xFF7c7c7e))),
-                                    onSubmitted: (val) {
-                                      if (val != '' && val != null) {
-                                        autoTalk(val, 'text', '');
-                                      }
-                                      _textInputController.clear();
-                                    },
-                                  ),
-                                ),
-                                new IconButton(
-                                  icon: Icon(Icons.insert_emoticon,
-                                      color: Color(0xFF707072)),
-                                  onPressed: () {},
-                                ),
-                                new IconButton(
-                                  icon: Icon(Icons.add_circle_outline,
-                                      color: Color(0xFF707072)),
-                                  onPressed: () {
-                                    setState(() {
-                                      getImage();
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                          new Offstage(
-                              // 录音按钮
-                              offstage: !talkFOT,
-                              child: new Column(
-                                children: <Widget>[
-                                  new Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 170.0,
-                                    color: Color(0xFFededed),
-                                    child: new Center(
-                                        child: new AnimatedBuilder(
-                                      animation: animationTalk,
-                                      builder: (_, child) {
-                                        return new GestureDetector(
-                                          child: new CircleAvatar(
-                                            radius: animationTalk.value * 30,
-                                            backgroundColor: Color(0x306b6aba),
-                                            child: new Center(
-                                              child: Icon(Icons.keyboard_voice,
-                                                  size: 30.0,
-                                                  color: Color(0xFF6b6aba)),
-                                            ),
-                                          ),
-                                          onLongPress: () {
-                                            controller.forward();
-                                            startRecorder('num$num');
-                                          },
-                                          onLongPressUp: () {
-                                            stopRecorder();
-                                            controller.reset();
-                                            controller.stop();
-                                          },
-                                        );
+                    bottom: 0,
+                    left: 0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Offstage(
+                      offstage: widget.offstage,
+                      child: Container(
+                          color: Color(0xFFebebf3),
+                          child: new Column(
+                            children: <Widget>[
+                              new Offstage(
+                                offstage: talkFOT,
+                                child: new Row(
+                                  children: <Widget>[
+                                    new Container(
+                                      width: 40.0,
+                                      color: Color(0xFFaaaab6),
+                                      child: new IconButton(
+                                        icon: new Icon(Icons.keyboard_voice),
+                                        onPressed: () {
+                                          setState(() {
+                                            fsNode1.unfocus();
+                                            talkFOT = !talkFOT;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    new Container(
+                                      padding: new EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      width: MediaQuery.of(context).size.width -
+                                          140.0,
+                                      child: new TextField(
+                                        focusNode: fsNode1,
+                                        controller: _textInputController,
+                                        decoration: new InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: '输入你的信息...',
+                                            hintStyle: new TextStyle(
+                                                color: Color(0xFF7c7c7e))),
+                                        onSubmitted: (val) {
+                                          if (val != '' && val != null) {
+                                            autoTalk(val, 'text', '');
+                                          }
+                                          _textInputController.clear();
+                                        },
+                                      ),
+                                    ),
+                                    new IconButton(
+                                      icon: Icon(Icons.insert_emoticon,
+                                          color: Color(0xFF707072)),
+                                      onPressed: () {},
+                                    ),
+                                    new IconButton(
+                                      icon: Icon(Icons.add_circle_outline,
+                                          color: Color(0xFF707072)),
+                                      onPressed: () {
+                                        setState(() {
+                                          getImage();
+                                        });
                                       },
-                                    )),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      )),
-                )
+                                    )
+                                  ],
+                                ),
+                              ),
+                              new Offstage(
+                                  // 录音按钮
+                                  offstage: !talkFOT,
+                                  child: new Column(
+                                    children: <Widget>[
+                                      new Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 170.0,
+                                        color: Color(0xFFededed),
+                                        child: new Center(
+                                            child: new AnimatedBuilder(
+                                          animation: animationTalk,
+                                          builder: (_, child) {
+                                            return new GestureDetector(
+                                              child: new CircleAvatar(
+                                                radius:
+                                                    animationTalk.value * 30,
+                                                backgroundColor:
+                                                    Color(0x306b6aba),
+                                                child: new Center(
+                                                  child: Icon(
+                                                      Icons.keyboard_voice,
+                                                      size: 30.0,
+                                                      color: Color(0xFF6b6aba)),
+                                                ),
+                                              ),
+                                              onLongPress: () {
+                                                controller.forward();
+                                                startRecorder('num$num');
+                                              },
+                                              onLongPressUp: () {
+                                                stopRecorder();
+                                                controller.reset();
+                                                controller.stop();
+                                              },
+                                            );
+                                          },
+                                        )),
+                                      ),
+                                    ],
+                                  )),
+                            ],
+                          )),
+                    ))
               ],
             )),
       ),
@@ -768,7 +786,8 @@ class _TalkPageState extends State<TalkPage>
   }
 
   void startPlayer(String num, int index) async {
-    String path = await flutterSound.startPlayer('/storage/emulated/0/$num');
+    print('音频3:$val');
+    String path = await flutterSound.startPlayer(num);
     File file = await new File(path);
     List contents = await file.readAsBytesSync();
 

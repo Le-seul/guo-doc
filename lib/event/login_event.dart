@@ -6,3 +6,9 @@ EventBus eventBus = EventBus();
 class LoginEvent{
 
 }
+class refreshNum{
+  String num;
+  String orderId;
+  String location;
+  refreshNum(this.num,{this.orderId,this.location});
+}
