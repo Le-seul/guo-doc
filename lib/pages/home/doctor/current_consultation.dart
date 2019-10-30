@@ -21,35 +21,61 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
   bool isShowLoading = true;
   StreamSubscription exitLogin;
   AllOrder allOrder = new AllOrder();
-  String tuWenNum = "";
-  String fastPhone = '';
-  String orderId = '';
-  String location = '';
 
   @override
   void initState() {
-    _getOrderInProgress();
 
+    _getOrderInProgress();
     exitLogin = eventBus.on<refreshNum>().listen((event) {
       setState(() {
-        tuWenNum = event.num;
-        orderId = event.orderId;
-        location = event.location;
-        print("tuWen:$tuWenNum");
+        if(event.location == 'chunyuTuwen'){
+          for (TuwenOrder tuwenOrder in allOrder.tuwenOrder) {
+            if(event.orderId == tuwenOrder.id){
+              tuwenOrder.num = event.num;
+            }
+            print("tuWenNum3:${tuwenOrder.num}");
+          }
+        }
+        if(event.location == 'fastFhone'){
+          for (FastphoneOrder fastphoneOrder in allOrder.fastphoneOrder) {
+            if(event.orderId == fastphoneOrder.id){
+              fastphoneOrder.num = event.num;
+            }
+            print("fastPhone:${fastphoneOrder.num}");
+          }
+        }
       });
     });
   }
 
+  @override
+  void deactivate() {
+    _getOrderInProgress();
+  }
   getNum(AllOrder allOrder) async {
+    print("tuWenNum4:开始查询");
     var db = OrderDb();
     for (TuwenOrder tuwenOrder in allOrder.tuwenOrder) {
+      print("tuWenNum4:${tuwenOrder.id}");
       OrderNum orderNum = await db.getOrder(tuwenOrder.id);
-      tuwenOrder.num = orderNum.num;
-      print("tuWenNum:${tuwenOrder.num}");
+      setState(() {
+        if(orderNum != null){
+          tuwenOrder.num = orderNum.num??"";
+        }
+
+      });
+
+      print("tuWenNum4:${tuwenOrder.num}");
     }
     for (FastphoneOrder fastphoneOrder in allOrder.fastphoneOrder) {
       OrderNum orderNum = await db.getOrder(fastphoneOrder.id);
-      fastphoneOrder.num = orderNum.num;
+      setState(() {
+        if(orderNum != null){
+          fastphoneOrder.num = orderNum.num??"";
+        }
+
+      });
+
       print("fastPhone:${fastphoneOrder.num}");
     }
   }
@@ -60,7 +86,6 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
       setState(() {
         allOrder = data;
         isShowLoading = false;
-
         getNum(allOrder);
         print("data:${data.toString()}");
         print('获取进行订单成功！');
@@ -92,7 +117,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                       itemCount: allOrder.tuwenOrder.length,
                       itemBuilder: (context, index) {
                         return _buildItem(index, allOrder.tuwenOrder[index].num,
-                            tuWenNum == "");
+                            allOrder.tuwenOrder[index].num == "");
                       }),
                   ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -102,7 +127,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                         return _buildItem1(
                             index,
                             allOrder.fastphoneOrder[index].num,
-                            fastPhone == "");
+                            allOrder.fastphoneOrder[index].num == "");
                       }),
                 ],
               );
@@ -112,7 +137,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     return GestureDetector(
         onTap: () {
           Router.push(context, Router.talk,
-              {'orderId': allOrder.tuwenOrder[index].id, 'offstage': false});
+              {'orderId': allOrder.tuwenOrder[index].id, 'offstage': false,'type':"tuwen"});
         },
         child: Stack(
           children: <Widget>[
@@ -167,7 +192,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                     ),
                   ),
                   child: Text(
-                    "3",
+                    num??"",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -181,7 +206,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     return GestureDetector(
         onTap: () {
           Router.push(context, Router.talk,
-              {'orderId': allOrder.tuwenOrder[index].id, 'offstage': false});
+              {'orderId': allOrder.fastphoneOrder[index].id, 'offstage': false,'type':"fastphone"});
         },
         child: Stack(children: <Widget>[
           Container(
@@ -233,7 +258,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                   ),
                 ),
                 child: Text(
-                  "2",
+                  num??"",
                   style: TextStyle(color: Colors.white),
                 ),
               ),

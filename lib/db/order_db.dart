@@ -72,28 +72,25 @@ class OrderDb {
 
   Future<OrderNum> getOrder(String orderId) async {
     var dbClient = await db;
-    var result = await dbClient.rawQuery('SELECT * FROM $tableOrder WHERE ${this.orderId} = $orderId');
-
-    if (result.length > 0) {
-      return new OrderNum.fromMap(result.first);
-    }
-
-    return null;
+    var result = await dbClient.rawQuery('SELECT * FROM $tableOrder WHERE ${this.orderId} = \'$orderId\'');
+    print('返回数据成功！');
+    if (result.length == 0) return null;
+    return OrderNum.fromMap(result.first);
   }
 
-  Future<int> deleteMessage(String orderId) async {
+  Future<int> deleteOrder(String orderId) async {
     var dbClient = await db;
 //    return await dbClient.delete(
 //        tableMessage, where: '$id = ?', whereArgs: [contentId]);
-    return await dbClient.rawDelete('DELETE FROM $tableOrder WHERE ${this.orderId} = $orderId');
+    return await dbClient.rawDelete('DELETE FROM $tableOrder WHERE ${this.orderId} = \'$orderId\'');
   }
 
-  Future<int> updateOrder(String orderNum,String integer) async {
+  Future<int> updateOrder(String orderId,String integer) async {
     var dbClient = await db;
 //    return await dbClient.update(
 //        tableMessage, message.toMap(), where: "$contentId = ?", whereArgs: [message.contentId]);
     return await dbClient.rawUpdate(
-        'UPDATE $tableOrder SET $num = \'$integer\' WHERE ${this.orderId} = $orderNum');
+        'UPDATE $tableOrder SET $num = \'$integer\' WHERE ${this.orderId} = \'$orderId\'');
   }
 
   Future close() async {

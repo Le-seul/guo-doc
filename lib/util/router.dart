@@ -194,7 +194,7 @@ class Router {
         case exitLoginPage:
           return ExitLoginPage();
         case talk:
-          return TalkPage(orderId: params['orderId'],offstage: params['offstage'],);
+          return TalkPage(orderId: params['orderId'],offstage: params['offstage'],type: params['type'],);
         case telConsultation:
           return TelConsultation();
         case graphicConsultation:

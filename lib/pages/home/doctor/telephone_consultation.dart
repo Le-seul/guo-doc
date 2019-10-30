@@ -5,6 +5,7 @@ import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/tel_service.dart';
@@ -34,12 +35,15 @@ class _TelConsultationState extends State<TelConsultation>
 
   }
   _getFastPhoneInfo(){
+    print("获取科室信息！");
     DioUtils.instance.requestNetwork<FastphoneInfo>(
 
-        Method.post, Api.GETFASTPHONEINFO,isList: true,
+        Method.get, Api.GETFASTPHONEINFO,isList: true,
         onSuccessList: (data) {
           fastphoneInfoList = data;
+          print("获取科室信息成功！");
         }, onError: (code, msg) {
+      print("获取科室信息失败！");
     });
   }
 
@@ -252,7 +256,8 @@ class _TelConsultationState extends State<TelConsultation>
           Method.post, Api.CREATEFASTPHONEORDER,
           queryParameters: {"clinicNo": clinicNo, "phone": phone},
           onSuccess: (data) {
-            Toast.show('clinicNo:$clinicNo,phone:$phone');
+            Router.pushNoParams(context, Router.historyRecord);
+//            Toast.show('clinicNo:$clinicNo,phone:$phone');
           }, onError: (code, msg) {
         Toast.show('上传失败！');
       });

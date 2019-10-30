@@ -32,13 +32,17 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   String fastPhone = '';
 
   @override
+  void deactivate() {
+    init();
+  }
+
+  @override
   void initState() {
     init();
     exitLogin = eventBus.on<refreshNum>().listen((event) {
       setState(() {
-        tuWenNum = event.num;
-        print("tuWen:$tuWenNum");
-      });
+        init();
+    });
     });
 
   }
@@ -57,15 +61,17 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
 
       setState(() {
         if(orderNum.location == "chunyuTuwen"){
-          intTuWen += int.parse(orderNum.num);
+
+          intTuWen = int.parse(orderNum.num)+intTuWen;
           tuWenNum = "$intTuWen";
+          print("tuWenNum2:$tuWenNum");
         }else{
           intFastPhone += int.parse(orderNum.num);
           fastPhone = "$intFastPhone";
         }
       });
     }
-    print("tuWenNum:$intTuWen");
+
     print("fastPhone:$intFastPhone");
 
   }

@@ -81,31 +81,22 @@ class _ContainerPageState extends State<ContainerPage> {
                 print("type:$type");
                 String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
                 print("orderId:$orderId");
-//                OrderNum orderNum = await db.getOrder(orderId);
-//                if(orderNum == null){
-//                  num ++;
-//                  int count = await db.saveOrder(orderId,type,"$num");
-//                }else{
-//                   num = orderNum.num??0;
-//                   num ++;
-//                  int count = await db.updateOrder(orderId,"$num");
-//                }
-                num++;
-                print("num：$num");
+                OrderNum orderNum = await db.getOrder(orderId);
+                if(orderNum == null){
+                  num ++;
+                  print("num1：$num");
+                  int count = await db.saveOrder(orderId,type,"$num");
+                }else{
+                   num = int.parse(orderNum.num)??0;
+                   num ++;
+                   print("num2：$num");
+                  int count = await db.updateOrder(orderId,"$num");
+                }
 
-                int count = await db.saveOrder(orderId,type,"$num");
+//                print("num：$num");
+//                num++;
+//                int count = await db.saveOrder(orderId,type,"$num");
                 eventBus.fire(refreshNum("$num",orderId: orderId,location: type));
-//                if(type == "chunyuTuwen"){
-//                  int num1 = await StorageManager.sharedPreferences.getInt(Constant.tuWenNum)??0;
-//                  num1++;
-//                  StorageManager.sharedPreferences.setInt(Constant.tuWenNum, num1);
-//                  print("num1:$num1");
-//                }else if(type == "chunyuFastphone"){
-//                  int num2 = await StorageManager.sharedPreferences.getInt(Constant.fastFhoneNum)??0;
-//                  StorageManager.sharedPreferences.setInt(Constant.fastFhoneNum, num2++);
-//                  print("num2:$num2");
-//                }
-
               },
               onOpenNotification: (Map<String, dynamic> message) {
                 // 点击通知栏消息，在此时通常可以做一些页面跳转等
@@ -146,7 +137,7 @@ class _ContainerPageState extends State<ContainerPage> {
   int _selectIndex = 0;
 
   static saveRegistrationID(String registrationID) async {
-    StorageManager.sharedPreferences.setString(Constant.registrationID, registrationID);
+   await StorageManager.sharedPreferences.setString(Constant.registrationID, registrationID);
   }
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题

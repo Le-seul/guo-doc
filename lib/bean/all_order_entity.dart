@@ -34,7 +34,7 @@ class AllOrder {
 
 class TuwenOrder {
   String id;
-  String num;
+  String num = "";
   String doctorName;
   String doctorImage;
   String createTime;
@@ -64,7 +64,7 @@ class TuwenOrder {
 
 class FastphoneOrder {
   String id;
-  String num;
+  String num = "";
   String doctorName;
   String doctorImage;
   String clinicNo;

@@ -91,12 +91,12 @@ class DatabaseHelper {
     return null;
   }
 
-//  Future<int> deleteMessage(String images) async {
-//    var dbClient = await db;
+  Future<int> deleteMessage(String images) async {
+    var dbClient = await db;
 //    return await dbClient.delete(
 //        tableMessage, where: '$id = ?', whereArgs: [contentId]);
-////    return await dbClient.rawDelete('DELETE FROM $tableMessage WHERE $columnId = $id');
-//  }
+//    return await dbClient.rawDelete('DELETE FROM $tableMessage WHERE $columnId = $id');
+  }
 
   Future<int> updateMessage(Message message) async {
     var dbClient = await db;

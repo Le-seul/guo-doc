@@ -48,13 +48,13 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   void initState() {
-    _UpdateRegistrationID();
+    _updateRegistrationID();
     _requestBanner();
     _getColumnsInfo();
   }
 
-  void _UpdateRegistrationID() async{
-    registrationID = await StorageManager.sharedPreferences.getString(Constant.registrationID);
+  void _updateRegistrationID() {
+    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
     print('极光 id：$registrationID');
     if(registrationID!=null){
       DioUtils.instance.requestNetwork<String>(
