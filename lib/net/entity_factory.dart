@@ -80,6 +80,8 @@ class EntityFactory {
       return AllOrder.fromJson(json) as T;
     }else if (T.toString() == "FastphoneInfo") {
       return FastphoneInfo.fromJson(json) as T;
+    }else if (T.toString() == "Message") {
+      return Message.fromJson(json) as T;
     }else {
       return null;
     }

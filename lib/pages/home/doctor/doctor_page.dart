@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 class DoctorPage extends StatefulWidget {
+
+  DoctorInfo doctorInfo;
+  DoctorPage({Key key, @required this.doctorInfo}) : super(key: key);
   @override
   _DoctorPageState createState() => _DoctorPageState();
 }
@@ -11,7 +15,7 @@ class _DoctorPageState extends State<DoctorPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: Text('季洪菊医生',style: TextStyle(color: Colors.black),),
+        title: Text("${widget.doctorInfo.name}医生",style: TextStyle(color: Colors.black),),
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -30,24 +34,24 @@ class _DoctorPageState extends State<DoctorPage> {
                       CircleAvatar(
                         radius: 25.0,
                         backgroundImage:
-                        AssetImage('assets/images/beijing2.jpg'),
+                        NetworkImage(widget.doctorInfo.image),
                       ),
                       SizedBox(width: 15,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            '季洪菊',
+                            widget.doctorInfo.name,
                             style: TextStyle(fontSize: 16,),
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          Text('产科  副主任医师',style: TextStyle(color: Colors.black54),),
+                          Text('${widget.doctorInfo.clinic}  ${widget.doctorInfo.title}',style: TextStyle(color: Colors.black54),),
                           SizedBox(
                             height: 5,
                           ),
-                          Text('徐州医学院附属第三医院',style: TextStyle(color: Colors.black54),)
+                          Text(widget.doctorInfo.hospital,style: TextStyle(color: Colors.black54),)
                         ],
                       )
                     ],

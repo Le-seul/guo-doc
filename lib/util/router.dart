@@ -208,7 +208,7 @@ class Router {
         case historyRecord:
           return HistoryRecord();
         case doctorPage:
-          return DoctorPage();
+          return DoctorPage(doctorInfo: params,);
         case center_detail:
           return PsyCenterDetail();
         case step_ranking:

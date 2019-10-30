@@ -48,7 +48,9 @@ class Message {
   Message.fromJson(Map<String, dynamic> json) {
     contentId = json['contentId'];
     content = json['content'];
-    type = json['type'];
+    if(json['type'] != null){
+      type = json['type'];
+    }
     createTime = json['createTime'];
 //    time = json['time'];
   }

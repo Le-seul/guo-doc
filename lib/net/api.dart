@@ -104,4 +104,7 @@ class Api {
 
   //获取进行中的订单
   static const String GETORDERINPROGRESS = "/api/chunyuTuwen.do?getOrderInProgress";
+
+  //获取快捷电话医生总结内容
+  static const String GETFASTPHONEREPLYCONTENT = "/api/chunyuFastphone.do?getFastphoneReplyContent";
 }

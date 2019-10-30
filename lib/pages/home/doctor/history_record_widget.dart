@@ -148,7 +148,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
     }
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.talk,{'orderId': tuwenOrder.id, 'offstage': true});
+        Router.push(context, Router.talk,{'orderId': tuwenOrder.id, 'offstage': true,'type':num==0?"tuwen":"fastphone"});
       },
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
