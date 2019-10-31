@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_entity.dart';
+import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/mock_request.dart';
@@ -65,7 +66,7 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.black12,
+        color: Colours.line,
         child: Container(
           margin: EdgeInsets.all(20),
           decoration: BoxDecoration(

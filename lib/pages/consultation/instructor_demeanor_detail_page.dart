@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class instructor_demeanor_detail extends StatefulWidget {
+  PsyTeacherList list;
+
+  instructor_demeanor_detail({Key key, @required this.list})
+      : super(key: key);
   @override
   _instructor_demeanor_detailState createState() => _instructor_demeanor_detailState();
 }
@@ -32,7 +37,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                 child: Container(
                   padding: EdgeInsets.all(20),
                   child: ClipOval(
-                    child: Image.network('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'),
+                    child: Image.network(widget.list.imgId),
                   ),
                 ),),
                 Expanded(flex: 5,
@@ -42,18 +47,18 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                   children: <Widget>[
                     Container(
 
-                      child: Text('周警官',style: TextStyle(fontSize: 16,fontWeight:FontWeight.w500 ),),
+                      child: Text(widget.list.name,style: TextStyle(fontSize: 16,fontWeight:FontWeight.w500 ),),
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     ),
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('第十二总队',style: TextStyle(
+                          Text(widget.list.orgId,style: TextStyle(
                             color: Colors.black54,
                             fontSize: 13
                           ),),
-                          Text('国家二级心理咨询师',style: TextStyle(
+                          Text(widget.list.shortDesc,style: TextStyle(
                               color: Colors.black54,
                               fontSize: 13
                           ),)
@@ -84,7 +89,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                 Expanded(
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child:Text('凡是经历,皆为馈赠,美好的事情即将发生.',style: TextStyle(
+                    child:Text(widget.list.slogan,style: TextStyle(
                         color: Colors.black54,
                         fontSize: 13
                     ),),
@@ -111,7 +116,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                 Expanded(
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child:Text('团队心理辅导,一对一面询心理辅导,表达性艺术治疗,心理剧.',style: TextStyle(
+                    child:Text(widget.list.major,style: TextStyle(
                         color: Colors.black54,
                         fontSize: 13
                     ),),
@@ -140,7 +145,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                   flex:2,
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child:Text('多次参与警报部门组织的心理辅导',style: TextStyle(
+                    child:Text(widget.list.detailDesc,style: TextStyle(
                         color: Colors.black54,
                         fontSize: 13
                     ),),

@@ -26,7 +26,7 @@ class Api{
   //课程接口
   static const String PSYCOURSE = "/api/psyCourse.do?getPsyCourse";
   //心理课程详情1
-  static const String COURSEDETAIL1 = "/api/psyCourse.do?getCouserDetail&id=1";
+  static const String PsyCourseDetail = "/api/psyCourse.do?getCouserDetail&id=1";
   //心理课程详情2
   static const String COURSEDETAIL2 = "/api/psyCourse.do?getCouserDetail&id=2";
   //心理课程目录1
@@ -36,8 +36,10 @@ class Api{
   static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
   //简单共读目录
   static const String CoReadingCatalog = "/api/psyCoreading.do?getPsyCoReadingCatalog&courseId=1";
-  //每日一测
+  //每日一测全部
   static const String PsyDailyTest = "/api/psyDailyTest.do?getPsyDailyTest";
+  //每日一测已测
+  static const String PsyDailyTested = "/api/psyDailyTest.do?getPsyDailyTestRecord";
   //用户身份验证
   static const String USERAUTHCHECK = "/api/login.do?userAuthCheck";
   //获取验证码
@@ -46,4 +48,14 @@ class Api{
   static const String CHECKVCODE = "/api/login.do?checkVerificationCode";
   //上传极光RegistrationID
   static const String UPDATEREGISTRATIONID = "/api/push.do?saveOrUpdateRegistrationID";
+  //服务中心
+  static const String PsyServiceCenterList = "/api/psyServiceCenter.do?getPsyServiceCenterList";
+  //服务中心按地区查找
+  static const String PsyServiceCenterByLocation = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation&location=海淀";
+  //服务中心另外三块
+  static const String PsyServiceCenterByType = "/api/psyServiceCenter.do?getPsyServiceCenterByType";
+  //教官列表点赞初始面
+  static const String PsyTeacherList = "/api/psyTeacher.do?getPsyTeacherList";
+  //教官列表最美教官
+  static const String PsyTeacherBest = "/api/psyTeacher.do?getPsyTeacherBest&teacherId=1";
 }

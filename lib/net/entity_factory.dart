@@ -8,9 +8,13 @@ import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/bean/music_model.dart';
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/psycourse.dart';
+import 'package:flutter_first/bean/psycourse_detail.dart';
 import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
+import 'package:flutter_first/bean/psyteacherbest.dart';
+import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/bean/user_entity.dart';
@@ -28,8 +32,6 @@ class EntityFactory {
       return ServiceActivity.fromJson(json) as T;
     }else if (T.toString() == "BannerImage") {
       return BannerImage.fromJson(json) as T;
-    } else if (T.toString() == "Psycourse") {
-      return Psycourse.fromJson(json) as T;
     } else if (T.toString() == "ActivityDetail") {
       return ActivityDetail.fromJson(json) as T;
     } else if (T.toString() == "SeviceLocation") {
@@ -42,8 +44,10 @@ class EntityFactory {
       return MusicList.fromJson(json) as T;
     }else if (T.toString() == "Music") {
       return Music.fromJson(json) as T;
-    }else if (T.toString() == "Coursedetail") {
-      return Coursedetail.fromJson(json) as T;
+    }else if (T.toString() == "Psycourse") {
+      return Psycourse.fromJson(json) as T;
+    } else if (T.toString() == "PsyCourseDetail") {
+      return PsyCourseDetail.fromJson(json) as T;
     } else if (T.toString() == "Psycoursecatelog") {
       return Psycoursecatelog.fromJson(json) as T;
     }else if (T.toString() == "CoReading") {
@@ -58,6 +62,14 @@ class EntityFactory {
       return Token.fromJson(json) as T;
     }else if (T.toString() == "User") {
       return User.fromJson(json) as T;
+    }else if (T.toString() == "PsyServiceCenter") {
+      return PsyServiceCenter.fromJson(json) as T;
+    }else if (T.toString() == "PsyServiceCenterByType") {
+      return PsyServiceCenter.fromJson(json) as T;
+    }else if (T.toString() == "PsyTeacherList") {
+      return PsyTeacherList.fromJson(json) as T;
+    }else if (T.toString() == "PsyTeacherBest") {
+      return PsyTeacherBest.fromJson(json) as T;
     }else {
       return null;
     }

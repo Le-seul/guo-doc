@@ -7,8 +7,9 @@ class SearchTextFieldWidget extends StatelessWidget {
   final VoidCallback onTab;
   final String hintText;
   final EdgeInsetsGeometry margin;
+  final Color color;
 
-  SearchTextFieldWidget({Key key, this.hintText, this.onSubmitted, this.onTab, this.margin})
+  SearchTextFieldWidget({Key key, this.hintText, this.onSubmitted, this.onTab, this.margin,this.color})
       : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class SearchTextFieldWidget extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       height: 30.0,
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 237, 236, 237),
+          color: color==null? Color.fromARGB(255, 237, 236, 237):color,
           borderRadius: BorderRadius.circular(24.0)),
       child: TextField(
         onSubmitted: onSubmitted,
