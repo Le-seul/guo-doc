@@ -14,10 +14,10 @@ class TitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _TextImgWidget(
-            '心理分中心',
+            '服务中心',
             'assets/images/psychological_subcenter.png',
             tabCallBack: () {
-              Router.pushNoParams(context, Router.psychologicalServiceCenterPage);
+              Router.pushNoParams(context, Router.service_center);
             },
           ),
           _TextImgWidget(

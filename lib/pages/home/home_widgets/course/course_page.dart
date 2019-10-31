@@ -1,422 +1,298 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flukit/flukit.dart';
+import 'package:flukit/flukit.dart' as lib1;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_first/widgets/top_panel.dart';
 
-class Curriculum extends StatefulWidget {
-  Curriculum({Key key}) : super(key: key);
-
+class PsyCourse extends StatefulWidget {
   @override
-  _CurriculumState createState() => _CurriculumState();
+  _PsyCourseState createState() => _PsyCourseState();
 }
 
-class _CurriculumState extends State<Curriculum> {
+class _PsyCourseState extends State<PsyCourse> {
+  // List<BannerImage> bannerlist;
   bool isShowLoading = true;
   List<Psycourse> psycourselist = List();
   List<Psycourse> mycourselist = List(); //我的课程
   List<Psycourse> emotionlist = List(); //情绪调节
+  List<Psycourse> Dearlist = List(); //亲密关系
+
   @override
   void initState() {
+    //_requestBanner();
     _requestPsycourse1();
   }
+//  void _requestBanner() {
+//    DioUtils.instance.requestNetwork<BannerImage>(Method.get, Api.BANNER,
+//        isList: true, onSuccessList: (data) {
+//          setState(() {
+//            bannerlist = data;
+//          });
+//        }, onError: (code, msg) {
+//          print("sssss");
+//        });
+//  }
 
   void _requestPsycourse1() {
-    DioUtils.instance.requestNetwork<Psycourse>(
-        Method.get,
-        Api.PSYCOURSE,
-        isList: true,
-        onSuccessList: (data) {
-          setState(() {
-            psycourselist = data;
-            isShowLoading = false;
-            for(Psycourse index in psycourselist) {
-              if (index.categoryId == "情绪调节") {
-                emotionlist.add(index);
-              }
-              if (index.recmmend == "1") {
-                mycourselist.add(index);
-              }
-            }
-          });
-          },
-
-        onError: (code, msg) {
-          print("sssss");
-        });
+    DioUtils.instance.requestNetwork<Psycourse>(Method.get, Api.PSYCOURSE,
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        psycourselist = data;
+        isShowLoading = false;
+        for (Psycourse index in psycourselist) {
+          if (index.categoryId == "情绪调节") {
+            emotionlist.add(index);
+          }
+          if (index.categoryId == "亲密关系") {
+            Dearlist.add(index);
+          }
+          if (index.categoryId == "轮播图") {
+            mycourselist.add(index);
+          }
+        }
+      });
+    }, onError: (code, msg) {
+      print("sssss");
+    });
   }
 
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('课程'),
-          centerTitle: true,
+      appBar: AppBar(
+        title: Text('心理课程'),
+        centerTitle: true,
+        backgroundColor: Colours.bg_green,
+        elevation: 0.0,
+      ),
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : (psycourselist.length == 0)
+              ? Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  child: Text('暂无数据'),
+                )
+              : ListView(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        LoginTopPanel(),
+                        Positioned(
+                          bottom: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                height: 190,
+                                child: buildBanner(context, mycourselist),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '情绪调节',
+                            style: TextStyle(fontSize: 17.5),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                      childAspectRatio: 1.4),
+                              itemCount: emotionlist.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      InkWell(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      emotionlist[index]
+                                                          .coverImgId),
+                                                  fit: BoxFit.fill)),
+                                          height: 90,
+                                        ),
+                                        onTap: (){},
+                                      ),
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(emotionlist[index].name),
+                                          Text(
+                                            '共${emotionlist[index].courseCount}讲',
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.grey),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              })
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '亲密关系',
+                            style: TextStyle(fontSize: 17.5),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                      childAspectRatio: 1.4),
+                              itemCount: Dearlist.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      InkWell(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      Dearlist[index]
+                                                          .coverImgId),
+                                                  fit: BoxFit.fill)),
+                                          height: 90,
+                                        ),
+                                        onTap: () {
+                                          Router.pushNoParams(context,
+                                              Router.curriculumcatalog1);
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(Dearlist[index].name),
+                                          Text(
+                                            '共${Dearlist[index].courseCount}讲',
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.grey),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              })
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+    );
+  }
+}
+
+Widget buildBanner(BuildContext context, List<Psycourse> list) {
+  if (list == null) {
+    return new Container(height: 0.0);
+  }
+  return new AspectRatio(
+    aspectRatio: 16.0 / 9.0,
+    child: lib1.Swiper(
+      indicatorAlignment: AlignmentDirectional(0.95, 0.9),
+      circular: true,
+      interval: const Duration(seconds: 3),
+      indicator: NumberSwiperIndicator(),
+      children: list.map((model) {
+        return new InkWell(
+          onTap: () {
+            Router.push(context, model.coverImgId, {'title': model.name});
+          },
+          child: new CachedNetworkImage(
+            fit: BoxFit.fill,
+            imageUrl: model.coverImgId,
+            placeholder: (context, url) => new ProgressView(),
+            errorWidget: (context, url, error) => new Icon(Icons.error),
+          ),
+        );
+      }).toList(),
+    ),
+  );
+}
+
+class NumberSwiperIndicator extends SwiperIndicator {
+  @override
+  Widget build(BuildContext context, int index, int itemCount) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.black45, borderRadius: BorderRadius.circular(20.0)),
+      margin: EdgeInsets.only(top: 10.0, right: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+      child: Text("${++index}/$itemCount",
+          style: TextStyle(color: Colors.white70, fontSize: 11.0)),
+    );
+  }
+}
+
+class ProgressView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Center(
+      child: new SizedBox(
+        width: 24.0,
+        height: 24.0,
+        child: new CircularProgressIndicator(
+          strokeWidth: 2.0,
         ),
-        body: isShowLoading
-            ? LoadingWidget.childWidget()
-            : (mycourselist.length == 0 && emotionlist.length == 0)
-                ? Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    alignment: Alignment.center,
-                    child: Text('暂无数据'),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: SingleChildScrollView(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: ScreenUtil().setHeight(3),
-                              ),
-                              InkWell(
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '我的课程',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    Icon(Icons.chevron_right),
-                                  ],
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                ),
-                                onTap: () {},
-                              ),
-                              SizedBox(
-                                  height: ScreenUtil().setHeight(3),
-
-                              ),
-                              InkWell(
-                                child: Image.network(
-                                  mycourselist[0].coverImgId,
-                                  height:  ScreenUtil().setHeight(25),
-                                  width: ScreenUtil().setWidth(100),
-                                  fit: BoxFit.fill,
-                                ),
-                                onTap: () {
-                                  Router.pushNoParams(
-                                      context, Router.curriculumcatalog1);
-                                },
-                              ),
-                              SizedBox(
-                                height:  ScreenUtil().setHeight(3),
-                              ),
-                              InkWell(
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      emotionlist[0].categoryId,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    Icon(Icons.chevron_right),
-                                  ],
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                ),
-                                onTap: () {},
-                              ),
-                              SizedBox(
-                                height:ScreenUtil().setHeight(3),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-
-                                  Container(
-                                    height: ScreenUtil().setHeight(20),
-                                    width: ScreenUtil().setWidth(42),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 3,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10)),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        emotionlist[0].coverImgId),
-                                                    fit: BoxFit.fill)),
-
-
-                                          ),
-                                        ),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Stack(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .centerStart,
-                                                    children: <Widget>[
-                                                      Positioned(
-                                                        left: 15,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/aixin.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 25,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/喇叭.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 35,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/云.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                    "${emotionlist[0].learnedUserCount}+人",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ),
-
-                                              ],
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Container(
-                                    height: ScreenUtil().setHeight(20),
-                                    width: ScreenUtil().setWidth(42),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 3,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10)),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        emotionlist[1].coverImgId),
-                                                    fit: BoxFit.fill)),
-
-                                          ),
-                                        ),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Stack(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .centerStart,
-                                                    children: <Widget>[
-                                                      Positioned(
-                                                        left: 15,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: NetworkImage(
-                                                                'assets/images/aixin.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 25,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/喇叭.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 35,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/云.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                    "${emotionlist[1].learnedUserCount}+人",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ),
-
-                                              ],
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-
-                                  Container(
-                                    height: ScreenUtil().setHeight(20),
-                                    width: ScreenUtil().setWidth(42),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 3,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10)),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        emotionlist[2].coverImgId),
-                                                    fit: BoxFit.fill)),
-
-                                          ),
-                                        ),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Stack(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .centerStart,
-                                                    children: <Widget>[
-                                                      Positioned(
-                                                        left: 15,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/aixin.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 25,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/喇叭.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 35,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: 10,
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                'assets/images/云.png'),
-                                                            width: 10,
-                                                            height: 10,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                    "${emotionlist[2].learnedUserCount}+人",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ),
-
-                                              ],
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Container(
-                                    height: ScreenUtil().setHeight(20),
-                                    width: ScreenUtil().setWidth(42),
-                                  ),
-
-                                ],
-                              ),
-                            ],
-                          )))
-                    ],
-                  )));
+      ),
+    );
   }
 }
