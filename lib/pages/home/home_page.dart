@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   List<ConsulationColumnsInfo> columnsInfoList = List();
   List TableList = [
     Table0(),
-    Table1(),
+    //Table1(),
   ];
   @override
   void initState() {
@@ -229,18 +229,19 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                         child: Container(
                           height: 175,
-                          child: lib2.Swiper(
-                            itemCount: 2,
-                            itemBuilder: (BuildContext context, int index) {
-                              return TableList[index];
-                            },
-                            autoplay: false,
-                            pagination: SwiperPagination(
-                                alignment: Alignment.bottomCenter,
-                                margin: EdgeInsets.only(bottom: 0),
-                                builder: DotSwiperPaginationBuilder(
-                                    color: Colors.black12)),
-                          ),
+                          child: TableList[0]
+//                          lib2.Swiper(
+//                            itemCount: 1,
+//                            itemBuilder: (BuildContext context, int index) {
+//                              return TableList[index];
+//                            },
+//                            autoplay: false,
+//                            pagination: SwiperPagination(
+//                                alignment: Alignment.bottomCenter,
+//                                margin: EdgeInsets.only(bottom: 0),
+//                                builder: DotSwiperPaginationBuilder(
+//                                    color: Colors.black12)),
+//                          ),
                         )), //测评表格
                     Container(
                       color: Colours.bg_gray,

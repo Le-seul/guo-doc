@@ -15,22 +15,7 @@ class _Table0State extends State<Table0> {
       border: TableBorder.all(style: BorderStyle.none),
       children: <TableRow>[
         TableRow(children: <Widget>[
-          GestureDetector(
-            child:  Container(child: Column(
-              children: <Widget>[
-                loadAssetImage('entry/chronic_disease_assessment.png',
-                height: 50,
-                width: 50,),
-                SizedBox(height: 8,),
-                Text(
-                  '慢病评估',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: 10,)
-              ],
-            ),),
-            onTap: () { Router.pushNoParams(context, Router.eating);},
-          ),
+
           GestureDetector(
             child: Column(
               children: <Widget>[
@@ -53,7 +38,7 @@ class _Table0State extends State<Table0> {
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
-                  '运动评估',
+                  '活动参与',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: 10,)
@@ -61,21 +46,7 @@ class _Table0State extends State<Table0> {
             ),
             onTap: () {},
           ),
-          GestureDetector(
-            child: Column(
-              children: <Widget>[
-                loadAssetImage('entry/physical_assessment.png',height: 50,
-                  width: 50,),
-                SizedBox(height: 8,),
-                Text(
-                  '身体评估',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: 10,)
-              ],
-            ),
-            onTap: () {},
-          ),
+
           GestureDetector(
             child: Column(
               children: <Widget>[
@@ -93,10 +64,21 @@ class _Table0State extends State<Table0> {
               Router.pushNoParams(context, Router.reporylist);
             },
           ),
-
-        ]),
-
-        TableRow(children: <Widget>[
+          GestureDetector(
+            child: Column(
+              children: <Widget>[
+                loadAssetImage('entry/medical_consultation.png',height: 50,
+                  width: 50,),
+                SizedBox(height: 8,),
+                Text(
+                  '在线问诊',
+                  style: TextStyle(fontSize: 12),
+                ),
+                SizedBox(height: 10,)
+              ],
+            ),
+            onTap: () {},
+          ),
           GestureDetector(
             child: Column(
               children: <Widget>[
@@ -104,7 +86,7 @@ class _Table0State extends State<Table0> {
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
-                  '每日一测',
+                  '趣味自测',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: 10,)
@@ -114,21 +96,12 @@ class _Table0State extends State<Table0> {
               Router.pushNoParams(context, Router.everydaytest);
             },
           ),
-          GestureDetector(
-            child: Column(
-              children: <Widget>[
-                loadAssetImage('entry/psychological_consultation.png',height: 50,
-                  width: 50,),
-                SizedBox(height: 8,),
-                Text(
-                  '心理咨询',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: 10,)
-              ],
-            ),
-            onTap: () {Router.pushNoParams(context, Router.psychologicalConcult);},
-          ),
+
+        ]),
+
+        TableRow(children: <Widget>[
+
+
           GestureDetector(
             child: Column(
               children: <Widget>[
@@ -136,7 +109,7 @@ class _Table0State extends State<Table0> {
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
-                  '课程咨询',
+                  '心理课程',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: 10,)
@@ -160,19 +133,50 @@ class _Table0State extends State<Table0> {
             onTap: () {Router.pushNoParams(context, Router.togethereading);},
           ),
           GestureDetector(
-            child: Column(
-              children: <Widget>[
-                loadAssetImage('entry/medical_consultation.png',height: 50,
-                  width: 50,),
-                SizedBox(height: 8,),
-                Text(
-                  '医疗咨询',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: 10,)
-              ],
-            ),
+//            child: Column(
+//              children: <Widget>[
+//                loadAssetImage('entry/physical_assessment.png',height: 50,
+//                  width: 50,),
+//                SizedBox(height: 8,),
+//                Text(
+//                  '身体评估',
+//                  style: TextStyle(fontSize: 12),
+//                ),
+//                SizedBox(height: 10,)
+//              ],
+//            ),
             onTap: () {},
+          ),
+          GestureDetector(
+//            child:  Container(child: Column(
+//              children: <Widget>[
+//                loadAssetImage('entry/chronic_disease_assessment.png',
+//                  height: 50,
+//                  width: 50,),
+//                SizedBox(height: 8,),
+//                Text(
+//                  '慢病评估',
+//                  style: TextStyle(fontSize: 12),
+//                ),
+//                SizedBox(height: 10,)
+//              ],
+//            ),),
+//            onTap: () { Router.pushNoParams(context, Router.eating);},
+          ),
+          GestureDetector(
+//            child: Column(
+//              children: <Widget>[
+//                loadAssetImage('entry/psychological_consultation.png',height: 50,
+//                  width: 50,),
+//                SizedBox(height: 8,),
+//                Text(
+//                  '心理咨询',
+//                  style: TextStyle(fontSize: 12),
+//                ),
+//                SizedBox(height: 10,)
+//              ],
+//            ),
+//            onTap: () {Router.pushNoParams(context, Router.psychologicalConcult);},
           ),
         ]),
       ],
