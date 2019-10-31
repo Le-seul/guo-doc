@@ -23,6 +23,7 @@ class _MusicListPageState extends State<MusicListPage> {
 
   @override
   void initState() {
+    
     DioUtils.instance.requestNetwork<Music>(
         Method.get,
         Api.GETMUSICLIST,
@@ -31,11 +32,12 @@ class _MusicListPageState extends State<MusicListPage> {
         onSuccessList: (data) {
           setState(() {
             musicList = data;
-          });
 
+          });
+          print('音乐成功！');
         },
         onError: (code, msg) {
-          Toast.show('请求失败！');
+          print('音乐失败！');
         });
   }
 
@@ -107,7 +109,7 @@ class _MusicListPageState extends State<MusicListPage> {
             itemCount: musicList.length,
             itemBuilder: (context, index) {
               Music item = musicList[index];
-             return _buildItem(index,item.id == music.id);
+             return _buildItem(index,music==null?false:item.id == music.id);
             } ),
         ],
       )

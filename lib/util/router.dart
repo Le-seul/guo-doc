@@ -186,7 +186,7 @@ class Router {
         case musicPage:
           return MusicPage(num: params['num'],tagId: params['tagId']);
         case musicSortPage:
-          return MusicSortPage();
+          return MusicSortPage(num: params['num'],tagId: params['tagId']);
         case musicListPage:
           return MusicListPage(allMusicList: params,);
         case playingPage:

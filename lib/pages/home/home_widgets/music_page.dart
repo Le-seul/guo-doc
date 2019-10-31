@@ -57,103 +57,80 @@ class _MusicPageState extends State<MusicPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-            child: AppBar(
+        appBar:AppBar(
                 elevation: 0.0,
                 backgroundColor: Colors.white,
                 automaticallyImplyLeading: false,
-                title: Text('音乐',style: TextStyle(color: Colors.black),),
-                flexibleSpace: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 10.0,top: 10.0),
-                      child:SearchTextFieldWidget(
-                        isborder: true,
-                        hintText: '请输入搜索内容',
-                        margin: const EdgeInsets.only(
-                            left: 15.0, right: 15.0),
-                        onTab: () {},
-                      ),
-                    )
-                )
-            ),
-            preferredSize: Size.fromHeight(90)),
+                title: Text(
+                  '音乐',
+                  style: TextStyle(color: Colors.black),
+                ),
+               ),
+
         body: Container(
-
-              child:Container(
-                padding: EdgeInsets.only(top: 10,right: 10,left: 10),
-                  decoration: new BoxDecoration(
-                    //背景
-                    color: Colors.white,
-                    //设置四周圆角 角度
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),topRight: Radius.circular(8.0)),
-                    //设置四周边框
-                    border: new Border.all(width: 1, color: Colors.white),
-                  ),
-                height: double.infinity,
-                child: ListView.builder(
-                  physics: ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: GetAllMusicList.length,
-                  itemBuilder: (context, index) => _buildItem(index),),
+          child: Container(
+              padding: EdgeInsets.only(top: 10, right: 10, left: 10),
+              decoration: new BoxDecoration(
+                //背景
+                color: Colors.white,
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0)),
+                //设置四周边框
+                border: new Border.all(width: 1, color: Colors.white),
               ),
-
-
+              height: double.infinity,
+              child: GridView.builder(
+                  itemCount: GetAllMusicList.length,
+                  //SliverGridDelegateWithFixedCrossAxisCount 构建一个横轴固定数量Widget
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      //横轴元素个数
+                      crossAxisCount: 2,
+                      //纵轴间距
+                      mainAxisSpacing: 0.0,
+                      //横轴间距
+                      crossAxisSpacing: 0.0,
+                      //子组件宽高长度比例
+                      childAspectRatio: 0.8),
+                  itemBuilder: (BuildContext context, int index) {
+                    //Widget Function(BuildContext context, int index)
+                    return _buildItem(index);
+                  })),
           color: Color(0xFFEEEEEE),
-          padding: EdgeInsets.only(left: 15,right: 15,top: 15),
+          padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         ));
   }
 
   _buildItem(int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Router.push(context, Router.musicListPage, GetAllMusicList[index]);
       },
-      child:Container(
+      child: Container(
           height: 105,
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              Container(
-                height: 100,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),child:Image.network(
-                        GetAllMusicList[index].image,
-                        height: 70,
-                        fit: BoxFit.fill,
-                      ),)
-                    ),
-                    Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 10,top: 15,bottom: 15
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(GetAllMusicList[index].name,style: TextStyle(fontSize: 18)),
-
-                              Text(
-                                '周杰伦',
-                                style: TextStyle(color: Colors.black12, fontSize: 12),
-                              ),
-
-                            ],
-                          ),
-                        )),
-                  ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Image.network(
+                  GetAllMusicList[index].image,
+                  height:140,
+                  width: 140,
+                  fit: BoxFit.fill,
                 ),
               ),
-              Container(
-                height: 1,
-                color: Color(0xFFEEEEEE),
-              )
+              SizedBox(height: 5,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 5,),
+                  Text(GetAllMusicList[index].name,
+                      style: TextStyle(fontSize: 18)),
+                ],
+              ),
             ],
           )),
     );

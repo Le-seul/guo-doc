@@ -51,7 +51,7 @@ class Message {
     if(json['type'] != null){
       type = json['type'];
     }
-    createTime = json['createTime'];
+    createTime = json['createTime'].toString().substring(5,json['createTime'].toString().length - 3);
 //    time = json['time'];
   }
 

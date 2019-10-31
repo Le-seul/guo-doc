@@ -151,7 +151,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                       CircleAvatar(
                         radius: 25.0,
                         backgroundImage:
-                            AssetImage('assets/images/beijing2.jpg'),
+                        allOrder.tuwenOrder[index].doctorImage == null?AssetImage('assets/images/beijing2.jpg'):NetworkImage(allOrder.tuwenOrder[index].doctorImage),
                       ),
                       SizedBox(
                         width: 10,
@@ -218,7 +218,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 25.0,
-                      backgroundImage: AssetImage('assets/images/beijing2.jpg'),
+                      backgroundImage: allOrder.fastphoneOrder[index].doctorImage == null?AssetImage('assets/images/beijing2.jpg'):NetworkImage(allOrder.tuwenOrder[index].doctorImage),
                     ),
                     SizedBox(
                       width: 10,
