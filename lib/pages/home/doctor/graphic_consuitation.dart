@@ -59,7 +59,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
             color: Color(0xFFFFEBEE),
             alignment: Alignment.center,
             child: Text(
-              '重要通知：文字描述文字描述文字描述文字描述',
+              '重要提示：急重症不适合网上咨询，请立即前往医院就诊',
               style: TextStyle(color: Colors.red),
             ),
           ),
@@ -74,7 +74,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
                     controller: _vCodeController,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
-                      hintText: '请简要描述需要咨询的内容，以及期待达到的咨询效果。',
+                      hintText: '请用20-500字详细描述您的症状、患病时长、治疗及用药情况、身体状况等内容，否则可能无法获得医生的详细解答。',
                       contentPadding: EdgeInsets.all(10.0),
                       border: InputBorder.none,
                     )),
