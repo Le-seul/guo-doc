@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
@@ -161,8 +162,124 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
             ),
 
           ),
+          Container(
+              padding:EdgeInsets.only(top: 15,left:ScreenUtil().setWidth(5),bottom: 15 ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    color: Colours.bg_green,
+                    height: ScreenUtil().setHeight(3),
+                    width: ScreenUtil().setWidth(1.5),
+                  ),
+                  Text('   相关资讯',style: TextStyle(fontSize: 16.5),)
+                ],
+              ),),
 
+          GestureDetector(
+            child:Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(bottom: 1),
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(5), 15, ScreenUtil().setWidth(5), 15),
+              height: ScreenUtil().setHeight(20),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Image.asset('assets/images/consultation/中心1.png',fit: BoxFit.fill),
+                    height: ScreenUtil().setHeight(13),
+                    width: ScreenUtil().setHeight(18),
+                  ),
+                  SizedBox(width: 5,),
+                  Expanded(
+                    child: Container(
 
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('心理健康服务中心为民警解开心结',style: TextStyle(fontSize: 13),),
+                          SizedBox(height: 5,),
+                          Container(
+                            child:Text('心理健康服务中心为民警解开心结心理健康服务中心为民警解开心结心理健康服务中心为民警解开心结',style: TextStyle(fontSize: 12,color: Colors.grey),softWrap: true,maxLines: 3,),
+                          )
+                        ],
+                      ),
+                    ),)
+
+                ],
+              ),
+            ),
+            onTap: (){Router.push(context, 'http://news.cpd.com.cn/n18151/201910/t20191030_862809.html',{"title":'时事新闻'});},
+          ),
+          GestureDetector(
+            child:Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(bottom: 1),
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(5), 15, ScreenUtil().setWidth(5), 15),
+              height: ScreenUtil().setHeight(20),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Image.asset('assets/images/consultation/中心2.png',fit: BoxFit.fill),
+                    height: ScreenUtil().setHeight(13),
+                    width: ScreenUtil().setHeight(18),
+                  ),
+                  SizedBox(width: 5,),
+                  Expanded(
+                    child: Container(
+
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('心理健康服务中心为民警解开心结',style: TextStyle(fontSize: 13),),
+                          SizedBox(height: 5,),
+                          Container(
+                            child:Text('心理健康服务中心为民警解开心结心理健康服务中心为民警解开心结心理健康服务中心为民警解开心结',style: TextStyle(fontSize: 12,color: Colors.grey),softWrap: true,maxLines: 3,),
+                          )
+                        ],
+                      ),
+                    ),)
+
+                ],
+              ),
+            ),
+            onTap: (){Router.push(context, 'http://news.cpd.com.cn/n18151/201910/t20191030_862812.html',{"title":'时事新闻'});},
+          ),
+          GestureDetector(
+            child:Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(bottom: 1),
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(5), 15, ScreenUtil().setWidth(5), 15),
+              height: ScreenUtil().setHeight(20),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Image.asset('assets/images/consultation/中心3.png',fit: BoxFit.fill),
+                    height: ScreenUtil().setHeight(13),
+                    width: ScreenUtil().setHeight(18),
+                  ),
+                  SizedBox(width: 5,),
+                  Expanded(
+                    child: Container(
+
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('心理健康服务中心为民警解开心结',style: TextStyle(fontSize: 13),),
+                          SizedBox(height: 5,),
+                          Container(
+                            child:Text('心理健康服务中心为民警解开心结心理健康服务中心为民警解开心结心理健康服务中心为民警解开心结',style: TextStyle(fontSize: 12,color: Colors.grey),softWrap: true,maxLines: 3,),
+                          )
+                        ],
+                      ),
+                    ),)
+
+                ],
+              ),
+            ),
+            onTap: (){Router.push(context, 'http://news.cpd.com.cn/n18151/201910/t20191030_862813.html',{"title":'时事新闻'});},
+          ),
         ],
       ),
     );

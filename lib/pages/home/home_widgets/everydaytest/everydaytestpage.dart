@@ -176,9 +176,112 @@ class Selected extends StatefulWidget {
 }
 
 class _SelectedState extends State<Selected> {
+  List<PsyDailyTest> psylist = List();
+  List<PsyDailyTest> Selectedlist = List();
+  bool isShowLoading = true;
+  void initState() {
+    //生命周期函数,固定写法
+    _requestData();
 
-  @override
+  }
+
+
+  void _requestData() {
+    DioUtils.instance.requestNetwork<PsyDailyTest>(Method.get, Api.PsyDailyTested,
+        isList: true, onSuccessList: (data) {
+          setState(() {
+            psylist = data;
+            isShowLoading = false;
+            for (PsyDailyTest item in psylist) {
+              if (item.state == 1) {
+                Selectedlist.add(item);
+                //Alllist.sort();
+                continue;
+              }
+            }
+          });
+        }, onError: (code, msg) {
+          print("sssss");
+        });
+  }
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : (Selectedlist.length == 0)
+          ? Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Text('暂无数据'),
+      )
+          : ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: Selectedlist.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Router.pushNoParams(context, 'app://test${index}');
+                },
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                        height: 180,
+                        child: Image.network(
+                          Selectedlist[index].coverImgId,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[Text(
+                              Selectedlist[index].title,
+                              style: TextStyle(fontSize: 19),
+                            ),],
+                          )
+
+                      ),
+                      SizedBox(
+                        height: 14,
+                      ),
+                      Container(
+                        child: Text(
+                          Selectedlist[index].shortDesc +
+                              '丨' +
+                              Selectedlist[index].questionCount +
+                              '个问题',
+                          style: TextStyle(
+                              fontSize: 12, color: Colors.black45),
+                        ),
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
+
+                      ),
+                      SizedBox(
+                        height: 21,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colours.line,
+              ),
+            ],
+          );
+        },
+      ),
+    );;
   }
 }

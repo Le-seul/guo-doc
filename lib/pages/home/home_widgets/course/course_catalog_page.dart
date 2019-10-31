@@ -2,12 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/psycourse.dart';
+import 'package:flutter_first/bean/psycourse_detail.dart';
 import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -61,7 +64,7 @@ List<Psycoursecatelog> psycoursecateloglist;
   bool isShowLoading = true;  //课程图片
   bool isShowLoading1 = true;  //课程详情
   bool isShowLoading2 = true;  //课程目录
-  String Detailurl;
+  List<PsyCourseDetail> Detailurl = List();
   List<Psycourse> psycourselist = List();
   List<Psycourse> mycourselist = List(); //我的课程
   List<Psycourse> emotionlist = List();
@@ -108,11 +111,20 @@ List<Psycoursecatelog> psycoursecateloglist;
         });
   }
   void _requestCourseDetail() async {
-    Dio dio =Dio();
-    Response response =await dio.get("http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1");//http://ygyd.aireading.top/jeecg/api/psyCourse.do?getCouserDetail&id=1
-    setState(() {
-      Detailurl = response.toString();
-    });
+    DioUtils.instance.requestNetwork<PsyCourseDetail>(
+        Method.get,
+        Api.PsyCourseDetail,
+        isList: true,
+        onSuccessList: (data) {
+          setState(() {
+            Detailurl = data;
+            isShowLoading1=false;
+          });
+
+        },
+        onError: (code, msg) {
+          print("sssss");
+        });
 
   }
   void _requestPsycoursecatelog() {
@@ -176,15 +188,20 @@ List<Psycoursecatelog> psycoursecateloglist;
           ],
         ),
         new SliverPersistentHeader(
-          delegate: _SilverAppBarDelegate(TabBar(
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.black,
-            controller: _tabController,
-            tabs: <Widget>[
-              new Tab(
-                text: "课程详情",
-              ),
-              new Tab(
+          
+          pinned: true,
+          floating: true, // 随着滑动隐藏标题
+
+          delegate: _SilverAppBarDelegate(
+              TabBar(
+                labelColor: Colors.blue,
+                 unselectedLabelColor: Colors.black,
+                 controller: _tabController,
+                  tabs: <Widget>[
+                        new Tab(
+                      text: "课程详情",
+                      ),
+                      new Tab(
                 text: "课程目录",
               ),
             ],
@@ -199,8 +216,18 @@ List<Psycoursecatelog> psycoursecateloglist;
             headerSliverBuilder: _silverBuilder,
             body: new TabBarView(
               controller: _tabController,
+              physics: ClampingScrollPhysics(),
               children: <Widget>[
-                Detailurl == null?LoadingWidget.childWidget():Detail(Detailurl: Detailurl,),
+
+                isShowLoading1?LoadingWidget.childWidget():
+                (Detailurl.length == 0)
+                    ? Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  child: Text('暂无数据'),
+                )
+                    :Detail(Detailurl: Detailurl,),
                 isShowLoading2? LoadingWidget.childWidget()
                     : (psycoursecateloglist.length == 0 || psycoursecateloglist == null)
                     ? Container(
@@ -330,7 +357,7 @@ class _CatalogState extends State<Catalog> {
 
 }
 class Detail extends StatefulWidget {
-  String Detailurl;
+  List<PsyCourseDetail> Detailurl;
   Detail({Key key, @required this.Detailurl, }): super(key: key);
 
   @override
@@ -342,11 +369,23 @@ class _DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
+
     return Scaffold(
-      body: WebView(
-        initialUrl: widget.Detailurl,
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
+      backgroundColor: Colours.line,
+      body:Container(
+      height:double.infinity ,
+        margin: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+        color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(10),
+    ),
+    ),
+    child: WebView(
+      initialUrl: widget.Detailurl[0].detailDesc,
+      javascriptMode: JavascriptMode.unrestricted,
+    ),
+    ),
     );
   }
 }

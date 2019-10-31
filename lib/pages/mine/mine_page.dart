@@ -32,7 +32,7 @@ class MinePage extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: NetworkImage('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'))),
+                              image: NetworkImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572862144&di=d3fabea17ef23e6434c8a3499bc74e3e&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20181003%2F17%2F1538557769-tTlpNrusja.jpg'))),
                     ),
                     SizedBox(
                       width: 15,
@@ -166,6 +166,7 @@ class MinePage extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: InkWell(
+
                               child: Container(
                                 height: 60,
                                 width: 40,
@@ -186,7 +187,7 @@ class MinePage extends StatelessWidget {
                                 ),
                               ),
                               onTap: (){
-
+                                Router.pushNoParams(context, Router.service_center);
                               },
                             ),
                           ),
@@ -194,6 +195,7 @@ class MinePage extends StatelessWidget {
                             flex: 1,
                             child: InkWell(
                               onTap: (){
+                                Router.pushNoParams(context, Router.psycourse);
                               },
                               child: Container(
                                 height: 60,
@@ -238,6 +240,9 @@ class MinePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              onTap: (){
+                                Router.pushNoParams(context, Router.instructor_demeanorPage);
+                              },
                             ),
                           ),
                           Expanded(
