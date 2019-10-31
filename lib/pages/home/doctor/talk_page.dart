@@ -455,7 +455,7 @@ class _TalkPageState extends State<TalkPage>
                     child: GestureDetector(
                       onTap: () {
                         Router.push(
-                            context, Router.evaluationPage, widget.orderId);
+                            context, Router.evaluationPage, {'orderId': widget.orderId, 'doctorInfo': doctorInfo});
                       },
                       child: Text('评价'),
                     ),

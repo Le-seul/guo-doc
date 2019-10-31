@@ -7,7 +7,9 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_detail_page.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/location_search_page.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/psychological_service_center.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_center.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
@@ -110,6 +112,10 @@ class Router {
   static const instructor_demeanor_detailPage = 'app://instructor_demeanor_detailPage';
   static const clinic_informationPage = 'app://clinic_informationPage';
   static const evaluationPage = 'app://EvaluationPage';
+  static const service_center = 'app://service_center_page';
+  static const psycourse = 'app://psycourse';
+  static const locationsearch = 'app://locationsearch';
+
 
 
   Widget _getPage(String url, dynamic params) {
@@ -176,7 +182,7 @@ class Router {
         case movementClockPage:
           return MovementClockPage();
         case curriculum:
-          return Curriculum();
+          return PsyCourse();
         case initiateConsultationPage:
           return InitiateConsultationPage('FAMI',name: params['name'],gender: params['gender'],birthday: params['birthday'],relation: params['relation'],);
         case relativesInformationPage:
@@ -220,7 +226,17 @@ class Router {
         case clinic_informationPage:
           return Clinic_information();
         case evaluationPage:
-          return EvaluationPage(orderId: params);
+          return EvaluationPage(orderId: params['orderId'],doctorInfo: params['doctorInfo'],);
+        case service_center:
+          return ServiceCenterPage();
+        case psycourse:
+          return PsyCourse();
+        case locationsearch:
+          return LocationSearch();
+        case step_ranking:
+          return StepRanking();
+
+
       }
     }
     return null;

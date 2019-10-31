@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/evaluation.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
@@ -9,9 +10,9 @@ import 'package:flutter_first/widgets/greenBgWidget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 class EvaluationPage extends StatefulWidget {
-
+  DoctorInfo doctorInfo;
   String orderId;
-  EvaluationPage({Key key, @required this.orderId}) : super(key: key);
+  EvaluationPage({Key key, @required this.orderId,@required this.doctorInfo}) : super(key: key);
   @override
   _EvaluationPageState createState() => _EvaluationPageState();
 }
@@ -183,7 +184,7 @@ class _EvaluationPageState extends State<EvaluationPage>
                   children: <Widget>[
                     CircleAvatar(
                       radius: 25.0,
-                      backgroundImage: AssetImage('assets/images/beijing2.jpg'),
+                      backgroundImage:  NetworkImage(widget.doctorInfo.image),
                     ),
                     SizedBox(
                       width: 10,
@@ -194,21 +195,21 @@ class _EvaluationPageState extends State<EvaluationPage>
                         Row(
                           children: <Widget>[
                             Text(
-                              '季洪菊',
+                              widget.doctorInfo.name,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
                               width: 10,
                             ),
                             Text(
-                              '产科',
+                              widget.doctorInfo.clinic,
                               style: TextStyle(color: Colors.black26),
                             ),
                             SizedBox(
                               width: 10,
                             ),
                             Text(
-                              '副主任医师',
+                              widget.doctorInfo.title,
                               style: TextStyle(color: Colors.black26),
                             ),
                           ],
@@ -218,15 +219,13 @@ class _EvaluationPageState extends State<EvaluationPage>
                         ),
                         Row(
                           children: <Widget>[
-                            GreenBgWidget(name: '三级医院'),
+                            GreenBgWidget(
+                              name: widget.doctorInfo.levelTitle,
+                            ),
                             SizedBox(
                               width: 8,
                             ),
                             GreenBgWidget(name: '快速回复'),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            GreenBgWidget(name: '专业有效'),
                           ],
                         )
                       ],
