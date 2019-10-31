@@ -181,7 +181,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                             height: ScreenUtil().setHeight(14),
                             width: ScreenUtil().setHeight(14),
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: NetworkImage('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2250972642,639062800&fm=26&gp=0.jpg',),fit: BoxFit.fill),
+                              image: DecorationImage(image: NetworkImage(widget.list.showId1),fit: BoxFit.fill),
                                 borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                           ),
@@ -190,7 +190,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                             height: ScreenUtil().setHeight(14),
                             width: ScreenUtil().setHeight(14),
                             decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage('https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3656379531,1504573929&fm=26&gp=0.jpg',),fit: BoxFit.fill),
+                                image: DecorationImage(image: NetworkImage(widget.list.showId2),fit: BoxFit.fill),
                                 borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                           ),
@@ -199,7 +199,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                             height: ScreenUtil().setHeight(14),
                             width: ScreenUtil().setHeight(14),
                             decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=240458001,4127833211&fm=26&gp=0.jpg',),fit: BoxFit.fill),
+                                image: DecorationImage(image: NetworkImage(widget.list.showId3),fit: BoxFit.fill),
                                 borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                           ),
@@ -208,7 +208,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
                             height: ScreenUtil().setHeight(14),
                             width: ScreenUtil().setHeight(14),
                             decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2094498554,979970116&fm=26&gp=0.jpg',),fit: BoxFit.fill),
+                                image: DecorationImage(image: NetworkImage(widget.list.showId4),fit: BoxFit.fill),
                                 borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                           ),

@@ -9,7 +9,10 @@ class PsyTeacherBest{
   String pqc;
   String slogan;
   int likeCount;
-
+  String showId1;
+  String showId2;
+  String showId3;
+  String showId4;
 
   PsyTeacherBest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,6 +25,10 @@ class PsyTeacherBest{
     pqc = json['pqc '];
     slogan = json['slogan'];
     likeCount = json['likeCount'];
+    showId1 = json['showId1'];
+    showId4 = json['showId4'];
+    showId3 = json['showId3'];
+    showId2 = json['showId2'];
 
 
   }

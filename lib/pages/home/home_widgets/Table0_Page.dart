@@ -124,7 +124,7 @@ class _Table0State extends State<Table0> {
                   width: 50,),
                 SizedBox(height: 8,),
                 Text(
-                  '简单共读',
+                  '心理共读',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: 10,)
@@ -133,6 +133,7 @@ class _Table0State extends State<Table0> {
             onTap: () {Router.pushNoParams(context, Router.togethereading);},
           ),
           GestureDetector(
+            child: Container(),
 //            child: Column(
 //              children: <Widget>[
 //                loadAssetImage('entry/physical_assessment.png',height: 50,
@@ -148,6 +149,7 @@ class _Table0State extends State<Table0> {
             onTap: () {},
           ),
           GestureDetector(
+            child: Container(),
 //            child:  Container(child: Column(
 //              children: <Widget>[
 //                loadAssetImage('entry/chronic_disease_assessment.png',
@@ -164,6 +166,7 @@ class _Table0State extends State<Table0> {
 //            onTap: () { Router.pushNoParams(context, Router.eating);},
           ),
           GestureDetector(
+            child: Container(),
 //            child: Column(
 //              children: <Widget>[
 //                loadAssetImage('entry/psychological_consultation.png',height: 50,

@@ -10,6 +10,10 @@ class PsyTeacherList{
   String pqc;
   String remark;
   String slogan;
+  String showId1;
+  String showId2;
+  String showId3;
+  String showId4;
 
 
   PsyTeacherList.fromJson(Map<String, dynamic> json) {
@@ -24,6 +28,10 @@ class PsyTeacherList{
     pqc = json['pqc'];
     remark = json['remark'];
     slogan = json['slogan'];
+    showId1 = json['showId1'];
+    showId4 = json['showId4'];
+    showId3 = json['showId3'];
+    showId2 = json['showId2'];
 
 
   }
