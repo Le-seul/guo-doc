@@ -50,7 +50,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   init() async{
     var db = OrderDb();
     List<Map> list= await db.getAllOrder();
-    print("list:$list");
+    print("数据库list:$list");
     List<OrderNum> listNum = List();
     for(Map map in list){
       listNum.add(OrderNum.fromJson(map));

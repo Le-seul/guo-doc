@@ -86,6 +86,8 @@ class _ContainerPageState extends State<ContainerPage> {
                   num ++;
                   print("num1：$num");
                   int count = await db.saveOrder(orderId,type,"$num");
+                  List<Map> list= await db.getAllOrder();
+                  print("数据库list1:$list");
                 }else{
                    num = int.parse(orderNum.num)??0;
                    num ++;

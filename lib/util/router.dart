@@ -222,7 +222,7 @@ class Router {
         case instructor_demeanorPage:
           return instructor_demeanor();
         case instructor_demeanor_detailPage:
-          return instructor_demeanor_detail();
+          return instructor_demeanor_detail(list:params);
         case clinic_informationPage:
           return Clinic_information();
         case evaluationPage:

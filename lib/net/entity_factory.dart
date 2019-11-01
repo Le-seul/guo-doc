@@ -18,7 +18,10 @@ import 'package:flutter_first/bean/order_count.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
+import 'package:flutter_first/bean/psyteacherbest.dart';
+import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/bean/user_entity.dart';
@@ -82,7 +85,14 @@ class EntityFactory {
       return FastphoneInfo.fromJson(json) as T;
     }else if (T.toString() == "Message") {
       return Message.fromJson(json) as T;
-    }else {
+    }else if (T.toString() == "PsyServiceCenter") {
+      return PsyServiceCenter.fromJson(json) as T;
+    }else if (T.toString() == "PsyTeacherList") {
+      return PsyTeacherList.fromJson(json) as T;
+    }else if (T.toString() == "PsyTeacherBest") {
+      return PsyTeacherBest.fromJson(json) as T;
+    }
+    else {
       return null;
     }
   }
