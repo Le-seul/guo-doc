@@ -6,6 +6,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/util/utils.dart';
 
 class InitiateConsultationPage extends StatefulWidget {
   String relation;
@@ -349,7 +350,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
                 Toast.show('请选择咨询时间!');
               }else if(value == ""|| value == null){
                 Toast.show('请选择咨询地点!');
-              }else if(!checkMobile(emergePhone)){
+              }else if(!Utils.checkMobile(emergePhone)){
                 Toast.show('请输入正确手机号!');
               }else{
                 _postInfometion();
@@ -360,12 +361,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
     );
   }
 
-   bool checkMobile(var sMobile){
-     RegExp exp = RegExp(
-         r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
-     bool matched = exp.hasMatch(sMobile);
-     return matched;
-  }
+
 
 
 

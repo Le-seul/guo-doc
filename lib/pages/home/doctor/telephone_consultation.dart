@@ -23,7 +23,7 @@ class _TelConsultationState extends State<TelConsultation>
 
   String clinicNo = '';
   final TelAndSmsService _service = locator<TelAndSmsService>();
-  final String number = "123456789";
+  final String number = "65260001";
   bool offstage = true;
   String phone = '';
   List<FastphoneInfo> fastphoneInfoList = List();
@@ -32,21 +32,19 @@ class _TelConsultationState extends State<TelConsultation>
   void initState() {
     phone = StorageManager.sharedPreferences.getString(Constant.phone);
     _getFastPhoneInfo();
-
   }
-  _getFastPhoneInfo(){
+
+  _getFastPhoneInfo() {
     print("获取科室信息！");
     DioUtils.instance.requestNetwork<FastphoneInfo>(
-
-        Method.get, Api.GETFASTPHONEINFO,isList: true,
-        onSuccessList: (data) {
-          fastphoneInfoList = data;
-          print("获取科室信息成功！");
-        }, onError: (code, msg) {
+        Method.get, Api.GETFASTPHONEINFO,
+        isList: true, onSuccessList: (data) {
+      fastphoneInfoList = data;
+      print("获取科室信息成功！");
+    }, onError: (code, msg) {
       print("获取科室信息失败！");
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +84,8 @@ class _TelConsultationState extends State<TelConsultation>
                       Offstage(
                         offstage: offstage,
                         child: Text(
-                          selectText == "心理科"
-                              ? '服务时间：10:00-18:00'
+                          selectText == "心理咨询"
+                              ? '服务时间：19:00-21:00'
                               : '服务时间：9:00-21:00',
                           style: TextStyle(color: Colors.black26),
                         ),
@@ -182,22 +180,37 @@ class _TelConsultationState extends State<TelConsultation>
                 ),
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              child: MyCard(child: Container(
+              child: MyCard(
+                  child: Container(
                 padding: EdgeInsets.all(15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('服务说明',style: TextStyle(fontSize: 18),),
-                    SizedBox(height: 15,),
-                    Text('除心理咨询外，各科咨询服务时间为9:00-21:00  服务时长为10分钟。心理咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日19:00-21:00 。'),
+                    Text(
+                      '服务说明',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                        """（1）选择科室：需实现的技术：心理咨询-工作日19:00-21:00可拨号65260001 非工作时间咨询可提示一下时间。
+ （2）接听手机：可直接是用户注册电话.
+ （3）服务说明：提交成功后，医生会尽快联系您；非服务时间，医生会在次日联系您，请您保持电话畅通。
+ 各科咨询时间为10分钟，心理咨询可在工作日19:00-21:00拨打电话65260001.
+ 如有疑问，请联系客服400-001-8855.""",textScaleFactor: 1.1,strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5),),
                   ],
                 ),
               )),
             ),
-            SizedBox(height: 60,)
+            SizedBox(
+              height: 60,
+            )
           ],
         ),
       ),
@@ -228,15 +241,14 @@ class _TelConsultationState extends State<TelConsultation>
   void onOk(str) {
     setState(() {
       clinicNo = "";
-      for(FastphoneInfo fastphoneInfo in fastphoneInfoList){
+      for (FastphoneInfo fastphoneInfo in fastphoneInfoList) {
         print("$str:${fastphoneInfo.clinicName}");
-        if(str == fastphoneInfo.clinicName){
+        if (str == fastphoneInfo.clinicName) {
           clinicNo = fastphoneInfo.clinicNo;
           print(clinicNo);
         }
-
       }
-      if (str == '心理科') {
+      if (str == '心理咨询') {
         _service.call(number);
       }
       offstage = false;
@@ -245,24 +257,23 @@ class _TelConsultationState extends State<TelConsultation>
   }
 
   _createFastphoneOrder() {
-    if(selectText == ""){
+    if (selectText == "") {
       Toast.show('请选择科室');
-    }else if(phone == ""){
+    } else if (phone == "") {
       Toast.show('请输入电话');
-    }else if(clinicNo == ""){
+    } else if (clinicNo == "") {
       Toast.show('该科室未开通电话问诊');
-    }else{
+    } else {
       DioUtils.instance.requestNetwork<String>(
           Method.post, Api.CREATEFASTPHONEORDER,
           queryParameters: {"clinicNo": clinicNo, "phone": phone},
           onSuccess: (data) {
-            Router.pushNoParams(context, Router.historyRecord);
+        Router.pushNoParams(context, Router.historyRecord);
 //            Toast.show('clinicNo:$clinicNo,phone:$phone');
-          }, onError: (code, msg) {
+      }, onError: (code, msg) {
         Toast.show('上传失败！');
       });
     }
-
   }
 }
 
@@ -278,7 +289,7 @@ class SelectDialog extends Dialog {
 
   SelectDialog(this.callback);
 
-  var items = ['儿科', '妇科', '皮肤科', '男科', '产科', '心理科', '呼吸内科', '消化内科', '泌尿内科'];
+  var items = ['儿科', '妇科', '皮肤科', '男科', '产科', '心理咨询', '呼吸内科', '消化内科', '泌尿内科'];
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

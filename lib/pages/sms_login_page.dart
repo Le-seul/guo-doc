@@ -9,6 +9,7 @@ import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/util/utils.dart';
 import 'package:flutter_first/widgets/text_field.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -27,7 +28,7 @@ class _SMSLoginState extends State<SMSLogin> {
   bool _isClick = true;
   final int second = 30;
   StreamSubscription _subscription;
-
+  String registrationID = '';
   /// 当前秒数
   int s;
 
@@ -131,9 +132,13 @@ class _SMSLoginState extends State<SMSLogin> {
                   child: FlatButton(
                     onPressed: _isClick
                         ? () {
-                      _sendVerificationCode();
-                    }
-                        : null,
+                      if(Utils.checkMobile(_phoneController.text)){
+                        _sendVerificationCode();
+                      }else{
+                        Toast.show('请输入正确手机号!');
+                      }
+
+                    } : null,
 
                     textColor: Colors.black,
                     child: Text(
@@ -203,6 +208,7 @@ class _SMSLoginState extends State<SMSLogin> {
         dio.lock();
         saveToken(tokenData.token);
         dio.unlock();
+        _updateRegistrationID();
         Router.pushReplacementNamed(context, Router.containerPage, data);
       });
     }, onError: (code, msg) {
@@ -223,4 +229,27 @@ class _SMSLoginState extends State<SMSLogin> {
       });
     });
   }
+
+  void _updateRegistrationID() {
+    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
+    print('极光 id：$registrationID');
+    if(registrationID!=null){
+      DioUtils.instance.requestNetwork<String>(
+          Method.post, Api.UPDATEREGISTRATIONID,
+          queryParameters: {
+            'deviceType': "android",
+            'registrationID': registrationID,
+          }, onSuccess: (data) {
+        setState(() {
+          print('上传registrationID成功!');
+        });
+      }, onError: (code, msg) {
+        setState(() {
+          print('上传registrationID失败!');
+        });
+      });
+    }
+  }
+
+
 }

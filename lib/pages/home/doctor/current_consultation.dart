@@ -21,6 +21,8 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
   bool isShowLoading = true;
   StreamSubscription exitLogin;
   AllOrder allOrder = new AllOrder();
+  var db = OrderDb();
+
 
   @override
   void initState() {
@@ -48,16 +50,24 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     });
   }
 
+
+  @override
+  void dispose() {
+    exitLogin.cancel();
+    db.close();
+  }
+
   @override
   void deactivate() {
     _getOrderInProgress();
   }
   getNum(AllOrder allOrder) async {
     print("tuWenNum4:开始查询");
-    var db = OrderDb();
+
     for (TuwenOrder tuwenOrder in allOrder.tuwenOrder) {
       print("tuWenNum4:${tuwenOrder.id}");
       OrderNum orderNum = await db.getOrder(tuwenOrder.id);
+      print("数据库5:${orderNum.orderId}");
       setState(() {
         if(orderNum != null){
           tuwenOrder.num = orderNum.num??"";
@@ -206,7 +216,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     return GestureDetector(
         onTap: () {
           Router.push(context, Router.talk,
-              {'orderId': allOrder.fastphoneOrder[index].id, 'offstage': false,'type':"fastphone"});
+              {'orderId': allOrder.fastphoneOrder[index].id, 'offstage': true,'type':"fastphone"});
         },
         child: Stack(children: <Widget>[
           Container(

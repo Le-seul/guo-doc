@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
 //  static String tu0;
 //  static String tu1;
 //  static String tu2;
-  String registrationID;
+
   List<BannerModel> testList;
   List<BannerImage> bannerlist;
   List<ConsulationColumnsInfo> columnsInfoList = List();
@@ -48,31 +48,10 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   void initState() {
-    _updateRegistrationID();
     _requestBanner();
     _getColumnsInfo();
   }
 
-  void _updateRegistrationID() {
-    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
-    print('极光 id：$registrationID');
-    if(registrationID!=null){
-      DioUtils.instance.requestNetwork<String>(
-          Method.post, Api.UPDATEREGISTRATIONID,
-          queryParameters: {
-            'deviceType': "android",
-            'registrationID': registrationID,
-          }, onSuccess: (data) {
-        setState(() {
-          print('上传registrationID成功!');
-        });
-      }, onError: (code, msg) {
-        setState(() {
-          print('上传registrationID失败!');
-        });
-      });
-    }
-  }
 
   void _getColumnsInfo() {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(

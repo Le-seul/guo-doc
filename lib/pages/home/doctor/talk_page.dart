@@ -79,11 +79,14 @@ class _TalkPageState extends State<TalkPage>
   @override
   void initState() {
     if(widget.type == "fastphone"){
+      print('电话咨询aaa');
       _getFastphoneReplyContent();
+    }else{
+      init();
+      _getAllContent();
     }
-    init();
     _getDoctorInfo();
-    _getAllContent();
+
     _leftList.add("assets/images/doctor/sound_left_3.png");
     _leftList.add("assets/images/doctor/sound_left_2.png");
     _leftList.add("assets/images/doctor/sound_left_1.png");
@@ -128,7 +131,20 @@ class _TalkPageState extends State<TalkPage>
   }
 
   _getFastphoneReplyContent(){
-
+    DioUtils.instance.requestNetwork<Message>(
+        Method.get, Api.GETFASTPHONEREPLYCONTENT,isList: true,
+        queryParameters: {
+          'orderId': widget.orderId,
+        }, onSuccessList: (data) {
+      setState(() {
+        listMessage.addAll(data);
+        print('获取电话咨询成功!');
+      });
+    }, onError: (code, msg) {
+      setState(() {
+        print('获取电话咨询失败!');
+      });
+    });
   }
 
 
@@ -254,11 +270,13 @@ class _TalkPageState extends State<TalkPage>
 
   autoTalk(val, type, url) async {
     Message message;
+    var today = DateTime.now().toString().split('.')[0].substring(5,DateTime.now().toString().split('.')[0].length);
     String content = "";
     if (type == 'image') {
       content = "[{\"type\":\"$type\",\"file\":\"$url\"}]";
       message = Message(
         localPath: url,
+        createTime: today,
         content: content,
         type: 'TW',
       );
@@ -267,6 +285,7 @@ class _TalkPageState extends State<TalkPage>
       content = "[{\"type\":\"$type\",\"file\":\"$url\"}]";
       message = Message(
         isPlaying: false,
+        createTime: today,
         time: _playSeconds,
         localPath: url,
         content: content,
@@ -277,6 +296,7 @@ class _TalkPageState extends State<TalkPage>
       print('content:$content');
       message = Message(
         content: content,
+        createTime: today,
         type: 'TW',
       );
     }

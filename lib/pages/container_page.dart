@@ -56,65 +56,6 @@ class _ContainerPageState extends State<ContainerPage> {
   void initState() {
     super.initState();
     print('initState _ContainerPageState');
-    if (Platform.isAndroid) {
-      JPush jpush = StorageManager.jpush;
-      SchedulerBinding.instance.addPostFrameCallback((_) => {
-            jpush.getRegistrationID().then((rid) {
-              setState(() {
-                print("获取注册的id:$rid");
-                saveRegistrationID(rid);
-              });
-            }),
-            jpush.setup(appKey: "565a2f927e82c11287326979", channel: 'developer-default'),
-            // 监听jpush
-            jpush.addEventHandler(
-              onReceiveNotification: (Map<String, dynamic> message) async {
-//                print("flutter 接收到推送消息1: ${json.encode(message)}");
-                print("flutter 接收到推送消息1: $message");
-                print("flutter 接收到推送消息2: ${message["extras"]}");
-                print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
-//                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
-                print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
-                var db = OrderDb();
-                int num = 0;
-                String type = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["location"];
-                print("type:$type");
-                String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
-                print("orderId:$orderId");
-                OrderNum orderNum = await db.getOrder(orderId);
-                if(orderNum == null){
-                  num ++;
-                  print("num1：$num");
-                  int count = await db.saveOrder(orderId,type,"$num");
-                  List<Map> list= await db.getAllOrder();
-                  print("数据库list1:$list");
-                }else{
-                   num = int.parse(orderNum.num)??0;
-                   num ++;
-                   print("num2：$num");
-                  int count = await db.updateOrder(orderId,"$num");
-                }
-
-//                print("num：$num");
-//                num++;
-//                int count = await db.saveOrder(orderId,type,"$num");
-                eventBus.fire(refreshNum("$num",orderId: orderId,location: type));
-              },
-              onOpenNotification: (Map<String, dynamic> message) {
-                // 点击通知栏消息，在此时通常可以做一些页面跳转等
-                String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
-                print("orderid：$orderId");
-                Toast.show('点击通知');
-                Router.push(
-                    context,Router.talk,
-                    {'orderId': orderId, 'offstage': false}
-                );
-              },
-            ),
-          });
-
-
-    }
 
     if (pages == null) {
       pages = [HomePage(), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
@@ -138,9 +79,7 @@ class _ContainerPageState extends State<ContainerPage> {
 
   int _selectIndex = 0;
 
-  static saveRegistrationID(String registrationID) async {
-   await StorageManager.sharedPreferences.setString(Constant.registrationID, registrationID);
-  }
+
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题
   Widget _getPagesWidget(int index) {

@@ -30,7 +30,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   int orderCount = 0;
   String tuWenNum = '';
   String fastPhone = '';
-
+  var db = OrderDb();
   @override
   void deactivate() {
     init();
@@ -41,16 +41,16 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
     init();
     exitLogin = eventBus.on<refreshNum>().listen((event) {
       setState(() {
+        print('数据库evenBus');
         init();
     });
     });
-
   }
 
   init() async{
-    var db = OrderDb();
+
     List<Map> list= await db.getAllOrder();
-    print("数据库list:$list");
+    print("数据库list3:$list");
     List<OrderNum> listNum = List();
     for(Map map in list){
       listNum.add(OrderNum.fromJson(map));
@@ -81,6 +81,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   void dispose() {
     super.dispose();
     exitLogin.cancel();
+    db.close();
   }
 
 
