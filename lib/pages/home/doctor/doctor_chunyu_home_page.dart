@@ -31,10 +31,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   String tuWenNum = '';
   String fastPhone = '';
   var db = OrderDb();
-  @override
-  void deactivate() {
-    init();
-  }
+
 
   @override
   void initState() {
@@ -46,6 +43,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
     });
     });
   }
+  
 
   init() async{
 
@@ -81,7 +79,6 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   void dispose() {
     super.dispose();
     exitLogin.cancel();
-    db.close();
   }
 
 
@@ -193,7 +190,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/graphic_consultation.png',
                             'doctor/graphic_icon.png',
-                            '图文咨询',"$tuWenNum",tuWenNum == ""),
+                            '图文咨询',"$tuWenNum",tuWenNum == "0"||tuWenNum == ''),
                         onTap: () {
                           getOrderCount();
                           Router.pushNoParams(
@@ -207,7 +204,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       flex: 1,
                       child: GestureDetector(
                         child: _gridItem('assets/images/doctor/quick_phone.png',
-                            'doctor/phone_icon.png', '快捷电话',"$fastPhone",fastPhone == ""),
+                            'doctor/phone_icon.png', '快捷电话',"$fastPhone",fastPhone == "0"||fastPhone == ''),
                         onTap: () {
                           Router.pushNoParams(context, Router.telConsultation);
                         },

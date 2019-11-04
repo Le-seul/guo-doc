@@ -39,6 +39,12 @@ class _SMSLoginState extends State<SMSLogin> {
   }
 
   @override
+  void initState() {
+    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
+    print('极光 id：$registrationID');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -71,7 +77,7 @@ class _SMSLoginState extends State<SMSLogin> {
             SizedBox(
               height: 30,
             ),
-            _MyTextField(),
+            _myTextField(),
             SizedBox(
               height: 35,
             ),
@@ -96,7 +102,7 @@ class _SMSLoginState extends State<SMSLogin> {
     );
   }
 
-  _MyTextField() {
+  _myTextField() {
     return Container(
         padding: EdgeInsets.only(left: 10,right: 8),
         decoration: BoxDecoration(
@@ -231,8 +237,7 @@ class _SMSLoginState extends State<SMSLogin> {
   }
 
   void _updateRegistrationID() {
-    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
-    print('极光 id：$registrationID');
+    print("极光Id：$registrationID");
     if(registrationID!=null){
       DioUtils.instance.requestNetwork<String>(
           Method.post, Api.UPDATEREGISTRATIONID,
@@ -250,6 +255,4 @@ class _SMSLoginState extends State<SMSLogin> {
       });
     }
   }
-
-
 }

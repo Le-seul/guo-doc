@@ -13,6 +13,7 @@ class OrderDb {
   final String tableOrder = 'tableOrder';
   final String orderId = 'orderId';
   final String location = 'location';
+  final String createTime = 'createTime';
   final String num = 'num';
 
   static Database _db;
@@ -28,22 +29,23 @@ class OrderDb {
     return _db;
   }
 
-  initDb() async {
+   initDb() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'order.db');
+    print("db path = $path");
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
 
   void _onCreate(Database db, int newVersion) async {
-    await db.execute("create table $tableOrder(id integer primary key autoincrement,$orderId text not null ,$location text not null,$num text not null)");
+    await db.execute("create table $tableOrder(id integer primary key autoincrement,$orderId text not null ,$location text not null,$num text not null,$createTime text not null)");
     print("数据库创建成功！");
   }
 
-  Future<int> saveOrder(String orderid,String location,String num) async {
+  Future<int> saveOrder(String orderid,String location,String num,int createTime) async {
     var dbClient = await db;
     var result = await dbClient.rawInsert(
-        'INSERT INTO $tableOrder (${this.orderId}, ${this.location}, ${this.num}) VALUES (\'$orderid\', \'$location\', \'$num\')');
+        'INSERT INTO $tableOrder (${this.orderId}, ${this.location}, ${this.num}, ${this.createTime}) VALUES (\'$orderid\', \'$location\', \'$num\', \'$createTime\')');
     print("数据添加成功！");
     return result;
   }
@@ -51,7 +53,7 @@ class OrderDb {
   Future<List> getAllOrder() async {
     var dbClient = await db;
     var result = await dbClient.rawQuery('SELECT * FROM $tableOrder');
-    print("数据获取成功！");
+    print("数据库获取所有result:${result.toString()}");
     return result.toList();
   }
 
@@ -64,7 +66,7 @@ class OrderDb {
   Future<OrderNum> getOrder(String orderId) async {
     var dbClient = await db;
     var result = await dbClient.rawQuery('SELECT * FROM $tableOrder WHERE ${this.orderId} = \'$orderId\'');
-    print('返回数据成功！');
+    print('返回数据result:${result.toString()}');
     if (result.length == 0) return null;
     return OrderNum.fromMap(result.first);
   }

@@ -28,6 +28,9 @@ void main() async {
   setupLocator();
 // 运行主界面
   await StorageManager.init();
+
+
+
   runApp(MyApp());
 }
 
@@ -56,78 +59,81 @@ class _MyAppState extends State<MyApp> {
 //    });
 
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
+    init();
   }
+
+  init(){
+    if (Platform.isAndroid) {
+      JPush jpush = StorageManager.jpush;
+
+      if(registrationID==null){
+        jpush.getRegistrationID().then((rid) {
+          setState(() {
+            print("获取注册的极光id:$rid");
+            saveRegistrationID(rid);
+          });
+        });
+      }
+      jpush.setup(
+          appKey: "565a2f927e82c11287326979",
+          channel: 'developer-default');
+
+      jpush.addEventHandler(
+        onReceiveNotification: (Map<String, dynamic> message) async {
+//                print("flutter 接收到推送消息1: ${json.encode(message)}");
+          print("flutter 接收到推送消息1: $message");
+          print("flutter 接收到推送消息2: ${message["extras"]}");
+          print(
+              "flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
+//                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
+          print(
+              "flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
+
+          int num = 0;
+          String type = json.decode(
+              message["extras"]["cn.jpush.android.EXTRA"])["location"];
+          print("type:$type");
+          String orderId = json.decode(
+              message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
+          print("orderId:$orderId");
+          OrderNum orderNum = await db.getOrder(orderId);
+          print('orderNum:${orderNum.toString()}');
+          if (orderNum == null) {
+            num++;
+            print("num1：$num");
+            int currentTime = DateTime.now().hour;
+            int count = await db.saveOrder(orderId, type, "$num",currentTime);
+            List<Map> list = await db.getAllOrder();
+            print("数据库list1:$list");
+          } else {
+            num = int.parse(orderNum.num) ?? 0;
+            num++;
+            print("num2：$num");
+            int count = await db.updateOrder(orderId, "$num");
+            List<Map> list= await db.getAllOrder();
+            print("数据库list2:$list");
+          }
+          eventBus
+              .fire(refreshNum("$num", orderId: orderId, location: type));
+        },
+        onOpenNotification: (Map<String, dynamic> message) {
+          // 点击通知栏消息，在此时通常可以做一些页面跳转等
+          String orderId = json.decode(
+              message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
+          print("orderid：$orderId");
+          Toast.show('点击通知');
+          Router.push(context, Router.talk,
+              {'orderId': orderId, 'offstage': false});
+        },
+      );
+    }
+  }
+
 
   @override
   void didChangeDependencies() {
-    if (Platform.isAndroid) {
-      JPush jpush = StorageManager.jpush;
-      SchedulerBinding.instance.addPostFrameCallback((_) => {
-            registrationID = StorageManager.sharedPreferences
-                .getString(Constant.registrationID),
-            if (registrationID == '')
-              {
-                jpush.getRegistrationID().then((rid) {
-                  setState(() {
-                    print("获取注册的id:$rid");
-                    saveRegistrationID(rid);
-                  });
-                }),
-              },
 
-            jpush.setup(
-                appKey: "565a2f927e82c11287326979",
-                channel: 'developer-default'),
-            // 监听jpush
-            jpush.addEventHandler(
-              onReceiveNotification: (Map<String, dynamic> message) async {
-//                print("flutter 接收到推送消息1: ${json.encode(message)}");
-                print("flutter 接收到推送消息1: $message");
-                print("flutter 接收到推送消息2: ${message["extras"]}");
-                print(
-                    "flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
-//                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
-                print(
-                    "flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
-
-                int num = 0;
-                String type = json.decode(
-                    message["extras"]["cn.jpush.android.EXTRA"])["location"];
-                print("type:$type");
-                String orderId = json.decode(
-                    message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
-                print("orderId:$orderId");
-                OrderNum orderNum = await db.getOrder(orderId);
-                if (orderNum == null) {
-                  num++;
-                  print("num1：$num");
-                  int count = await db.saveOrder(orderId, type, "$num");
-                  List<Map> list = await db.getAllOrder();
-                  print("数据库list1:$list");
-                } else {
-                  num = int.parse(orderNum.num) ?? 0;
-                  num++;
-
-                  print("num2：$num");
-                  int count = await db.updateOrder(orderId, "$num");
-                  List<Map> list = await db.getAllOrder();
-                  print("数据库list2:$list");
-                }
-                eventBus
-                    .fire(refreshNum("$num", orderId: orderId, location: type));
-              },
-              onOpenNotification: (Map<String, dynamic> message) {
-                // 点击通知栏消息，在此时通常可以做一些页面跳转等
-                String orderId = json.decode(
-                    message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
-                print("orderid：$orderId");
-                Toast.show('点击通知');
-                Router.push(context, Router.talk,
-                    {'orderId': orderId, 'offstage': false});
-              },
-            ),
-          });
-    }
   }
 
   static saveRegistrationID(String registrationID) async {

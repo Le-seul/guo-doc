@@ -75,10 +75,10 @@ class _ContainerPageState extends State<ContainerPage> {
               activeIcon: loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
           .toList();
     }
+
   }
 
   int _selectIndex = 0;
-
 
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题

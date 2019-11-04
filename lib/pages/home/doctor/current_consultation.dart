@@ -54,8 +54,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
   @override
   void dispose() {
     exitLogin.cancel();
-    db.close();
-  }
+}
 
   @override
   void deactivate() {
@@ -67,7 +66,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     for (TuwenOrder tuwenOrder in allOrder.tuwenOrder) {
       print("tuWenNum4:${tuwenOrder.id}");
       OrderNum orderNum = await db.getOrder(tuwenOrder.id);
-      print("数据库5:${orderNum.orderId}");
+      //print("数据库5:${orderNum.orderId??''}");
       setState(() {
         if(orderNum != null){
           tuwenOrder.num = orderNum.num??"";
@@ -127,7 +126,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                       itemCount: allOrder.tuwenOrder.length,
                       itemBuilder: (context, index) {
                         return _buildItem(index, allOrder.tuwenOrder[index].num,
-                            allOrder.tuwenOrder[index].num == "");
+                            allOrder.tuwenOrder[index].num == "0"||allOrder.tuwenOrder[index].num == "");
                       }),
                   ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
