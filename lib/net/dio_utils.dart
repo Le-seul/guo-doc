@@ -40,7 +40,7 @@ class DioUtils {
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
         return true;
       },
-      baseUrl: "http://10.128.193.37:8080/jeecg",
+      baseUrl: "http://10.128.246.120:8080/jeecg",
  //    baseUrl: 'https://www.aireading.club/jeecg',
 //      baseUrl: 'http://ygyd.aireading.top/jeecg',
 //    baseUrl: "http://10.128.252.164:8080/jeecg",

@@ -6,6 +6,7 @@ class PsyDailyTest {
   String shortDesc;
   int state;
   String title;
+  String testEntry;
 
   PsyDailyTest({
     this.id,
@@ -15,6 +16,8 @@ class PsyDailyTest {
     this.shortDesc,
     this.state,
     this.title,
+    this.testEntry,
+
   });
 
   factory PsyDailyTest.fromJson(Map<String, dynamic> json) => PsyDailyTest(
@@ -25,6 +28,8 @@ class PsyDailyTest {
     shortDesc: json["shortDesc"],
     state: json["state"],
     title: json["title"],
+    testEntry: json["testEntry"],
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +40,7 @@ class PsyDailyTest {
     "shortDesc": shortDesc,
     "state": state,
     "title": title,
+    "testEntry": testEntry,
+
   };
 }

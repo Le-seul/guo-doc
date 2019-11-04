@@ -26,16 +26,16 @@ class _EverydayTestState extends State<EverydayTest>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('每日一测'),
+        title: Text('趣味自测'),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           tabs: <Widget>[
             Tab(
-              text: '全部',
+              text: '每日一测',
             ),
             Tab(
-              text: '已测',
+              text: '已测结果',
             ),
           ],
         ),
@@ -75,13 +75,14 @@ class _AllState extends State<All> {
       setState(() {
         psylist = data;
         isShowLoading = false;
-        for (PsyDailyTest item in psylist) {
-          if (item.state == 1) {
-            Alllist.add(item);
-            //Alllist.sort();
-            continue;
-          }
-        }
+        print(psylist);
+//        for (PsyDailyTest item in psylist) {
+//          if (item.state == 1) {
+//            Alllist.add(item);
+//            //Alllist.sort();
+//            continue;
+//          }
+ //       }
       });
     }, onError: (code, msg) {
       print("sssss");
@@ -92,7 +93,7 @@ class _AllState extends State<All> {
     return Scaffold(
       body: isShowLoading
           ? LoadingWidget.childWidget()
-          : (Alllist.length == 0)
+          : (psylist.length == 0)
               ? Container(
                   width: double.infinity,
                   height: double.infinity,
@@ -102,13 +103,13 @@ class _AllState extends State<All> {
               : ListView.builder(
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: Alllist.length,
+                  itemCount: psylist.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: <Widget>[
                         InkWell(
                           onTap: () {
-                            Router.pushNoParams(context, 'app://test${index}');
+                            Router.push(context, Router.test0,psylist[index].testEntry);
                           },
                           child: Container(
                             margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
@@ -118,7 +119,7 @@ class _AllState extends State<All> {
                                   margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
                                   height: 180,
                                   child: Image.network(
-                                    Alllist[index].coverImgId,
+                                    psylist[index].coverImgId,
                                     fit: BoxFit.fitWidth,
                                   ),
                                 ),
@@ -130,7 +131,7 @@ class _AllState extends State<All> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[Text(
-                                      Alllist[index].title,
+                                      psylist[index].title,
                                       style: TextStyle(fontSize: 19),
                                     ),],
                                   )
@@ -141,9 +142,9 @@ class _AllState extends State<All> {
                                 ),
                                 Container(
                                   child: Text(
-                                    Alllist[index].shortDesc +
+                                    psylist[index].shortDesc +
                                         '丨' +
-                                        Alllist[index].questionCount +
+                                        psylist[index].questionCount +
                                         '个问题',
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.black45),
@@ -190,15 +191,15 @@ class _SelectedState extends State<Selected> {
     DioUtils.instance.requestNetwork<PsyDailyTest>(Method.get, Api.PsyDailyTested,
         isList: true, onSuccessList: (data) {
           setState(() {
-            psylist = data;
+            Selectedlist = data;
             isShowLoading = false;
-            for (PsyDailyTest item in psylist) {
-              if (item.state == 1) {
-                Selectedlist.add(item);
-                //Alllist.sort();
-                continue;
-              }
-            }
+//            for (PsyDailyTest item in psylist) {
+//              if (item.state == 1) {
+//                Selectedlist.add(item);
+//                //Alllist.sort();
+//                continue;
+//              }
+//            }
           });
         }, onError: (code, msg) {
           print("sssss");
@@ -224,7 +225,7 @@ class _SelectedState extends State<Selected> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Router.pushNoParams(context, 'app://test${index}');
+                  Router.push(context, Router.test0,Selectedlist[index].testEntry);
                 },
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
