@@ -43,7 +43,10 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
     });
     });
   }
-  
+  @override
+  void deactivate() {
+    init();
+  }
 
   init() async{
 

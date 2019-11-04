@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
@@ -45,6 +46,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
         fastphoneOrder = data.fastphoneOrder;
         tuwenOrder = data.tuwenOrder;
         isShowLoading = false;
+        deleteOrderNum();
         print("data:${json.encode(data)}");
         print("allOrder.tuwenOrder.length:${allOrder.tuwenOrder.length}");
         print('获取历史订单成功！');
@@ -54,6 +56,17 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
         print('获取历史订单失败!');
       });
     });
+  }
+
+  deleteOrderNum() async{
+    var db = OrderDb();
+    for(TuwenOrder tuwenOrder in allOrder.tuwenOrder){
+      int id = await db.deleteOrder(tuwenOrder.id);
+    }
+
+    for(FastphoneOrder fastPhoneOrder in allOrder.fastphoneOrder){
+      int id = await db.deleteOrder(fastPhoneOrder.id);
+    }
   }
 
   @override
