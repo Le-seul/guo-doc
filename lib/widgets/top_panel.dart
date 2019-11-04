@@ -1,7 +1,4 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter_first/res/colors.dart';
 
 class LoginTopPanel extends StatelessWidget {
   @override
@@ -9,8 +6,8 @@ class LoginTopPanel extends StatelessWidget {
     return ClipPath(
       clipper: BottomClipper(),
       child: Container(
-        height: MediaQuery.of(context).size.width * 0.6,
-        color: Colours.bg_green,
+        height: MediaQuery.of(context).size.width * 0.7,
+        color: Color(0xff2CA687),
       ),
     );
   }

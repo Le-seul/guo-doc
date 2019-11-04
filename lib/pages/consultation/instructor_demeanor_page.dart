@@ -46,9 +46,10 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
       setState(() {
         BestList = data;
         isShowLoadingBest = false;
+        print('教官列表成功');
       });
     }, onError: (code, msg) {
-      print("sssss");
+      print('教官列表失败');
     });
   }
 

@@ -1,77 +1,182 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
-import 'package:flutter_first/music/player_page.dart';
+import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 
 class MusicListPage extends StatefulWidget {
 
-  String musicListId;
-  MusicListPage({Key key, @required this.musicListId}) : super(key: key);
+  GetAllMusic allMusicList;
+  MusicListPage({Key key, @required this.allMusicList}) : super(key: key);
   @override
   _MusicListPageState createState() => _MusicListPageState();
 }
 
 class _MusicListPageState extends State<MusicListPage> {
 
-  final GlobalKey<PlayerState> musicPlayerKey = new GlobalKey();
-
-  List<MusicList> musicList = List();
+  List<Music> musicList = List();
 
 
   @override
   void initState() {
-    DioUtils.instance.requestNetwork<MusicList>(
+    
+    DioUtils.instance.requestNetwork<Music>(
         Method.get,
         Api.GETMUSICLIST,
-        queryParameters: {"musicListId": widget.musicListId},
+        queryParameters: {"musicListId": widget.allMusicList.id},
         isList: true,
         onSuccessList: (data) {
           setState(() {
             musicList = data;
-          });
 
+          });
+          print('音乐成功！');
         },
         onError: (code, msg) {
-          Toast.show('请求失败！');
+          print('音乐失败！');
         });
   }
 
   @override
   Widget build(BuildContext context) {
+    Music music = PlayerState.of(context, aspect: PlayerStateAspect.music).value.current;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.red,
-        title: Text(
-          '筛选歌单',
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color(0xFFEEEEEE),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        physics: ClampingScrollPhysics(),
+      body:ListView(
         shrinkWrap: true,
-        itemCount: musicList.length,
-        itemBuilder: (context, index) => _buildItem(index),),
-//      bottomSheet: Container(
-//        child: Player(
-//          onPrevious: () {},
-//          onNext: () {},
-//          onCompleted: () {},
-//          onPlaying: (isPlaying) {
-//          },
-//          key: musicPlayerKey,
-//          audioUrl: 'http://music.163.com/song/media/outer/url?id=451703096.mp3',
-//        ),
-//      ),
+        physics: ClampingScrollPhysics(),
+        children: <Widget>[
+          _buildTop(),
+          Container(
+            padding: EdgeInsets.only(left: 10,right: 10,top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                SizedBox(width: 15,),
+              Text('${musicList.length}',style: TextStyle(color: Color(0xff2CA687),fontSize: 20),),
+              SizedBox(width: 5,),
+              Text('条音频',style: TextStyle(color: Colors.black54),),
+              Expanded(child: Container()),
+              GestureDetector(
+                onTap: () {
+                  Router.push(context,Router.playingPage,musicList[0]);
+                  quiet.playWithList(musicList[0], musicList, 'playlist');
+                },
+                child: Container(
+
+                  margin: EdgeInsets.only(right:10.0,),
+                  height: 26,
+                  width: 110,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                    loadAssetImage('play.png',height: 15,width: 15,color: Color(0xff2CA687)),
+                        SizedBox(width: 5,),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            '全部播放',
+                            style: TextStyle(fontSize: 15, color: Color(0xff2CA687) ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+
+                ),
+              ),
+
+            ],),
+          ),
+          SizedBox(height: 10,),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: musicList.length,
+            itemBuilder: (context, index) {
+              Music item = musicList[index];
+             return _buildItem(index,music==null?false:item.id == music.id);
+            } ),
+        ],
+      )
     );
   }
-  _buildItem(index){
+  _buildTop() {
     return GestureDetector(
       onTap: (){
-        Router.push(context,Router.playingPage,musicList[index].id);
+
+      },
+      child:Container(
+        padding: EdgeInsets.only(left: 10),
+          height: 105,
+          color: Color(0xFFEEEEEE),
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 100,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child:  ClipRRect(
+                        borderRadius: BorderRadius.circular(4),child:Image.network(
+                        widget.allMusicList.image,
+                        height: 70,
+                        fit: BoxFit.fill,
+                      ),)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10,top: 15,bottom: 15
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text(widget.allMusicList.name,style: TextStyle(fontSize: 18),),
+                                  SizedBox(width: 10,),
+                                  loadAssetImage('more.png',height: 15,width: 15),
+                                ],
+                              ),
+                              Text(
+                                '周杰伦',
+                                style: TextStyle(color: Colors.black12, fontSize: 12),
+                              ),
+
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          )),
+    );
+  }
+  _buildItem(int index,bool isPlaying){
+
+    return GestureDetector(
+      onTap: (){
+        Router.push(context,Router.playingPage,musicList[index]);
+        quiet.playWithList(musicList[index], musicList, 'playlist');
       },
       child:Container(
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
@@ -80,16 +185,21 @@ class _MusicListPageState extends State<MusicListPage> {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: Text('${musicList[index].order}'),
-              width: 20,
+              child: Text('${musicList[index].order}',style: TextStyle(fontSize: 30,),),
+              width: 40,
+            ),
+            SizedBox(width: 15,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(musicList[index].name,style: TextStyle(fontSize: 18,color: isPlaying?Color(0xff2CA687):Colors.black),),
+                Text('周杰伦',style: TextStyle(color: Colors.black12,fontSize: 12),)
+              ],
             ),
 
-            SizedBox(width: 15,),
-            Text(musicList[index].name,style: TextStyle(fontSize: 15),),
             Expanded(child: Align(
               alignment: Alignment.centerRight,
             )),
-            Icon(Icons.music_video)
           ],
         ),
       )

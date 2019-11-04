@@ -77,7 +77,9 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              Router.pushNoParams(context, Router.doctorChunyuHomePage);
+            },
           ),
           GestureDetector(
             child: Column(

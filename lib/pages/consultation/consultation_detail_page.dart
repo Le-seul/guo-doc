@@ -33,7 +33,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           color: Colors.black,
         ),
         title: Text(
-          widget.consulationColumnsInfo.title,
+          '资讯',
           style: new TextStyle(
             color: Color(0xFF333333),
             fontWeight: FontWeight.w600,

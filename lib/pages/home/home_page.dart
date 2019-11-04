@@ -48,13 +48,13 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   void initState() {
-    _UpdateRegistrationID();
+    _updateRegistrationID();
     _requestBanner();
     _getColumnsInfo();
   }
 
-  void _UpdateRegistrationID() async{
-    registrationID = await StorageManager.sharedPreferences.getString(Constant.registrationID);
+  void _updateRegistrationID() {
+    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
     print('极光 id：$registrationID');
     if(registrationID!=null){
       DioUtils.instance.requestNetwork<String>(
@@ -133,9 +133,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      child: Container(
+    return  Container(
         color: Colours.bg_green,
         child: ListView(
             shrinkWrap: true,
@@ -157,6 +155,7 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           child: Container(
                             child: SearchTextFieldWidget(
+                              isborder: false,
                               hintText: '请输入搜索内容',
                               margin: const EdgeInsets.only(
                                   left: 15.0, right: 15.0),
@@ -388,7 +387,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ]),
-      ),
+
     );
   }
 

@@ -62,7 +62,7 @@ class _ChildPageState extends State<ChildPage> {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
       Method.get,
       Api.GETAllCOlUMNINFO,
-      queryParameters: {"columnId": 1, "pageSize": 1, "pageNumber": numb},
+      queryParameters: {"columnId": 1, "pageSize": 4, "pageNumber": numb},
       isList: true,
       onSuccessList: (data) {
         if (data == null||data.length == 0) {
@@ -205,7 +205,7 @@ class _ChildPageState extends State<ChildPage> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Expanded(
+                        item.type == "T"?Container():Expanded(
                           flex: 3,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +240,7 @@ class _ChildPageState extends State<ChildPage> {
         ));
   }
 
-  getThreeImagItem(ConsulationColumnsInfo item) {
+    getThreeImagItem(ConsulationColumnsInfo item) {
     return Container(
         height: 120,
         color: Colors.white,

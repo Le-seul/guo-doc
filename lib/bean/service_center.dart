@@ -1,5 +1,5 @@
 class PsyServiceCenter{
-  String imgId;
+  String imgId ;
   String name;
   String location;
   String shortDesc;

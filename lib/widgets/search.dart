@@ -7,9 +7,9 @@ class SearchTextFieldWidget extends StatelessWidget {
   final VoidCallback onTab;
   final String hintText;
   final EdgeInsetsGeometry margin;
+  final bool isborder;
   final Color color;
-
-  SearchTextFieldWidget({Key key, this.hintText, this.onSubmitted, this.onTab, this.margin,this.color})
+  SearchTextFieldWidget({Key key, this.hintText, this.onSubmitted, this.onTab, this.margin,this.isborder,this.color})
       : super(key: key);
 
   @override
@@ -21,21 +21,25 @@ class SearchTextFieldWidget extends StatelessWidget {
       height: 30.0,
       decoration: BoxDecoration(
           color: color==null? Color.fromARGB(255, 237, 236, 237):color,
+          border: Border.all(color: isborder?Colors.black12:Colors.white, width: 1),
           borderRadius: BorderRadius.circular(24.0)),
       child: TextField(
         onSubmitted: onSubmitted,
         onTap: onTab,
         cursorColor: Color.fromARGB(255, 0, 189, 96),
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(top: 8.0),
-            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(vertical: 5.0),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24),
+                borderSide: BorderSide.none),
+            filled: true,
+            fillColor: Colors.white,
             hintText: hintText,
             hintStyle: TextStyle(
                 fontSize: 17, color: Color.fromARGB(255, 192, 191, 191)),
-            prefixIcon: Icon(
-              Icons.search,
-              size: 25,
-              color: Color.fromARGB(255, 128, 128, 128),
+            prefixIcon: Container(
+              padding: EdgeInsets.only(top: 5,bottom: 5),
+              child: loadAssetImage('search.png'),
             )),
         style: TextStyle(fontSize: 17),
       ),

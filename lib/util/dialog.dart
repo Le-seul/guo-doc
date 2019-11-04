@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
@@ -121,4 +122,104 @@ class LoadingDialog extends Dialog {
         ),
     );
   }
+}
+class ConsutationDialog extends Dialog {
+
+  @override
+  Widget build(BuildContext context) {
+    return new Material( //创建透明层
+      type: MaterialType.transparency, //透明类型
+      child: new Center( //保证控件居中效果
+        child:Container(
+          padding: EdgeInsets.all(20),
+          height: 120,
+          width: 280,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12)),
+          child: new Column(
+            children: <Widget>[
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                Text('请选择',style: TextStyle(fontSize: 20),),
+                GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
+                  Navigator.of(context).pop();
+                },)
+              ],),
+              SizedBox(height: 20,),
+              Row(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Container(
+
+                      decoration: BoxDecoration(
+                          color: Color(0xff2CA687),
+                          borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+
+                      child: Text('继续已有问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                    ),
+                    onTap: (){
+                      Router.pushNoParams(context, Router.historyRecord);
+                    },
+                  ),
+                  SizedBox(width: 20,),
+                  GestureDetector(
+                    child: Container(
+
+                      decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                      child: Text('创建新的问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                    ),
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+class ShowbigImage extends Dialog {
+  String imageUrl;
+  ShowbigImage(this.imageUrl);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Material( //创建透明层
+        type: MaterialType.transparency, //透明类型
+        child: ExtendedImage.network(
+          imageUrl,
+          fit: BoxFit.contain,
+          //enableLoadState: false,
+          mode: ExtendedImageMode.gesture,
+          initGestureConfigHandler: (state) {
+            return GestureConfig(
+                minScale: 0.9,
+                animationMinScale: 0.7,
+                maxScale: 3.0,
+                animationMaxScale: 3.5,
+                speed: 1.0,
+                inertialSpeed: 100.0,
+                initialScale: 1.0,
+                inPageView: false);
+          },
+        )
+      ),
+      onTap: (){
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+
 }

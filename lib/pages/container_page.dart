@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/db/order_db.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_page.dart';
@@ -37,16 +43,11 @@ class _ContainerPageState extends State<ContainerPage> {
   final defaultItemColor = Color.fromARGB(255, 125, 125, 125);
 
   final itemNames = [
-    _Item('首页', 'navigation/ic_tab_home_active.png',
-        'navigation/ic_tab_home_normal.png'),
-    _Item('资讯', 'navigation/ic_tab_information_active.png',
-        'navigation/ic_tab_information_normal.png'),
-    _Item('服务', 'navigation/ic_tab_service_active.png',
-        'navigation/ic_tab_service_normal.png'),
-    _Item('自助', 'navigation/ic_tab_selfhelp_active.png',
-        'navigation/ic_tab_selfhelp_normal.png'),
-    _Item('我的', 'navigation/ic_tab_mine_active.png',
-        'navigation/ic_tab_mine_normal.png')
+    _Item('首页', 'navigation/ic_tab_home_active.png', 'navigation/ic_tab_home_normal.png'),
+    _Item('资讯', 'navigation/ic_tab_information_active.png', 'navigation/ic_tab_information_normal.png'),
+    _Item('服务', 'navigation/ic_tab_service_active.png', 'navigation/ic_tab_service_normal.png'),
+    _Item('自助', 'navigation/ic_tab_selfhelp_active.png', 'navigation/ic_tab_selfhelp_normal.png'),
+    _Item('我的', 'navigation/ic_tab_mine_active.png', 'navigation/ic_tab_mine_normal.png')
   ];
 
   List<BottomNavigationBarItem> itemList;
@@ -55,38 +56,68 @@ class _ContainerPageState extends State<ContainerPage> {
   void initState() {
     super.initState();
     print('initState _ContainerPageState');
-    JPush jpush = StorageManager.jpush;
-    SchedulerBinding.instance.addPostFrameCallback((_) => {
-          jpush.getRegistrationID().then((rid) {
-            setState(() {
-              print("获取注册的id:$rid");
-              saveRegistrationID(rid);
-            });
+    if (Platform.isAndroid) {
+      JPush jpush = StorageManager.jpush;
+      SchedulerBinding.instance.addPostFrameCallback((_) => {
+            jpush.getRegistrationID().then((rid) {
+              setState(() {
+                print("获取注册的id:$rid");
+                saveRegistrationID(rid);
+              });
+            }),
+            jpush.setup(appKey: "565a2f927e82c11287326979", channel: 'developer-default'),
+            // 监听jpush
+            jpush.addEventHandler(
+              onReceiveNotification: (Map<String, dynamic> message) async {
+//                print("flutter 接收到推送消息1: ${json.encode(message)}");
+                print("flutter 接收到推送消息1: $message");
+                print("flutter 接收到推送消息2: ${message["extras"]}");
+                print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
+//                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
+                print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
+                var db = OrderDb();
+                int num = 0;
+                String type = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["location"];
+                print("type:$type");
+                String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
+                print("orderId:$orderId");
+                OrderNum orderNum = await db.getOrder(orderId);
+                if(orderNum == null){
+                  num ++;
+                  print("num1：$num");
+                  int count = await db.saveOrder(orderId,type,"$num");
+                  List<Map> list= await db.getAllOrder();
+                  print("数据库list1:$list");
+                }else{
+                   num = int.parse(orderNum.num)??0;
+                   num ++;
+                   print("num2：$num");
+                  int count = await db.updateOrder(orderId,"$num");
+                }
 
-          }),
-          jpush.setup(
-              appKey: "565a2f927e82c11287326979", channel: 'developer-default'),
-          // 监听jpush
-          jpush.addEventHandler(
-            onReceiveNotification: (Map<String, dynamic> message) async {
-              print("flutter 接收到推送: $message");
-            },
-            onOpenNotification: (Map<String, dynamic> message) {
-              // 点击通知栏消息，在此时通常可以做一些页面跳转等v
-              Toast.show('点击通知');
-              Router.pushNoParams(context, Router.sleepRecordsPage);
-            },
-          ),
-        });
+//                print("num：$num");
+//                num++;
+//                int count = await db.saveOrder(orderId,type,"$num");
+                eventBus.fire(refreshNum("$num",orderId: orderId,location: type));
+              },
+              onOpenNotification: (Map<String, dynamic> message) {
+                // 点击通知栏消息，在此时通常可以做一些页面跳转等
+                String orderId = json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
+                print("orderid：$orderId");
+                Toast.show('点击通知');
+                Router.push(
+                    context,Router.talk,
+                    {'orderId': orderId, 'offstage': false}
+                );
+              },
+            ),
+          });
+
+
+    }
 
     if (pages == null) {
-      pages = [
-        HomePage(),
-        ConsultationPage(),
-        ServicePage(),
-        SelfHelpPage(),
-        MinePage()
-      ];
+      pages = [HomePage(), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
     }
     if (itemList == null) {
       itemList = itemNames
@@ -100,17 +131,15 @@ class _ContainerPageState extends State<ContainerPage> {
                 item.name,
                 style: TextStyle(fontSize: 10.0),
               ),
-              activeIcon:
-                  loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
+              activeIcon: loadAssetImage(item.activeIcon, width: 22.0, height: 22.0)))
           .toList();
     }
-
   }
 
   int _selectIndex = 0;
 
   static saveRegistrationID(String registrationID) async {
-    StorageManager.sharedPreferences.setString(Constant.registrationID,registrationID);
+   await StorageManager.sharedPreferences.setString(Constant.registrationID, registrationID);
   }
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题
@@ -123,8 +152,6 @@ class _ContainerPageState extends State<ContainerPage> {
       ),
     );
   }
-
-
 
   @override
   void didUpdateWidget(ContainerPage oldWidget) {
