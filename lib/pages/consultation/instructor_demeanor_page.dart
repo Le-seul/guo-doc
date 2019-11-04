@@ -82,13 +82,9 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
           children: <Widget>[
             GestureDetector(
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.only(top: 2,bottom: 10),
                 height: ScreenUtil().setHeight(35),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    color: Colors.white),
+                  color: Colors.white,
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -141,16 +137,25 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Text(BestList[0].name),
+                                            Row(
+                                              children: <Widget>[
+                                                Text(BestList[0].name,
+                                                style: TextStyle(
+                                                  fontSize: 18
+                                                ),),
+                                                SizedBox(width: 5,),
+                                                Text(
+                                                  BestList[0].orgId,
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 13),
+                                                ),
+                                              ],
+                                            ),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Text(
-                                              BestList[0].orgId,
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14),
-                                            ),
+
                                             SizedBox(
                                               height: 5,
                                             ),
@@ -172,6 +177,9 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
+                                        Container(
+                                          width: 80,
+                                        ),
                                         Text('格言:   '),
                                         Text(
                                           BestList[0].slogan,
@@ -180,21 +188,32 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         //Text( BestList[0].slogan)
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('特长:   '),
+                                        Container(
+                                          width: 80,
+                                        ),
                                         Expanded(
-                                          child: Text(
-                                            BestList[0].major,
+                                          child: RichText(
+                                              text: TextSpan(
+                                                text: '特长:   ',
+                                                style: TextStyle(color: Colors.black),
+                                                children:<TextSpan>[
+                                                  TextSpan(
+                                                    text: BestList[0].major,
                                             style:
                                                 TextStyle(color: Colors.grey),
-                                          ),
+                                                  )
+                                                ]
+                                              ))
                                         )
-                                        //Text( BestList[0].slogan)
                                       ],
                                     ),
                                   ],
@@ -207,13 +226,9 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                 },
             ),
             Container(
-                margin: EdgeInsets.all(10),
+              margin: EdgeInsets.only(top: 10,bottom: 10),
                 height: ScreenUtil().setHeight(30),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    color: Colors.white),
+              color: Colors.white,
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -225,22 +240,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             '本单位教官',
                             style: TextStyle(fontSize: 17),
                           ),
-                          Container(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  '更多  ',
-                                  style:
-                                  TextStyle(color: Colors.grey, fontSize: 12),
-                                ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.grey,
-                                )
-                              ],
-                            ),
-                          )
+
                         ],
                       ),
                       padding: EdgeInsets.only(left: 10, top: 10),
@@ -341,11 +341,8 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                   ],
                 ),
               ),
-
-
-
             SizedBox(
-              height: 5,
+              height: 10,
             ),
             isShowLoadingRank
                 ? LoadingWidget.childWidget()
@@ -361,78 +358,25 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            crossAxisSpacing: 1,
+                            crossAxisSpacing: 0,
                             mainAxisSpacing: 1,
-                            childAspectRatio: 1.4),
+                            childAspectRatio: 1.6),
                         itemCount: 8,
                         itemBuilder: (context, index) {
-                          Widget itemWidget;
-                          String num;
 
-                          if (index < 9) {
-                            num = "0" + "${index + 1}";
-                          } else {
-                            num = "${index + 1}";
-                          }
-                          if (index == 0) {
-                            itemWidget = Container(
-                              child: loadAssetImage('mine/rank/排行 1.png',
-                                  height: 25),
-                              //padding: EdgeInsets.fromLTRB(10,10,10,10),
-                            );
-                          } else if (index == 1) {
-                            itemWidget = Container(
-                              child: loadAssetImage('mine/rank/排行 2.png',
-                                  height: 25),
-                              //padding: EdgeInsets.fromLTRB(10,10,10,10),
-                            );
-                          } else if (index == 2) {
-                            itemWidget = Container(
-                              child: loadAssetImage('mine/rank/排行 3.png',
-                                  height: 25),
-                              //padding: EdgeInsets.fromLTRB(10,10,10,10),
-                            );
-                          } else {
-                            itemWidget = Container(
-                              height: 25,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.black12,
-                                radius: 10,
-                                child: Text(
-                                  num,
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.black54),
-                                ),
-                              ),
-                            );
-                          }
                           return GestureDetector(
                             child: Container(
-                              margin: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      itemWidget,
-                                      //Image.asset('assets/images/mine/rank/排行 1.png',height: 25,width: 25,)
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Row(
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
-                                              height: 38,
-                                              width: 38,
+                                              height: 42,
+                                              width: 42,
                                               decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                       image: NetworkImage(
@@ -440,63 +384,73 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                                       fit: BoxFit.fill),
                                                   borderRadius:
                                                   BorderRadius.circular(35))),
-                                          SizedBox(
-                                            width: 7,
-                                          ),
-                                          Column(
+                                          SizedBox(height: 20,)
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: <Widget>[
-                                              Text(Ranklist[index].name),
+                                              Text(Ranklist[index].name,style:TextStyle(fontSize: 18) ,),
                                               SizedBox(
-                                                height: 3,
+                                                width: 7  ,
                                               ),
-                                              GestureDetector(
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Image.asset(
-                                                      'assets/images/consultation/点赞.png',
-                                                      height: 13,
-                                                      width: 13,
-                                                      color: Colors.red,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      '${Ranklist[index].likeCount}',
-                                                      style: TextStyle(
-                                                          color: Colors.red),
-                                                    )
-                                                  ],
-                                                ),
-                                                onTap: () {
-                                                  _Rank(index, Ranklist);
-                                                },
-                                              )
+                                              Text(
+                                                Ranklist[index].orgId,
+                                                style: TextStyle(
+                                                    fontSize: 12, color: Colors.grey.shade600),
+                                              ),
                                             ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            Ranklist[index].shortDesc,
+                                            style: TextStyle(
+                                                fontSize: 12, color: Colors.grey.shade600),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          GestureDetector(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Image.asset(
+                                                  'assets/images/consultation/点赞.png',
+                                                  height: 16,
+                                                  width: 16,
+                                                  color: Colors.green.shade200,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '${Ranklist[index].likeCount~/1000}k+',
+                                                  style: TextStyle(
+                                                      color: Colors.green.shade200),
+                                                )
+                                              ],
+                                            ),
+                                            onTap: () {
+                                              _Rank(index, Ranklist);
+                                            },
                                           )
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        Ranklist[index].orgId,
-                                        style: TextStyle(
-                                            fontSize: 13, color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        Ranklist[index].shortDesc,
-                                        style: TextStyle(
-                                            fontSize: 13, color: Colors.grey),
+                                      Container(
+                                        height: 60,
+                                        width: 1,
+                                        color: index%2==0? Colours.line:Colors.white,
                                       )
                                     ],
-                                  )
-                                ],
-                              ),
-                            ),
+                                  ),
+                                ),
+
+
                             onTap: (){
                               Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[index]);
                             },
