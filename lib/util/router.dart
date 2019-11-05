@@ -24,6 +24,7 @@ import 'package:flutter_first/pages/home/doctor/talk_page.dart';
 import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
 import 'package:flutter_first/pages/home/home_widgets/eating_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/images_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_detail.dart';
 import 'package:flutter_first/pages/home/home_widgets/pstConsult_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/psyTest_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_course_page.dart';
@@ -82,6 +83,7 @@ class Router {
   static const musicPage = 'app://MusicPage';
   static const musicSortPage = 'app://MusicSortPage';
   static const musicListPage = 'app://MusicListPage';
+  static const musicDetailPage = 'app://musicDetailPage';
   static const playingPage = 'app://PlayingPage';
   static const curriculumcatalog1 = 'app://CurriculumCatalog1';
   static const curriculumcatalog2 = 'app://CurriculumCatalog2';
@@ -195,6 +197,8 @@ class Router {
           return MusicSortPage(num: params['num'],tagId: params['tagId']);
         case musicListPage:
           return MusicListPage(allMusicList: params,);
+        case musicDetailPage:
+          return MusicDetail(allMusicList: params,);
         case playingPage:
           return PlayingPage(music: params,);
         case exitLoginPage:

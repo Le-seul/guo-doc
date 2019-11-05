@@ -268,7 +268,7 @@ class _TelConsultationState extends State<TelConsultation>
           Method.post, Api.CREATEFASTPHONEORDER,
           queryParameters: {"clinicNo": clinicNo, "phone": phone},
           onSuccess: (data) {
-        Router.pushNoParams(context, Router.historyRecord);
+        Router.pushReplacementNamed(context, Router.historyRecord,null);
 //            Toast.show('clinicNo:$clinicNo,phone:$phone');
       }, onError: (code, msg) {
         Toast.show('上传失败！');

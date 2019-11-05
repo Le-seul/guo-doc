@@ -59,9 +59,9 @@ class _MusicPageState extends State<MusicPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        iconTheme: IconThemeData(color: Colors.black,),
         title: Text(
-          '音乐',
+          '轻松音乐',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -69,6 +69,7 @@ class _MusicPageState extends State<MusicPage> {
           padding: EdgeInsets.only(top: 15, right: 15, left: 15),
           color: Colors.white,
           child: GridView.builder(
+            physics: ClampingScrollPhysics(),
               itemCount: GetAllMusicList.length,
               //SliverGridDelegateWithFixedCrossAxisCount 构建一个横轴固定数量Widget
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -77,9 +78,9 @@ class _MusicPageState extends State<MusicPage> {
                   //纵轴间距
                   mainAxisSpacing: 0.0,
                   //横轴间距
-                  crossAxisSpacing: 0.0,
+                  crossAxisSpacing: 15.0,
                   //子组件宽高长度比例
-                  childAspectRatio: 0.8),
+                  childAspectRatio: 0.70),
               itemBuilder: (BuildContext context, int index) {
                 //Widget Function(BuildContext context, int index)
                 return _buildItem(index);
@@ -95,6 +96,7 @@ class _MusicPageState extends State<MusicPage> {
       child: Container(
           color: Colors.white,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -110,17 +112,17 @@ class _MusicPageState extends State<MusicPage> {
               SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(GetAllMusicList[index].name,
-                      style: TextStyle(fontSize: 18)),
-                ],
+              Text(GetAllMusicList[index].name, style: TextStyle(fontSize: 18)),
+              SizedBox(
+                height: 5,
               ),
+              Row(
+                children: <Widget>[
+                  Icon(Icons.headset,size: 15,color: Colors.black54,),
+                  SizedBox(width: 5,),
+                  Text('2038',style: TextStyle(color: Colors.black54),),
+                ],
+              )
             ],
           )),
     );

@@ -9,7 +9,6 @@ import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 
 class MusicListPage extends StatefulWidget {
-
   GetAllMusic allMusicList;
   MusicListPage({Key key, @required this.allMusicList}) : super(key: key);
   @override
@@ -17,153 +16,177 @@ class MusicListPage extends StatefulWidget {
 }
 
 class _MusicListPageState extends State<MusicListPage> {
-
   List<Music> musicList = List();
-
 
   @override
   void initState() {
-    
-    DioUtils.instance.requestNetwork<Music>(
-        Method.get,
-        Api.GETMUSICLIST,
+    DioUtils.instance.requestNetwork<Music>(Method.get, Api.GETMUSICLIST,
         queryParameters: {"musicListId": widget.allMusicList.id},
-        isList: true,
-        onSuccessList: (data) {
-          setState(() {
-            musicList = data;
-
-          });
-          print('音乐成功！');
-        },
-        onError: (code, msg) {
-          print('音乐失败！');
-        });
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        musicList = data;
+      });
+      print('音乐成功！');
+    }, onError: (code, msg) {
+      print('音乐失败！');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    Music music = PlayerState.of(context, aspect: PlayerStateAspect.music).value.current;
+    Music music =
+        PlayerState.of(context, aspect: PlayerStateAspect.music).value.current;
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color(0xFFEEEEEE),
-        centerTitle: true,
-      ),
-      body:ListView(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          _buildTop(),
-          Container(
-            padding: EdgeInsets.only(left: 10,right: 10,top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SizedBox(width: 15,),
-              Text('${musicList.length}',style: TextStyle(color: Color(0xff2CA687),fontSize: 20),),
-              SizedBox(width: 5,),
-              Text('条音频',style: TextStyle(color: Colors.black54),),
-              Expanded(child: Container()),
-              GestureDetector(
-                onTap: () {
-                  Router.push(context,Router.playingPage,musicList[0]);
-                  quiet.playWithList(musicList[0], musicList, 'playlist');
-                },
-                child: Container(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          title: Text(
+            '列表',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        body: Container(
+          color: Colors.white,
+          child: ListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            children: <Widget>[
+              _buildTop(),
+              Container(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '播放列表',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      onTap: () {
+                        Router.push(context, Router.playingPage, musicList[0]);
+                        quiet.playWithList(musicList[0], musicList, 'playlist');
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10, right: 10,top: 3,bottom: 3),
+                        margin: EdgeInsets.only(
+                          right: 10.0,
+                        ),
+                        decoration: new BoxDecoration(
+                            color: Color(0xff2CA687),
+                            borderRadius: new BorderRadius.circular(15.0)),
 
-                  margin: EdgeInsets.only(right:10.0,),
-                  height: 26,
-                  width: 110,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                    loadAssetImage('play.png',height: 15,width: 15,color: Color(0xff2CA687)),
-                        SizedBox(width: 5,),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            '全部播放',
-                            style: TextStyle(fontSize: 15, color: Color(0xff2CA687) ),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              loadAssetImage('play.png',
+                                  height: 14, width: 14, color: Colors.white),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Center(
+                                child: Text(
+                                  '全部播放',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-
-                      ],
+                      ),
                     ),
-                  ),
-
+                  ],
                 ),
               ),
-
-            ],),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                height: 1,
+                color: Colors.black12,
+                margin: EdgeInsets.only(left: 15, right: 15),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: musicList.length,
+                  itemBuilder: (context, index) {
+                    Music item = musicList[index];
+                    return _buildItem(
+                        index, music == null ? false : item.id == music.id);
+                  }),
+            ],
           ),
-          SizedBox(height: 10,),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: musicList.length,
-            itemBuilder: (context, index) {
-              Music item = musicList[index];
-             return _buildItem(index,music==null?false:item.id == music.id);
-            } ),
-        ],
-      )
-    );
+        ));
   }
+
   _buildTop() {
     return GestureDetector(
-      onTap: (){
-
+      onTap: () {
+        Router.push(context, Router.musicDetailPage, widget.allMusicList);
       },
-      child:Container(
-        padding: EdgeInsets.only(left: 10),
-          height: 105,
+      child: Container(
+          padding: EdgeInsets.only(left: 10, right: 5),
           color: Color(0xFFEEEEEE),
           child: Column(
             children: <Widget>[
               Container(
-                height: 100,
-                child: Row(
+                height: 180,
+                padding:
+                    EdgeInsets.only(top: 15, bottom: 15, right: 5, left: 5),
+                child: Flex(
+                  direction: Axis.horizontal,
                   children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child:  ClipRRect(
-                        borderRadius: BorderRadius.circular(4),child:Image.network(
-                        widget.allMusicList.image,
-                        height: 70,
-                        fit: BoxFit.fill,
-                      ),)
-                    ),
-                    Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 10,top: 15,bottom: 15
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text(widget.allMusicList.name,style: TextStyle(fontSize: 18),),
-                                  SizedBox(width: 10,),
-                                  loadAssetImage('more.png',height: 15,width: 15),
-                                ],
-                              ),
-                              Text(
-                                '周杰伦',
-                                style: TextStyle(color: Colors.black12, fontSize: 12),
-                              ),
-
-                            ],
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: AspectRatio(
+                          aspectRatio: 1.0,
+                          child: Image.network(
+                            widget.allMusicList.image,
+                            height: 140,
+                            width: 140,
+                            fit: BoxFit.fill,
                           ),
                         )),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          widget.allMusicList.name,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text('周杰伦', style: TextStyle(color: Colors.black54)),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Text(
+                          widget.allMusicList.name,
+                          style: TextStyle(color: Colors.black54),
+                          strutStyle:
+                              StrutStyle(forceStrutHeight: true, height: 1.5),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ))
                   ],
                 ),
               ),
@@ -171,40 +194,85 @@ class _MusicListPageState extends State<MusicListPage> {
           )),
     );
   }
-  _buildItem(int index,bool isPlaying){
 
+  _buildItem(int index, bool isPlaying) {
     return GestureDetector(
-      onTap: (){
-        Router.push(context,Router.playingPage,musicList[index]);
-        quiet.playWithList(musicList[index], musicList, 'playlist');
-      },
-      child:Container(
-        padding: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: Text('${musicList[index].order}',style: TextStyle(fontSize: 30,),),
-              width: 40,
-            ),
-            SizedBox(width: 15,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(musicList[index].name,style: TextStyle(fontSize: 18,color: isPlaying?Color(0xff2CA687):Colors.black),),
-                Text('周杰伦',style: TextStyle(color: Colors.black12,fontSize: 12),)
-              ],
-            ),
-
-            Expanded(child: Align(
-              alignment: Alignment.centerRight,
-            )),
-          ],
-        ),
-      )
-    );
+        onTap: () {
+          Router.push(context, Router.playingPage, musicList[index]);
+          quiet.playWithList(musicList[index], musicList, 'playlist');
+        },
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  '${musicList[index].order}',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                width: 40,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                musicList[index].name,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: isPlaying
+                                        ? Color(0xff2CA687)
+                                        : Colors.black),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '周杰伦',
+                                style: TextStyle(
+                                    color: isPlaying
+                                        ? Color(0xff2CA687)
+                                        : Colors.black54,
+                                    fontSize: 12),
+                              )
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          Icons.play_circle_outline,
+                          color: Colors.black26,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 1,
+                      color: Colors.black12,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
-
 }
-

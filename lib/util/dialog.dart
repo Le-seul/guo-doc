@@ -132,24 +132,26 @@ class ConsutationDialog extends Dialog {
       child: new Center( //保证控件居中效果
         child:Container(
           padding: EdgeInsets.all(20),
-          height: 120,
-          width: 280,
+          margin: EdgeInsets.only(left: 30,right: 30),
+          height: 130,
+
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12)),
           child: new Column(
             children: <Widget>[
-
+             SizedBox(height: 5,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                Text('请选择',style: TextStyle(fontSize: 20),),
+                Text('请选择',style: TextStyle(fontSize: 18),),
                 GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
                   Navigator.of(context).pop();
                 },)
               ],),
-              SizedBox(height: 20,),
+              SizedBox(height: 25,),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   GestureDetector(
                     child: Container(
@@ -157,7 +159,7 @@ class ConsutationDialog extends Dialog {
                       decoration: BoxDecoration(
                           color: Color(0xff2CA687),
                           borderRadius: BorderRadius.circular(12)),
-                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                      padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
 
                       child: Text('继续已有问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
                     ),
@@ -172,7 +174,7 @@ class ConsutationDialog extends Dialog {
                       decoration: BoxDecoration(
                           color: Colors.orange,
                           borderRadius: BorderRadius.circular(12)),
-                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                      padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
                       child: Text('创建新的问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
                     ),
                     onTap: (){

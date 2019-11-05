@@ -232,7 +232,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           'content': content,
         }, onSuccess: (data) {
           setState(() {
-            Router.pushNoParams(context, Router.historyRecord);
+            Router.pushReplacementNamed(context, Router.historyRecord,null);
             Toast.show('获取订单成功!');
           });
         }, onError: (code, msg) {

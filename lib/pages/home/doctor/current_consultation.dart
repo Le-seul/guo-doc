@@ -61,10 +61,10 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
     _getOrderInProgress();
   }
   getNum(AllOrder allOrder) async {
-    print("tuWenNum4:开始查询");
+//    print("tuWenNum4:开始查询");
 
     for (TuwenOrder tuwenOrder in allOrder.tuwenOrder) {
-      print("tuWenNum4:${tuwenOrder.id}");
+//      print("tuWenNum4:${tuwenOrder.id}");
       OrderNum orderNum = await db.getOrder(tuwenOrder.id);
       //print("数据库5:${orderNum.orderId??''}");
       setState(() {
@@ -74,7 +74,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
 
       });
 
-      print("tuWenNum4:${tuwenOrder.num}");
+//      print("tuWenNum4:${tuwenOrder.num}");
     }
     for (FastphoneOrder fastphoneOrder in allOrder.fastphoneOrder) {
       OrderNum orderNum = await db.getOrder(fastphoneOrder.id);
@@ -156,6 +156,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                 child: Container(
                   padding: EdgeInsets.all(15),
                   child: Row(
+
                     children: <Widget>[
                       CircleAvatar(
                         radius: 25.0,
@@ -165,7 +166,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                       SizedBox(
                         width: 10,
                       ),
-                      Column(
+                      Expanded(child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
@@ -179,8 +180,9 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                             allOrder.tuwenOrder[index].createTime ?? "",
                             style: TextStyle(color: Colors.black26),
                           ),
-                        ],
-                      )
+                        ],)
+                      ),
+                      Text('图文订单',style: TextStyle(color: Colors.black26),)
                     ],
                   ),
                 ),
@@ -232,7 +234,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                     SizedBox(
                       width: 10,
                     ),
-                    Column(
+                    Expanded(child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
@@ -247,7 +249,8 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                           style: TextStyle(color: Colors.black26),
                         ),
                       ],
-                    )
+                    ),),
+                    Text('电话订单',style: TextStyle(color: Colors.black26),)
                   ],
                 ),
               ),
