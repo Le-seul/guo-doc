@@ -39,85 +39,64 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
+        actions: <Widget>[
+          GestureDetector(
+            child: Icon(Icons.share, color: Colors.black54, size: 20),
+            onTap: () async {
+              Share.text(
+                  '我的分享',
+                  '${widget.consulationColumnsInfo.title}:\nhttps://www.baidu.com/index.php?tn=02049043_6_pg',
+                  'text/plain');
+            },
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            child: Icon(
+              isFavor ? Icons.star : Icons.star_border,
+              color: Colors.black54,
+              size: 24,
+            ),
+            onTap: () {
+              setState(() {
+                isFavor = !isFavor;
+                if (isFavor) {
+                  Toast.show('收藏成功！');
+                } else {
+                  Toast.show('取消收藏！');
+                }
+              });
+            },
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            child: Icon(isSupport ? Icons.favorite : Icons.favorite_border,
+                color: Colors.black54, size: 20),
+            onTap: () {
+              setState(() {
+                isSupport = !isSupport;
+                if (isSupport) {
+                  Toast.show('点赞成功！');
+                } else {
+                  Toast.show('取消点赞！');
+                }
+              });
+            },
+          ),
+          SizedBox(
+            width: 10,
+          )
+        ],
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: Stack(
-        children: <Widget>[
-          WebView(
-            onWebViewCreated: (WebViewController webViewController) {},
-            initialUrl: widget.consulationColumnsInfo.content,
-            javascriptMode: JavascriptMode.unrestricted,
-          ),
-          Align(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  height: 1.0,
-                  color: Colours.line,
-                ),
-                Container(
-                  height: 40,
-                  color: Color(0xFFF6F6F6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        icon:
-                            Icon(Icons.share, color: Colors.black26, size: 20),
-                        onPressed: () async {
-                          Share.text(
-                              '我的分享',
-                              '${widget.consulationColumnsInfo.title}:\nhttps://www.baidu.com/index.php?tn=02049043_6_pg',
-                              'text/plain');
-                        },
-                      ),
-                      GestureDetector(
-                        child: IconButton(
-                          icon: Icon(
-                            isFavor ? Icons.star : Icons.star_border,
-                            size: 24,
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            isFavor = !isFavor;
-                            if (isFavor) {
-                              Toast.show('收藏成功！');
-                            } else {
-                              Toast.show('取消收藏！');
-                            }
-                          });
-                        },
-                      ),
-                      GestureDetector(
-                        child: IconButton(
-                          icon: Icon(
-                              isSupport
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              size: 20),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            isSupport = !isSupport;
-                            if (isSupport) {
-                              Toast.show('点赞成功！');
-                            } else {
-                              Toast.show('取消点赞！');
-                            }
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            alignment: FractionalOffset.bottomCenter,
-          )
-        ],
+      body: WebView(
+        onWebViewCreated: (WebViewController webViewController) {},
+        initialUrl: widget.consulationColumnsInfo.content,
+        javascriptMode: JavascriptMode.unrestricted,
       ),
     );
   }
