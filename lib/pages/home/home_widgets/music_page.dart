@@ -44,7 +44,7 @@ class _MusicPageState extends State<MusicPage> {
   _getAllMusicList() {
     DioUtils.instance.requestNetwork<GetAllMusic>(
         Method.get, Api.GETAllMUSICLIST,
-        queryParameters: {"pageSize": 3, "pageNumber": 1},
+        queryParameters: {"pageSize": 20, "pageNumber": 1},
         isList: true, onSuccessList: (data) {
       setState(() {
         GetAllMusicList = data;

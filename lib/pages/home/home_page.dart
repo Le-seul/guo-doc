@@ -2,24 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flukit/flukit.dart' as lib1;
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
-import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/mock_request.dart';
+import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/storage_manager.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
-import 'package:flutter_swiper/flutter_swiper.dart' as lib2;
-import 'package:flutter_first/util/router.dart';
-
-import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
-import 'package:flutter_first/pages/home/home_widgets/Table1_Page.dart';
-import 'package:flutter_first/mock_request.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../net/api.dart';
 import '../../net/dio_utils.dart';
