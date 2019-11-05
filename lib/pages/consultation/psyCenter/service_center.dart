@@ -14,13 +14,13 @@ class ServiceCenterPage extends StatefulWidget {
   _ServiceCenterPageState createState() => _ServiceCenterPageState();
 }
 
-class _ServiceCenterPageState extends State<ServiceCenterPage> with SingleTickerProviderStateMixin {
+class _ServiceCenterPageState extends State<ServiceCenterPage>
+    with SingleTickerProviderStateMixin {
   List<PsyServiceCenter> ServiceList = List();
   List<PsyServiceCenter> TypeList = List();
   bool isShowLoading = true; //\
   String type = "心理服务分中心";
   TabController mController;
-
 
   void initState() {
     super.initState();
@@ -68,76 +68,68 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> with SingleTicker
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
-      backgroundColor: Colours.line,
-      appBar: AppBar(
-        elevation: 0.0,
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        title: Text(
-          '服务中心',
-          style: new TextStyle(
-            color: Color(0xFF333333),
-            fontWeight: FontWeight.w500,
+        backgroundColor: Colours.line,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
           ),
+          title: Text(
+            '服务中心',
+            style: new TextStyle(
+              color: Color(0xFF333333),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: Colors.white,
+          centerTitle: true,
         ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-      ),
-      body: Container(
-        color: Colors.black12,
-        child: Column(
-          children: <Widget>[
-
-            SearchTextFieldWidget(
-              margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
-              color: Colors.white,
-              isborder: true,
-            ),
-            Container(
-              height: 80,
-              child: TabBar(
-                isScrollable: false,
-                //是否可以滚动
-                controller: mController,
-                indicatorColor: Color(0xff2CA687),
-                labelColor: Color(0xff2CA687),
-                unselectedLabelColor: Color(0xff666666),
-                labelStyle: TextStyle(fontSize: 16.0),
-                tabs: <Widget>[
-                  Text('按地区'),
-                  Text('东城区'),
-                  Text('西城区'),
-                  Text('朝阳区'),
-                  Text('海淀区'),
-                  Text('丰台区'),
-
-                ],
+        body: Container(
+          color: Color(0xFFEEEEEE),
+          child: Column(
+            children: <Widget>[
+              SearchTextFieldWidget(
+                margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                color: Colors.white,
+                hintText: '请输入',
+                isborder: true,
               ),
-            ),
-            Container(
-              height: 80,
-              child: TabBarView(
-                controller: mController,
-                children: <Widget>[
-                  Text('你啊'),
-                  Text('你啊'),
-                  Text('你啊'),
-                  Text('你啊'),
-                  Text('你啊'),
-                  Text('你啊'),
-//                  ServiceChild(),
-//                  ServiceChild(),
-//                  ServiceChild(),
-//                  ServiceChild(),
-//                  ServiceChild(),
-//                  ServiceChild(),
-                ],
+              Container(
+                height: 30,
+                child: TabBar(
+                  isScrollable: false,
+                  //是否可以滚动
+                  controller: mController,
+                  labelPadding:EdgeInsets.all(0.0),
+                  indicatorColor: Color(0xff2CA687),
+                  labelColor: Color(0xff2CA687),
+                  unselectedLabelColor: Color(0xff666666),
+                  unselectedLabelStyle: TextStyle(fontSize: 14),
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  tabs: <Widget>[
+                    Text('找地区'),
+                    Text('东城区'),
+                    Text('西城区'),
+                    Text('朝阳区'),
+                    Text('海淀区'),
+                    Text('丰台区'),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      )
-    );
+              Flexible(
+                child: TabBarView(
+                  controller: mController,
+                  children: <Widget>[
+                  ServiceChild(),
+                  ServiceChild(),
+                  ServiceChild(),
+                  ServiceChild(),
+                  ServiceChild(),
+                  ServiceChild(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
