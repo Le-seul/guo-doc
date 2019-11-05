@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/all_order_entity.dart';
-import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
