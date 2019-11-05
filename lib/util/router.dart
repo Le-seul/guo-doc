@@ -160,7 +160,7 @@ class Router {
         case catalogdetail:
           return CatalogDetail(Detail: params,);
         case test0:
-          return Test0();
+          return Test0(Url: params,);
         case test1:
           return Test1();
         case test2:

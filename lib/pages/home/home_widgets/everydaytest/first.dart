@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Test0 extends StatelessWidget {
+String Url;
+  Test0({Key key, @required this.Url})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +13,7 @@ class Test0 extends StatelessWidget {
         centerTitle: true,
       ),
       body: WebView(
-          initialUrl:'http://ygyd.aireading.top/mobile_survy/index3.html?tdsourcetag=s_pcqq_aiomsg',
+          initialUrl:Url,
           javascriptMode:JavascriptMode.unrestricted
       ),
     );

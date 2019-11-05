@@ -21,9 +21,8 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
 
   void initState() {
     super.initState();
-    print("获取图片");
     _requestPsyServiceCenterList();
-//    _requestPsyServiceCenterByType();
+    _requestPsyServiceCenterByType();
   }
 
   @override
@@ -33,12 +32,10 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
         onSuccessList: (data) {
       setState(() {
         ServiceList = data;
-        print("图片：${ServiceList[0].imgId}");
         isShowLoading = false;
-        print("图片成功");
       });
     }, onError: (code, msg) {
-      print("图片失败");
+      print("sssss");
     });
   }
 
@@ -79,7 +76,6 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
           SearchTextFieldWidget(
             margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
             color: Colors.white,
-            isborder: false,
           ),
 //          Row(
 //            mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -300,91 +296,86 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
                               physics: ClampingScrollPhysics(),
                               itemCount: ServiceList.length,
                               itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  child: Column(
-                                    children: <Widget>[
-                                      index == 0
-                                          ? SizedBox(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                          children: <Widget>[
-                                            Text(
-                                              '共 ${ServiceList.length} 家医院',
-                                              style:
-                                              TextStyle(fontSize: 17),
-                                            ),
-                                            Icon(
-                                              Icons.art_track,
-                                              color: Colors.grey,
-                                            )
-                                          ],
-                                        ),
-                                        height: 30,
-                                      )
-                                          : SizedBox(),
-                                      Container(
-                                        margin:
-                                        EdgeInsets.only(top: 5, bottom: 12),
-                                        height: 1,
-                                        color: Colours.line,
+                                return  Column(
+                                  children: <Widget>[
+                                    index == 0
+                                        ? SizedBox(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                        children: <Widget>[
+                                          Text(
+                                            '共 ${ServiceList.length} 家医院',
+                                            style:
+                                            TextStyle(fontSize: 17),
+                                          ),
+                                          Icon(
+                                            Icons.art_track,
+                                            color: Colors.grey,
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        height: ScreenUtil().setHeight(11),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Image.network(
-                                              ServiceList[index].imgId,
-                                            ),
-                                            SizedBox(
-                                              width: 2,
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  child: Text(
-                                                    ServiceList[index].name,
-                                                    style:
-                                                    TextStyle(fontSize: 16),
-                                                  ),
-                                                  width: 240,
+                                      height: 30,
+                                    )
+                                        : SizedBox(),
+                                    Container(
+                                      margin:
+                                      EdgeInsets.only(top: 5, bottom: 12),
+                                      height: 1,
+                                      color: Colours.line,
+                                    ),
+                                    Container(
+                                      height: ScreenUtil().setHeight(11),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Image.network(
+                                            ServiceList[index].imgId,
+                                          ),
+                                          SizedBox(
+                                            width: 2,
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Text(
+                                                  ServiceList[index].name,
+                                                  style:
+                                                  TextStyle(fontSize: 16),
                                                 ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Container(
+                                                width: 240,
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Container(
 
-                                                  child: Text(
-                                                    ServiceList[index].shortDesc +
-                                                        "|" +
-                                                        ServiceList[index]
-                                                            .location +
-                                                        "|" +
-                                                        ServiceList[index].remark,
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 13),
-                                                    overflow: TextOverflow.clip,
-                                                  ),
-                                                  width: 240,
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                                child: Text(
+                                                  ServiceList[index].shortDesc +
+                                                      "|" +
+                                                      ServiceList[index]
+                                                          .location +
+                                                      "|" +
+                                                      ServiceList[index].remark,
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 13),
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                                width: 240,
+                                              )
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  onTap: (){
-                                    Router.pushNoParams(context,Router.center_detail);
-                                  },
+                                    ),
+                                  ],
                                 );
                               },
                             ),
