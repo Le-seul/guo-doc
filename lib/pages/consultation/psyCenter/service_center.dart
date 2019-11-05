@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
@@ -13,19 +14,31 @@ class ServiceCenterPage extends StatefulWidget {
   _ServiceCenterPageState createState() => _ServiceCenterPageState();
 }
 
-class _ServiceCenterPageState extends State<ServiceCenterPage> {
+class _ServiceCenterPageState extends State<ServiceCenterPage> with SingleTickerProviderStateMixin {
   List<PsyServiceCenter> ServiceList = List();
   List<PsyServiceCenter> TypeList = List();
   bool isShowLoading = true; //\
   String type = "心理服务分中心";
+  TabController mController;
+
 
   void initState() {
     super.initState();
     _requestPsyServiceCenterList();
     _requestPsyServiceCenterByType();
+
+    mController = TabController(
+      length: 6,
+      vsync: this,
+    );
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    mController.dispose();
+  }
+
   void _requestPsyServiceCenterList() {
     DioUtils.instance.requestNetwork<PsyServiceCenter>(
         Method.get, Api.PsyServiceCenterList, isList: true,
@@ -71,320 +84,60 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: ListView(
-        children: <Widget>[
-          SearchTextFieldWidget(
-            margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
-            color: Colors.white,
-          ),
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//            children: <Widget>[
-//              Expanded(
-//                child: Container(
-//                  height: ScreenUtil().setHeight(9),
-//                  margin: EdgeInsets.fromLTRB(15, 0, 6, 0),
-//                  decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.all(Radius.circular(10)),
-//                      gradient: LinearGradient(
-//                          begin: Alignment.centerLeft,
-//                          end: Alignment.centerRight,
-//                          colors: [
-//                            Colors.white,
-//                            Colors.lightBlueAccent,
-//                          ])),
-//                  child: Row(
-//                    children: <Widget>[
-//                      InkWell(
-//                        child: Row(
-//                          children: <Widget>[
-//                            SizedBox(
-//                              width: ScreenUtil().setHeight(2),
-//                            ),
-//                            Image.asset(
-//                              'assets/images/consultation/房子.png',
-//                              height: 25,
-//                            ),
-//                            SizedBox(
-//                              width: ScreenUtil().setHeight(1),
-//                            ),
-//                            Text(
-//                              '心理服务分中心',
-//                              style: TextStyle(color: Colors.black54),
-//                            ),
-//                          ],
-//                        ),
-//                        onTap: () {
-//                          Router.pushNoParams(
-//                              context, Router.psychologicalServiceCenterPage);
-//                          type ="心理服务分中心";
-//                        },
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//
-//              Expanded(
-//                  child: GestureDetector(
-//                    child: Container(
-//                      height: ScreenUtil().setHeight(9),
-//                      margin: EdgeInsets.fromLTRB(6, 0, 15, 0),
-//                      decoration: BoxDecoration(
-//                          borderRadius: BorderRadius.all(Radius.circular(10)),
-//                          gradient: LinearGradient(
-//                              begin: Alignment.centerLeft,
-//                              end: Alignment.centerRight,
-//                              colors: [
-//                                Colors.white,
-//                                Colors.greenAccent,
-//                              ])),
-//                      child: Row(
-//                        children: <Widget>[
-//                          Row(
-//                            children: <Widget>[
-//                              SizedBox(
-//                                width: ScreenUtil().setHeight(2),
-//                              ),
-//                              Image.asset(
-//                                'assets/images/consultation/搜索.png',
-//                                height: 25,
-//                              ),
-//                              SizedBox(
-//                                width: ScreenUtil().setHeight(1),
-//                              ),
-//                              Text(
-//                                '按地区查找',
-//                                style: TextStyle(color: Colors.black54),
-//                              ),
-//                            ],
-//                          )
-//                        ],
-//                      ),
-//                    ),
-//                    onTap: (){
-//                      Router.pushNoParams(context, Router.locationsearch);
-//                    },
-//                  )
-//              ),
-//
-//            ],
-//          ),
-//          SizedBox(
-//            height: ScreenUtil().setHeight(2),
-//          ),
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//            children: <Widget>[
-//              Expanded(
-//                child: Container(
-//                  height: ScreenUtil().setHeight(9),
-//                  margin: EdgeInsets.fromLTRB(15, 0, 6, 0),
-//                  decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.all(Radius.circular(10)),
-//                      gradient: LinearGradient(
-//                          begin: Alignment.centerLeft,
-//                          end: Alignment.centerRight,
-//                          colors: [
-//                            Colors.white,
-//                            Colors.orangeAccent,
-//                          ])),
-//                  child: Row(
-//                    children: <Widget>[
-//                      InkWell(
-//                        child: Row(
-//                          children: <Widget>[
-//                            SizedBox(
-//                              width: ScreenUtil().setHeight(2),
-//                            ),
-//                            Image.asset(
-//                              'assets/images/consultation/咖啡.png',
-//                              height: 25,
-//                            ),
-//                            SizedBox(
-//                              width: ScreenUtil().setHeight(1),
-//                            ),
-//                            Text(
-//                              '休闲驿站',
-//                              style: TextStyle(color: Colors.black54),
-//                            ),
-//                          ],
-//                        ),
-//                        onTap: (){
-//                          setState(() {
-//                            type='休闲驿站';
-//                            _requestPsyServiceCenterByType();
-//                          });
-//                        },
-//                      )
-//                    ],
-//                  ),
-//                ),
-//              ),
-//              Expanded(
-//                child: Container(
-//                  height: ScreenUtil().setHeight(9),
-//                  margin: EdgeInsets.fromLTRB(6, 0, 15, 0),
-//                  decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.all(Radius.circular(10)),
-//                      gradient: LinearGradient(
-//                          begin: Alignment.centerLeft,
-//                          end: Alignment.centerRight,
-//                          colors: [
-//                            Colors.white,
-//                            Colors.pinkAccent,
-//                          ])),
-//                  child: Row(
-//                    children: <Widget>[
-//                      InkWell(
-//                          child: Row(
-//                            children: <Widget>[
-//                              SizedBox(
-//                                width: ScreenUtil().setHeight(2),
-//                              ),
-//                              Image.asset(
-//                                'assets/images/consultation/蛋糕.png',
-//                                height: 25,
-//                                color: Colors.pinkAccent,
-//                              ),
-//                              SizedBox(
-//                                width: ScreenUtil().setHeight(1),
-//                              ),
-//                              Text(
-//                                '心理服务站',
-//                                style: TextStyle(color: Colors.black54),
-//                              ),
-//                            ],
-//                          ),
-//                          onTap: (){
-//                            setState(() {
-//                              type='服务站';
-//                              _requestPsyServiceCenterByType();
-//                            });
-//                          }
-//
-//                      )
-//                    ],
-//                  ),
-//                ),
-//              ),
-//            ],
-//          ),
-          SizedBox(
-            height: ScreenUtil().setHeight(2),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-            height: ScreenUtil().setHeight(70),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.white),
-            child: Container(
-              child: Container(
-                child: Container(
-                  child: isShowLoading
-                      ? LoadingWidget.childWidget()
-                      : (ServiceList.length == 0)
-                          ? Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              alignment: Alignment.center,
-                              child: Text('暂无数据'),
-                            )
-                          : ListView.builder(
-                              physics: ClampingScrollPhysics(),
-                              itemCount: ServiceList.length,
-                              itemBuilder: (context, index) {
-                                return  Column(
-                                  children: <Widget>[
-                                    index == 0
-                                        ? SizedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        children: <Widget>[
-                                          Text(
-                                            '共 ${ServiceList.length} 家医院',
-                                            style:
-                                            TextStyle(fontSize: 17),
-                                          ),
-                                          Icon(
-                                            Icons.art_track,
-                                            color: Colors.grey,
-                                          )
-                                        ],
-                                      ),
-                                      height: 30,
-                                    )
-                                        : SizedBox(),
-                                    Container(
-                                      margin:
-                                      EdgeInsets.only(top: 5, bottom: 12),
-                                      height: 1,
-                                      color: Colours.line,
-                                    ),
-                                    Container(
-                                      height: ScreenUtil().setHeight(11),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Image.network(
-                                            ServiceList[index].imgId,
-                                          ),
-                                          SizedBox(
-                                            width: 2,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                child: Text(
-                                                  ServiceList[index].name,
-                                                  style:
-                                                  TextStyle(fontSize: 16),
-                                                ),
-                                                width: 240,
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Container(
+      body: Container(
+        color: Colors.black12,
+        child: Column(
+          children: <Widget>[
 
-                                                child: Text(
-                                                  ServiceList[index].shortDesc +
-                                                      "|" +
-                                                      ServiceList[index]
-                                                          .location +
-                                                      "|" +
-                                                      ServiceList[index].remark,
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 13),
-                                                  overflow: TextOverflow.clip,
-                                                ),
-                                                width: 240,
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                ),
+            SearchTextFieldWidget(
+              margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
+              color: Colors.white,
+              isborder: true,
+            ),
+            Container(
+              height: 80,
+              child: TabBar(
+                isScrollable: false,
+                //是否可以滚动
+                controller: mController,
+                indicatorColor: Color(0xff2CA687),
+                labelColor: Color(0xff2CA687),
+                unselectedLabelColor: Color(0xff666666),
+                labelStyle: TextStyle(fontSize: 16.0),
+                tabs: <Widget>[
+                  Text('按地区'),
+                  Text('东城区'),
+                  Text('西城区'),
+                  Text('朝阳区'),
+                  Text('海淀区'),
+                  Text('丰台区'),
+
+                ],
               ),
             ),
-          )
-        ],
-      ),
+            Container(
+              height: 80,
+              child: TabBarView(
+                controller: mController,
+                children: <Widget>[
+                  Text('你啊'),
+                  Text('你啊'),
+                  Text('你啊'),
+                  Text('你啊'),
+                  Text('你啊'),
+                  Text('你啊'),
+//                  ServiceChild(),
+//                  ServiceChild(),
+//                  ServiceChild(),
+//                  ServiceChild(),
+//                  ServiceChild(),
+//                  ServiceChild(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
     );
   }
 }
