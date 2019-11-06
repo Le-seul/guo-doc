@@ -26,8 +26,9 @@ class _ServiceChildState extends State<ServiceChild> {
   }
 
   _getServiceCenter() {
+    print('location:${widget.location}');
     DioUtils.instance
-        .requestNetwork<ServCenter>(Method.get, Api.GETPSYSERVICECENTERLIST,
+        .requestNetwork<ServCenter>(Method.get, widget.location == ''?Api.GETPSYSERVICECENTERLIST:Api.GETPSYSERVICECENTERBYLOCATION,
             queryParameters: {
               'location': widget.location,
             },
@@ -79,7 +80,6 @@ class _ServiceChildState extends State<ServiceChild> {
                 },
                 child: Container(
                   color: Colors.white,
-
                   child: Row(
                     children: <Widget>[
                       Image.network(list[index].imgId, height: 40, width: 40),
@@ -117,44 +117,49 @@ class _ServiceChildState extends State<ServiceChild> {
                           SizedBox(
                             height: 5,
                           ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: Row(
-                                children: <Widget>[
-                                  list[index].serviceStation.length == 0
-                                      ? Text('')
-                                      : Text(
-                                          '心理服务站 ${list[index].serviceStation.length}   ',
-                                          style:
-                                              TextStyle(color: Colors.black26)),
-                                  Text('休闲驿站 2',
-                                      style: TextStyle(color: Colors.black26)),
-                                ],
-                              )),
-                              GestureDetector(
-                                child: list[index].offstage
-                                    ? Row(
-                                        children: <Widget>[
-                                          Text('展开'),
-                                          Icon(Icons.arrow_drop_down)
-                                        ],
-                                      )
-                                    : Row(
-                                        children: <Widget>[
-                                          Text('收起'),
-                                          Icon(Icons.arrow_drop_up)
-                                        ],
-                                      ),
-                                onTap: () {
-                                  setState(() {
-                                    list[index].offstage =
-                                        !list[index].offstage;
-                                  });
-                                },
-                              )
-                            ],
-                          ),
+
+                          list[index].serviceStation.length == 0&&list[index].leisurePost.length == 0?Container(): Row(
+                                 children: <Widget>[
+                                   Expanded(
+                                       child: Row(
+                                     children: <Widget>[
+                                       list[index].serviceStation.length == 0
+                                           ? Container()
+                                           : Text(
+                                               '心理服务站 ${list[index].serviceStation.length}   ',
+                                               style: TextStyle(
+                                                   color: Colors.black26)),
+                                       list[index].leisurePost.length == 0
+                                           ? Container()
+                                           : Text(
+                                               '休闲驿站 ${list[index].leisurePost.length}',
+                                               style: TextStyle(
+                                                   color: Colors.black26)),
+                                     ],
+                                   )),
+                                   GestureDetector(
+                                     child: list[index].offstage
+                                         ? Row(
+                                             children: <Widget>[
+                                               Text('展开'),
+                                               Icon(Icons.arrow_drop_down)
+                                             ],
+                                           )
+                                         : Row(
+                                             children: <Widget>[
+                                               Text('收起'),
+                                               Icon(Icons.arrow_drop_up)
+                                             ],
+                                           ),
+                                     onTap: () {
+                                       setState(() {
+                                         list[index].offstage =
+                                             !list[index].offstage;
+                                       });
+                                     },
+                                   )
+                                 ],
+                               ),
                         ],
                       ))
                     ],
@@ -166,12 +171,23 @@ class _ServiceChildState extends State<ServiceChild> {
               ),
               Offstage(
                 offstage: list[index].offstage,
-                child: ListView.builder(
-                  physics: ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: list[index].serviceStation.length,
-                  itemBuilder: (context, index2) =>
-                      _buildChild(list[index].serviceStation[index2]),
+                child: Column(
+                  children: <Widget>[
+                    ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: list[index].serviceStation.length,
+                      itemBuilder: (context, index2) =>
+                          _buildChild(list[index].serviceStation[index2]),
+                    ),
+                    ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: list[index].leisurePost.length,
+                      itemBuilder: (context, index2) =>
+                          _buildChild2(list[index].leisurePost[index2]),
+                    ),
+                  ],
                 ),
               )
             ],
@@ -180,7 +196,58 @@ class _ServiceChildState extends State<ServiceChild> {
       ),
     );
   }
-
+  _buildChild2(LeisurePost leisurePost) {
+    return GestureDetector(
+      onTap: () {
+        Router.pushNoParams(context, Router.center_detail);
+      },
+      child: Container(
+        color: Colors.white,
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 1,
+              color: Colors.black26,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+                padding: EdgeInsets.only(left: 10),
+                child: Text(leisurePost.name)),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              child: Flex(
+                direction: Axis.horizontal,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Icon(
+                    Icons.location_on,
+                    size: 15,
+                    color: Colors.black26,
+                  ),
+                  Expanded(
+                    child: Text(
+                      leisurePost.remark,
+                      style: TextStyle(color: Colors.black26),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   _buildChild(ServiceStation serviceStation) {
     return GestureDetector(
       onTap: () {

@@ -122,10 +122,10 @@ class Api {
   static const String PsyDailyTested = "/api/psyDailyTest.do?getPsyDailyTestRecord";
   //心理课程详情1
   static const String PsyCourseDetail = "/api/psyCourse.do?getCouserDetail&id=1";
-  //服务中心
+  //服务中心列表
   static const String GETPSYSERVICECENTERLIST = "/api/psyServiceCenter.do?getPsyServiceCenterList";
-
-
+  //按地区查找
+  static const String GETPSYSERVICECENTERBYLOCATION = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation";
 
 
 }
