@@ -120,7 +120,8 @@ class _Table0State extends State<Table0> {
                 )
               ],
             ),
-            onTap: () {},
+            onTap: () {
+            },
           ),
           GestureDetector(
             child: Column(

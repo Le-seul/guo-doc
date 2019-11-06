@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/common/common.dart';
@@ -21,6 +20,7 @@ import 'package:flutter_first/util/toast.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 import 'pages/exit_login_page.dart';
 
 void main() async {
@@ -28,9 +28,6 @@ void main() async {
   setupLocator();
 // 运行主界面
   await StorageManager.init();
-
-
-
   runApp(MyApp());
 }
 

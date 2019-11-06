@@ -4,8 +4,6 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
-import 'package:flutter_first/widgets/my_card.dart';
-import 'package:flutter_first/widgets/search.dart';
 
 class MusicPage extends StatefulWidget {
   String tagId;
