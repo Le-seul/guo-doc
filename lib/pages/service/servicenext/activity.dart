@@ -61,166 +61,190 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
           ),
           centerTitle: true,
         ),
-        body: isShowLoading
-            ? LoadingWidget.childWidget()
-            : (activityDetail == null)
-                ? Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    alignment: Alignment.center,
-                    child: Text('暂无数据'),
-                  )
-                : Container(
-                    width: double.infinity,
-                    child: ListView(
-                      children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          child: Image.network(
-                            activityDetail.cover,
-                            height: 180,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 15),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+        body: Container(
+          child: Container(
+            child: isShowLoading
+                ? LoadingWidget.childWidget()
+                : (activityDetail == null)
+                    ? Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        alignment: Alignment.center,
+                        child: Text('暂无数据'),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        child: ListView(
+                          children: <Widget>[
+                            Container(
+                              width: double.infinity,
+                              child: Image.network(
+                                activityDetail.cover,
+                                height: 180,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '活动时间: ${activityDetail.startTime}',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      '活动地点: ${activityDetail.location}',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      '报名人数: ${activityDetail.signInCount}人   先到先得',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Text(
-                                  '活动时间: ${activityDetail.startTime}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '活动地点: ${activityDetail.location}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '报名人数: ${activityDetail.signInCount}人   先到先得',
-                                  style: TextStyle(fontSize: 16),
-                                ),
+                                Icon(Icons.person_outline),
+                                Text("${activityDetail.signInCount}人已报名    ")
                               ],
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Icon(Icons.people),
-                            Text("${activityDetail.signInCount}人已报名    ")
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Offstage(
+                              offstage: widget.offstage,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 20,
+                                    child: Container(
+                                      color: Colors.grey[200],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left:15,top: 20,bottom: 20),
+                                      child: Text(
+                                    '相关活动',
+                                    style: TextStyle(fontSize: 18),
+                                  )),
+                                  Container(
+                                    height: 120,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: false,
+                                      itemCount: widget.activityId == "1"
+                                          ? activityDetail.childActivity.length
+                                          : 0,
+                                      itemBuilder: (context, index) =>
+                                          _childItem(index),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                              child: Container(
+                                color: Colors.grey[200],
+                              ),
+                            ),
+                            Container(
+                              padding:
+                                  EdgeInsets.only(top: 15, left: 15, right: 15),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                      child: Text(
+                                    '相关资讯',
+                                    style: TextStyle(fontSize: 18),
+                                  )),
+                                  Text('更多'),
+                                  Icon(Icons.chevron_right)
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: 3,
+                                itemBuilder: (context, index) =>
+                                    _buildItem(index),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.grey[200],
+                              margin:
+                                  EdgeInsets.only(left: 10, right: 10, top: 10),
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 30, top: 10, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('活动满意度调查问卷，点击前往'),
+                                  Icon(
+                                    Icons.dashboard,
+                                    color: Colors.green,
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                              child: FlatButton(
+                                onPressed: () {
+                                  showDialog<Null>(
+                                      context: context, //BuildContext对象
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return LoadingDialog();
+                                      });
+                                },
+                                color: Colors.orange,
+                                child: Text(
+                                  '报名',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                              ),
+                            )
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-
-                        Container(
-                          height: 160,
-                          child: WebView(
-                            initialUrl: activityDetail.detail,
-                            javascriptMode: JavascriptMode.unrestricted,
-                          )
-                        ),
-
-                        Offstage(
-                          offstage: widget.offstage,
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 2,
-                                child: Container(
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                              Container(
-                                height: 120,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: ClampingScrollPhysics(),
-                                  shrinkWrap: false,
-                                  itemCount: widget.activityId == "1"? activityDetail.childActivity.length : 0,
-                                  itemBuilder: (context, index) =>
-                                      _childItem(index),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                                child: Container(
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: 3,
-                            itemBuilder: (context, index) => _buildItem(index),
-                          ),
-                        ),
-                        Container(
-                          color: Colors.grey[200],
-                          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                          padding: EdgeInsets.only(
-                              left: 10, right: 30, top: 10, bottom: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text('活动满意度调查问卷，点击前往'),
-                              Icon(
-                                Icons.dashboard,
-                                color: Colors.green,
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                          child: FlatButton(
-                            onPressed: () {
-                              showDialog<Null>(
-                                  context: context, //BuildContext对象
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return LoadingDialog();
-                                  });
-                            },
-                            color: Colors.orange,
-                            child: Text(
-                              '报名',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                          ),
-                        )
-                      ],
-                    ),
-                  ));
+                      ),
+          ),
+        ));
   }
 
   _childItem(int index) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.serviceActivityPage,
-            {'offstage': true, 'activityId': activityDetail.childActivity[index].id});
+        Router.push(context, Router.serviceActivityPage, {
+          'offstage': true,
+          'activityId': activityDetail.childActivity[index].id
+        });
       },
       child: Container(
         padding: EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 8),
@@ -233,10 +257,12 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
               fit: BoxFit.fill,
             ),
             Container(
-              width: 120,
-              child: Text(activityDetail.childActivity[index].name,maxLines: 1,overflow: TextOverflow.ellipsis,)
-            )
-
+                width: 120,
+                child: Text(
+                  activityDetail.childActivity[index].name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ))
           ],
         ),
       ),
@@ -245,26 +271,44 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
 
   _buildItem(int index) {
     return Container(
-      color: Colors.grey[200],
-      padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
-      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: EdgeInsets.only(bottom: 5, left: 15, right: 15),
+      margin: EdgeInsets.only(top: 15),
+      child: Column(
         children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text(
-              activityDetail.name,
-              style: TextStyle(fontSize: 15),
-            ),
+          Container(
+            height: 1,
+            color: Colors.grey[200],
           ),
-          Expanded(
-            flex: 1,
-            child: Image.network(activityDetail.cover,
-                height: 80, width: 120, fit: BoxFit.fill),
+          SizedBox(
+            height: 20,
           ),
-
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: Image.network(
+                        activityDetail.cover,
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.fill,
+                      ),
+                    )),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  activityDetail.name,
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

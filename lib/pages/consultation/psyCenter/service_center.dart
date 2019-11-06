@@ -24,9 +24,6 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
 
   void initState() {
     super.initState();
-    _requestPsyServiceCenterList();
-    _requestPsyServiceCenterByType();
-
     mController = TabController(
       length: 6,
       vsync: this,
@@ -37,32 +34,6 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
   void dispose() {
     super.dispose();
     mController.dispose();
-  }
-
-  void _requestPsyServiceCenterList() {
-    DioUtils.instance.requestNetwork<PsyServiceCenter>(
-        Method.get, Api.PsyServiceCenterList, isList: true,
-        onSuccessList: (data) {
-      setState(() {
-        ServiceList = data;
-        isShowLoading = false;
-      });
-    }, onError: (code, msg) {
-      print("sssss");
-    });
-  }
-
-  void _requestPsyServiceCenterByType() {
-    DioUtils.instance.requestNetwork<PsyServiceCenter>(
-        Method.get, Api.PsyServiceCenterByType,
-        queryParameters: {"type": type}, isList: true, onSuccessList: (data) {
-      setState(() {
-        TypeList = data;
-        isShowLoading = false;
-      });
-    }, onError: (code, msg) {
-      print("sssss");
-    });
   }
 
   Widget build(BuildContext context) {
