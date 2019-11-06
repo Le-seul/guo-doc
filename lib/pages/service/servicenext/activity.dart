@@ -75,6 +75,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                     : Container(
                         width: double.infinity,
                         child: ListView(
+                          physics: ClampingScrollPhysics(),
                           children: <Widget>[
                             Container(
                               width: double.infinity,
