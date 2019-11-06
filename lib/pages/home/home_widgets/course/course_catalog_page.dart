@@ -227,7 +227,7 @@ List<Psycoursecatelog> psycoursecateloglist;
                   alignment: Alignment.center,
                   child: Text('暂无数据'),
                 )
-                    :Detail(Detailurl: Detailurl,),
+                    :Detail(Detailurl: Detailurl[0].detailDesc,),
                 isShowLoading2? LoadingWidget.childWidget()
                     : (psycoursecateloglist.length == 0 || psycoursecateloglist == null)
                     ? Container(
@@ -357,7 +357,7 @@ class _CatalogState extends State<Catalog> {
 
 }
 class Detail extends StatefulWidget {
-  List<PsyCourseDetail> Detailurl;
+  String Detailurl;
   Detail({Key key, @required this.Detailurl, }): super(key: key);
 
   @override
@@ -382,7 +382,7 @@ class _DetailState extends State<Detail> {
     ),
     ),
     child: WebView(
-      initialUrl: widget.Detailurl[0].detailDesc,
+      initialUrl: widget.Detailurl,
       javascriptMode: JavascriptMode.unrestricted,
     ),
     ),

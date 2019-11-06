@@ -216,7 +216,7 @@ class _instructor_demeanor_detailState extends State<instructor_demeanor_detail>
           Container(
             padding: EdgeInsets.only(left: 20,top: 10),
           color: Colors.white,
-          child: Text('相关资讯',style: TextStyle(fontSize: 16),),),
+          child: Text('心理足迹',style: TextStyle(fontSize: 16),),),
           GestureDetector(
             child:Container(
               color: Colors.white,

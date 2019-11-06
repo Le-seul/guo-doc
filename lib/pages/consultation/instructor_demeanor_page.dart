@@ -4,6 +4,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/number.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,9 +58,11 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
     DioUtils.instance.requestNetwork<PsyTeacherList>(
         Method.get, Api.PsyTeacherList,
         queryParameters: {"id": list[index].id},
-        isList: true, onSuccessList: (data) {
+        isList: true,
+        onSuccessList: (data) {
       _requestFirstRank();
-    }, onError: (code, msg) {
+    },
+        onError: (code, msg) {
       print("sssss");
     });
   }
@@ -429,7 +432,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  '${Ranklist[index].likeCount~/1000}k+',
+                                                  Number(Ranklist[index].likeCount),
                                                   style: TextStyle(
                                                       color: Colors.green.shade200),
                                                 )

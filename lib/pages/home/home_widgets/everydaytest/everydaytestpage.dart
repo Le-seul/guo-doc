@@ -202,14 +202,13 @@ class _SelectedState extends State<Selected> {
 //            }
           });
         }, onError: (code, msg) {
+          isShowLoading = false;
           print("sssss");
         });
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isShowLoading
-          ? LoadingWidget.childWidget()
-          : (Selectedlist.length == 0)
+      body:  (Selectedlist.length == 0)
           ? Container(
         width: double.infinity,
         height: double.infinity,
