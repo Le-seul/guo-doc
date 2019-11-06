@@ -41,6 +41,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
     return Scaffold(
         backgroundColor: Colours.line,
         appBar: AppBar(
+          elevation: 0.0,
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
@@ -77,7 +78,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                   unselectedLabelStyle: TextStyle(fontSize: 14),
                   labelStyle: TextStyle(fontSize: 16.0),
                   tabs: <Widget>[
-                    Text('找地区'),
+                    Text('按地区'),
                     Text('东城区'),
                     Text('西城区'),
                     Text('朝阳区'),
@@ -90,12 +91,12 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                 child: TabBarView(
                   controller: mController,
                   children: <Widget>[
-                  ServiceChild(),
-                  ServiceChild(),
-                  ServiceChild(),
-                  ServiceChild(),
-                  ServiceChild(),
-                  ServiceChild(),
+                  ServiceChild(''),
+                  ServiceChild('东城区'),
+                  ServiceChild('西城区'),
+                  ServiceChild('朝阳区'),
+                  ServiceChild('海淀区'),
+                  ServiceChild('丰台区'),
                   ],
                 ),
               ),
