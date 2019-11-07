@@ -90,8 +90,6 @@ class EntityFactory {
       return PsyServiceCenter.fromJson(json) as T;
     }else if (T.toString() == "PsyTeacherList") {
       return PsyTeacherList.fromJson(json) as T;
-    }else if (T.toString() == "PsyTeacherBest") {
-      return PsyTeacherBest.fromJson(json) as T;
     }else if (T.toString() == "PsyCourseDetail") {
       return PsyCourseDetail.fromJson(json) as T;
     }

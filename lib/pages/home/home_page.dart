@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
         children: list.map((model) {
           return new InkWell(
             onTap: () {
-              Router.push(context, model.imgId, {'title': model.name});
+              Router.push(context, model.actionTarget, {'title': model.name});
             },
             child: new CachedNetworkImage(
               fit: BoxFit.fill,
