@@ -47,9 +47,11 @@ class Api {
   //心理课程目录1
   static const String PSYCOURSECATELOG = "/api/psyCourse.do?getPsyCourseCatalog&courseId=1";
 
-  //简单共读
-//  static const String CoReading = "/api/psycoreading.do?getPsyCoReading";
+  //心理共读
   static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
+  //心理共读类别
+
+  static const String CoReadingKind = "/api/psyCoreading.do?getPsyCoReadingByCategoryId";
 
   //简单共读目录
   static const String CoReadingCatalog = "/api/psyCoreading.do?getPsyCoReadingCatalog&courseId=1";
@@ -113,7 +115,7 @@ class Api {
   static const String PsyServiceCenterByLocation = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation&location=海淀";
   //服务中心另外三块
   static const String PsyServiceCenterByType = "/api/psyServiceCenter.do?getPsyServiceCenterByType";
-  //教官列表点赞初始面
+  //教官列表
   static const String PsyTeacherList = "/api/psyTeacher.do?getPsyTeacherList";
   //教官列表最美教官
   static const String PsyTeacherBest = "/api/psyTeacher.do?getPsyTeacherBest&teacherId=1";

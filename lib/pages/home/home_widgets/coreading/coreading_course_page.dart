@@ -95,9 +95,7 @@ class _MyRewardPageState extends State<MyRewardPage>
             isShowLoading = false;
             for (CoReading item in Togethereadinglist){
               for ( int i = 0;i<=Togethereadinglist.length;i++){
-                if(item.id == "$i"){
-                  Imagelist.add(item);
-                }
+
               }
             }
           });

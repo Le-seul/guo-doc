@@ -1,39 +1,77 @@
-class PsyTeacherList{
-  String id;
-  String name;
-  String imgId;
-  int likeCount;
-  String orgId;
-  String shortDesc;
+class PsyTeacherList {
   String detailDesc;
-  String major;
   String pqc;
+  String imgId;
+  String major;
+  List<ShowImg> showImg;
+  String name;
+  String shortDesc;
+  int likeCount;
   String remark;
+  String id;
   String slogan;
-  String showId1;
-  String showId2;
-  String showId3;
-  String showId4;
+  String orgId;
+  //int state;
+  PsyTeacherList({
+    this.detailDesc,
+    this.pqc,
+    this.imgId,
+    this.major,
+    this.showImg,
+    this.name,
+    this.shortDesc,
+    this.likeCount,
+    this.remark,
+    this.id,
+    this.slogan,
+    this.orgId,
+   // this.state
+  });
 
+  factory PsyTeacherList.fromJson(Map<String, dynamic> json) => PsyTeacherList(
+    detailDesc: json["detailDesc"],
+    pqc: json["pqc"],
+    imgId: json["imgId"],
+    major: json["major"],
+    showImg: List<ShowImg>.from(json["ShowImg"].map((x) => ShowImg.fromJson(x))),
+    name: json["name"],
+    shortDesc: json["shortDesc"],
+    likeCount: json["likeCount"],
+    remark: json["remark"],
+    id: json["id"],
+    slogan: json["slogan"],
+    orgId: json["orgId"],
+   // state: json["state"],
+  );
 
-  PsyTeacherList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    imgId = json['imgId'];
-    likeCount = json['likeCount'];
-    orgId = json['orgId'];
-    shortDesc = json['shortDesc'];
-    detailDesc = json['detailDesc'];
-    major = json['major'];
-    pqc = json['pqc'];
-    remark = json['remark'];
-    slogan = json['slogan'];
-    showId1 = json['showId1'];
-    showId4 = json['showId4'];
-    showId3 = json['showId3'];
-    showId2 = json['showId2'];
+  Map<String, dynamic> toJson() => {
+    "detailDesc": detailDesc,
+    "pqc": pqc,
+    "imgId": imgId,
+    "major": major,
+    "ShowImg": List<dynamic>.from(showImg.map((x) => x.toJson())),
+    "name": name,
+    "shortDesc": shortDesc,
+    "likeCount": likeCount,
+    "remark": remark,
+    "id": id,
+    "slogan": slogan,
+    "orgId": orgId,
+  };
+}
 
+class ShowImg {
+  String showId;
 
-  }
+  ShowImg({
+    this.showId,
+  });
 
+  factory ShowImg.fromJson(Map<String, dynamic> json) => ShowImg(
+    showId: json["showId"] == null ? null : json["showId"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "showId": showId == null ? null : showId,
+  };
 }

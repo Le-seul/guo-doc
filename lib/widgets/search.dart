@@ -36,7 +36,7 @@ class SearchTextFieldWidget extends StatelessWidget {
             fillColor: Colors.white,
             hintText: hintText,
             hintStyle: TextStyle(
-                fontSize: 17, color: Color.fromARGB(255, 192, 191, 191)),
+                fontSize: 15, color: Color.fromARGB(255, 192, 191, 191)),
             prefixIcon: Container(
               padding: EdgeInsets.only(top: 5,bottom: 5),
               child: loadAssetImage('search.png'),

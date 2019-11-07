@@ -4,6 +4,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/number.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,11 +32,12 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
         Method.get, Api.PsyTeacherList,
         isList: true, onSuccessList: (data) {
       setState(() {
+        print('教官成功');
         Ranklist = data;
         isShowLoadingRank = false;
       });
     }, onError: (code, msg) {
-      print("sssss");
+      print('教官失败');
     });
   }
 
@@ -57,9 +59,11 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
     DioUtils.instance.requestNetwork<PsyTeacherList>(
         Method.get, Api.PsyTeacherList,
         queryParameters: {"id": list[index].id},
-        isList: true, onSuccessList: (data) {
+        isList: true,
+        onSuccessList: (data) {
       _requestFirstRank();
-    }, onError: (code, msg) {
+    },
+        onError: (code, msg) {
       print("sssss");
     });
   }
@@ -82,7 +86,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
           children: <Widget>[
             GestureDetector(
               child: Container(
-                margin: EdgeInsets.only(top: 2,bottom: 10),
+                margin: EdgeInsets.only(top: 2,bottom: 0),
                 height: ScreenUtil().setHeight(35),
                   color: Colors.white,
                 child: Column(
@@ -160,7 +164,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                               height: 5,
                                             ),
                                             Text(
-                                              BestList[0].shortDesc,
+                                              BestList[0].pqc,
                                               style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 14),
@@ -226,7 +230,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                 },
             ),
             Container(
-              margin: EdgeInsets.only(top: 10,bottom: 10),
+              margin: EdgeInsets.only(top: 16,bottom: 0),
                 height: ScreenUtil().setHeight(30),
               color: Colors.white,
                 child: Column(
@@ -276,9 +280,9 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         image: DecorationImage(
                                             image: NetworkImage(
                                                 Ranklist[0].imgId),
-                                            fit: BoxFit.fill),
+                                            ),
                                         borderRadius:
-                                        BorderRadius.circular(35))),
+                                        BorderRadius.circular(37.5))),
                                 onTap: (){
                                   Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[0]);
                                 },
@@ -299,7 +303,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         image: DecorationImage(
                                             image: NetworkImage(
                                                 Ranklist[1].imgId),
-                                            fit: BoxFit.fill),
+                                            ),
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
@@ -322,7 +326,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         image: DecorationImage(
                                             image: NetworkImage(
                                                 Ranklist[2].imgId),
-                                            fit: BoxFit.fill),
+                                            ),
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
@@ -342,7 +346,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                 ),
               ),
             SizedBox(
-              height: 10,
+              height: 16,
             ),
             isShowLoadingRank
                 ? LoadingWidget.childWidget()
@@ -361,14 +365,15 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             crossAxisSpacing: 0,
                             mainAxisSpacing: 1,
                             childAspectRatio: 1.6),
-                        itemCount: 8,
+                        itemCount: Ranklist.length,
                         itemBuilder: (context, index) {
 
                           return GestureDetector(
                             child: Container(
                                   color: Colors.white,
                                   padding: EdgeInsets.only(left: 10),
-                                  child: Row(
+                                  child: Flex(
+                                    direction: Axis.horizontal,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Column(
@@ -381,65 +386,74 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                                   image: DecorationImage(
                                                       image: NetworkImage(
                                                           Ranklist[index].imgId),
-                                                      fit: BoxFit.fill),
+                                                      ),
                                                   borderRadius:
                                                   BorderRadius.circular(35))),
                                           SizedBox(height: 20,)
                                         ],
                                       ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(Ranklist[index].name,style:TextStyle(fontSize: 18) ,),
-                                              SizedBox(
-                                                width: 7  ,
-                                              ),
-                                              Text(
-                                                Ranklist[index].orgId,
-                                                style: TextStyle(
-                                                    fontSize: 12, color: Colors.grey.shade600),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            Ranklist[index].shortDesc,
-                                            style: TextStyle(
-                                                fontSize: 12, color: Colors.grey.shade600),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            child: Row(
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Flex(
+                                              direction: Axis.horizontal,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: <Widget>[
-                                                Image.asset(
-                                                  'assets/images/consultation/点赞.png',
-                                                  height: 16,
-                                                  width: 16,
-                                                  color: Colors.green.shade200,
-                                                ),
+                                                Text(Ranklist[index].name,style:TextStyle(fontSize: 18) ,),
                                                 SizedBox(
-                                                  width: 5,
+                                                  width: 7  ,
                                                 ),
-                                                Text(
-                                                  '${Ranklist[index].likeCount~/1000}k+',
-                                                  style: TextStyle(
-                                                      color: Colors.green.shade200),
-                                                )
+                                                 Expanded(
+                                                   child: Text(
+                                                    Ranklist[index].orgId,
+                                                    style: TextStyle(
+                                                        fontSize: 12, color: Colors.grey.shade600),
+                                                    overflow: TextOverflow.ellipsis,
+                                                ),
+                                                 ),
+
                                               ],
                                             ),
-                                            onTap: () {
-                                              _Rank(index, Ranklist);
-                                            },
-                                          )
-                                        ],
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              Ranklist[index].pqc,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 12, color: Colors.grey.shade600),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            GestureDetector(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                    'assets/images/consultation/点赞.png',
+                                                    height: 16,
+                                                    width: 16,
+                                                    color: Colors.green.shade200,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    Number(Ranklist[index].likeCount),
+                                                    style: TextStyle(
+                                                        color: Colors.green.shade200),
+                                                  )
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                _Rank(index, Ranklist);
+                                              },
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       Container(
                                         height: 60,

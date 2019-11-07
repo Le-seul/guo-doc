@@ -4,8 +4,6 @@ import 'package:flutter_first/bean/all_order_entity.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
-import 'package:flutter_first/bean/course.dart';
-import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
@@ -22,10 +20,8 @@ import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/bean/psyteacherbest.dart';
 import 'package:flutter_first/bean/psyteacherlist.dart';
-import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/bean/service_center.dart';
-import 'package:flutter_first/bean/service_center_bean.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/bean/user_entity.dart';
@@ -101,6 +97,8 @@ class EntityFactory {
       return Course.fromJson(json) as T;
     }else if (T.toString() == "CourseDetail") {
     return CourseDetail.fromJson(json) as T;
+    }else if (T.toString() == "PsyCourseDetail") {
+      return PsyCourseDetail.fromJson(json) as T;
     }
     else {
       return null;
