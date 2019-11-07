@@ -4,12 +4,16 @@ import 'package:flukit/flukit.dart' as lib1;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
+import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_child.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
+import 'package:flutter_first/widgets/search.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
 
 class PsyCourse extends StatefulWidget {
@@ -17,50 +21,51 @@ class PsyCourse extends StatefulWidget {
   _PsyCourseState createState() => _PsyCourseState();
 }
 
-class _PsyCourseState extends State<PsyCourse> {
-  // List<BannerImage> bannerlist;
-  bool isShowLoading = true;
-  List<Psycourse> psycourselist = List();
-  List<Psycourse> mycourselist = List(); //我的课程
-  List<Psycourse> emotionlist = List(); //情绪调节
-  List<Psycourse> Dearlist = List(); //亲密关系
+class _PsyCourseState extends State<PsyCourse>
+    with SingleTickerProviderStateMixin {
+  bool isShowLoading = false;
+  List<Course> ecommendrList = List();
+  List<Course> comingList = List(); //我的课程
+  List<Course> lastTimeList = List(); //我的课程
+  bool offstage = true;
+  TabController mController;
 
   @override
   void initState() {
-    //_requestBanner();
-    _requestPsycourse1();
+    _requestPsycourse();
+    mController = TabController(
+      length: 6,
+      vsync: this,
+    );
   }
-//  void _requestBanner() {
-//    DioUtils.instance.requestNetwork<BannerImage>(Method.get, Api.BANNER,
-//        isList: true, onSuccessList: (data) {
-//          setState(() {
-//            bannerlist = data;
-//          });
-//        }, onError: (code, msg) {
-//          print("sssss");
-//        });
-//  }
 
-  void _requestPsycourse1() {
-    DioUtils.instance.requestNetwork<Psycourse>(Method.get, Api.PSYCOURSE,
+  @override
+  void dispose() {
+    super.dispose();
+    mController.dispose();
+  }
+
+  void _requestPsycourse() {
+    DioUtils.instance.requestNetwork<Course>(Method.get, Api.GETALLCOUTSE,
         isList: true, onSuccessList: (data) {
       setState(() {
-        psycourselist = data;
-        isShowLoading = false;
-        for (Psycourse index in psycourselist) {
-          if (index.categoryId == "情绪调节") {
-            emotionlist.add(index);
-          }
-          if (index.categoryId == "亲密关系") {
-            Dearlist.add(index);
-          }
-          if (index.categoryId == "轮播图") {
-            mycourselist.add(index);
+        for (Course course in data) {
+          if (course.state == 'YFB') {
+            ecommendrList.add(course);
+          } else if (course.state == 'JJFB') {
+            comingList.add(course);
+          } else {
+            lastTimeList.add(course);
           }
         }
+        ;
+        if (lastTimeList.length != 0) {
+          offstage = false;
+        }
+        print("获取课程成功！");
       });
     }, onError: (code, msg) {
-      print("sssss");
+      print("获取课程失败！");
     });
   }
 
@@ -72,226 +77,349 @@ class _PsyCourseState extends State<PsyCourse> {
         backgroundColor: Colours.bg_green,
         elevation: 0.0,
       ),
-      body: isShowLoading
-          ? LoadingWidget.childWidget()
-          : (psycourselist.length == 0)
-              ? Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  alignment: Alignment.center,
-                  child: Text('暂无数据'),
-                )
-              : ListView(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  children: <Widget>[
-                    Stack(
+      body: CustomScrollView(
+        physics: ClampingScrollPhysics(),
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Container(
+              color: Color(0xFFEEEEEE),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15,
+                  ),
+                  SearchTextFieldWidget(
+                    isborder: true,
+                    hintText: '搜索课程',
+                    margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    onTab: () {},
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Offstage(
+                    offstage: offstage,
+                    child: Column(
                       children: <Widget>[
-                        LoginTopPanel(),
-                        Positioned(
-                          bottom: 0,
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                height: 190,
-                                child: buildBanner(context, mycourselist),
+                        Container(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 2,
+                                height: 16,
+                                color: Color(0xff2CA687),
                               ),
-                            ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                '上次收听',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
+                        ),
+                        Container(
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 3,
+                            itemBuilder: (context, index) => _buildItem1(index),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 2,
+                        height: 16,
+                        color: Color(0xff2CA687),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        '课程推荐',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 60,
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Text('类别：')),
+                      Expanded(
+                        child: TabBar(
+                          isScrollable: true,
+                          //是否可以滚动
+                          controller: mController,
+                          labelPadding: EdgeInsets.only(left: 5, right: 5),
+                          indicatorColor: Color(0xff2CA687),
+                          labelColor: Color(0xff2CA687),
+                          unselectedLabelColor: Color(0xff666666),
+                          unselectedLabelStyle: TextStyle(fontSize: 14),
+                          labelStyle: TextStyle(fontSize: 16.0),
+                          tabs: <Widget>[
+                            Text('全部'),
+                            Text('情绪调节'),
+                            Text('亲密关系'),
+                            Text('自我成长'),
+                            Text('咨询培训'),
+                            Text('简单共读'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 330,
+              child: TabBarView(
+                controller: mController,
+                children: <Widget>[
+                  CourseChild(ecommendrList),
+                  CourseChild(ecommendrList),
+                  CourseChild(ecommendrList),
+                  CourseChild(ecommendrList),
+                  CourseChild(ecommendrList),
+                  CourseChild(ecommendrList),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 20,
+                  color: Color(0xFFEEEEEE),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 2,
+                        height: 16,
+                        color: Color(0xff2CA687),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        '即将上线',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: comingList.length,
+                    itemBuilder: (context, index) => _buildItem(index),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildItem1(int index) {
+    return Container(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        children: <Widget>[
+          index == 0
+              ? Container()
+              : Container(
+                  height: 1,
+                  color: Colors.black12,
+                ),
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    'https://www.aireading.club/phms_resource_base/image_base/疗愈和父母的关系.jpg',
+                    width: 150,
+                    height: 90,
+                    fit: BoxFit.fitHeight,
+                  )),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '【怎么管理情绪】',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text('类别：情绪调节'),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Flex(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      direction: Axis.horizontal,
+                      children: <Widget>[
+                        Icon(
+                          Icons.access_time,
+                          size: 15,
+                        ),
+                        Expanded(child: Text('上次听到:01讲 05分22秒'))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text('点击继续收听'),
+                        Icon(
+                          Icons.chevron_right,
+                          size: 15,
                         )
                       ],
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '情绪调节',
-                            style: TextStyle(fontSize: 17.5),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 8,
-                                      crossAxisSpacing: 8,
-                                      childAspectRatio: 1.4),
-                              itemCount: emotionlist.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  child: Column(
-                                    children: <Widget>[
-                                      InkWell(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      emotionlist[index]
-                                                          .coverImgId),
-                                                  fit: BoxFit.fill)),
-                                          height: 90,
-                                        ),
-                                        onTap: (){},
-                                      ),
-                                      SizedBox(
-                                        height: 7,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(emotionlist[index].name),
-                                          Text(
-                                            '共${emotionlist[index].courseCount}讲',
-                                            style: TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.grey),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              })
-                        ],
-                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildItem(int index) {
+    return Container(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        children: <Widget>[
+          index == 0
+              ? Container()
+              : Container(
+                  height: 1,
+                  color: Colors.black12,
+                ),
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Stack(
+                alignment:Alignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        comingList[index].coverImage,
+                        width: 110,
+                        height: 80,
+                        fit: BoxFit.fitHeight,
+                      )),
+                  Container(
+                    width: 110,
+                    height: 80,
+                    child: Text("1"),
+                    decoration: BoxDecoration(color: Color(0x90000000),
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                  Text('敬请期待',style: TextStyle(color: Colors.white),)
+                ],
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '【怎么管理情绪】',
+                      style: TextStyle(fontSize: 16),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '亲密关系',
-                            style: TextStyle(fontSize: 17.5),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 8,
-                                      crossAxisSpacing: 8,
-                                      childAspectRatio: 1.4),
-                              itemCount: Dearlist.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  child: Column(
-                                    children: <Widget>[
-                                      InkWell(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      Dearlist[index]
-                                                          .coverImgId),
-                                                  fit: BoxFit.fill)),
-                                          height: 90,
-                                        ),
-                                        onTap: () {
-                                          Router.pushNoParams(context,
-                                              Router.curriculumcatalog1);
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 7,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(Dearlist[index].name),
-                                          Text(
-                                            '共${Dearlist[index].courseCount}讲',
-                                            style: TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.grey),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              })
-                        ],
-                      ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text('类别：情绪调节'),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text('课程时长：16讲'),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.access_time,
+                          size: 15,color: Colors.black54
+                        ),
+                        SizedBox(width:5,),
+                        Text('预计12月3号上线',style: TextStyle(color: Color(0xFFFF5400)))
+                      ],
                     ),
                   ],
                 ),
-    );
-  }
-}
-
-Widget buildBanner(BuildContext context, List<Psycourse> list) {
-  if (list == null) {
-    return new Container(height: 0.0);
-  }
-  return new AspectRatio(
-    aspectRatio: 16.0 / 9.0,
-    child: lib1.Swiper(
-      indicatorAlignment: AlignmentDirectional(0.95, 0.9),
-      circular: true,
-      interval: const Duration(seconds: 3),
-      indicator: NumberSwiperIndicator(),
-      children: list.map((model) {
-        return new InkWell(
-          onTap: () {
-            Router.push(context, model.coverImgId, {'title': model.name});
-          },
-          child: new CachedNetworkImage(
-            fit: BoxFit.fill,
-            imageUrl: model.coverImgId,
-            placeholder: (context, url) => new ProgressView(),
-            errorWidget: (context, url, error) => new Icon(Icons.error),
+              ),
+              Text(
+                '即将上线',
+                style: TextStyle(color: Color(0xFFFBB723)),
+              ),
+            ],
           ),
-        );
-      }).toList(),
-    ),
-  );
-}
-
-class NumberSwiperIndicator extends SwiperIndicator {
-  @override
-  Widget build(BuildContext context, int index, int itemCount) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.black45, borderRadius: BorderRadius.circular(20.0)),
-      margin: EdgeInsets.only(top: 10.0, right: 5.0),
-      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
-      child: Text("${++index}/$itemCount",
-          style: TextStyle(color: Colors.white70, fontSize: 11.0)),
-    );
-  }
-}
-
-class ProgressView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Center(
-      child: new SizedBox(
-        width: 24.0,
-        height: 24.0,
-        child: new CircularProgressIndicator(
-          strokeWidth: 2.0,
-        ),
+          SizedBox(
+            height: 15,
+          ),
+        ],
       ),
     );
   }

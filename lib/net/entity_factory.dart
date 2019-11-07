@@ -4,6 +4,8 @@ import 'package:flutter_first/bean/all_order_entity.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
+import 'package:flutter_first/bean/course.dart';
+import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
@@ -95,6 +97,10 @@ class EntityFactory {
       return PsyTeacherBest.fromJson(json) as T;
     }else if (T.toString() == "ServCenter") {
       return ServCenter.fromJson(json) as T;
+    }else if (T.toString() == "Course") {
+      return Course.fromJson(json) as T;
+    }else if (T.toString() == "CourseDetail") {
+    return CourseDetail.fromJson(json) as T;
     }
     else {
       return null;

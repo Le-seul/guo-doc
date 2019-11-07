@@ -125,12 +125,12 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                           ),
                           RealRichText([
                             TextSpan(
-                              text: "欢迎您使用在线问诊进行医疗咨询，该栏目是",
+                              text: "欢迎您使用在线医生进行医疗咨询，该栏目是由",
                               style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
                             ),
                             TextSpan(
-                              text: "北京市春雨医生软件有限公司",
-                              style: TextStyle(color: Colors.blue, fontSize: 14,decoration: TextDecoration.underline,height: 1.5),
+                              text: "北京市春雨医生软件有限公司（超级链接可点，点进去应该是春雨简介、之前已提供）",
+                              style: TextStyle(color: Colors.blue, fontSize: 14,height: 1.5),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Router.push(context, 'https://www.chunyuyisheng.com/', {'title': '在线问诊'});
@@ -144,27 +144,24 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                                   height: 1.5
                                   ),
                             ),
-                            TextSpan(
-                              text: "如遇急重症病情，不适合网上咨询，请立即前往医院就诊。",
-                              style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
-                            ),],
+                            ],
                           textScaleFactor: 1.1,),
                           RealRichText([TextSpan(
                             text: "《图文咨询》 ",
-                            style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
+                            style: TextStyle(color: Colors.red, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
                           ),
                             TextSpan(
-                              text: "服务时间为7*24小时，医生将在6分钟内为您服务（夜间30分钟内）；",
+                              text: "服务时间为7*24小时，医生将在6分钟内为您解答（夜间30分钟内）；",
                               style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
                             ),],
                             textScaleFactor: 1.1,),
                           RealRichText([
                             TextSpan(
                               text: "《快捷电话》",
-                              style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
+                              style: TextStyle(color: Colors.red, fontSize: 14,fontWeight: FontWeight.bold,height: 1.5),
                             ),
                             TextSpan(
-                              text: "服务时间为每日9:00 - 19:00，医生将在10分钟内向您回电。",
+                              text: "服务时间为每日早9：00——晚7：00，医生将在10分钟内向您回电。",
                               style: TextStyle(color: Colors.black, fontSize: 14,height: 1.5),
                             ),
                           ],
@@ -193,7 +190,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         child: _gridItem(
                             'assets/images/doctor/graphic_consultation.png',
                             'doctor/graphic_icon.png',
-                            '图文咨询',"$tuWenNum",tuWenNum == "0"||tuWenNum == ''),
+                            '图文问诊',"$tuWenNum",tuWenNum == "0"||tuWenNum == ''),
                         onTap: () {
                           getOrderCount();
                           Router.pushNoParams(
@@ -207,7 +204,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       flex: 1,
                       child: GestureDetector(
                         child: _gridItem('assets/images/doctor/quick_phone.png',
-                            'doctor/phone_icon.png', '快捷电话',"$fastPhone",fastPhone == "0"||fastPhone == ''),
+                            'doctor/phone_icon.png', '电话问诊',"$fastPhone",fastPhone == "0"||fastPhone == ''),
                         onTap: () {
                           Router.pushNoParams(context, Router.telConsultation);
                         },

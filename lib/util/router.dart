@@ -22,6 +22,7 @@ import 'package:flutter_first/pages/home/doctor/search_hospital.dart';
 import 'package:flutter_first/pages/home/doctor/search_hospital_detail.dart';
 import 'package:flutter_first/pages/home/doctor/talk_page.dart';
 import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/eating_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/images_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_detail.dart';
@@ -168,7 +169,7 @@ class Router {
         case test3:
           return Test3();
         case curriculumcatalog1:
-          return CurriculumCatalog1();
+          return CourseDetailPage(courseId: params,);
         case healthyconsultation:
           return Healthyconsultation();
         case psychologicalTest:

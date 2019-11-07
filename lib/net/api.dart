@@ -35,6 +35,9 @@ class Api {
   //课程接口
   static const String PSYCOURSE = "/api/psyCourse.do?getPsyCourse";
 
+  //获取心理课程接口
+  static const String GETALLCOUTSE = "/api/psyCourse.do?getAllCourse";
+
   //心理课程详情1
   static const String COURSEDETAIL1 = "/api/psyCourse.do?getCouserDetail&id=1";
 
@@ -124,6 +127,10 @@ class Api {
   static const String GETPSYSERVICECENTERLIST = "/api/psyServiceCenter.do?getPsyServiceCenterList";
   //按地区查找
   static const String GETPSYSERVICECENTERBYLOCATION = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation";
+
+  //获取课程详情
+  static const String GETCOURSTEDETAIL = "/api/psyCourse.do?getCourseDetail";
+
 
 
 }
