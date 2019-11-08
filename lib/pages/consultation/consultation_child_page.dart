@@ -62,7 +62,7 @@ class _ChildPageState extends State<ChildPage> {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
       Method.get,
       Api.GETAllCOlUMNINFO,
-      queryParameters: {"columnId": 1, "pageSize": 3, "pageNumber": numb},
+      queryParameters: {"columnId": 1, "pageSize":3, "pageNumber": 1},
       isList: true,
       onSuccessList: (data) {
         if (data == null||data.length == 0) {

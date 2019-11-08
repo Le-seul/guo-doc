@@ -46,7 +46,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
             color: Colors.black,
           ),
           title: Text(
-            '服务中心',
+            '心理服务中心',
             style: new TextStyle(
               color: Color(0xFF333333),
               fontWeight: FontWeight.w500,

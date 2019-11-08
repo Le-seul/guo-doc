@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
       child: lib1.Swiper(
         indicatorAlignment: AlignmentDirectional.topEnd,
         circular: true,
-        interval: const Duration(seconds: 3),
+        interval: const Duration(seconds: 5),
         indicator: NumberSwiperIndicator(),
         children: list.map((model) {
           return new InkWell(
