@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
@@ -21,8 +22,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
   bool isShowLoading2 = true;
   bool isShowLoading3 = true;
 
-  List<Psycourse> psycourselist = List();
-  List<Psycourse> mycourselist = List(); //我的课程
+  List<Course> mycourselist = List(); //我的课程
   List<GetAllMusic> GetAllMusicList = List();
 
   @override
@@ -48,16 +48,16 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
   }
 
   void _requestPsycourse() {
-    DioUtils.instance.requestNetwork<Psycourse>(Method.get, Api.PSYCOURSE,
+    DioUtils.instance.requestNetwork<Course>(Method.get, Api.GETALLCOUTSE,
         isList: true, onSuccessList: (data) {
           setState(() {
-            psycourselist = data;
+            mycourselist = data;
             isShowLoading2 = false;
-            for (Psycourse index in psycourselist) {
-              if (index.categoryId == "轮播图") {
-                mycourselist.add(index);
-              }
-            }
+//            for (Psycourse index in psycourselist) {
+//              if (index.categoryId == "轮播图") {
+//                mycourselist.add(index);
+//              }
+//            }
           });
         }, onError: (code, msg) {
           print("sssss");
@@ -205,14 +205,14 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Router.push(context, mycourselist[0].coverImgId, {'title': mycourselist[0].name});
+                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
                   },
                   child:Container(
                     margin: EdgeInsets.all(10),
                     height: ScreenUtil().setHeight(30),
                     width: ScreenUtil().setHeight(23),
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(mycourselist[0].coverImgId),fit: BoxFit.fill),
+                        image: DecorationImage(image: NetworkImage(mycourselist[0].coverImage),fit: BoxFit.fill),
                         borderRadius: BorderRadius.all(Radius.circular(5))
                     ),
                     child: Align(
@@ -246,14 +246,14 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Router.push(context, mycourselist[1].coverImgId, {'title': mycourselist[1].name});
+                    Router.push(context, mycourselist[1].coverImage, {'title': mycourselist[1].name});
                   },
                   child:Container(
                     margin: EdgeInsets.all(10),
                     height: ScreenUtil().setHeight(30),
                     width: ScreenUtil().setHeight(23),
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(mycourselist[1].coverImgId),fit: BoxFit.fill),
+                        image: DecorationImage(image: NetworkImage(mycourselist[1].coverImage),fit: BoxFit.fill),
                         borderRadius: BorderRadius.all(Radius.circular(5))
                     ),
                     child: Align(
@@ -287,14 +287,14 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Router.push(context, mycourselist[2].coverImgId, {'title': mycourselist[2].name});
+                    Router.push(context, mycourselist[2].coverImage, {'title': mycourselist[2].name});
                   },
                   child:Container(
                     margin: EdgeInsets.all(10),
                     height: ScreenUtil().setHeight(30),
                     width: ScreenUtil().setHeight(23),
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(mycourselist[2].coverImgId),fit: BoxFit.fill),
+                        image: DecorationImage(image: NetworkImage(mycourselist[2].coverImage),fit: BoxFit.fill),
                         borderRadius: BorderRadius.all(Radius.circular(5))
                     ),
                     child: Align(
@@ -463,6 +463,80 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
+//                Column(
+//                  children: <Widget>[
+//                    InkWell(
+//                      child:Container(
+//                        margin: EdgeInsets.all(10),
+//                        height: ScreenUtil().setHeight(23),
+//                        width: ScreenUtil().setHeight(23),
+//                        decoration: BoxDecoration(
+//                            image: DecorationImage(image: NetworkImage(GetAllMusicList[3].image),fit: BoxFit.fill),
+//                            borderRadius: BorderRadius.all(Radius.circular(5))
+//                        ),
+//                        child: Align(
+//                          alignment: Alignment(-0.7,0.8),
+//                          child: Icon(Icons.play_circle_outline,size: 30,color: Colors.white,),
+//                        ),
+//                      ),
+//                      onTap: (){
+//                        Router.push(context, Router.musicListPage, GetAllMusicList[3]);
+//                      },
+//                    ),
+//
+//                    Container(
+//                      padding: EdgeInsets.only(left: 10),
+//                      child: Text(GetAllMusicList[3].name,style: TextStyle(fontSize: 15),),
+//                    ),
+//                    Container(
+//                        padding: EdgeInsets.only(left: 10),
+//                        child: Row(
+//                          children: <Widget>[
+//                            Icon(Icons.headset,color: Colors.grey,size: 15,),
+//                            Text('  2518',style: TextStyle(color: Colors.grey,),)
+//                          ],
+//                        )
+//                    ),
+//                  ],
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                ),
+//                Column(
+//                  children: <Widget>[
+//                    InkWell(
+//                      child:Container(
+//                        margin: EdgeInsets.all(10),
+//                        height: ScreenUtil().setHeight(23),
+//                        width: ScreenUtil().setHeight(23),
+//                        decoration: BoxDecoration(
+//                            image: DecorationImage(image: NetworkImage(GetAllMusicList[4].image),fit: BoxFit.fill),
+//                            borderRadius: BorderRadius.all(Radius.circular(5))
+//                        ),
+//                        child: Align(
+//                          alignment: Alignment(-0.7,0.8),
+//                          child: Icon(Icons.play_circle_outline,size: 30,color: Colors.white,),
+//                        ),
+//                      ),
+//                      onTap: (){
+//                        Router.push(context, Router.musicListPage, GetAllMusicList[4]);
+//                      },
+//                    ),
+//
+//                    Container(
+//                      padding: EdgeInsets.only(left: 10),
+//                      child: Text(GetAllMusicList[4].name,style: TextStyle(fontSize: 15),),
+//                    ),
+//                    Container(
+//                        padding: EdgeInsets.only(left: 10),
+//                        child: Row(
+//                          children: <Widget>[
+//                            Icon(Icons.headset,color: Colors.grey,size: 15,),
+//                            Text('  2518',style: TextStyle(color: Colors.grey,),)
+//                          ],
+//                        )
+//                    ),
+//                  ],
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                ),
               ],
             ),
           ),

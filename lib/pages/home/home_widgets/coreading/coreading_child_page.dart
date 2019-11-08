@@ -71,21 +71,26 @@ class _CoreadingChildState extends State<CoreadingChild> {
                             image: NetworkImage(list[index].coverImgId))
                     ),
                   )),
-                  Expanded(flex: 2,child: Column(
+                  Expanded(flex: 2,child:
+                  Flex(
+                    direction: Axis.vertical,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 35,),
-                      Text(list[index].shortDesc,style: TextStyle(fontSize: 18),),
+                      SizedBox(height: 30,),
+                      Text(list[index].shortDesc,style: TextStyle(fontSize: 18),maxLines: 2,overflow: TextOverflow.ellipsis,),
                       SizedBox(height: 5,),
                       Row(
                         children: <Widget>[
                           Icon(Icons.star,color: Colors.orange,),
-                          Text('  ${list[index].learnedUserCount}人在读',style: TextStyle(color: Colors.orange),),
+                          Text('  ${list[index].learnedUserCount}人在读',style: TextStyle(color: Colors.orange)),
                         ],
                       ),
                       SizedBox(height: 10,),
-                      Text(list[index].shortDesc,style: TextStyle(color: Colors.grey.shade600))
+                      Expanded(
+                        child: Text(list[index].shortDesc,style: TextStyle(color: Colors.grey.shade600)),
+                      ),
+
                     ],
                   ),),
 
