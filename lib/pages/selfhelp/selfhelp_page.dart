@@ -205,7 +205,8 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
+                    Router.push(context, Router.curriculumcatalog1,mycourselist[0].id);
+//                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
                   },
                   child:Container(
                     margin: EdgeInsets.all(10),
@@ -246,7 +247,8 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Router.push(context, mycourselist[1].coverImage, {'title': mycourselist[1].name});
+                    Router.push(context, Router.curriculumcatalog1,mycourselist[1].id);
+//                    Router.push(context, mycourselist[1].coverImage, {'title': mycourselist[1].name});
                   },
                   child:Container(
                     margin: EdgeInsets.all(10),
@@ -287,7 +289,8 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Router.push(context, mycourselist[2].coverImage, {'title': mycourselist[2].name});
+                    Router.push(context, Router.curriculumcatalog1,mycourselist[2].id);
+//                    Router.push(context, mycourselist[2].coverImage, {'title': mycourselist[2].name});
                   },
                   child:Container(
                     margin: EdgeInsets.all(10),
