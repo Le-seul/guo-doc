@@ -50,6 +50,7 @@ import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/sleep_records_page.dart';
+import 'package:flutter_first/pages/service/service_page.dart';
 import 'package:flutter_first/pages/service/servicenext/consultation_detail.dart';
 import 'package:flutter_first/pages/service/servicenext/healthyconsultation_page.dart';
 import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
@@ -118,6 +119,7 @@ class Router {
   static const service_center = 'app://service_center_page';
   static const psycourse = 'app://psycourse';
   static const locationsearch = 'app://locationsearch';
+  static const servicePage = 'app://ServicePage';
 
 
 
@@ -238,8 +240,8 @@ class Router {
           return PsyCourse();
         case locationsearch:
           return LocationSearch();
-        case step_ranking:
-          return StepRanking();
+        case servicePage:
+          return ServicePage();
 
 
       }

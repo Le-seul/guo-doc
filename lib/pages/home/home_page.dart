@@ -116,7 +116,9 @@ class _HomePageState extends State<HomePage> {
             LoginTopPanel(),
             Column(
               children: <Widget>[
-                SizedBox(height: MediaQueryData.fromWindow(window).padding.top+10,),
+                SizedBox(
+                  height: MediaQueryData.fromWindow(window).padding.top + 10,
+                ),
                 Row(
                   //扫码加搜索栏
                   children: <Widget>[
@@ -167,8 +169,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           child: Text(
                             '公告',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10),
+                            style: TextStyle(color: Colors.white, fontSize: 10),
                           ),
                           padding: EdgeInsets.only(
                               top: 2, bottom: 2, right: 5, left: 5),
@@ -278,51 +279,37 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Expanded(
-                                child: Row(
-                              children: <Widget>[
-                                Image.asset('assets/images/ranking.png',
-                                    height: 14, width: 14),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '健康排名：5',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            )),
-                            Expanded(
-                                child: Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/integral.png',
-                                  height: 14,
-                                  width: 14,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '健康积分:768',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            )),
-                            Expanded(
-                                child: Row(
-                              children: <Widget>[
-                                Image.asset('assets/images/step_num.png',
-                                    height: 14, width: 14),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '运动步数:16480',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            ))
+                            GestureDetector(
+                              onTap: () {
+                                Router.pushNoParams(
+                                    context, Router.step_ranking);
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Image.asset('assets/images/ranking.png',
+                                      height: 14, width: 14),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '步数排名：5',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Image.asset('assets/images/step_num.png',
+                                      height: 14, width: 14),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '运动步数:16480',
+                                    style: TextStyle(fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
                         )
                       ],
@@ -336,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -359,14 +346,11 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    Container(
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: columnsInfoList.length,
-                        itemBuilder: (context, index) => _buildItem(index),
-                      ),
-                    )
+                        itemBuilder: (context, index) => _buildItem(index)),
                   ],
                 )),
               ),
@@ -381,7 +365,7 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       child: (columnsInfoList[index].cover2 == null ||
               columnsInfoList[index].cover3 == null)
-          ? getContentItem(columnsInfoList[index])
+          ? getContentItem(columnsInfoList[index], index)
           : getThreeImagItem(columnsInfoList[index]),
       onTap: () {
         if (columnsInfoList[index].type == 'T') {
@@ -394,12 +378,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  getContentItem(ConsulationColumnsInfo item) {
+  getContentItem(ConsulationColumnsInfo item, int index) {
     return Container(
         height: 120,
         color: Colors.white,
-        padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+        padding:
+            EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0, top: 10),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -407,7 +391,7 @@ class _HomePageState extends State<HomePage> {
               child: Image.network(
                 item.cover1,
                 height: 90,
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fill,
               ),
             ),
             Expanded(
@@ -430,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Container(
                           child: Text(
-                            '${item.readCount}人查看·12小时前',
+                            '${item.readCount==null?0:item.readCount}人查看·12小时前',
                             style:
                                 TextStyle(color: Colors.black12, fontSize: 12),
                           ),
