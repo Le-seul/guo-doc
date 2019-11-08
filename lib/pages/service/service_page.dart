@@ -109,7 +109,7 @@ class _ServicePageState extends State<ServicePage> {
                                     child: Image.asset('assets/images/service/图.png',height: 40,width: 40,),
                                   ),
                                 ),
-                                Text('图文咨询')
+                                Text('图文问诊')
                               ],
                             ),
                             Column(
@@ -126,7 +126,7 @@ class _ServicePageState extends State<ServicePage> {
                                     child: Image.asset('assets/images/service/电话.png',height: 40,width: 40,),
                                   ),
                                 ),
-                                Text('快捷电话')
+                                Text('电话问诊')
                               ],
                             ),
                             Column(
