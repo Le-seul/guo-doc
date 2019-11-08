@@ -28,7 +28,6 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
