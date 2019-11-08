@@ -323,32 +323,28 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text('健康知识'),
-                          Container(
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '更多',
-                                  style: TextStyle(color: Colors.black12),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                loadAssetImage('arrow.png',
-                                    height: 12, width: 12),
-                              ],
-                            ),
+                          Expanded(child: Text('健康知识',style: TextStyle(fontSize: 15),)),
+                          Text(
+                            '更多',
+                            style: TextStyle(color: Colors.black12),
                           ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          loadAssetImage('arrow.png', height: 12, width: 12),
                         ],
                       ),
                     ),
+
+
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
+                        padding: EdgeInsets.all(0.0),
                         itemCount: columnsInfoList.length,
                         itemBuilder: (context, index) => _buildItem(index)),
                   ],
@@ -414,7 +410,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Container(
                           child: Text(
-                            '${item.readCount==null?0:item.readCount}人查看·12小时前',
+                            '${item.readCount == null ? 0 : item.readCount}人查看·12小时前',
                             style:
                                 TextStyle(color: Colors.black12, fontSize: 12),
                           ),

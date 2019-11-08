@@ -233,7 +233,7 @@ class _ChildPageState extends State<ChildPage> {
               child: Image.network(
                 item.cover1,
                 height: 90,
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fill,
               ),
             )
           ],
