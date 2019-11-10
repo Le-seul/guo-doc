@@ -127,6 +127,8 @@ class Api {
   static const String PsyCourseDetail = "/api/psyCourse.do?getCouserDetail&id=1";
   //服务中心列表
   static const String GETPSYSERVICECENTERLIST = "/api/psyServiceCenter.do?getPsyServiceCenterList";
+  //服务中心详情
+  static const String GETPSYSERVICECENTERDETAIL = "/api/psyServiceCenter.do?getPsyServiceCenterDetail";
   //按地区查找
   static const String GETPSYSERVICECENTERBYLOCATION = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation";
 

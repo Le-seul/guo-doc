@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/centerdetail_page.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class PsyCenterDetail extends StatefulWidget {
+  dynamic id;
+  PsyCenterDetail({Key key, @required this.id})
+      : super(key: key);
   @override
   _PsyCenterDetailState createState() => _PsyCenterDetailState();
 }
 
 class _PsyCenterDetailState extends State<PsyCenterDetail> {
+  List<CenterDetail> list = List();
+  bool isShowLoading = true;
+
   @override
+  void initState() {
+    _getServiceCenter();
+  }
+
+  _getServiceCenter() {
+    DioUtils.instance
+        .requestNetwork<CenterDetail>(Method.get,
+        Api.GETPSYSERVICECENTERDETAIL,
+        queryParameters: {
+          'id': widget.id.toString(),
+        },
+        isList: true, onSuccessList: (data) {
+          setState(() {
+            list = data;
+            isShowLoading = false;
+            print("数据是"+list[0].name);
+//        print('获取服务中心成功!');
+          });
+        }, onError: (code, msg) {
+          setState(() {
+//        print('获取服务中心失败!');
+          });
+        });
+  }
+
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
@@ -22,7 +57,16 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
         title: Text('中心详情',style: TextStyle(color: Colors.white),),
       ),
       backgroundColor: Colours.line,
-      body: ListView(
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : list.length == 0
+          ? Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Text('暂无数据'),
+      )
+          :ListView(
 
         physics: ClampingScrollPhysics(),
         children: <Widget>[
@@ -41,7 +85,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                       child: Container(
                         padding: EdgeInsets.all(0),
                         child: ClipOval(
-                          child: Image.network('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=683097614,4071607410&fm=26&gp=0.jpg',height: 65,),
+                          child: Image.network(list[0].imgId,height: 65,),
                         ),
                       ),)
                 ],
@@ -53,14 +97,14 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('房山分局心理服务分中心',style: TextStyle(fontSize: 16),),
+                Text(list[0].name,style: TextStyle(fontSize: 16),),
                 SizedBox(
                   height: ScreenUtil().setWidth(2),
                 ),
                 Row(
                   children: <Widget>[
                     Icon(Icons.home,color: Colours.bg_green,size: 18,),
-                    Text('  房山分局机关楼一层',style: TextStyle(color: Colors.grey),)
+                    Text('  '+list[0].location,style: TextStyle(color: Colors.grey),)
                   ],
                 ),
                 SizedBox(
@@ -69,7 +113,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                 Row(
                   children: <Widget>[
                     Icon(Icons.timer,color: Colours.bg_green,size: 18,),
-                    Text('  周一到周日 9.00-22.00',style: TextStyle(color: Colors.grey),)
+                    Text('  '+list[0].conTime,style: TextStyle(color: Colors.grey),)
                   ],
                 ),
                 SizedBox(
@@ -78,7 +122,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                 Row(
                   children: <Widget>[
                     Icon(Icons.headset,color: Colours.bg_green,size: 18,),
-                    Text('  李梦妍',style: TextStyle(color: Colors.grey),)
+                    Text('  '+list[0].contacts,style: TextStyle(color: Colors.grey),)
                   ],
                 ),
                 SizedBox(
@@ -87,7 +131,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                 Row(
                   children: <Widget>[
                     Icon(Icons.phone,color: Colours.bg_green,size: 18,),
-                    Text('  81389354',style: TextStyle(color: Colors.grey),)
+                    Text('  '+list[0].phone,style: TextStyle(color: Colors.grey),)
                   ],
                 ),
               ],
