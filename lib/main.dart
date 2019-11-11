@@ -79,37 +79,37 @@ class _MyAppState extends State<MyApp> {
       jpush.addEventHandler(
         onReceiveNotification: (Map<String, dynamic> message) async {
 //                print("flutter 接收到推送消息1: ${json.encode(message)}");
-          print("flutter 接收到推送消息1: $message");
-          print("flutter 接收到推送消息2: ${message["extras"]}");
-          print(
-              "flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
-//                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
-          print(
-              "flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
+//          print("flutter 接收到推送消息1: $message");
+//          print("flutter 接收到推送消息2: ${message["extras"]}");
+//          print(
+//              "flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
+////                print("flutter 接收到推送消息5: ${message["extras"]["cn.jpush.android.EXTRA"]["orderId"]}");
+//          print(
+//              "flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"]}");
 
           int num = 0;
           String type = json.decode(
               message["extras"]["cn.jpush.android.EXTRA"])["location"];
-          print("type:$type");
+//          print("type:$type");
           String orderId = json.decode(
               message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
-          print("orderId:$orderId");
+//          print("orderId:$orderId");
           OrderNum orderNum = await db.getOrder(orderId);
-          print('orderNum:${orderNum.toString()}');
+//          print('orderNum:${orderNum.toString()}');
           if (orderNum == null) {
             num++;
-            print("num1：$num");
+//            print("num1：$num");
             int currentTime = DateTime.now().hour;
             int count = await db.saveOrder(orderId, type, "$num",currentTime);
             List<Map> list = await db.getAllOrder();
-            print("数据库list1:$list");
+//            print("数据库list1:$list");
           } else {
             num = int.parse(orderNum.num) ?? 0;
             num++;
-            print("num2：$num");
+//            print("num2：$num");
             int count = await db.updateOrder(orderId, "$num");
             List<Map> list= await db.getAllOrder();
-            print("数据库list2:$list");
+//            print("数据库list2:$list");
           }
           eventBus
               .fire(refreshNum("$num", orderId: orderId, location: type));

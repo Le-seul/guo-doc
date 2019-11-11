@@ -36,7 +36,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
     init();
     exitLogin = eventBus.on<refreshNum>().listen((event) {
       setState(() {
-        print('数据库evenBus');
+//        print('数据库evenBus');
         init();
       });
     });
@@ -49,7 +49,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
 
   init() async {
     List<Map> list = await db.getAllOrder();
-    print("数据库list3:$list");
+//    print("数据库list3:$list");
     List<OrderNum> listNum = List();
     for (Map map in list) {
       listNum.add(OrderNum.fromJson(map));
@@ -61,7 +61,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         if (orderNum.location == "chunyuTuwen") {
           intTuWen = int.parse(orderNum.num) + intTuWen;
           tuWenNum = "$intTuWen";
-          print("tuWenNum2:$tuWenNum");
+//          print("tuWenNum2:$tuWenNum");
         } else {
           intFastPhone += int.parse(orderNum.num);
           fastPhone = "$intFastPhone";
@@ -69,7 +69,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
       });
     }
 
-    print("fastPhone:$intFastPhone");
+//    print("fastPhone:$intFastPhone");
   }
 
   @override
