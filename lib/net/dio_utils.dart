@@ -5,7 +5,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_first/util/config.dart';
+import 'package:flutter_first/net/config.dart';
 import 'package:flutter_first/util/log_utils.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:rxdart/rxdart.dart';
@@ -172,15 +172,17 @@ class DioUtils {
         }
 
       }else if(result.statusCode == 104){
-        eventBus.fire(LoginEvent());
+//        eventBus.fire(LoginEvent());
         Toast.show("用户授权信息无效");
       }else if(result.statusCode == 105){
         Toast.show("用户收取信息已过期");
       }else if(result.statusCode == 106){
         Toast.show("用户账户被禁用");
+      }else if(result.statusCode == -11){
+        eventBus.fire(LoginEvent());
       }else{
         onError == null ? _onError(result.statusCode, result.msg) : onError(result.statusCode, result.msg);
-        eventBus.fire(LoginEvent());
+//        eventBus.fire(LoginEvent());
       }
     }, onError: (e){
       if (CancelToken.isCancel(e)){

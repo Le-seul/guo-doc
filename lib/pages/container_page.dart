@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,6 +15,7 @@ import 'package:flutter_first/pages/consultation/consultation_page.dart';
 import 'package:flutter_first/pages/home/home_page.dart';
 import 'package:flutter_first/pages/mine/mine_page.dart';
 import 'package:flutter_first/pages/selfhelp/selfhelp_page.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
@@ -49,13 +51,20 @@ class _ContainerPageState extends State<ContainerPage> {
     _Item('自助', 'navigation/ic_tab_selfhelp_active.png', 'navigation/ic_tab_selfhelp_normal.png'),
     _Item('我的', 'navigation/ic_tab_mine_active.png', 'navigation/ic_tab_mine_normal.png')
   ];
-
+  StreamSubscription exitLogin;
   List<BottomNavigationBarItem> itemList;
+
 
   @override
   void initState() {
     super.initState();
     print('initState _ContainerPageState');
+
+    exitLogin = eventBus.on<LoginEvent>().listen((event) {
+      init();
+
+//      MyDialog.showMyMaterialDialog(context);
+    });
 
     if (pages == null) {
       pages = [HomePage(), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
@@ -78,7 +87,16 @@ class _ContainerPageState extends State<ContainerPage> {
 
   }
 
+  init(){
+    showExitDialog.showMyMaterialDialog(context);
+  }
+
+
   int _selectIndex = 0;
+  @override
+  void dispose() {
+    exitLogin.cancel();
+  }
 
 
 //Stack（层叠布局）+Offstage组合,解决状态被重置的问题

@@ -1,3 +1,4 @@
+import 'package:flutter_first/common/common.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,4 +11,9 @@ class StorageManager {
     sharedPreferences = await SharedPreferences.getInstance();
     jpush = new JPush();
   }
+
+  static exite() async {
+    await StorageManager.sharedPreferences.setString(Constant.access_Token, '');
+  }
+
 }

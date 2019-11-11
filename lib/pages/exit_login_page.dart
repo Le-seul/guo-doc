@@ -38,7 +38,7 @@ class _ExitLoginPageState extends State<ExitLoginPage> {
                   children: <Widget>[
                     new RaisedButton(
                       onPressed: () {
-                        exite();
+                        StorageManager.exite();
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             "/login", (Route<dynamic> route) => false);
                       },
@@ -52,9 +52,7 @@ class _ExitLoginPageState extends State<ExitLoginPage> {
           ),
         )));
   }
-  static exite() async {
-    await StorageManager.sharedPreferences.setString(Constant.access_Token, '');
-  }
+
 }
 
 //路由跳转失败的页面

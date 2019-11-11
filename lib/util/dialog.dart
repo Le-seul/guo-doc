@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 
 class MyDialog {
   static void showMyMaterialDialog(BuildContext context) {
@@ -225,3 +226,29 @@ class ShowbigImage extends Dialog {
 
 
 }
+
+class showExitDialog extends Dialog{
+  static showMyMaterialDialog(BuildContext context) {
+    showDialog<Null>(
+      context: context, // BuildContext对象
+      barrierDismissible: false, // 屏蔽点击对话框外部自动关闭
+      builder: (_) =>
+          WillPopScope(
+            child: AlertDialog(
+              content: Text(
+                '账户登录信息已过期，请重新登录',
+              ),
+              actions: <Widget>[
+                FlatButton(onPressed: () {
+                  StorageManager.exite();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      "/login", (Route<dynamic> route) => false);
+                }, child: Text('确认')),
+              ],
+            ),
+            onWillPop: () async {
+              return Future.value(false);
+            },
+          ),
+    );
+  }}
