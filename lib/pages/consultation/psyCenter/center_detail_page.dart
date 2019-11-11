@@ -37,11 +37,11 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
             list = data;
             isShowLoading = false;
             print("数据是"+list[0].name);
-//        print('获取服务中心成功!');
+        print('获取服务中心详情成功!');
           });
         }, onError: (code, msg) {
           setState(() {
-//        print('获取服务中心失败!');
+        print('获取服务中心详情失败!');
           });
         });
   }
@@ -49,7 +49,6 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
-
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,

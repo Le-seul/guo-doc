@@ -109,12 +109,6 @@ class Api {
 
   //获取快捷电话医生总结内容
   static const String GETFASTPHONEREPLYCONTENT = "/api/chunyuFastphone.do?getFastphoneReplyContent";
-  //服务中心
-  static const String PsyServiceCenterList = "/api/psyServiceCenter.do?getPsyServiceCenterList";
-  //服务中心按地区查找
-  static const String PsyServiceCenterByLocation = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation&location=海淀";
-  //服务中心另外三块
-  static const String PsyServiceCenterByType = "/api/psyServiceCenter.do?getPsyServiceCenterByType";
   //教官列表
   static const String PsyTeacherList = "/api/psyTeacher.do?getPsyTeacherList";
   //教官列表最美教官
