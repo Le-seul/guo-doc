@@ -36,6 +36,7 @@ class _ServiceChildState extends State<ServiceChild> {
       setState(() {
         list = data;
         isShowLoading = false;
+        print('这个ID是'+list[0].id);
 //        print('获取服务中心成功!');
       });
     }, onError: (code, msg) {
@@ -76,7 +77,7 @@ class _ServiceChildState extends State<ServiceChild> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Router.pushNoParams(context, Router.center_detail);
+                  Router.push(context, Router.center_detail,list[index].id);
                 },
                 child: Container(
                   color: Colors.white,
@@ -199,7 +200,7 @@ class _ServiceChildState extends State<ServiceChild> {
   _buildChild2(LeisurePost leisurePost) {
     return GestureDetector(
       onTap: () {
-        Router.pushNoParams(context, Router.center_detail);
+        Router.push(context, Router.center_detail,leisurePost.id);
       },
       child: Container(
         color: Colors.white,
@@ -251,7 +252,7 @@ class _ServiceChildState extends State<ServiceChild> {
   _buildChild(ServiceStation serviceStation) {
     return GestureDetector(
       onTap: () {
-        Router.pushNoParams(context, Router.center_detail);
+        Router.push(context, Router.center_detail,serviceStation.id);
       },
       child: Container(
         color: Colors.white,

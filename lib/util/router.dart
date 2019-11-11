@@ -223,7 +223,7 @@ class Router {
         case doctorPage:
           return DoctorPage(doctorInfo: params,);
         case center_detail:
-          return PsyCenterDetail();
+          return PsyCenterDetail(id: params,);
         case step_ranking:
           return StepRanking();
         case instructor_demeanorPage:
