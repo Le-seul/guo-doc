@@ -225,8 +225,6 @@ class _DurationProgressBarState extends State<_DurationProgressBar> {
 
     Widget progressIndicator;
 
-
-
     if (state.initialized) {
            var duration = state.duration.inMilliseconds;
       var position = isUserTracking

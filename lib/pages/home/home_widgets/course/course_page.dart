@@ -384,7 +384,7 @@ class _PsyCourseState extends State<PsyCourse>
                   children: <Widget>[
                     Text(
                       '【怎么管理情绪】',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(
                       height: 5,
