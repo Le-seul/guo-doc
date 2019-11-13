@@ -6,6 +6,7 @@ class StorageManager {
 
   static SharedPreferences sharedPreferences;
   static JPush jpush;
+  static dynamic ctx;
 
   static init() async {
     sharedPreferences = await SharedPreferences.getInstance();

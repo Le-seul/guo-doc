@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/course.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
 import 'package:flutter_first/util/router.dart';
 class CourseChild extends StatefulWidget {
 

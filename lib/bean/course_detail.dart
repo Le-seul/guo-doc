@@ -58,6 +58,7 @@ class ChapterList {
   String chapterId;
   String name;
   int order;
+  bool isPlaying = false;
   String detailDescription;
   int learnedUserCount;
   String audio;
@@ -68,7 +69,9 @@ class ChapterList {
         this.order,
         this.detailDescription,
         this.learnedUserCount,
-        this.audio});
+        this.audio,
+        this.isPlaying = false
+      });
 
   ChapterList.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];

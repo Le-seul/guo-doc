@@ -65,7 +65,7 @@ dependencies:
   flutter_screenutil: ^0.6.0
   # 滚动字幕
   marquee_flutter: ^0.1.4
-  flutter_sound: 1.4.8
+  flutter_sound: 1.5.2
   sqflite: 1.1.7+1
   path: 1.6.4
   path_provider: 1.4.0
