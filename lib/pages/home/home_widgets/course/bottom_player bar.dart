@@ -223,7 +223,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                   ),
                   Row(
                     children: <Widget>[
-                      Text(_playerTxt),
+                      Text(_playerTxt,style: TextStyle(color: Colors.white),),
                       Expanded(
                         child: Container(
                           height: 3,
@@ -251,7 +251,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                           ),
                         ),
                       ),
-                      Text(_maxTxt),
+                      Text(_maxTxt,style: TextStyle(color: Colors.white),),
                     ],
                   ),
                 ],

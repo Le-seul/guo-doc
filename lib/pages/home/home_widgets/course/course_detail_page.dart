@@ -185,9 +185,6 @@ class _CourseDetailPageState extends State<CourseDetailPage>
                 .fire(CourseContent(index, 1));
 //            pausePlayer();
           }
-          setState(() {
-            chapterList.isPlaying = !chapterList.isPlaying;
-          });
         });
 
 //        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
