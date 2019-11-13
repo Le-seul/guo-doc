@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/chapter_record.dart';
+import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
@@ -21,12 +25,27 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   TabController mTabController;
   CourseDetail courseDetail = new CourseDetail();
   bool isShowLoading = true; //课程目录
+  StreamSubscription exitLogin;
+
 
 
   @override
   void initState() {
     super.initState();
-    BottomControllerBar.removeBar();
+//    exitLogin = eventBus.on<CourseContent>().listen((event) {
+//      for(ChapterList chapterList in courseDetail.chapterList){
+//        if(event.chapterList.chapterId == chapterList.chapterId){
+//          setState(() {
+//            if(event.type == 0){
+//              chapterList.isPlaying = true;
+//            }else{
+//              chapterList.isPlaying = false;
+//            }
+//          });
+//        }
+//      }
+//    });
+
     _requestPsycourse();
 
     mTabController = new TabController(vsync: this, length: 2);
@@ -35,6 +54,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   @override
   void dispose() {
     super.dispose();
+    exitLogin.cancel();
     mTabController.dispose();
   }
 
@@ -47,12 +67,89 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       setState(() {
         isShowLoading = false;
         courseDetail = data;
+        _getChapterRecord();
+        _getCourseBookmark();
         print("获取课程详情成功！");
       });
-      BottomControllerBar.show(context,courseDetail.chapterList);
-
     }, onError: (code, msg) {
       print("获取课程详情失败！");
+    });
+  }
+
+  void _getCourseBookmark() {
+    DioUtils.instance.requestNetwork<CourseBookmark>(
+        Method.get, Api.GETBOOKMARK,
+        queryParameters: {
+          'courseId': widget.courseId,
+        }, onSuccess: (data) {
+      for (ChapterList chapter in courseDetail.chapterList) {
+        if (chapter.chapterId == data.chapterId) {
+          chapter.isHighlight = true;
+          if(BottomControllerBar.overlayEntry == null){
+            print('创建bottomBar');
+            BottomControllerBar.show(context, courseDetail, chapter);
+          }
+
+        }
+      }
+      setState(() {
+        print("获取书签成功！");
+      });
+    }, onError: (code, msg) {
+      print("获取书签失败！");
+    });
+  }
+
+  void _getChapterRecord() {
+    DioUtils.instance.requestNetwork<ChapterRecord>(
+        Method.get, Api.GETCOURSERECORD,
+        isList: true,
+        queryParameters: {
+          'courseId': widget.courseId,
+        }, onSuccessList: (data) {
+      setState(() {
+        if (data.length == 0 || data == []) {
+          courseDetail.chapterList[0].state = 'P';
+          print('第一个：${courseDetail.chapterList[0].state}');
+        } else {
+          print('第n个');
+          var recordMap = new Map();
+          for (ChapterRecord record in data)
+            recordMap[record.chapterId] = record;
+          for (int n = 0; n < courseDetail.chapterList.length; n++) {
+            ChapterList chapter = courseDetail.chapterList[n];
+            if(chapter.chapterId == BottomControllerBar.getCourseId()){
+              chapter.isPlaying = true;
+            }
+
+            if (recordMap.containsKey(chapter.chapterId)) {
+              ChapterRecord record = recordMap[chapter.chapterId];
+              if (record.isFinish == 'Y') {
+                chapter.state = 'Y';
+                chapter.duration = record.duration;
+              } else {
+                chapter.state = 'P';
+                chapter.duration = record.duration;
+              }
+            } else {
+              chapter.state = 'N';
+              chapter.duration = 0;
+            }
+          }
+          for (int n = 1; n < courseDetail.chapterList.length; n++) {
+            ChapterList chapter = courseDetail.chapterList[n];
+            ChapterList chapterBefore = courseDetail.chapterList[n - 1];
+            if (chapter.state == 'N' && chapterBefore.state == 'Y') {
+              chapter.state = 'P';
+              break;
+            }
+          }
+        }
+
+        print("获取课程内章节进度成功！");
+      });
+    }, onError: (code, msg) {
+      print("获取课程内章节进度失败！");
     });
   }
 
@@ -66,10 +163,9 @@ class _CourseDetailPageState extends State<CourseDetailPage>
               Icons.arrow_back,
               color: Colors.black,
             ),
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
-
-            } ),
+            }),
         title: Text(
           '心理课程',
           style: TextStyle(color: Colors.black),
@@ -129,11 +225,8 @@ class _CourseDetailPageState extends State<CourseDetailPage>
                   ),
                 ),
 //      bottomSheet: BottomControllerWidget(),
-
     );
   }
-
-
 
   itemWidget2() {
     return Container(
@@ -175,18 +268,22 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   _buildItem(ChapterList chapterList, int index) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          if(chapterList.isPlaying == false){
-            eventBus
-                .fire(CourseContent(index, 0));
+        for (ChapterList chapterList in courseDetail.chapterList) {
+          chapterList.isHighlight = false;
+          chapterList.isPlaying = false;
+        }
+        chapterList.isHighlight = true;
+        if (chapterList.state != 'N') {
+          if (chapterList.isPlaying == false) {
+            eventBus.fire(CourseContent(chapterList, 0));
 //            startPlayer();
-          }else{
-            eventBus
-                .fire(CourseContent(index, 1));
+          } else {
+            eventBus.fire(CourseContent(chapterList, 1));
 //            pausePlayer();
           }
-        });
-
+          setState(() {});
+        }
+        _sendBookMark(chapterList);
 //        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
       },
       child: Column(
@@ -200,16 +297,31 @@ class _CourseDetailPageState extends State<CourseDetailPage>
           ),
           Row(
             children: <Widget>[
-              Text('${index + 1}.', style: TextStyle(fontSize: 18)),
+              Text('${index + 1}.',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: chapterList.isHighlight
+                          ? Color(0xFFF6A643)
+                          : Colors.black)),
               SizedBox(
                 width: 5,
               ),
               Expanded(
-                  child:
-                      Text(chapterList.name, style: TextStyle(fontSize: 16))),
-              Icon(
-                chapterList.isPlaying?Icons.pause_circle_outline:Icons.play_circle_outline,
-              )
+                  child: Text(chapterList.name,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: chapterList.isHighlight
+                              ? Color(0xFFF6A643)
+                              : Colors.black))),
+              chapterList.state == 'N'
+                  ? Icon(Icons.lock_outline):chapterList.isPlaying?Icon(Icons.pause_circle_outline,
+                  color: chapterList.isHighlight
+                      ? Color(0xFFF6A643)
+                      : Colors.black)
+                  : Icon(Icons.play_circle_outline,
+                      color: chapterList.isHighlight
+                          ? Color(0xFFF6A643)
+                          : Colors.black)
             ],
           ),
           SizedBox(
@@ -219,6 +331,21 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       ),
     );
   }
+  _sendBookMark(ChapterList chapterList) {
+
+    DioUtils.instance.requestNetwork<String>(Method.post, Api.SAVEBOOKMARK,
+        queryParameters: {
+          'courseId': courseDetail.id,
+          'chapterId': chapterList.chapterId,
+          'duration': 0,
+        }, onSuccess: (data) {
+          print('上传书签成功!');
+        }, onError: (code, msg) {
+          print('上传书签失败!');
+        });
+  }
+
+
 }
 
 class Detail extends StatefulWidget {

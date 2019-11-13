@@ -5,7 +5,9 @@ import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/centerdetail_page.dart';
+import 'package:flutter_first/bean/chapter_record.dart';
 import 'package:flutter_first/bean/course.dart';
+import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/fastphone_info.dart';
@@ -106,6 +108,10 @@ class EntityFactory {
     return CourseDetail.fromJson(json) as T;
     }else if (T.toString() == "PsyCourseDetail") {
       return PsyCourseDetail.fromJson(json) as T;
+    }else if (T.toString() == "ChapterRecord") {
+      return ChapterRecord.fromJson(json) as T;
+    }else if (T.toString() == "CourseBookmark") {
+    return CourseBookmark.fromJson(json) as T;
     }
     else {
       return null;

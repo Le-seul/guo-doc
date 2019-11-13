@@ -7,6 +7,7 @@ class CourseDetail {
   String image;
   int courseCount;
   int learnedUserCount;
+
   List<ChapterList> chapterList;
 
   CourseDetail(
@@ -18,7 +19,9 @@ class CourseDetail {
         this.image,
         this.courseCount,
         this.learnedUserCount,
-        this.chapterList});
+        this.chapterList,
+
+      });
 
   CourseDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -56,8 +59,11 @@ class CourseDetail {
 
 class ChapterList {
   String chapterId;
+  bool isHighlight = false;
   String name;
   int order;
+  String state = "N";
+  int duration;
   bool isPlaying = false;
   String detailDescription;
   int learnedUserCount;
@@ -70,7 +76,9 @@ class ChapterList {
         this.detailDescription,
         this.learnedUserCount,
         this.audio,
-        this.isPlaying = false
+        this.isPlaying = false,
+        this.state = "N",
+        this.duration
       });
 
   ChapterList.fromJson(Map<String, dynamic> json) {

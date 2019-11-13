@@ -15,8 +15,8 @@ class refreshNum{
 }
 
 class CourseContent{
-  int index;
+  ChapterList chapterList;
   int type;
 
-  CourseContent(this.index,this.type);
+  CourseContent(this.chapterList,this.type);
 }

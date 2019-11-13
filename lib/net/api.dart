@@ -129,6 +129,16 @@ class Api {
   //获取课程详情
   static const String GETCOURSTEDETAIL = "/api/psyCourse.do?getCourseDetail";
 
+  //获取一个课程内的章节进度
+  static const String GETCOURSERECORD = "/api/psyCourse.do?getStudyRecord";
 
+  //获取书签
+  static const String GETBOOKMARK = "/api/psyCourse.do?getBookMark";
+
+  //上传课程书签
+  static const String SAVEBOOKMARK = "/api/psyCourse.do?saveBookMark";
+
+  //记录课程进度
+  static const String SAVESTUDYRECORDER = "/api/psyCourse.do?saveStudyRecord";
 
 }

@@ -73,8 +73,16 @@ class DioUtils {
       _customCode = dataMap['customCode'];
       _statusCode = dataMap["statusCode"];
       _msg = dataMap["msg"];
+      if(dataMap['obj'] == null){
+
+      }
       if (dataMap.containsKey("obj")){
-        _obj = EntityFactory.generateOBJ(dataMap["obj"]);
+        if(dataMap['obj'] == null){
+          _obj = null;
+        }else{
+          _obj = EntityFactory.generateOBJ(dataMap["obj"]);
+        }
+
       }
     }catch(e){
       print(e);

@@ -4,47 +4,61 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/event/login_event.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:intl/date_symbol_data_local.dart';
 
 class BottomControllerBar {
   static OverlayEntry overlayEntry;
+  static String currentCourseId;
 
-  static void removeBar(){
+
+  static void removeBar() {
     if (overlayEntry != null) {
       overlayEntry.remove();
       overlayEntry = null;
     }
   }
 
-  static void show(BuildContext context,List<ChapterList> chapterList) {
+  static void setCourseId(String id){
+    currentCourseId = id;
+  }
+
+  static String getCourseId(){
+    return currentCourseId;
+  }
+
+
+  static void show(BuildContext context, CourseDetail courseDetail,ChapterList chapter) {
     //创建一个OverlayEntry对象
-   overlayEntry = new OverlayEntry(builder: (context) {
+
+    currentCourseId = chapter.chapterId;
+    overlayEntry = new OverlayEntry(builder: (context) {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return new Positioned(
           bottom: 0.0,
           child: new Material(
             type: MaterialType.transparency, //透明类型
-            child: BottomControllerWidget(chapterList),
+            child: BottomControllerWidget(courseDetail,chapter),
           ));
     });
     //往Overlay中插入插入OverlayEntry
     Overlay.of(context).insert(overlayEntry);
-
-
 
     //两秒后，移除Toast
 //    new Future.delayed(Duration(seconds: 2)).then((value) {
 //      overlayEntry.remove();
 //    });
   }
-
 }
-class BottomControllerWidget extends StatefulWidget {
 
-  List<ChapterList> chapterList;
-  BottomControllerWidget(this.chapterList);
+class BottomControllerWidget extends StatefulWidget {
+  CourseDetail courseDetail;
+  ChapterList chapterList;
+  BottomControllerWidget(this.courseDetail,this.chapterList);
   @override
   _BottomControllerWidgetState createState() => _BottomControllerWidgetState();
 }
@@ -61,22 +75,27 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
 
   @override
   void initState() {
-
-    course = widget.chapterList[0];
+    course = widget.chapterList;
     exitLogin = eventBus.on<CourseContent>().listen((event) {
-      setState(() {
-        course = widget.chapterList[event.index];
-
-      });
-      if(event.type == 0){
-        startPlayer(course.audio);
-//          course.isPlaying = true;
-      }else{
-        pausePlayer();
-//          course.isPlaying = false;
+      BottomControllerBar.setCourseId(event.chapterList.chapterId);
+      if (course.audio == event.chapterList.audio) {
+        if (event.type == 0) {
+          startPlayer(course.audio);
+        } else {
+          pausePlayer();
+        }
+        course.isPlaying = !course.isPlaying;
+      } else {
+        stopPlayer();
+        course.isPlaying = false;
+        startPlayer(event.chapterList.audio);
+        event.chapterList.isPlaying = true;
+        setState(() {
+          course = event.chapterList;
+          BottomControllerBar.setCourseId(course.chapterId);
+        });
       }
-      course.isPlaying = !course.isPlaying;
-
+      print('课程：${course.isPlaying}');
     });
 
     flutterSound.setSubscriptionDuration(0.01);
@@ -105,10 +124,11 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     try {
       _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
         if (e != null) {
+
           slider_current_position = e.currentPosition;
           print('当下位置：$slider_current_position');
           max_duration = e.duration;
-
+          print('最大位置：$max_duration');
           DateTime date = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
               isUtc: true);
@@ -119,9 +139,14 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
           String txt2 = DateFormat('mm:ss:SS', 'en_GB').format(date2);
 
           setState(() {
-            _playerTxt = txt.substring(0,5);
-            _maxTxt = txt2.substring(0,5);
-
+//            course.isPlaying = flutterSound.isPlaying;
+            if(e.currentPosition.toInt() == e.duration.toInt()){
+              print('lalala');
+              _sendStudyRecord();
+              course.isPlaying = false;
+            }
+            _playerTxt = txt.substring(0, 5);
+            _maxTxt = txt2.substring(0, 5);
           });
         }
       });
@@ -139,9 +164,9 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
         _playerSubscription = null;
       }
 
-      setState(() {
-        course.isPlaying = false;
-      });
+//      setState(() {
+//        course.isPlaying = false;
+//      });
 
     } catch (err) {
       print('error: $err');
@@ -150,17 +175,13 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
 
   void pausePlayer() async {
     String result = await flutterSound.pausePlayer();
+    _sendStudyRecord();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        BottomControllerBar.removeBar();
-        stopPlayer();
-      },
+      onTap: () {},
       child: Container(
         color: Colors.transparent,
         height: 65,
@@ -175,12 +196,23 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: EdgeInsets.only(right: 10),
               child: Column(
                 children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      GestureDetector(
+                          onTap: () {
+                            BottomControllerBar.removeBar();
+                            stopPlayer();
+                            _sendBookMark();
+                            _sendStudyRecord();
+                          },
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          )),
                       CircleAvatar(
                         radius: 22.0,
                         backgroundImage: NetworkImage(
@@ -197,22 +229,26 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                                 style: TextStyle(color: Colors.white),
                               ))),
                       GestureDetector(
-                        onTap: (){
-                          if(course.isPlaying == false){
+                        onTap: () {
+                          if (course.isPlaying == false) {
                             print('url:${course.audio}');
+                            eventBus.fire(CourseContent(course, 0));
                             startPlayer(course.audio);
-                          }else{
+
+                          } else {
                             pausePlayer();
+                            eventBus.fire(CourseContent(course, 1));
                           }
                           setState(() {
                             course.isPlaying = !course.isPlaying;
                           });
-
                         },
                         child: Container(
                             padding: EdgeInsets.only(top: 10, right: 10),
                             child: Icon(
-                              course.isPlaying?Icons.pause_circle_outline:Icons.play_circle_outline,
+                              course.isPlaying
+                                  ? Icons.pause_circle_outline
+                                  : Icons.play_circle_outline,
                               color: Colors.white,
                             )),
                       ),
@@ -221,38 +257,48 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                   SizedBox(
                     height: 3,
                   ),
-                  Row(
-                    children: <Widget>[
-                      Text(_playerTxt,style: TextStyle(color: Colors.white),),
-                      Expanded(
-                        child: Container(
-                          height: 3,
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              activeTrackColor: Colors.white, //进度条滑块左边颜色
-                              inactiveTrackColor: Colors.black26, //进度条滑块右边颜色
-                              thumbShape: RoundSliderThumbShape(
-                                //可继承SliderComponentShape自定义形状
-                                disabledThumbRadius: 5, //禁用是滑块大小
-                                enabledThumbRadius: 5, //滑块大小
+                  Container(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          _playerTxt,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 3,
+                            child: SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                activeTrackColor: Colors.white, //进度条滑块左边颜色
+                                inactiveTrackColor: Colors.black26, //进度条滑块右边颜色
+                                thumbShape: RoundSliderThumbShape(
+                                  //可继承SliderComponentShape自定义形状
+                                  disabledThumbRadius: 5, //禁用是滑块大小
+                                  enabledThumbRadius: 5, //滑块大小
+                                ),
+                                //提示进度的气泡的背景色
+                                //滑块中心的颜色
+                                thumbColor: Colors.white,
                               ),
-                              //提示进度的气泡的背景色
-                              //滑块中心的颜色
-                              thumbColor: Colors.white,
-                            ),
-                            child: Slider(
-                              value: slider_current_position,
-                              onChanged: (double value) async {
-                                await flutterSound.seekToPlayer(value.toInt());
-                              },
-                              min: 0.0,
-                              max: max_duration,
+                              child: Slider(
+                                value: slider_current_position,
+                                onChanged: (double value) async {
+                                  await flutterSound
+                                      .seekToPlayer(value.toInt());
+                                },
+                                min: 0.0,
+                                max: max_duration+0.1,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Text(_maxTxt,style: TextStyle(color: Colors.white),),
-                    ],
+                        Text(
+                          _maxTxt,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -262,4 +308,34 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
       ),
     );
   }
+
+  _sendBookMark() {
+    print('duration:${(slider_current_position / 1000).truncate()}');
+    DioUtils.instance.requestNetwork<String>(Method.post, Api.SAVEBOOKMARK,
+        queryParameters: {
+          'courseId': widget.courseDetail.id,
+          'chapterId': course.chapterId,
+          'duration': (slider_current_position / 1000).truncate(),
+        }, onSuccess: (data) {
+      print('上传书签成功!');
+    }, onError: (code, msg) {
+      print('上传书签失败!');
+    });
+  }
+
+  _sendStudyRecord(){
+    DioUtils.instance.requestNetwork<String>(Method.post, Api.SAVESTUDYRECORDER,
+        queryParameters: {
+          'courseId': widget.courseDetail.id,
+          'chapterId': course.chapterId,
+          'duration': (slider_current_position / 1000).truncate(),
+          'isFinish': 'Y',
+        }, onSuccess: (data) {
+          print('上传学习进度成功!');
+        }, onError: (code, msg) {
+          print('上传书签失败!');
+        });
+  }
+
+
 }
