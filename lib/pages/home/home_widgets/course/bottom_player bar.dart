@@ -13,8 +13,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class BottomControllerBar {
   static OverlayEntry overlayEntry;
-  static String currentCourseId;
-
+  static ChapterList currentCourse;
 
   static void removeBar() {
     if (overlayEntry != null) {
@@ -23,26 +22,26 @@ class BottomControllerBar {
     }
   }
 
-  static void setCourseId(String id){
-    currentCourseId = id;
+  static void setCourse(ChapterList course) {
+    currentCourse = course;
   }
 
-  static String getCourseId(){
-    return currentCourseId;
+  static ChapterList getCourse() {
+    return currentCourse;
   }
 
-
-  static void show(BuildContext context, CourseDetail courseDetail,ChapterList chapter) {
+  static void show(
+      BuildContext context, CourseDetail courseDetail, ChapterList chapter) {
     //创建一个OverlayEntry对象
 
-    currentCourseId = chapter.chapterId;
+    currentCourse = chapter;
     overlayEntry = new OverlayEntry(builder: (context) {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return new Positioned(
           bottom: 0.0,
           child: new Material(
             type: MaterialType.transparency, //透明类型
-            child: BottomControllerWidget(courseDetail,chapter),
+            child: BottomControllerWidget(courseDetail, chapter),
           ));
     });
     //往Overlay中插入插入OverlayEntry
@@ -58,7 +57,7 @@ class BottomControllerBar {
 class BottomControllerWidget extends StatefulWidget {
   CourseDetail courseDetail;
   ChapterList chapterList;
-  BottomControllerWidget(this.courseDetail,this.chapterList);
+  BottomControllerWidget(this.courseDetail, this.chapterList);
   @override
   _BottomControllerWidgetState createState() => _BottomControllerWidgetState();
 }
@@ -77,7 +76,6 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   void initState() {
     course = widget.chapterList;
     exitLogin = eventBus.on<CourseContent>().listen((event) {
-      BottomControllerBar.setCourseId(event.chapterList.chapterId);
       if (course.audio == event.chapterList.audio) {
         if (event.type == 0) {
           startPlayer(course.audio);
@@ -92,9 +90,9 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
         event.chapterList.isPlaying = true;
         setState(() {
           course = event.chapterList;
-          BottomControllerBar.setCourseId(course.chapterId);
         });
       }
+      BottomControllerBar.setCourse(course);
       print('课程：${course.isPlaying}');
     });
 
@@ -113,7 +111,6 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   void startPlayer(String url) async {
     String utf8Url = Uri.encodeFull(url);
     String path = await flutterSound.startPlayer(utf8Url);
-    print('傻子吧');
 //    File file= await new File(path);
 //    List contents = await file.readAsBytesSync();
 
@@ -124,7 +121,6 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     try {
       _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
         if (e != null) {
-
           slider_current_position = e.currentPosition;
           print('当下位置：$slider_current_position');
           max_duration = e.duration;
@@ -140,7 +136,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
 
           setState(() {
 //            course.isPlaying = flutterSound.isPlaying;
-            if(e.currentPosition.toInt() == e.duration.toInt()){
+            if (e.currentPosition.toInt() == e.duration.toInt()) {
               print('lalala');
               _sendStudyRecord();
               course.isPlaying = false;
@@ -234,7 +230,6 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                             print('url:${course.audio}');
                             eventBus.fire(CourseContent(course, 0));
                             startPlayer(course.audio);
-
                           } else {
                             pausePlayer();
                             eventBus.fire(CourseContent(course, 1));
@@ -242,6 +237,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                           setState(() {
                             course.isPlaying = !course.isPlaying;
                           });
+                          BottomControllerBar.setCourse(course);
                         },
                         child: Container(
                             padding: EdgeInsets.only(top: 10, right: 10),
@@ -288,7 +284,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                                       .seekToPlayer(value.toInt());
                                 },
                                 min: 0.0,
-                                max: max_duration+0.1,
+                                max: max_duration + 0.1,
                               ),
                             ),
                           ),
@@ -323,7 +319,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     });
   }
 
-  _sendStudyRecord(){
+  _sendStudyRecord() {
     DioUtils.instance.requestNetwork<String>(Method.post, Api.SAVESTUDYRECORDER,
         queryParameters: {
           'courseId': widget.courseDetail.id,
@@ -331,11 +327,9 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
           'duration': (slider_current_position / 1000).truncate(),
           'isFinish': 'Y',
         }, onSuccess: (data) {
-          print('上传学习进度成功!');
-        }, onError: (code, msg) {
-          print('上传书签失败!');
-        });
+      print('上传学习进度成功!');
+    }, onError: (code, msg) {
+      print('上传书签失败!');
+    });
   }
-
-
 }

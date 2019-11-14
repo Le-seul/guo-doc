@@ -118,8 +118,8 @@ class _CourseDetailPageState extends State<CourseDetailPage>
             recordMap[record.chapterId] = record;
           for (int n = 0; n < courseDetail.chapterList.length; n++) {
             ChapterList chapter = courseDetail.chapterList[n];
-            if(chapter.chapterId == BottomControllerBar.getCourseId()){
-              chapter.isPlaying = true;
+            if(chapter != null && chapter.chapterId == BottomControllerBar.getCourse().chapterId){
+              chapter = BottomControllerBar.getCourse();
             }
 
             if (recordMap.containsKey(chapter.chapterId)) {
@@ -270,7 +270,10 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       onTap: () {
         for (ChapterList chapterList in courseDetail.chapterList) {
           chapterList.isHighlight = false;
-          chapterList.isPlaying = false;
+          if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
+            chapterList.isPlaying = false;
+          }
+
         }
         chapterList.isHighlight = true;
         if (chapterList.state != 'N') {
