@@ -32,22 +32,22 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   @override
   void initState() {
     super.initState();
-//    exitLogin = eventBus.on<CourseContent>().listen((event) {
-//      for(ChapterList chapterList in courseDetail.chapterList){
-//        if(event.chapterList.chapterId == chapterList.chapterId){
-//          setState(() {
-//            print('evenBus接收');
-//            if(event.type == 0){
-//              print('evenBus接收0');
-//              chapterList.isPlaying = true;
-//            }else{
-//              print('evenBus接收1');
-//              chapterList.isPlaying = false;
-//            }
-//          });
-//        }
-//      }
-//    });
+    exitLogin = eventBus.on<CourseContent1>().listen((event) {
+      for(ChapterList chapterList in courseDetail.chapterList){
+        if(event.chapterList.chapterId == chapterList.chapterId){
+          setState(() {
+            print('evenBus接收');
+            if(event.type == 0){
+              print('evenBus接收0');
+              chapterList.isPlaying = true;
+            }else{
+              print('evenBus接收1');
+              chapterList.isPlaying = false;
+            }
+          });
+        }
+      }
+    });
 
     _requestPsycourse();
 
@@ -126,7 +126,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
           for (int n = 0; n < courseDetail.chapterList.length; n++) {
             ChapterList chapter = courseDetail.chapterList[n];
             if(chapter != null && chapter.chapterId == BottomControllerBar.getCourse().chapterId){
-              chapter = BottomControllerBar.getCourse();
+              chapter.isPlaying = BottomControllerBar.getCourse().isPlaying;
             }
 
             if (recordMap.containsKey(chapter.chapterId)) {
@@ -275,6 +275,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   _buildItem(ChapterList chapterList, int index) {
     return GestureDetector(
       onTap: () {
+
         for (ChapterList chapterList in courseDetail.chapterList) {
           chapterList.isHighlight = false;
           if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
@@ -285,13 +286,13 @@ class _CourseDetailPageState extends State<CourseDetailPage>
         if (chapterList.state != 'N') {
           if (chapterList.isPlaying == false) {
             eventBus.fire(CourseContent(chapterList, 0));
-//            startPlayer();
           } else {
             eventBus.fire(CourseContent(chapterList, 1));
-//            pausePlayer();
           }
         }
-        setState(() {});
+        setState(() {
+          chapterList.isPlaying = !(chapterList.isPlaying);
+        });
         _sendBookMark(chapterList);
 //        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
       },

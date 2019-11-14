@@ -70,7 +70,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   String _playerTxt = '00:00';
   String _maxTxt = '00:00';
   StreamSubscription exitLogin;
-  ChapterList course = new ChapterList();
+  ChapterList course;
 
   @override
   void initState() {
@@ -82,7 +82,10 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
         } else {
           pausePlayer();
         }
-        course.isPlaying = !course.isPlaying;
+        setState(() {
+          
+        });
+
       } else {
         stopPlayer();
         course.isPlaying = false;
@@ -159,11 +162,6 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
         _playerSubscription.cancel();
         _playerSubscription = null;
       }
-
-//      setState(() {
-//        course.isPlaying = false;
-//      });
-
     } catch (err) {
       print('error: $err');
     }
@@ -226,16 +224,22 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                               ))),
                       GestureDetector(
                         onTap: () {
+
                           if (course.isPlaying == false) {
                             print('url:${course.audio}');
-                            eventBus.fire(CourseContent(course, 0));
+                            eventBus.fire(CourseContent1(course, 0));
                             startPlayer(course.audio);
+                            print('状态3：${course.isPlaying}');
                           } else {
                             pausePlayer();
-                            eventBus.fire(CourseContent(course, 1));
+                            print('状态4：${course.isPlaying}');
+                            eventBus.fire(CourseContent1(course, 1));
                           }
+
                           setState(() {
-                            course.isPlaying = !course.isPlaying;
+                            print('状态1：${course.isPlaying}');
+                            course.isPlaying = !(course.isPlaying);
+                            print('状态2：${course.isPlaying}');
                           });
                           BottomControllerBar.setCourse(course);
                         },

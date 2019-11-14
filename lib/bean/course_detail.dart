@@ -76,7 +76,7 @@ class ChapterList {
         this.detailDescription,
         this.learnedUserCount,
         this.audio,
-        this.isPlaying = false,
+        this.isPlaying,
         this.state,
         this.duration
       });

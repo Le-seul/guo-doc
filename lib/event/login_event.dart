@@ -20,3 +20,9 @@ class CourseContent{
 
   CourseContent(this.chapterList,this.type);
 }
+class CourseContent1{
+  ChapterList chapterList;
+  int type;
+
+  CourseContent1(this.chapterList,this.type);
+}
