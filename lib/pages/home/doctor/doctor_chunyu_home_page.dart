@@ -106,7 +106,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       child: MyCard(
                           child: Container(
                         padding: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 15.0, bottom: 20.0),
+                            left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
