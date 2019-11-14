@@ -90,9 +90,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     exitLogin = eventBus.on<CourseContent>().listen((event) async{
       if (course.audio == event.chapterList.audio) {
         if (event.type == 0) {
-          startPlayer(course.audio);
-          await flutterSound
-              .seekToPlayer(course.duration*1000.toInt());
+          seekToPlay();
         } else {
           pausePlayer();
         }
@@ -122,10 +120,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   init() async{
     course = widget.chapterList;
     if(course.isPlaying == true){
-      startPlayer(course.audio);
-      await flutterSound
-          .seekToPlayer(course.duration*1000.toInt());
-
+      seekToPlay();
     }else{
       pausePlayer();
     }
@@ -135,6 +130,12 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   void dispose() {
     exitLogin.cancel();
 //    stopPlayer();
+  }
+
+  void seekToPlay() async{
+    startPlayer(course.audio);
+    await flutterSound
+        .seekToPlayer(course.duration*1000.toInt());
   }
 
   void startPlayer(String url) async {
@@ -258,7 +259,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                           if (course.isPlaying == false) {
                             print('url:${course.audio}');
                             eventBus.fire(CourseContent1(course, 0));
-                            startPlayer(course.audio);
+                            seekToPlay();
                             print('状态3：${course.isPlaying}');
                           } else {
                             pausePlayer();
