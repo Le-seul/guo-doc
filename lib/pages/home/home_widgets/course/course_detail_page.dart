@@ -36,9 +36,12 @@ class _CourseDetailPageState extends State<CourseDetailPage>
 //      for(ChapterList chapterList in courseDetail.chapterList){
 //        if(event.chapterList.chapterId == chapterList.chapterId){
 //          setState(() {
+//            print('evenBus接收');
 //            if(event.type == 0){
+//              print('evenBus接收0');
 //              chapterList.isPlaying = true;
 //            }else{
+//              print('evenBus接收1');
 //              chapterList.isPlaying = false;
 //            }
 //          });
@@ -85,11 +88,15 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       for (ChapterList chapter in courseDetail.chapterList) {
         if (chapter.chapterId == data.chapterId) {
           chapter.isHighlight = true;
+
           if(BottomControllerBar.overlayEntry == null){
             print('创建bottomBar');
             BottomControllerBar.show(context, courseDetail, chapter);
           }
 
+          if(BottomControllerBar.getCourse().isPlaying == true){
+            chapter.isPlaying = true;
+          }
         }
       }
       setState(() {
@@ -273,7 +280,6 @@ class _CourseDetailPageState extends State<CourseDetailPage>
           if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
             chapterList.isPlaying = false;
           }
-
         }
         chapterList.isHighlight = true;
         if (chapterList.state != 'N') {
@@ -284,8 +290,8 @@ class _CourseDetailPageState extends State<CourseDetailPage>
             eventBus.fire(CourseContent(chapterList, 1));
 //            pausePlayer();
           }
-          setState(() {});
         }
+        setState(() {});
         _sendBookMark(chapterList);
 //        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
       },

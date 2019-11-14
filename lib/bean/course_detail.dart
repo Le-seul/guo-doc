@@ -62,7 +62,7 @@ class ChapterList {
   bool isHighlight = false;
   String name;
   int order;
-  String state = "N";
+  String state ;
   int duration;
   bool isPlaying = false;
   String detailDescription;
@@ -77,7 +77,7 @@ class ChapterList {
         this.learnedUserCount,
         this.audio,
         this.isPlaying = false,
-        this.state = "N",
+        this.state,
         this.duration
       });
 
