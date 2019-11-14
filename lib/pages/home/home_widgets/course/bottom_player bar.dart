@@ -79,6 +79,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   double max_duration = 1.0;
   String _playerTxt = '00:00';
   String _maxTxt = '00:00';
+  bool isSeek = true;
   StreamSubscription exitLogin;
   ChapterList course;
 
@@ -90,7 +91,12 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     exitLogin = eventBus.on<CourseContent>().listen((event) async{
       if (course.audio == event.chapterList.audio) {
         if (event.type == 0) {
-          seekToPlay();
+          if(isSeek){
+            seekToPlay();
+          }else{
+            startPlayer(course.audio);
+          }
+
         } else {
           pausePlayer();
         }
@@ -120,7 +126,11 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   init() async{
     course = widget.chapterList;
     if(course.isPlaying == true){
-      seekToPlay();
+      if(isSeek){
+        seekToPlay();
+      }else{
+        startPlayer(course.audio);
+      }
     }else{
       pausePlayer();
     }
@@ -136,6 +146,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     startPlayer(course.audio);
     await flutterSound
         .seekToPlayer(course.duration*1000.toInt());
+    isSeek = false;
   }
 
   void startPlayer(String url) async {
@@ -259,7 +270,11 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                           if (course.isPlaying == false) {
                             print('url:${course.audio}');
                             eventBus.fire(CourseContent1(course, 0));
-                            seekToPlay();
+                            if(isSeek){
+                              seekToPlay();
+                            }else{
+                              startPlayer(course.audio);
+                            }
                             print('状态3：${course.isPlaying}');
                           } else {
                             pausePlayer();
