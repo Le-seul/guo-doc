@@ -276,6 +276,17 @@ class _CourseDetailPageState extends State<CourseDetailPage>
     return GestureDetector(
       onTap: () {
 
+        if (chapterList.state != 'N') {
+          if (chapterList.isPlaying == false) {
+            chapterList.isPlaying = true;
+            BottomControllerBar.setCourse(chapterList);
+            eventBus.fire(CourseContent(chapterList, 0));
+          } else {
+            chapterList.isPlaying = false;
+            BottomControllerBar.setCourse(chapterList);
+            eventBus.fire(CourseContent(chapterList, 1));
+          }
+        }
         for (ChapterList chapterList in courseDetail.chapterList) {
           chapterList.isHighlight = false;
           if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
@@ -283,15 +294,8 @@ class _CourseDetailPageState extends State<CourseDetailPage>
           }
         }
         chapterList.isHighlight = true;
-        if (chapterList.state != 'N') {
-          if (chapterList.isPlaying == false) {
-            eventBus.fire(CourseContent(chapterList, 0));
-          } else {
-            eventBus.fire(CourseContent(chapterList, 1));
-          }
-        }
         setState(() {
-          chapterList.isPlaying = !(chapterList.isPlaying);
+//          chapterList.isPlaying = BottomControllerBar.getCourse().isPlaying;
         });
         _sendBookMark(chapterList);
 //        Router.push(context, Router.catalogdetail,chapterList.detailDescription);

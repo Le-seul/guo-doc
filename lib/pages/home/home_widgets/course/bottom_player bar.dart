@@ -83,7 +83,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
           pausePlayer();
         }
         setState(() {
-          
+          course.isPlaying = BottomControllerBar.getCourse().isPlaying;
         });
 
       } else {
