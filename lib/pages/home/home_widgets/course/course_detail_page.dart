@@ -40,7 +40,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
             if(event.type == 0){
               print('evenBus接收0');
               chapterList.isPlaying = true;
-            }else{
+            }else if(event.type == 1){
               print('evenBus接收1');
               chapterList.isPlaying = false;
             }
@@ -88,7 +88,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       for (ChapterList chapter in courseDetail.chapterList) {
         if (chapter.chapterId == data.chapterId) {
           chapter.isHighlight = true;
-
+          chapter.duration = data.duration;
           if(BottomControllerBar.overlayEntry == null){
             print('创建bottomBar');
             BottomControllerBar.show(context, courseDetail, chapter);
@@ -277,6 +277,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
       onTap: () {
 
         if (chapterList.state != 'N') {
+
           if (chapterList.isPlaying == false) {
             chapterList.isPlaying = true;
             BottomControllerBar.setCourse(chapterList);
@@ -286,6 +287,11 @@ class _CourseDetailPageState extends State<CourseDetailPage>
             BottomControllerBar.setCourse(chapterList);
             eventBus.fire(CourseContent(chapterList, 1));
           }
+          if(BottomControllerBar.overlayEntry == null){
+            print('创建bottomBar');
+            BottomControllerBar.show(context, courseDetail, chapterList);
+          }
+
         }
         for (ChapterList chapterList in courseDetail.chapterList) {
           chapterList.isHighlight = false;

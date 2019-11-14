@@ -6,6 +6,7 @@ import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -14,12 +15,18 @@ import 'package:intl/date_symbol_data_local.dart';
 class BottomControllerBar {
   static OverlayEntry overlayEntry;
   static ChapterList currentCourse;
+  static bool hide = false;
 
   static void removeBar() {
     if (overlayEntry != null) {
       overlayEntry.remove();
       overlayEntry = null;
     }
+  }
+
+  static void hideBottomControllerBar(BuildContext context,bool isShow){
+    hide = isShow;
+    Overlay.of(context).setState(() {});
   }
 
   static void setCourse(ChapterList course) {
@@ -39,9 +46,12 @@ class BottomControllerBar {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return new Positioned(
           bottom: 0.0,
-          child: new Material(
-            type: MaterialType.transparency, //透明类型
-            child: BottomControllerWidget(courseDetail, chapter),
+          child: Offstage(
+            offstage: hide,
+            child: new Material(
+              type: MaterialType.transparency, //透明类型
+              child: BottomControllerWidget(courseDetail, chapter),
+            ),
           ));
     });
     //往Overlay中插入插入OverlayEntry
@@ -74,11 +84,15 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
 
   @override
   void initState() {
-    course = widget.chapterList;
-    exitLogin = eventBus.on<CourseContent>().listen((event) {
+
+    init();
+
+    exitLogin = eventBus.on<CourseContent>().listen((event) async{
       if (course.audio == event.chapterList.audio) {
         if (event.type == 0) {
           startPlayer(course.audio);
+          await flutterSound
+              .seekToPlayer(course.duration*1000.toInt());
         } else {
           pausePlayer();
         }
@@ -103,6 +117,18 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     flutterSound.setDbPeakLevelUpdate(0.8);
     flutterSound.setDbLevelEnabled(true);
     initializeDateFormatting();
+  }
+
+  init() async{
+    course = widget.chapterList;
+    if(course.isPlaying == true){
+      startPlayer(course.audio);
+      await flutterSound
+          .seekToPlayer(course.duration*1000.toInt());
+
+    }else{
+      pausePlayer();
+    }
   }
 
   @override
@@ -175,7 +201,10 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Router.push(context, Router.catalogdetail,course.detailDescription);
+        BottomControllerBar.hideBottomControllerBar(context,true);
+      },
       child: Container(
         color: Colors.transparent,
         height: 65,
@@ -202,6 +231,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                             stopPlayer();
                             _sendBookMark();
                             _sendStudyRecord();
+                            eventBus.fire(CourseContent1(course, 1));
                           },
                           child: Icon(
                             Icons.close,
@@ -288,7 +318,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                                       .seekToPlayer(value.toInt());
                                 },
                                 min: 0.0,
-                                max: max_duration + 0.1,
+                                max: max_duration,
                               ),
                             ),
                           ),
