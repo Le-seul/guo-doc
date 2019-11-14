@@ -263,34 +263,25 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               SizedBox(
                 height: 30,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Text( '我们将竭尽全力保护您的隐私，',),
+                  Text('严格遵守隐私及服务条款。'),
                   GestureDetector(
                       onTap: () {
                         Router.push(
                             context,
                             'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
-                            {'title': '隐私政策'});
+                            {'title': '服务条款及隐私政策'});
                       },
                       child: Text(
-                        '隐私政策',
-                        style: TextStyle(color: Colors.green),
+                        '服务条款及隐私政策',
+                        style: TextStyle(color: Colors.blue),
                       )),
                   SizedBox(
                     width: 20,
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Router.push(
-                          context,
-                          'http://49.232.168.124/phms_resource_base/HomePageDetail/ServiceTerms.htm',
-                          {'title': '服务条款'});
-                    },
-                      child: Text(
-                    '服务条款',
-                    style: TextStyle(color: Colors.green),
-                  ))
                 ],
               )
             ],

@@ -197,7 +197,7 @@ class _PsyCourseState extends State<PsyCourse>
           ),
           SliverToBoxAdapter(
             child: Container(
-              height: 480,
+              height: 330,
               child: TabBarView(
                 controller: mController,
                 children: <Widget>[
