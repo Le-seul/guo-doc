@@ -81,192 +81,203 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          LoginTopPanel(),
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: 35,
-              ),
-              Center(
-                child: Text(
-                  '在线问诊',
-                  style: TextStyle(fontSize: 22.0, color: Colors.white),
+      body: Container(
+        height: double.infinity,
+        child: Stack(
+          children: <Widget>[
+            LoginTopPanel(),
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 35,
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: Container(
-                    child: MyCard(
-                        child: Container(
-                      padding: EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '服务说明',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          RealRichText(
-                            [
-                              TextSpan(
-                                text: "欢迎您使用在线医生进行医疗咨询，该栏目是由",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    height: 1.5),
-                              ),
-                              TextSpan(
-                                text: "北京市春雨医生软件有限公司",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 14,
-                                    height: 1.5),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Router.push(
-                                        context,
-                                        'https://www.chunyuyisheng.com/',
-                                        {'title': '在线问诊'});
-                                  },
-                              ),
-                              TextSpan(
-                                text: "提供支持。咨询医生均为全国三甲医院医生组成。",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    height: 1.5),
-                              ),
-                            ],
-                            textScaleFactor: 1.1,
-                          ),
-                          RealRichText(
-                            [
-                              TextSpan(
-                                text: "《图文问诊》 ",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.5),
-                              ),
-                              TextSpan(
-                                text: "服务时间为7*24小时，医生将在6分钟内为您解答（夜间30分钟内）；",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    height: 1.5),
-                              ),
-                            ],
-                            textScaleFactor: 1.1,
-                          ),
-                          RealRichText(
-                            [
-                              TextSpan(
-                                text: "《快捷问诊》",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.5),
-                              ),
-                              TextSpan(
-                                text: "服务时间为每日早9：00——晚7：00，医生将在10分钟内向您回电。",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    height: 1.5),
-                              ),
-                            ],
-                            textScaleFactor: 1.1,
-                          ),
-                          RealRichText(
-                            [
-                              TextSpan(
-                                text: "如遇急重症病情，不适合网上咨询，请立即前往医院就诊。",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.5),
-                              ),
-                            ],
-                            textScaleFactor: 1.1,
-                          ),
-                        ],
-                      ),
+                Center(
+                  child: Text(
+                    '在线问诊',
+                    style: TextStyle(fontSize: 22.0, color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Container(
+                      child: MyCard(
+                          child: Container(
+                        padding: EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 15.0, bottom: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              '服务说明',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            RealRichText(
+                              [
+                                TextSpan(
+                                  text: "欢迎您使用在线医生进行医疗咨询，该栏目是由",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      height: 1.5),
+                                ),
+                                TextSpan(
+                                  text: "北京市春雨医生软件有限公司",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 14,
+                                      height: 1.5),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Router.push(
+                                          context,
+                                          'https://www.chunyuyisheng.com/',
+                                          {'title': '在线问诊'});
+                                    },
+                                ),
+                                TextSpan(
+                                  text: "提供支持。咨询医生均为全国三甲医院医生组成。",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      height: 1.5),
+                                ),
+                              ],
+                              textScaleFactor: 1.1,
+                            ),
+                            RealRichText(
+                              [
+                                TextSpan(
+                                  text: "《图文问诊》 ",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.5),
+                                ),
+                                TextSpan(
+                                  text: "服务时间为7*24小时，医生将在6分钟内为您解答（夜间30分钟内）；",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      height: 1.5),
+                                ),
+                              ],
+                              textScaleFactor: 1.1,
+                            ),
+                            RealRichText(
+                              [
+                                TextSpan(
+                                  text: "《快捷问诊》",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.5),
+                                ),
+                                TextSpan(
+                                  text: "服务时间为每日早9：00——晚7：00，医生将在10分钟内向您回电。",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      height: 1.5),
+                                ),
+                              ],
+                              textScaleFactor: 1.1,
+                            ),
+                            RealRichText(
+                              [
+                                TextSpan(
+                                  text: "如遇急重症病情，不适合网上咨询，请立即前往医院就诊。",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.5),
+                                ),
+                              ],
+                              textScaleFactor: 1.1,
+                            ),
+                          ],
+                        ),
+                      )),
                     )),
-                  )),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        child: _gridItem(
-                            'assets/images/doctor/graphic_consultation.png',
-                            'doctor/graphic_icon.png',
-                            '图文问诊',
-                            "$tuWenNum",
-                            tuWenNum == "0" || tuWenNum == ''),
-                        onTap: () {
-                          getOrderCount();
-                          Router.pushNoParams(
-                              context, Router.graphicConsultation);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        child: _gridItem(
-                            'assets/images/doctor/quick_phone.png',
-                            'doctor/phone_icon.png',
-                            '电话问诊',
-                            "$fastPhone",
-                            fastPhone == "0" || fastPhone == ''),
-                        onTap: () {
-                          Router.pushNoParams(context, Router.telConsultation);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        child: _gridItem(
-                            'assets/images/doctor/historical_record.png',
-                            'doctor/history_icon.png',
-                            '历史记录',
-                            '',
-                            true),
-                        onTap: () {
-                          Router.pushNoParams(context, Router.historyRecord);
-                        },
-                      ),
-                    )
-                  ],
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text( '我们将竭尽全力保护您的隐私，',),
+                Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          child: _gridItem(
+                              'assets/images/doctor/graphic_consultation.png',
+                              'doctor/graphic_icon.png',
+                              '图文问诊',
+                              "$tuWenNum",
+                              tuWenNum == "0" || tuWenNum == ''),
+                          onTap: () {
+                            getOrderCount();
+                            Router.pushNoParams(
+                                context, Router.graphicConsultation);
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          child: _gridItem(
+                              'assets/images/doctor/quick_phone.png',
+                              'doctor/phone_icon.png',
+                              '电话问诊',
+                              "$fastPhone",
+                              fastPhone == "0" || fastPhone == ''),
+                          onTap: () {
+                            Router.pushNoParams(
+                                context, Router.telConsultation);
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          child: _gridItem(
+                              'assets/images/doctor/historical_record.png',
+                              'doctor/history_icon.png',
+                              '历史记录',
+                              '',
+                              true),
+                          onTap: () {
+                            Router.pushNoParams(context, Router.historyRecord);
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+//                SizedBox(
+//                  height: 80,
+//                ),
+              ],
+            ),
+            Positioned(
+              bottom: 30,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                  Text(
+                    '我们将竭尽全力保护您的隐私，',
+                  ),
                   Text('严格遵守隐私及服务条款。'),
                   GestureDetector(
                       onTap: () {
@@ -279,14 +290,14 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         '服务条款及隐私政策',
                         style: TextStyle(color: Colors.blue),
                       )),
-                  SizedBox(
-                    width: 20,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
+//                    SizedBox(
+//                      height: 30,
+//                    ),
+              ],
+            ),
+                ))
+          ],
+        ),
       ),
     );
   }
