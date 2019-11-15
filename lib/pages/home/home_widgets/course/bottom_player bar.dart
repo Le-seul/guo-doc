@@ -166,6 +166,10 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
           print('当下位置：$slider_current_position');
           max_duration = e.duration;
           print('最大位置：$max_duration');
+          if(slider_current_position > max_duration){
+            slider_current_position = max_duration;
+          }
+
           DateTime date = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
               isUtc: true);
