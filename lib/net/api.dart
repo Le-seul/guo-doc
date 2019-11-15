@@ -141,4 +141,7 @@ class Api {
   //记录课程进度
   static const String SAVESTUDYRECORDER = "/api/psyCourse.do?saveStudyRecord";
 
+  //用户阅读行为记录
+  static const String USEREADINGLOG = "/api/article.do?userReadingLog";
+
 }

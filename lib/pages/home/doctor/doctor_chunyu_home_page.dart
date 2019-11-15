@@ -276,9 +276,9 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                   Text(
-                    '我们将竭尽全力保护您的隐私，',
+                    '我们将竭尽全力保护您的隐私，',style: TextStyle(color: Colors.black26),
                   ),
-                  Text('严格遵守隐私及服务条款。'),
+                  Text('严格遵守隐私及服务条款。',style: TextStyle(color: Colors.black26),),
                   GestureDetector(
                       onTap: () {
                         Router.push(

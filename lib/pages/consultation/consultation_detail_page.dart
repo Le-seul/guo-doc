@@ -2,6 +2,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -37,18 +38,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           ),
         ),
         actions: <Widget>[
-          GestureDetector(
-            child: Icon(Icons.share, color: Colors.black54, size: 20),
-            onTap: () async {
-              Share.text(
-                  '我的分享',
-                  '${widget.consulationColumnsInfo.title}:\nhttps://www.baidu.com/index.php?tn=02049043_6_pg',
-                  'text/plain');
-            },
-          ),
-          SizedBox(
-            width: 10,
-          ),
+
           GestureDetector(
             child: Icon(
               isFavor ? Icons.star : Icons.star_border,
@@ -59,9 +49,9 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
               setState(() {
                 isFavor = !isFavor;
                 if (isFavor) {
-                  Toast.show('收藏成功！');
+                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'SC');
                 } else {
-                  Toast.show('取消收藏！');
+                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QS');
                 }
               });
             },
@@ -76,13 +66,27 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
               setState(() {
                 isSupport = !isSupport;
                 if (isSupport) {
-                  Toast.show('点赞成功！');
+                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'DZ');
                 } else {
-                  Toast.show('取消点赞！');
+                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QD');
                 }
               });
             },
           ),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            child: Icon(Icons.share, color: Colors.black54, size: 20),
+            onTap: () async {
+              Share.text(
+                  '我的分享',
+                  '${widget.consulationColumnsInfo.title}:\n${widget.consulationColumnsInfo.content}',
+                  'text/plain');
+              CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'ZF');
+            },
+          ),
+
           SizedBox(
             width: 10,
           )

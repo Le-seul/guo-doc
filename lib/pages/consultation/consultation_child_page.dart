@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/router.dart';
@@ -168,8 +169,10 @@ class _ChildPageState extends State<ChildPage> {
       onTap: () {
         if (item.type == 'T') {
           Router.push(context, Router.topicPage, true);
+          CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
         } else {
           Router.push(context, Router.consulationDetailPage, item);
+          CommonRequest.UserReadingLog(item.id, item.type, 'YD');
         }
       },
     );

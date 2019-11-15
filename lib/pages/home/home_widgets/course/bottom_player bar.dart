@@ -179,6 +179,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
 //            course.isPlaying = flutterSound.isPlaying;
             if (e.currentPosition.toInt() == e.duration.toInt()) {
               print('lalala');
+              eventBus.fire(CourseContent1(course, 1));
               _sendStudyRecord();
               course.isPlaying = false;
             }

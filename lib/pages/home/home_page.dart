@@ -8,6 +8,7 @@ import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/mock_request.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
@@ -16,11 +17,13 @@ import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_swiper/flutter_swiper.dart' as lib2;
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../net/api.dart';
 import '../../net/dio_utils.dart';
+import 'home_widgets/course/bottom_player bar.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -366,10 +369,13 @@ class _HomePageState extends State<HomePage> {
       onTap: () {
         if (columnsInfoList[index].type == 'T') {
           Router.push(context, Router.topicPage, true);
+          CommonRequest.UserReadingLog(columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
         } else {
-          Router.push(
-              context, Router.consulationDetailPage, columnsInfoList[index]);
+          Router.push(context, Router.consulationDetailPage, columnsInfoList[index]);
+          CommonRequest.UserReadingLog(columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
         }
+
+
       },
     );
   }
