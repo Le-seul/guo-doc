@@ -39,52 +39,61 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
         ),
         actions: <Widget>[
 
-          GestureDetector(
-            child: Icon(
-              isFavor ? Icons.star : Icons.star_border,
-              color: Colors.black54,
-              size: 24,
+          Offstage(
+            offstage: widget.consulationColumnsInfo.canCollect != 'Y',
+            child: GestureDetector(
+              child: Icon(
+                isFavor ? Icons.star : Icons.star_border,
+                color: Colors.black54,
+                size: 24,
+              ),
+              onTap: () {
+                setState(() {
+                  isFavor = !isFavor;
+                  if (isFavor) {
+                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'SC');
+                  } else {
+                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QS');
+                  }
+                });
+              },
             ),
-            onTap: () {
-              setState(() {
-                isFavor = !isFavor;
-                if (isFavor) {
-                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'SC');
-                } else {
-                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QS');
-                }
-              });
-            },
           ),
           SizedBox(
             width: 10,
           ),
-          GestureDetector(
-            child: Icon(isSupport ? Icons.favorite : Icons.favorite_border,
-                color: Colors.black54, size: 20),
-            onTap: () {
-              setState(() {
-                isSupport = !isSupport;
-                if (isSupport) {
-                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'DZ');
-                } else {
-                  CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QD');
-                }
-              });
-            },
+          Offstage(
+            offstage: widget.consulationColumnsInfo.canLike != 'Y',
+            child: GestureDetector(
+              child: Icon(isSupport ? Icons.favorite : Icons.favorite_border,
+                  color: Colors.black54, size: 20),
+              onTap: () {
+                setState(() {
+                  isSupport = !isSupport;
+                  if (isSupport) {
+                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'DZ');
+                  } else {
+                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QD');
+                  }
+                });
+              },
+            ),
           ),
           SizedBox(
             width: 10,
           ),
-          GestureDetector(
-            child: Icon(Icons.share, color: Colors.black54, size: 20),
-            onTap: () async {
-              Share.text(
-                  '我的分享',
-                  '${widget.consulationColumnsInfo.title}:\n${widget.consulationColumnsInfo.content}',
-                  'text/plain');
-              CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'ZF');
-            },
+          Offstage(
+            offstage: widget.consulationColumnsInfo.canTransmit != 'Y',
+            child: GestureDetector(
+              child: Icon(Icons.share, color: Colors.black54, size: 20),
+              onTap: () async {
+                Share.text(
+                    '我的分享',
+                    '${widget.consulationColumnsInfo.title}:\n${widget.consulationColumnsInfo.content}',
+                    'text/plain');
+                CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'ZF');
+              },
+            ),
           ),
 
           SizedBox(

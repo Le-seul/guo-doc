@@ -460,9 +460,9 @@ class _TalkPageState extends State<TalkPage>
             ),
 
             Row(
-                mainAxisAlignment: listMessage[index].type == 'HF'
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.end,
+                mainAxisAlignment: listMessage[index].type == 'ZW'
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: widgetList),
           ],

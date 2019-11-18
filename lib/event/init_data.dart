@@ -50,42 +50,26 @@ class _InitDataState extends State<InitData> {
           Map<String, dynamic> _map =
               json.decode(message["extras"]["cn.jpush.android.EXTRA"]);
 
-//          print("flutter 接收到推送消息0: ${json.encode(message)}");
-//          print("flutter 接收到推送消息1: $message");
-//          print("flutter 接收到推送消息2: ${message["extras"]}");
-//          print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
-//          print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["model"]}");
-          String content = _map['content'];
-          String displayType = _map['displayType'];
+          print("flutter 接收到推送消息0: ${json.encode(message)}");
+          print("flutter 接收到推送消息1: $message");
+          print("flutter 接收到推送消息2: ${message["extras"]}");
+          print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
+          print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["model"]}");
+
+          String content = _map['message'];
           String model = _map['model'];
+          String target = _map['target'];
           String time = _map['time'];
           String type = _map['type'];
-          print('极光推送封装数据：{content:$content, displayTape:$displayType, time:$time, mode$model, type:$type}');
-          int num = 0;
-          String type1 = json
-              .decode(message["extras"]["cn.jpush.android.EXTRA"])["location"];
-          print("type1:$type1");
-          String orderId = json
-              .decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
-          print("orderId:$orderId");
-          OrderNum orderNum = await db.getOrder(orderId);
-          print('orderNum:${orderNum.toString()}');
-          if (orderNum == null) {
-            num++;
-            print("num1：$num");
-            int currentTime = DateTime.now().hour;
-            int count = await db.saveOrder(orderId, type1, "$num", currentTime);
-            List<Map> list = await db.getAllOrder();
-            print("数据库list1:$list");
-          } else {
-            num = int.parse(orderNum.num) ?? 0;
-            num++;
-            print("num2：$num");
-            int count = await db.updateOrder(orderId, "$num");
-            List<Map> list = await db.getAllOrder();
-            print("数据库list2:$list");
+          print('极光推送封装数据：{message:$content, target:$target, time:$time, model:$model, type:$type}');
+
+          if(model == 'chunyu'){
+            _initChunyu(model, target);
+          }else if(model == 'chunyu'){
+          _initChunyu(model, target);
           }
-          eventBus.fire(refreshNum("$num", orderId: orderId, location: type));
+
+
         },
         onOpenNotification: (Map<String, dynamic> message) {
           // 点击通知栏消息，在此时通常可以做一些页面跳转等
@@ -98,6 +82,29 @@ class _InitDataState extends State<InitData> {
         },
       );
     }
+  }
+
+  _initChunyu(String type,String orderId) async{
+    int num = 0;
+    print("orderId:$orderId");
+    OrderNum orderNum = await db.getOrder(orderId);
+    print('orderNum:${orderNum.toString()}');
+    if (orderNum == null) {
+      num++;
+      print("num1：$num");
+      int currentTime = DateTime.now().hour;
+      int count = await db.saveOrder(orderId, type, "$num", currentTime);
+      List<Map> list = await db.getAllOrder();
+      print("数据库list1:$list");
+    } else {
+      num = int.parse(orderNum.num) ?? 0;
+      num++;
+      print("num2：$num");
+      int count = await db.updateOrder(orderId, "$num");
+      List<Map> list = await db.getAllOrder();
+      print("数据库list2:$list");
+    }
+    eventBus.fire(refreshNum("$num", orderId: orderId, location: type));
   }
 
   static saveRegistrationID(String registrationID) async {
