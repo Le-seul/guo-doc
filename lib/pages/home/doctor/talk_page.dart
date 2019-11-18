@@ -421,7 +421,7 @@ class _TalkPageState extends State<TalkPage>
               'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572447395389&di=5b0d1077d36473dd6906ed95b553af6c&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201806%2F12%2F20180612111056_2uHKU.thumb.700_0.jpeg'),
         ),
       ];
-    } else if (listMessage[index].type == 'HF') {
+    } else if (listMessage[index].type == 'HF'||listMessage[index].type == 'ZJ') {
       // 非本人的信息
       widgetList = [
         GestureDetector(

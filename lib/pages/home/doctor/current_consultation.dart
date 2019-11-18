@@ -151,7 +151,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                           ),
                         ],)
                       ),
-                      Text('图文订单',style: TextStyle(color: Colors.black26),)
+                  Text(progressOrderList[index].type == 'tuwen'?'图文订单':'电话订单',style: TextStyle(color: Colors.black26),)
                     ],
                   ),
                 ),

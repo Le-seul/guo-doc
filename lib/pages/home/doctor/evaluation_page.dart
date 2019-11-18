@@ -26,29 +26,29 @@ class _EvaluationPageState extends State<EvaluationPage>
   List<Evaluation> bestList = List();
   String level = 'bad';
   var tag_keys = [];
-  var evaluationInfo ;
+  String evaluationInfo = '';
 
   @override
   void initState() {
     super.initState();
 
 
-    badList.add(Evaluation('不友好',1101));
-    badList.add(Evaluation('不细致',1102));
-    badList.add(Evaluation('等好久没回复',1201));
-    badList.add(Evaluation('完全听不懂',1301));
-    badList.add(Evaluation('感觉不专业',1302));
-    badList.add(Evaluation('没有帮助',1303));
-    goodList.add(Evaluation('希望更热情',2101));
-    goodList.add(Evaluation('希望更细致',2102));
-    goodList.add(Evaluation('希望回复更快',2201));
-    goodList.add(Evaluation('希望更透彻',2301));
-    bestList.add(Evaluation('态度非常好',3101));
-    bestList.add(Evaluation('非常清楚',3102));
-    bestList.add(Evaluation('回复很及时',3201));
-    bestList.add(Evaluation('非常专业认真',3301));
-    bestList.add(Evaluation('意见很有帮助',3302));
-    bestList.add(Evaluation('非常敬业',3303));
+    badList.add(Evaluation('不友好','1101'));
+    badList.add(Evaluation('不细致','1102'));
+    badList.add(Evaluation('等好久没回复','1201'));
+    badList.add(Evaluation('完全听不懂','1301'));
+    badList.add(Evaluation('感觉不专业','1302'));
+    badList.add(Evaluation('没有帮助','1303'));
+    goodList.add(Evaluation('希望更热情','2101'));
+    goodList.add(Evaluation('希望更细致','2102'));
+    goodList.add(Evaluation('希望回复更快','2201'));
+    goodList.add(Evaluation('希望更透彻','2301'));
+    bestList.add(Evaluation('态度非常好','3101'));
+    bestList.add(Evaluation('非常清楚','3102'));
+    bestList.add(Evaluation('回复很及时','3201'));
+    bestList.add(Evaluation('非常专业认真','3301'));
+    bestList.add(Evaluation('意见很有帮助','3302'));
+    bestList.add(Evaluation('非常敬业','3303'));
 
 
     mController = TabController(
@@ -163,7 +163,7 @@ class _EvaluationPageState extends State<EvaluationPage>
                   ),
                 )),
             onTap: () {
-              evaluationInfo = {"level": level, "tag_keys":tag_keys.toString()};
+              evaluationInfo = "{\"level\":\"$level\",\"tag_keys\":$tag_keys}";
 
               String assessInfo = evaluationInfo.toString();
               print('assessInfo:$assessInfo');
@@ -374,7 +374,7 @@ class _EvaluationPageState extends State<EvaluationPage>
 
           evaluation.isSelect = !evaluation.isSelect;
           if(evaluation.isSelect){
-            tag_keys.add(evaluation.num);
+            tag_keys.add("\"${evaluation.num}\"");
           }
         });
 

@@ -3,7 +3,7 @@ class Evaluation{
   String text;
   bool isSelect = false;
 
-  int num ;
+  String num ;
 
   Evaluation(this.text, this.num);
 
