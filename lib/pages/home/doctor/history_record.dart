@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/bean/history_order_entity.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';

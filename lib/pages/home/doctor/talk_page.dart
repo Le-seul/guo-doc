@@ -191,7 +191,7 @@ class _TalkPageState extends State<TalkPage>
   }
 
   _ask(String content, Message message) {
-    print('开始提问');
+    print('开始提问:$content');
     DioUtils.instance
         .requestNetwork<String>(Method.post, Api.USERASK, queryParameters: {
       'content': content,
@@ -221,7 +221,7 @@ class _TalkPageState extends State<TalkPage>
   _getDoctorInfo() {
     print('orderId:${widget.orderId}');
     DioUtils.instance.requestNetwork<DoctorInfo>(Method.get, Api.GETDOCTERINFO,
-        queryParameters: {'orderId': widget.orderId, 'type': widget.type},
+        queryParameters: {'orderId': widget.orderId},
         onSuccess: (data) {
       setState(() {
         doctorInfo = data;
@@ -297,7 +297,7 @@ class _TalkPageState extends State<TalkPage>
         localPath: url,
         createTime: today,
         content: content,
-        type: 'TW',
+        type: 'ZW',
       );
     } else if (type == 'audio') {
       num++;
@@ -308,7 +308,7 @@ class _TalkPageState extends State<TalkPage>
         time: _playSeconds,
         localPath: url,
         content: content,
-        type: 'TW',
+        type: 'ZW',
       );
     } else {
       content = "[{\"type\":\"$type\",\"text\":\"$val\"}]";
@@ -316,7 +316,7 @@ class _TalkPageState extends State<TalkPage>
       message = Message(
         content: content,
         createTime: today,
-        type: 'TW',
+        type: 'ZW',
       );
     }
     _ask(content, message);
@@ -332,7 +332,7 @@ class _TalkPageState extends State<TalkPage>
             maxLines: 100,
             textAlign: TextAlign.left,
             style: new TextStyle(
-              color: listMessage[index].type == "TW"?Colors.white:Colors.black,
+              color: listMessage[index].type == "ZW"?Colors.white:Colors.black,
               height: 1,
             ));
         break;
@@ -355,10 +355,10 @@ class _TalkPageState extends State<TalkPage>
           child: Container(
             width: 80,
             child: Row(
-              mainAxisAlignment: listMessage[index].type == 'TW'?MainAxisAlignment.end:MainAxisAlignment.start,
+              mainAxisAlignment: listMessage[index].type == 'ZW'?MainAxisAlignment.end:MainAxisAlignment.start,
               children: <Widget>[
 //                Text('${listMessage[index].time}\'\''),
-                listMessage[index].type == 'TW'
+                listMessage[index].type == 'ZW'
                     ? VoiceAnimationImage(
                         _rightList,
                         width: 20,
@@ -398,7 +398,7 @@ class _TalkPageState extends State<TalkPage>
       val = _map['file'];
     }
 
-    if (listMessage[index].type == 'TW') {
+    if (listMessage[index].type == 'ZW') {
       widgetList = [
         new Container(
             margin: new EdgeInsets.only(right: 20.0, top: 2),

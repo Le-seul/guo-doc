@@ -317,11 +317,11 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         }
 
 //        showMySimpleDialog(context);
-//        Toast.show('获取数量成功!');
+       print('获取数量成功!');
       });
     }, onError: (code, msg) {
       setState(() {
-//        Toast.show('获取数量失败!');
+        print('获取数量失败!');
       });
     });
   }

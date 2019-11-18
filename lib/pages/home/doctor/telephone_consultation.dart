@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/bean/history_order_entity.dart';
 import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
@@ -268,8 +268,10 @@ class _TelConsultationState extends State<TelConsultation>
           Method.post, Api.CREATEFASTPHONEORDER,
           queryParameters: {"clinicNo": clinicNo, "phone": phone},
           onSuccess: (data) {
+            print('创建快捷电话订单成功！');
         Router.pushReplacementNamed(context, Router.historyRecord,null);
 //            Toast.show('clinicNo:$clinicNo,phone:$phone');
+
       }, onError: (code, msg) {
         Toast.show('上传失败！');
       });

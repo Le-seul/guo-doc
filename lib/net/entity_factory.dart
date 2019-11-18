@@ -1,6 +1,6 @@
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
-import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/bean/history_order_entity.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
@@ -20,6 +20,7 @@ import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/order_count.dart';
+import 'package:flutter_first/bean/progress_order_entity.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/psycourse_detail.dart';
 import 'package:flutter_first/bean/psycoursecatelog.dart';
@@ -86,8 +87,10 @@ class EntityFactory {
       return ImageUrl.fromJson(json) as T;
     }else if (T.toString() == "AudioUrl") {
       return AudioUrl.fromJson(json) as T;
-    }else if (T.toString() == "AllOrder") {
-      return AllOrder.fromJson(json) as T;
+    }else if (T.toString() == "ProgressOrder") {
+      return ProgressOrder.fromJson(json) as T;
+    }else if (T.toString() == "HistoryOrder") {
+      return HistoryOrder.fromJson(json) as T;
     }else if (T.toString() == "FastphoneInfo") {
       return FastphoneInfo.fromJson(json) as T;
     }else if (T.toString() == "Message") {

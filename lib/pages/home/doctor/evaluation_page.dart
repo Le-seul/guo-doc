@@ -125,12 +125,16 @@ class _EvaluationPageState extends State<EvaluationPage>
       Toast.show('请输入评价内容！');
     }else{
       String content = "[{\"type\":\"text\",\"text\":\"${_contentController.text}\"}]";
+      print('content:$content');
+      print('assessInfo:$accessInfo');
       DioUtils.instance.requestNetwork<String>(
           Method.post, Api.POSTACCESSINFO,
           queryParameters: {"assessInfo": accessInfo, "content": content,"orderId": widget.orderId},
           onSuccess: (data) {
+            print('评价成功！');
             Toast.show('评价成功！');
           }, onError: (code, msg) {
+        print('评价失败！');
         Toast.show('评价失败！');
       });
     }

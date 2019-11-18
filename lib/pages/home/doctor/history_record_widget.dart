@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_first/bean/all_order_entity.dart';
+import 'package:flutter_first/bean/history_order_entity.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
@@ -18,9 +18,9 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
     with SingleTickerProviderStateMixin {
   TabController mController;
   bool isShowLoading = true;
-  List<FastphoneOrder> fastphoneOrder = List();
-  List<TuwenOrder> tuwenOrder = List();
-  AllOrder allOrder = new AllOrder();
+  List<HistoryOrder> historyOrderList = List();
+  List<HistoryOrder> fastphoneOrderList = List();
+  List<HistoryOrder> tuwenOrderList = List();
 
   @override
   void initState() {
@@ -39,16 +39,24 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
   }
 
   _getAllOrder() {
-    DioUtils.instance.requestNetwork<AllOrder>(
-        Method.get, Api.GETALLORDER, onSuccess: (data) {
+    DioUtils.instance.requestNetwork<HistoryOrder>(
+        Method.get, Api.GETALLORDER,isList: true,onSuccessList: (data) {
       setState(() {
-        allOrder = data;
-        fastphoneOrder = data.fastphoneOrder;
-        tuwenOrder = data.tuwenOrder;
+        historyOrderList = data;
+        if(historyOrderList != null){
+          for(HistoryOrder historyOrder in historyOrderList){
+            if(historyOrder.type == 'tuwen'){
+              tuwenOrderList.add(historyOrder);
+            } else{
+              fastphoneOrderList.add(historyOrder);
+            }
+          }
+        }
+        print('图文length:${tuwenOrderList.length}');
+        print('电话length:${fastphoneOrderList.length}');
         isShowLoading = false;
         deleteOrderNum();
         print("data:${json.encode(data)}");
-        print("allOrder.tuwenOrder.length:${allOrder.tuwenOrder.length}");
         print('获取历史订单成功！');
       });
     }, onError: (code, msg) {
@@ -60,12 +68,8 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
 
   deleteOrderNum() async{
     var db = OrderDb();
-    for(TuwenOrder tuwenOrder in allOrder.tuwenOrder){
-      int id = await db.deleteOrder(tuwenOrder.id);
-    }
-
-    for(FastphoneOrder fastPhoneOrder in allOrder.fastphoneOrder){
-      int id = await db.deleteOrder(fastPhoneOrder.id);
+    for(HistoryOrder historyOrder in historyOrderList){
+      int id = await db.deleteOrder(historyOrder.id);
     }
   }
 
@@ -73,7 +77,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
   Widget build(BuildContext context) {
     return isShowLoading
         ? LoadingWidget.childWidget()
-        : allOrder.tuwenOrder.length == 0 && allOrder.fastphoneOrder.length == 0
+        : historyOrderList.isEmpty
             ? Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -112,25 +116,25 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
                       children: <Widget>[
                         isShowLoading
                             ? LoadingWidget.childWidget()
-                            : allOrder.tuwenOrder.length == 0
+                            : tuwenOrderList.isEmpty
                             ? Container(
                           width: double.infinity,
                           height: double.infinity,
                           alignment: Alignment.center,
                           child: Text('暂无数据'),
                         )
-                            :  _buildWidget(0),
+                            :  _buildWidget(tuwenOrderList),
                         isShowLoading
                             ? LoadingWidget.childWidget()
-                            :  allOrder.fastphoneOrder.length == 0
+                            :  fastphoneOrderList.isEmpty
                             ? Container(
                           width: double.infinity,
                           height: double.infinity,
                           alignment: Alignment.center,
                           child: Text('暂无数据'),
                         )
-                            : _buildWidget(1),
-                        _buildWidget(null),
+                            : _buildWidget(fastphoneOrderList),
+                        Container(),
                       ],
                     ),
                   )
@@ -138,30 +142,21 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
               );
   }
 
-  _buildWidget(int num) {
+  _buildWidget(List<HistoryOrder> list) {
+    print('length:$list');
     return ListView.builder(
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: num == 0?allOrder.tuwenOrder.length:allOrder.fastphoneOrder.length,
+      itemCount: list.length??0,
       itemBuilder: (context, index) =>
-          _buildItem(num == 0?allOrder.tuwenOrder[index]:allOrder.fastphoneOrder[index],num),
+          _buildItem(list[index]),
     );
   }
 
-  _buildItem(var obj,int num) {
-    TuwenOrder tuwenOrder;
-    String id = "";
-    FastphoneOrder fastphoneOrder;
-    if(num == 0){
-     tuwenOrder = obj;
-     id = tuwenOrder.id;
-    }else{
-      fastphoneOrder = obj;
-      id = fastphoneOrder.id;
-    }
+  _buildItem(HistoryOrder historyOrder) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.talk,{'orderId': tuwenOrder.id, 'offstage': true,'type':num==0?"tuwen":"fastphone"});
+        Router.push(context, Router.talk,{'orderId': historyOrder.id, 'offstage': true,'type':historyOrder.type});
       },
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -195,7 +190,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
                           height: 10,
                         ),
                         Text(
-                            num == 0?tuwenOrder.createTime:fastphoneOrder.createTime,
+                            historyOrder.createTime,
                           style: TextStyle(color: Colors.black26),
                         ),
                       ],

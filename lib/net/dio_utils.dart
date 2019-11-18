@@ -34,8 +34,8 @@ class DioUtils {
 
   DioUtils._internal(){
     var options = BaseOptions(
-      connectTimeout: 60000,
-      receiveTimeout: 60000,
+      connectTimeout: 15000,
+      receiveTimeout: 15000,
       responseType: ResponseType.plain,
       validateStatus: (status){
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
