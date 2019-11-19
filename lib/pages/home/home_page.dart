@@ -88,12 +88,12 @@ class _HomePageState extends State<HomePage> {
       child: lib1.Swiper(
         indicatorAlignment: AlignmentDirectional.topEnd,
         circular: true,
-        interval: const Duration(seconds: 3),
+        interval: const Duration(seconds:3),
         indicator: NumberSwiperIndicator(),
         children: list.map((model) {
           return new InkWell(
             onTap: () {
-              Router.push(context, model.actionTarget, {'title': model.name});
+              model.state==0?Router.push(context, model.actionTarget, {'title': model.name}):null;
             },
             child: new CachedNetworkImage(
               fit: BoxFit.fill,

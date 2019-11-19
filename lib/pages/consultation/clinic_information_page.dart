@@ -64,7 +64,6 @@ class _Clinic_informationState extends State<Clinic_information> {
                 ),
               ),
               onTap: (){
-                Router.pushNoParams(context, Router.instructor_demeanor_detailPage);
               },
             );
           }),

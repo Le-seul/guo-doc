@@ -74,12 +74,12 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
             physics: ClampingScrollPhysics(),
             children: <Widget>[
               Container(
-                 height:  ScreenUtil().setHeight(23),
+                 height:  ScreenUtil().setHeight(15),
                  color:Colors.white,
                  child: Stack(
                     children: <Widget>[
                       Container(
-                        height:  ScreenUtil().setHeight(18),
+                        height:  ScreenUtil().setHeight(10),
                         color:Colours.bg_green,
                       ),
                       Positioned(
@@ -170,7 +170,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                       child: Text('总体概况',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
                       margin: EdgeInsets.only(top: 5,bottom: 10),),
                     Container(
-                      height: ScreenUtil().setHeight(120),
+                      height: ScreenUtil().setHeight(400),
                       child: WebView(
                         initialUrl:list[0].detailDesc,
                         javascriptMode: JavascriptMode.unrestricted,

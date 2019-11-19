@@ -33,9 +33,6 @@ import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.d
 import 'package:flutter_first/pages/home/home_widgets/course/catalog_detail_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_catalog_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytest/Forth.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytest/Second.dart';
-import 'package:flutter_first/pages/home/home_widgets/everydaytest/Third.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
 import 'package:flutter_first/pages/home/home_widgets/myself_page.dart';
@@ -162,12 +159,6 @@ class Router {
           return CatalogDetail(Detail: params,);
         case test0:
           return Test0(Url: params,);
-        case test1:
-          return Test1();
-        case test2:
-          return Test2();
-        case test3:
-          return Test3();
         case curriculumcatalog1:
           return CourseDetailPage(courseId: params,);
         case healthyconsultation:
@@ -227,7 +218,7 @@ class Router {
         case instructor_demeanorPage:
           return instructor_demeanor();
         case instructor_demeanor_detailPage:
-          return instructor_demeanor_detail(list:params);
+          return instructor_demeanor_detail(id:params);
         case clinic_informationPage:
           return Clinic_information();
         case evaluationPage:

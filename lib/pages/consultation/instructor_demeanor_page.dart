@@ -226,7 +226,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                 ),
               ),
               onTap: (){
-                Router.push(context, Router.instructor_demeanor_detailPage,BestList[0]);//记得改List
+                Router.push(context, Router.instructor_demeanor_detailPage,BestList[0].id);//记得改List
                 },
             ),
             Container(
@@ -284,7 +284,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         borderRadius:
                                         BorderRadius.circular(37.5))),
                                 onTap: (){
-                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[0]);
+                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[0].id);
                                 },
                               ),
                               SizedBox(
@@ -307,7 +307,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[1]);
+                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[1].id);
                                 },
                               ),
                               SizedBox(
@@ -330,7 +330,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[2]);
+                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[2].id);
                                 },
                               ),
                               SizedBox(
@@ -466,7 +466,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
 
 
                             onTap: (){
-                              Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[index]);
+                              Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[index].id);
                             },
                           );
                         })
