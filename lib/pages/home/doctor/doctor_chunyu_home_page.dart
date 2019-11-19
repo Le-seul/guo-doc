@@ -243,7 +243,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   GestureDetector(
                     child: _gridItem(
                         Colors.blue,
-                        'doctor/graphic_icon.png',
+                        'assets/images/service/图.png',
                         '图文问诊',
                         '通过聊天方式解决您的问题',
                         "$tuWenNum",
@@ -256,7 +256,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   GestureDetector(
                     child: _gridItem(
                         Colors.orange,
-                        'doctor/phone_icon.png',
+                        'assets/images/service/电话.png',
                         '电话问诊',
                         '通过电话解决您的问题',
                         "$fastPhone",
@@ -268,7 +268,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   GestureDetector(
                     child: _gridItem(
                        Colors.green,
-                        'doctor/history_icon.png',
+                        'assets/images/service/钟.png',
                         '历史记录',
                         '您之前问过的问题都在这里',
                         '',

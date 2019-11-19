@@ -62,19 +62,10 @@ android {
         ]
     }
 
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-        }
-    }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
-        
     }
 
     compileOptions {
@@ -82,7 +73,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
 flutter {
     source '../..'
 }
