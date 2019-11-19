@@ -132,7 +132,7 @@ class ConsutationDialog extends Dialog {
       type: MaterialType.transparency, //透明类型
       child: new Center( //保证控件居中效果
         child:Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.only(top: 20,bottom: 20),
           margin: EdgeInsets.only(left: 30,right: 30),
           height: 130,
 
@@ -142,46 +142,57 @@ class ConsutationDialog extends Dialog {
           child: new Column(
             children: <Widget>[
              SizedBox(height: 5,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                Text('请选择',style: TextStyle(fontSize: 18),),
-                GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
-                  Navigator.of(context).pop();
-                },)
-              ],),
+              Container(
+                padding: EdgeInsets.only(left: 15,right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                  Text('请选择',style: TextStyle(fontSize: 18),),
+                  GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
+                    Navigator.of(context).pop();
+                  },)
+                ],),
+              ),
               SizedBox(height: 25,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  GestureDetector(
-                    child: Container(
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: GestureDetector(
+                        child: Container(
 
-                      decoration: BoxDecoration(
-                          color: Color(0xff2CA687),
-                          borderRadius: BorderRadius.circular(12)),
-                      padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
+                          decoration: BoxDecoration(
+                              color: Color(0xff2CA687),
+                              borderRadius: BorderRadius.circular(12)),
+                          padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
 
-                      child: Text('继续已有问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                          child: Text('继续已有问诊',style: TextStyle(color: Colors.white),),
+                        ),
+                        onTap: (){
+                          Router.pushNoParams(context, Router.historyRecord);
+                        },
+                      ),
                     ),
-                    onTap: (){
-                      Router.pushNoParams(context, Router.historyRecord);
-                    },
                   ),
-                  SizedBox(width: 20,),
-                  GestureDetector(
-                    child: Container(
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: GestureDetector(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(12)),
+                          padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
+                          child: Text('创建新的问诊',style: TextStyle(color: Colors.white),),
+                        ),
+                        onTap: (){
+                          Navigator.of(context).pop();
+                        },
 
-                      decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(12)),
-                      padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
-                      child: Text('创建新的问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                      ),
                     ),
-                    onTap: (){
-                      Navigator.of(context).pop();
-                    },
-
                   )
                 ],
               )
