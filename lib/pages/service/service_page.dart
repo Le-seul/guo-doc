@@ -53,7 +53,7 @@ class _ServicePageState extends State<ServicePage> {
               Stack(
                 children: <Widget>[
                   Container(
-                    height: ScreenUtil().setHeight(40),
+                    height: ScreenUtil().setHeight(34),
                     color: Colours.bg_green,
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -84,10 +84,10 @@ class _ServicePageState extends State<ServicePage> {
                       ],
                     ),),),
                   Positioned(
-                    top: 88,
+                    top: 80,
                       left: 18,
                       child: Container(
-                       height: ScreenUtil().setHeight(22),
+                       height: ScreenUtil().setHeight(18),
                         width: ScreenUtil().setWidth(90),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -101,15 +101,15 @@ class _ServicePageState extends State<ServicePage> {
                                 children: <Widget>[
                                   InkWell(
                                   child: Container(
-                                    margin: EdgeInsets.all(12),
-                                    height: ScreenUtil().setHeight(12),
-                                    width: ScreenUtil().setHeight(12),
+                                    margin: EdgeInsets.only(top:15,bottom: 10),
+                                    height: ScreenUtil().setHeight(9),
+                                    width: ScreenUtil().setHeight(9),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.blue,
+                                      color: Color(0xff45D5D3),
                                     ),
                                     child: Center(
-                                      child: Image.asset('assets/images/service/图.png',height: 40,width: 40,),
+                                      child: Image.asset('assets/images/service/图.png'),
                                     ),
                                   ),
                                     onTap: (){
@@ -126,15 +126,15 @@ class _ServicePageState extends State<ServicePage> {
                                 children: <Widget>[
                                   InkWell(
                                     child:Container(
-                                      margin: EdgeInsets.all(12),
-                                      height: ScreenUtil().setHeight(12),
-                                      width: ScreenUtil().setHeight(12),
+                                      margin: EdgeInsets.only(top:15,bottom: 10),
+                                      height: ScreenUtil().setHeight(9),
+                                      width: ScreenUtil().setHeight(9),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.green,
+                                        color: Color(0xff44D587),
                                       ),
                                       child: Center(
-                                        child: Image.asset('assets/images/service/电话.png',height: 40,width: 40,),
+                                        child: Image.asset('assets/images/service/电话.png'),
                                       ),
                                     ),
                                     onTap: (){
@@ -151,15 +151,15 @@ class _ServicePageState extends State<ServicePage> {
                                 children: <Widget>[
                                   InkWell(
                                     child: Container(
-                                      margin: EdgeInsets.all(12),
-                                      height: ScreenUtil().setHeight(12),
-                                      width: ScreenUtil().setHeight(12),
+                                      margin: EdgeInsets.only(top:15,bottom: 10),
+                                      height: ScreenUtil().setHeight(9),
+                                      width: ScreenUtil().setHeight(9),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.purple,
+                                        color: Color(0xffA79CE3),
                                       ),
                                       child: Center(
-                                        child: Image.asset('assets/images/service/钟.png',height: 40,width: 40,),
+                                        child: Image.asset('assets/images/service/钟.png'),
                                       ),
                                     ),
                                     onTap: (){
@@ -178,11 +178,11 @@ class _ServicePageState extends State<ServicePage> {
                 ],
               ),
               Container(
-                padding:EdgeInsets.only(top: 5,left:ScreenUtil().setWidth(5), ),
+                padding:EdgeInsets.only(top: 0,left:ScreenUtil().setWidth(5), ),
                 child: Row(
                   children: <Widget>[
                     Container(
-                      color: Colours.bg_green,
+                      color: Color(0xff2AA586),
                       height: ScreenUtil().setHeight(3),
                       width: ScreenUtil().setWidth(1.2),
                     ),
@@ -307,10 +307,10 @@ class _ServicePageState extends State<ServicePage> {
                                 height: 25,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  color: Colours.bg_green,
+                                  color: Color(0xff2AA586),
                                 ),
                                 child: Center(
-                                  child: Text('活动进行中',style: TextStyle(color: Colors.white70),),
+                                  child: Text('活动进行中',style: TextStyle(color: Colors.white),),
                                 )
                             )
                           ],
@@ -438,10 +438,10 @@ class _ServicePageState extends State<ServicePage> {
                                 height: 25,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  color: Colors.orange.shade200,
+                                  color: Color(0xffF6A744),
                                 ),
                                 child: Center(
-                                  child: Text('即将开始',style: TextStyle(color: Colors.white70),),
+                                  child: Text('即将开始',style: TextStyle(color: Colors.white),),
                                 )
                             ),
                           ],
@@ -516,10 +516,10 @@ class _ServicePageState extends State<ServicePage> {
                                 height: 25,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  color: Colors.grey,
+                                  color: Color(0xffC6C6C6),
                                 ),
                                 child: Center(
-                                  child: Text('活动已结束',style: TextStyle(color: Colors.white70),),
+                                  child: Text('活动已结束',style: TextStyle(color: Colors.white),),
                                 )
                             ),
                           ],
