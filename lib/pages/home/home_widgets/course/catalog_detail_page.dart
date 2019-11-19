@@ -47,4 +47,9 @@ class _CatalogDetailState extends State<CatalogDetail> {
     );
   }
 
+  @override
+  void dispose() {
+    BottomControllerBar.isClick = true;
+  }
+
 }

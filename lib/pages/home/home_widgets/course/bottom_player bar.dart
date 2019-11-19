@@ -17,6 +17,7 @@ class BottomControllerBar {
   static OverlayEntry tinyControlbar;
   static OverlayEntry overlayEntry;
   static double dx, dy;
+  static bool isClick = true;
   static bool position = false;
   static ChapterList currentCourse;
   static bool hide = false;
@@ -36,7 +37,7 @@ class BottomControllerBar {
     tinyControlbar = new OverlayEntry(builder: (context) {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return new Positioned(
-        bottom: lib.ScreenUtil.getInstance().screenHeight * 0.3,
+        bottom: dy,
         left: 0,
         child: new Material(
           color: Colors.transparent,
@@ -62,7 +63,7 @@ class BottomControllerBar {
                 tinyControlbar.remove();
                 tinyControlbar = null;
                 hide = false;
-                dy = lib.ScreenUtil.getInstance().screenHeight * 0.3;
+
                 Overlay.of(context).setState(() {});
                 print("click close");
               },
@@ -113,7 +114,7 @@ class BottomControllerBar {
                     final RenderObject box = context.findRenderObject();
                     //  获得自定义Widget的大小，用来计算Widget的中心锚点
 //            dx = details.globalPosition.dx ;
-                    dy = details.globalPosition.dy;
+                    dy = lib.ScreenUtil.getInstance().screenHeight-details.globalPosition.dy;
                     print("vertical drag $dx $dy");
                     Overlay.of(context).setState(() {});
                   },
@@ -301,10 +302,14 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.catalogdetail,course.detailDescription);
-        BottomControllerBar.hide = true;
-        BottomControllerBar.showTinyControlbar(context);
-        Overlay.of(context).setState(() {});
+        if(BottomControllerBar.isClick){
+          BottomControllerBar.isClick = false;
+          Router.push(context, Router.catalogdetail,course.detailDescription);
+          BottomControllerBar.hide = true;
+          BottomControllerBar.dy = lib.ScreenUtil.getInstance().screenHeight*0.3;
+          BottomControllerBar.showTinyControlbar(context);
+          Overlay.of(context).setState(() {});
+        }
       },
       child: Container(
         color: Colors.transparent,
