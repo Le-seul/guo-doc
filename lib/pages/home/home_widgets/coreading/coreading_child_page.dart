@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/CoreadingLike.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
@@ -38,7 +39,22 @@ class _CoreadingChildState extends State<CoreadingChild> {
           print("sssss");
         });
   }
+  _getCoreadingLike(String id ) {
+    DioUtils.instance
+        .requestNetwork<CoreadingLike>(Method.get,
+        Api.CoReadingLike,
+        queryParameters: {
+          'id': id,
+        },
+        isList: true, onSuccessList: (data) {
+          setState(() {
 
+          });
+        }, onError: (code, msg) {
+          setState(() {
+          });
+        });
+  }
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
@@ -78,7 +94,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(height: 30,),
-                      Text(list[index].shortDesc,style: TextStyle(fontSize: 18),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                      Text(list[index].name,style: TextStyle(fontSize: 18),maxLines: 2,overflow: TextOverflow.ellipsis,),
                       SizedBox(height: 5,),
                       Row(
                         children: <Widget>[
@@ -98,6 +114,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
               ),
             ),
             onTap: (){
+              _getCoreadingLike(list[index].id);
               Router.push(context, list[index].detailDesc, {"title":list[index].shortDesc});
             },
           );

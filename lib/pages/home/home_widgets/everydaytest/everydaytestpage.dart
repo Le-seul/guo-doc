@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/daytest_like.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/mock_request.dart';
@@ -67,7 +68,22 @@ class _AllState extends State<All> {
     _requestData();
 
   }
+  _getTestLike(String id ) {
+    DioUtils.instance
+        .requestNetwork<TestLike>(Method.get,
+        Api.PsyDailyTestedLike,
+        queryParameters: {
+          'id': id.toString(),
+        },
+        isList: true, onSuccessList: (data) {
+          setState(() {
 
+          });
+        }, onError: (code, msg) {
+          setState(() {
+          });
+        });
+  }
 
   void _requestData() {
     DioUtils.instance.requestNetwork<PsyDailyTest>(Method.get, Api.PsyDailyTest,
@@ -109,6 +125,7 @@ class _AllState extends State<All> {
                       children: <Widget>[
                         InkWell(
                           onTap: () {
+                            _getTestLike(psylist[index].id);
                             Router.push(context, Router.test0,psylist[index].testEntry);
                           },
                           child: Container(
