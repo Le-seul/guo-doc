@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flustars/flustars.dart'as lib;
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -13,7 +14,10 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'package:intl/date_symbol_data_local.dart';
 
 class BottomControllerBar {
+  static OverlayEntry tinyControlbar;
   static OverlayEntry overlayEntry;
+  static double dx, dy;
+  static bool position = false;
   static ChapterList currentCourse;
   static bool hide = false;
 
@@ -22,10 +26,63 @@ class BottomControllerBar {
       overlayEntry.remove();
       overlayEntry = null;
     }
+    if (tinyControlbar != null) {
+      tinyControlbar.remove();
+      tinyControlbar = null;
+    }
   }
 
+  static showTinyControlbar(BuildContext context) {
+    tinyControlbar = new OverlayEntry(builder: (context) {
+      //外层使用Positioned进行定位，控制在Overlay中的位置
+      return new Positioned(
+        bottom: lib.ScreenUtil.getInstance().screenHeight * 0.3,
+        left: 0,
+        child: new Material(
+          color: Colors.transparent,
+          child: Container(
+            width: 25,
+            height: 50,
+            padding: EdgeInsets.only(right: 5),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF75C2E0), Colors.blue[200]],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: new BorderRadius.horizontal(right: Radius.circular(90)), // 也可控件一边圆角大小
+            ),
+            child: IconButton(
+              padding:EdgeInsets.all(0.0),
+              icon: Icon(
+                Icons.navigate_next,
+                color: Colors.white70,
+              ),
+              onPressed: () {
+                tinyControlbar.remove();
+                tinyControlbar = null;
+                hide = false;
+                dy = lib.ScreenUtil.getInstance().screenHeight * 0.3;
+                Overlay.of(context).setState(() {});
+                print("click close");
+              },
+            ),
+          ),
+        ),
+      );
+    });
+    //往Overlay中插入插入OverlayEntry
+    Overlay.of(context).insert(tinyControlbar);
+  }
+
+
   static void hideBottomControllerBar(BuildContext context,bool isShow){
+    if (tinyControlbar != null) {
+      tinyControlbar.remove();
+      tinyControlbar = null;
+    }
     hide = isShow;
+    dy = 0.0;
     Overlay.of(context).setState(() {});
   }
 
@@ -40,17 +97,42 @@ class BottomControllerBar {
   static void show(
       BuildContext context, CourseDetail courseDetail, ChapterList chapter) {
     //创建一个OverlayEntry对象
-
+    dy = 0.0;
     currentCourse = chapter;
     overlayEntry = new OverlayEntry(builder: (context) {
       //外层使用Positioned进行定位，控制在Overlay中的位置
       return new Positioned(
-          bottom: 0.0,
+          left: 0,
+          bottom: dy,
           child: Offstage(
             offstage: hide,
             child: new Material(
               type: MaterialType.transparency, //透明类型
-              child: BottomControllerWidget(courseDetail, chapter),
+              child: GestureDetector(
+                  onVerticalDragUpdate: (DragUpdateDetails details) {
+                    final RenderObject box = context.findRenderObject();
+                    //  获得自定义Widget的大小，用来计算Widget的中心锚点
+//            dx = details.globalPosition.dx ;
+                    dy = details.globalPosition.dy;
+                    print("vertical drag $dx $dy");
+                    Overlay.of(context).setState(() {});
+                  },
+                  onVerticalDragEnd: (DragEndDetails details) {
+                  },
+                  onHorizontalDragUpdate: (DragUpdateDetails details) {
+                    final RenderObject box = context.findRenderObject();
+                    //  获得自定义Widget的大小，用来计算Widget的中心锚点
+//            dx = details.globalPosition.dx ;
+                    if (details.delta.dx < -10) {
+                      print("hide action");
+                      hide = true;
+                      if (tinyControlbar == null) {
+                        Overlay.of(context).setState(() {});
+                        showTinyControlbar(context);
+                      }
+                    }
+                  },
+                  child: BottomControllerWidget(courseDetail, chapter)),
             ),
           ));
     });
@@ -220,7 +302,9 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     return GestureDetector(
       onTap: () {
         Router.push(context, Router.catalogdetail,course.detailDescription);
-        BottomControllerBar.hideBottomControllerBar(context,true);
+        BottomControllerBar.hide = true;
+        BottomControllerBar.showTinyControlbar(context);
+        Overlay.of(context).setState(() {});
       },
       child: Container(
         color: Colors.transparent,

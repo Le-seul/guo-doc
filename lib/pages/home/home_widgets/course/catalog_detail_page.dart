@@ -14,6 +14,9 @@ class CatalogDetail extends StatefulWidget {
 }
 
 class _CatalogDetailState extends State<CatalogDetail> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -43,4 +46,5 @@ class _CatalogDetailState extends State<CatalogDetail> {
       },
     );
   }
+
 }
