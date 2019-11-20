@@ -96,7 +96,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                     Center(
                       child: Text(
                         '在线问诊',
-                        style: TextStyle(fontSize: 22.0, color: Colors.white),
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
                       ),
                     ),
                     SizedBox(
@@ -118,7 +118,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                                 Text(
                                   '服务说明',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
@@ -237,7 +237,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   ),
                   Text(
                     '问诊服务',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 16),
                   )
                 ],
               ),
@@ -295,11 +295,11 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text('我们将全力保护您的隐私'),
+                Text('我们将全力保护您的隐私',style: TextStyle(color: Colors.black26,fontSize: 12),),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('严格遵守'),
+                    Text('严格遵守',style: TextStyle(color: Colors.black26,fontSize: 12)),
                     GestureDetector(
                         onTap: () {
                           Router.push(
@@ -311,6 +311,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                           '服务条款及隐私政策',
                           style: TextStyle(
                             color: Colors.blue,
+                            fontSize: 12,
                             decoration: TextDecoration.underline,
                           ),
                         ))
@@ -398,7 +399,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                       children: <Widget>[
                         Text(
                           text,
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 16),
                         ),
                         Offstage(
                           offstage: offstage,
@@ -427,7 +428,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                     ),
                     Text(
                       txt,
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(color: Colors.black26,fontSize: 12),
                     )
                   ],
                 ),

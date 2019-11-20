@@ -49,10 +49,10 @@ class _CourseChildState extends State<CourseChild> {
                 height: 90,
                 fit: BoxFit.fill,
               )),
+          SizedBox(height: 10,),
+          Text('【怎么管理情绪】',style: TextStyle(fontSize: 14,),),
           SizedBox(height: 8,),
-          Text('【怎么管理情绪】',style: TextStyle(fontSize: 16),),
-          SizedBox(height: 8,),
-          Text('课程时长：10讲',style: TextStyle(color: Colors.black26),)
+          Text('课程时长：10讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
         ],
       ),
     );

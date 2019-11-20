@@ -178,7 +178,7 @@ class _PsyCourseState extends State<PsyCourse>
                           labelColor: Color(0xff2CA687),
                           unselectedLabelColor: Color(0xff666666),
                           unselectedLabelStyle: TextStyle(fontSize: 14),
-                          labelStyle: TextStyle(fontSize: 16.0),
+                          labelStyle: TextStyle(fontSize: 14.0),
                           tabs: <Widget>[
                             Text('全部'),
                             Text('情绪调节'),
@@ -291,12 +291,12 @@ class _PsyCourseState extends State<PsyCourse>
                   children: <Widget>[
                     Text(
                       '【怎么管理情绪】',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('类别：情绪调节'),
+                    Text('类别：情绪调节',style: TextStyle(fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
@@ -308,7 +308,7 @@ class _PsyCourseState extends State<PsyCourse>
                           Icons.access_time,
                           size: 15,
                         ),
-                        Expanded(child: Text('上次听到:01讲 05分22秒'))
+                        Expanded(child: Text('上次听到:01讲 05分22秒',style: TextStyle(fontSize: 12),))
                       ],
                     ),
                     SizedBox(
@@ -384,16 +384,16 @@ class _PsyCourseState extends State<PsyCourse>
                   children: <Widget>[
                     Text(
                       '【怎么管理情绪】',
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('类别：情绪调节'),
+                    Text('类别：情绪调节',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('课程时长：16讲'),
+                    Text('课程时长：16讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
@@ -401,10 +401,10 @@ class _PsyCourseState extends State<PsyCourse>
                       children: <Widget>[
                         Icon(
                           Icons.access_time,
-                          size: 15,color: Colors.black54
+                          size: 15,color: Color(0xff909090)
                         ),
                         SizedBox(width:5,),
-                        Text('预计12月3号上线',style: TextStyle(color: Color(0xFFFF5400)))
+                        Text('预计12月3号上线',style: TextStyle(color: Color(0xFFFF5400),fontSize: 12))
                       ],
                     ),
                   ],

@@ -56,13 +56,11 @@ class _MusicPageState extends State<MusicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black,),
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '轻松音乐',
-          style: TextStyle(color: Colors.black),
+         ),
         ),
-      ),
       body: Container(
           padding: EdgeInsets.only(top: 15, right: 15, left: 15),
           color: Colors.white,
@@ -108,17 +106,17 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   )),
               SizedBox(
-                height: 5,
+                height: 8,
               ),
-              Text(GetAllMusicList[index].name, style: TextStyle(fontSize: 18)),
+              Text(GetAllMusicList[index].name, style: TextStyle(fontSize: 14)),
               SizedBox(
-                height: 5,
+                height: 8,
               ),
               Row(
                 children: <Widget>[
-                  Icon(Icons.headset,size: 15,color: Colors.black54,),
+                  Icon(Icons.headset,size: 12,color: Colors.black26,),
                   SizedBox(width: 5,),
-                  Text('2038',style: TextStyle(color: Colors.black54),),
+                  Text('2038',style: TextStyle(color: Colors.black54,fontSize: 12),),
                 ],
               )
             ],
