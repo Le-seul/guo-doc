@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -513,7 +515,10 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              NavigatorUtil.pushPage(
+                  context, PsyCenterDetail(id: 1,),);
+            },
           ), //隐私服务
            SizedBox(
                       height: 2,
