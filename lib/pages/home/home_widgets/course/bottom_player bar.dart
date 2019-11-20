@@ -98,6 +98,7 @@ class BottomControllerBar {
   static void show(
       BuildContext context, CourseDetail courseDetail, ChapterList chapter) {
     //创建一个OverlayEntry对象
+    hide = true;
     dy = 0.0;
     currentCourse = chapter;
     overlayEntry = new OverlayEntry(builder: (context) {
@@ -304,10 +305,12 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
       onTap: () {
         if(BottomControllerBar.isClick){
           BottomControllerBar.isClick = false;
+          BottomControllerBar.hideBottomControllerBar(context, true);
           Router.push(context, Router.catalogdetail,course.detailDescription);
+
           BottomControllerBar.hide = true;
           BottomControllerBar.dy = lib.ScreenUtil.getInstance().screenHeight*0.3;
-          BottomControllerBar.showTinyControlbar(context);
+//          BottomControllerBar.showTinyControlbar(context);
           Overlay.of(context).setState(() {});
         }
       },
