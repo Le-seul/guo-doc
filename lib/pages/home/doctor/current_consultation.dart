@@ -61,7 +61,6 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
         if(orderNum != null){
           progressOrder.num = orderNum.num??"";
         }
-
       });
 
 //      print("tuWenNum4:${tuwenOrder.num}");

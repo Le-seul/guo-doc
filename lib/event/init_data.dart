@@ -63,9 +63,9 @@ class _InitDataState extends State<InitData> {
           String type = _map['type'];
           print('极光推送封装数据：{message:$content, target:$target, time:$time, model:$model, type:$type}');
 
-          if(model == 'chunyu'){
+          if(model == 'chunyuTuwen'){
             _initChunyu(model, target);
-          }else if(model == 'chunyu'){
+          }else if(model == 'chunyuFastphone'){
           _initChunyu(model, target);
           }
 
@@ -76,7 +76,6 @@ class _InitDataState extends State<InitData> {
           String orderId = json
               .decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
           print("orderid：$orderId");
-          Toast.show('点击通知');
           Router.push(
               context, Router.talk, {'orderId': orderId, 'offstage': false});
         },

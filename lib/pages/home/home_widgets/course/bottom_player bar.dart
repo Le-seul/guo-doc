@@ -98,7 +98,7 @@ class BottomControllerBar {
   static void show(
       BuildContext context, CourseDetail courseDetail, ChapterList chapter) {
     //创建一个OverlayEntry对象
-    hide = true;
+//    hide = true;
     dy = 0.0;
     currentCourse = chapter;
     overlayEntry = new OverlayEntry(builder: (context) {

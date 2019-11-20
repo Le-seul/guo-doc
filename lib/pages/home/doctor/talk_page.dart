@@ -79,12 +79,12 @@ class _TalkPageState extends State<TalkPage>
 
   @override
   void initState() {
-
+    init();
     if(widget.type == "fastphone"){
       print('电话咨询aaa');
       _getFastphoneReplyContent();
     }else{
-      init();
+
       _getAllContent();
     }
     _getDoctorInfo();

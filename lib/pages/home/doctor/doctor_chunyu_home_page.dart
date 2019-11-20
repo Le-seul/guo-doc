@@ -395,33 +395,39 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Text(
-                          text,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Offstage(
-                          offstage: offstage,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: 6, right: 6, top: 2, bottom: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
-                              ),
-                              child: Text(
-                                count,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                    Container(
+                      width: 90,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              text,
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
-                        )
-                      ],
+                          Offstage(
+                            offstage: offstage,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: 6, right: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(6.0),
+                                  ),
+                                ),
+                                child: Text(
+                                  count,
+                                  style: TextStyle(color: Colors.white,fontSize: 10),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 5,
