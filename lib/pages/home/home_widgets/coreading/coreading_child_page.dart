@@ -68,7 +68,8 @@ class _CoreadingChildState extends State<CoreadingChild> {
       child: Text('暂无数据'),
     )
         :ListView.builder(
-      itemCount: list.length,
+        shrinkWrap: true,
+        itemCount: list.length,
         itemBuilder: (context , index){
           return InkWell(
             child: Container(
@@ -93,7 +94,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 30,),
+                      SizedBox(height: 23,),
                       Text(list[index].name,style: TextStyle(fontSize: 18),maxLines: 2,overflow: TextOverflow.ellipsis,),
                       SizedBox(height: 5,),
                       Row(
@@ -104,7 +105,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
                       ),
                       SizedBox(height: 10,),
                       Expanded(
-                        child: Text(list[index].shortDesc,style: TextStyle(color: Colors.grey.shade600)),
+                        child: Text(list[index].shortDesc,style: TextStyle(color: Color(0xff919191),fontSize: 12),maxLines: 2,overflow: TextOverflow.ellipsis,),
                       ),
 
                     ],

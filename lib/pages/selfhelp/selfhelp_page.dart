@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/CoreadingLike.dart';
+import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/bean/psycourse.dart';
@@ -21,9 +23,11 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
   bool isShowLoading1 = true;
   bool isShowLoading2 = true;
   bool isShowLoading3 = true;
+  bool isShowLoading4 = true;
 
   List<Course> mycourselist = List(); //我的课程
   List<GetAllMusic> GetAllMusicList = List();
+  List<CoReading> list = List(); //共读
 
   @override
   void initState() {
@@ -31,6 +35,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
     _requestData();
     _requestPsycourse();
     _getAllMusicList();
+    _requestCoreading('');
   }
 
 
@@ -77,12 +82,42 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
       Toast.show('请求失败！');
     });
   }
+  void _requestCoreading(String Kind) {
+    DioUtils.instance.requestNetwork<CoReading>(Method.get,
+        Kind==''? Api.CoReading:Api.CoReadingKind,
+        queryParameters: {'categoryId': Kind},
+        isList: true, onSuccessList: (data) {
+          setState(() {
+            list = data;
+            isShowLoading4 = false;
 
+          });
+        }, onError: (code, msg) {
+          print("sssss");
+        });
+  }
+  _getCoreadingLike(String id ) {
+    DioUtils.instance
+        .requestNetwork<CoreadingLike>(Method.get,
+        Api.CoReadingLike,
+        queryParameters: {
+          'id': id,
+        },
+        isList: true, onSuccessList: (data) {
+          setState(() {
+
+          });
+        }, onError: (code, msg) {
+          setState(() {
+          });
+        });
+  }
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
       backgroundColor: Colours.line,
       body: ListView(
+        physics: ClampingScrollPhysics(),
         children: <Widget>[
           Container(
             color: Colors.white,
@@ -105,7 +140,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 Text('   趣味自测',style: TextStyle(fontSize: 16.5),),
                 SizedBox(width: ScreenUtil().setWidth(57),),
                 InkWell(
-                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 13.5),)),
+                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)),
                   onTap: (){
                     Router.pushNoParams(context, Router.everydaytest);
                   },
@@ -182,7 +217,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 Text('   心理课程',style: TextStyle(fontSize: 16.5),),
                 SizedBox(width: ScreenUtil().setWidth(57),),
                 InkWell(
-                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 13.5),)),
+                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C))),),
                   onTap: (){
                     Router.pushNoParams(context, Router.psycourse);
                   },
@@ -209,32 +244,34 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
 //                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
                   },
                   child:Container(
-                    margin: EdgeInsets.all(10),
-                    height: ScreenUtil().setHeight(30),
-                    width: ScreenUtil().setHeight(23),
+                    margin: EdgeInsets.only(left: 10),
+                    height: 200,
+                    width: 153,
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(mycourselist[0].coverImage),fit: BoxFit.fill),
-                        borderRadius: BorderRadius.all(Radius.circular(5))
+                        image: DecorationImage(image: NetworkImage(mycourselist[0].coverImage),fit: BoxFit.fitHeight),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         width: double.infinity,
-                        height: ScreenUtil().setHeight(8),
+                        height: 56,
                         decoration: BoxDecoration(
                             color: Colors.black54 ,
-                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(5),bottomLeft: Radius.circular(5))
+                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),bottomLeft: Radius.circular(10))
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('    如何调节负面情绪',style: TextStyle(color: Colors.white,fontSize: 13.5),),
+                            SizedBox(height: 12,),
+                            Text('    如何调节负面情绪',style: TextStyle(color: Colors.white,fontSize: 14),),
+                            SizedBox(height: 6,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text('     共16讲    ',style: TextStyle(color: Colors.white,fontSize: 11.5),),
-                                Icon(Icons.play_circle_outline,size: 15,color: Colors.white,)
+                                Icon(Icons.play_circle_outline,size: 16,color: Colors.white,)
                               ],)
 
 
@@ -248,35 +285,37 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   onTap: () {
                     Router.push(context, Router.curriculumcatalog1,mycourselist[1].id);
-//                    Router.push(context, mycourselist[1].coverImage, {'title': mycourselist[1].name});
+//                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
                   },
                   child:Container(
-                    margin: EdgeInsets.all(10),
-                    height: ScreenUtil().setHeight(30),
-                    width: ScreenUtil().setHeight(23),
+                    margin: EdgeInsets.only(left: 10),
+                    height: 200,
+                    width: 153,
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(mycourselist[1].coverImage),fit: BoxFit.fill),
-                        borderRadius: BorderRadius.all(Radius.circular(5))
+                        image: DecorationImage(image: NetworkImage(mycourselist[1].coverImage),fit: BoxFit.fitHeight),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         width: double.infinity,
-                        height: ScreenUtil().setHeight(8),
+                        height: 56,
                         decoration: BoxDecoration(
                             color: Colors.black54 ,
-                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(5),bottomLeft: Radius.circular(5))
+                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),bottomLeft: Radius.circular(10))
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('    如何调节负面情绪',style: TextStyle(color: Colors.white,fontSize: 13.5),),
+                            SizedBox(height: 12,),
+                            Text('    如何调节负面情绪',style: TextStyle(color: Colors.white,fontSize: 14),),
+                            SizedBox(height: 6,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text('     共16讲    ',style: TextStyle(color: Colors.white,fontSize: 11.5),),
-                                Icon(Icons.play_circle_outline,size: 15,color: Colors.white,)
+                                Icon(Icons.play_circle_outline,size: 16,color: Colors.white,)
                               ],)
 
 
@@ -290,35 +329,37 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   onTap: () {
                     Router.push(context, Router.curriculumcatalog1,mycourselist[2].id);
-//                    Router.push(context, mycourselist[2].coverImage, {'title': mycourselist[2].name});
+//                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
                   },
                   child:Container(
-                    margin: EdgeInsets.all(10),
-                    height: ScreenUtil().setHeight(30),
-                    width: ScreenUtil().setHeight(23),
+                    margin: EdgeInsets.only(left: 10),
+                    height: 200,
+                    width: 153,
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(mycourselist[2].coverImage),fit: BoxFit.fill),
-                        borderRadius: BorderRadius.all(Radius.circular(5))
+                        image: DecorationImage(image: NetworkImage(mycourselist[2].coverImage),fit: BoxFit.fitHeight),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         width: double.infinity,
-                        height: ScreenUtil().setHeight(8),
+                        height: 56,
                         decoration: BoxDecoration(
                             color: Colors.black54 ,
-                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(5),bottomLeft: Radius.circular(5))
+                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),bottomLeft: Radius.circular(10))
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('    如何调节负面情绪',style: TextStyle(color: Colors.white,fontSize: 13.5),),
+                            SizedBox(height: 12,),
+                            Text('    如何调节负面情绪',style: TextStyle(color: Colors.white,fontSize: 14),),
+                            SizedBox(height: 6,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text('     共16讲    ',style: TextStyle(color: Colors.white,fontSize: 11.5),),
-                                Icon(Icons.play_circle_outline,size: 15,color: Colors.white,)
+                                Icon(Icons.play_circle_outline,size: 16,color: Colors.white,)
                               ],)
 
 
@@ -344,7 +385,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 Text('   轻松音乐',style: TextStyle(fontSize: 16.5),),
                 SizedBox(width: ScreenUtil().setWidth(57),),
                 InkWell(
-                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 13.5),)),
+                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C))),),
                   onTap: (){
                     Router.push(context, Router.musicPage, {'num': 0, 'tagId': ""});
                   },
@@ -359,12 +400,12 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                   children: <Widget>[
                     InkWell(
                       child:Container(
-                        margin: EdgeInsets.all(10),
-                        height: ScreenUtil().setHeight(23),
-                        width: ScreenUtil().setHeight(23),
+                        margin: EdgeInsets.only(left: 10),
+                        height: 153,
+                        width: 153,
                         decoration: BoxDecoration(
                             image: DecorationImage(image: NetworkImage(GetAllMusicList[0].image),fit: BoxFit.fill),
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
                         child: Align(
                           alignment: Alignment(-0.7,0.8),
@@ -377,11 +418,11 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                     ),
 
                     Container(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10,top: 15),
                       child: Text(GetAllMusicList[0].name,style: TextStyle(fontSize: 15),),
                     ),
                     Container(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 10,top: 9),
                         child: Row(
                           children: <Widget>[
                             Icon(Icons.headset,color: Colors.grey,size: 15,),
@@ -396,12 +437,12 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                   children: <Widget>[
                     InkWell(
                       child:Container(
-                        margin: EdgeInsets.all(10),
-                        height: ScreenUtil().setHeight(23),
-                        width: ScreenUtil().setHeight(23),
+                        margin: EdgeInsets.only(left: 10),
+                        height: 153,
+                        width: 153,
                         decoration: BoxDecoration(
                             image: DecorationImage(image: NetworkImage(GetAllMusicList[1].image),fit: BoxFit.fill),
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
                         child: Align(
                           alignment: Alignment(-0.7,0.8),
@@ -409,16 +450,16 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        Router.push(context, Router.musicListPage, GetAllMusicList[0]);
+                        Router.push(context, Router.musicListPage, GetAllMusicList[1]);
                       },
                     ),
 
                     Container(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10,top: 15),
                       child: Text(GetAllMusicList[1].name,style: TextStyle(fontSize: 15),),
                     ),
                     Container(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 10,top: 9),
                         child: Row(
                           children: <Widget>[
                             Icon(Icons.headset,color: Colors.grey,size: 15,),
@@ -433,12 +474,12 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                   children: <Widget>[
                     InkWell(
                       child:Container(
-                        margin: EdgeInsets.all(10),
-                        height: ScreenUtil().setHeight(23),
-                        width: ScreenUtil().setHeight(23),
+                        margin: EdgeInsets.only(left: 10),
+                        height: 153,
+                        width: 153,
                         decoration: BoxDecoration(
                             image: DecorationImage(image: NetworkImage(GetAllMusicList[2].image),fit: BoxFit.fill),
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
                         child: Align(
                           alignment: Alignment(-0.7,0.8),
@@ -446,16 +487,16 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        Router.push(context, Router.musicListPage, GetAllMusicList[0]);
+                        Router.push(context, Router.musicListPage, GetAllMusicList[2]);
                       },
                     ),
 
                     Container(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10,top: 15),
                       child: Text(GetAllMusicList[2].name,style: TextStyle(fontSize: 15),),
                     ),
                     Container(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 10,top: 9),
                         child: Row(
                           children: <Widget>[
                             Icon(Icons.headset,color: Colors.grey,size: 15,),
@@ -466,80 +507,6 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
-//                Column(
-//                  children: <Widget>[
-//                    InkWell(
-//                      child:Container(
-//                        margin: EdgeInsets.all(10),
-//                        height: ScreenUtil().setHeight(23),
-//                        width: ScreenUtil().setHeight(23),
-//                        decoration: BoxDecoration(
-//                            image: DecorationImage(image: NetworkImage(GetAllMusicList[3].image),fit: BoxFit.fill),
-//                            borderRadius: BorderRadius.all(Radius.circular(5))
-//                        ),
-//                        child: Align(
-//                          alignment: Alignment(-0.7,0.8),
-//                          child: Icon(Icons.play_circle_outline,size: 30,color: Colors.white,),
-//                        ),
-//                      ),
-//                      onTap: (){
-//                        Router.push(context, Router.musicListPage, GetAllMusicList[3]);
-//                      },
-//                    ),
-//
-//                    Container(
-//                      padding: EdgeInsets.only(left: 10),
-//                      child: Text(GetAllMusicList[3].name,style: TextStyle(fontSize: 15),),
-//                    ),
-//                    Container(
-//                        padding: EdgeInsets.only(left: 10),
-//                        child: Row(
-//                          children: <Widget>[
-//                            Icon(Icons.headset,color: Colors.grey,size: 15,),
-//                            Text('  2518',style: TextStyle(color: Colors.grey,),)
-//                          ],
-//                        )
-//                    ),
-//                  ],
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                ),
-//                Column(
-//                  children: <Widget>[
-//                    InkWell(
-//                      child:Container(
-//                        margin: EdgeInsets.all(10),
-//                        height: ScreenUtil().setHeight(23),
-//                        width: ScreenUtil().setHeight(23),
-//                        decoration: BoxDecoration(
-//                            image: DecorationImage(image: NetworkImage(GetAllMusicList[4].image),fit: BoxFit.fill),
-//                            borderRadius: BorderRadius.all(Radius.circular(5))
-//                        ),
-//                        child: Align(
-//                          alignment: Alignment(-0.7,0.8),
-//                          child: Icon(Icons.play_circle_outline,size: 30,color: Colors.white,),
-//                        ),
-//                      ),
-//                      onTap: (){
-//                        Router.push(context, Router.musicListPage, GetAllMusicList[4]);
-//                      },
-//                    ),
-//
-//                    Container(
-//                      padding: EdgeInsets.only(left: 10),
-//                      child: Text(GetAllMusicList[4].name,style: TextStyle(fontSize: 15),),
-//                    ),
-//                    Container(
-//                        padding: EdgeInsets.only(left: 10),
-//                        child: Row(
-//                          children: <Widget>[
-//                            Icon(Icons.headset,color: Colors.grey,size: 15,),
-//                            Text('  2518',style: TextStyle(color: Colors.grey,),)
-//                          ],
-//                        )
-//                    ),
-//                  ],
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                ),
               ],
             ),
           ),
@@ -552,243 +519,270 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                   height: ScreenUtil().setHeight(3),
                   width: ScreenUtil().setWidth(1.2),
                 ),
-                Text('   心理共读',style: TextStyle(fontSize: 16.5),)
+                Text('   心理共读',style: TextStyle(fontSize: 16.5),),
+                SizedBox(width: ScreenUtil().setWidth(57),),
+                InkWell(
+                  child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)),
+                  onTap: (){
+                    Router.pushNoParams(context, Router.togethereading);
+                  },
+                )
               ],
             ),),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.green.shade200,
+              Expanded(
+                child: InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15),
+                          ),
+                          color: Color(0xffEDF9EB)
+                      ),
+                      child: Center(
+                        child: Text('情绪压力',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
                   ),
-                  child: Center(
-                    child: Text('情绪压力',style: TextStyle(color: Colors.grey.shade600),),
-                  )
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('情绪压力');
+                    });
+                  },
+                )
               ),
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.orange.shade200,
+              Expanded(
+                child: InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15),
+                          ),
+                          color: Color(0xffFCF5E3)
+                      ),
+                      child: Center(
+                        child: Text('咨询科普',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
+                  ), 
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('咨询科普');
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: 
+                InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15),
+                        ),
+                          color: Color(0xffFCF1F5)
+                      ),
+                      child: Center(
+                        child: Text('亲密关系',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
                   ),
-                  child: Center(
-                    child: Text('咨询科普',style: TextStyle(color: Colors.grey.shade600),),
-                  )
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('亲密关系');
+                    });
+                  },
+                ),
               ),
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
+              Expanded(
+                child:InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: ScreenUtil().setHeight(4.5),
+                    width: ScreenUtil().setHeight(12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15),
+                      ),
+                        color: Color(0xffE9EBFD)
                     ),
-                    color: Colors.deepOrange.shade200,
-                  ),
-                  child: Center(
-                    child: Text('亲密关系',style: TextStyle(color: Colors.grey.shade600),),
-                  )
+                    child: Center(
+                      child: Text('个人成长',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                    )
               ),
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.green.shade200,
-                  ),
-                  child: Center(
-                    child: Text('个人成长',style: TextStyle(color: Colors.grey.shade600),),
-                  )
-              ),
-              SizedBox(),
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('个人成长');
+                    });
+                  },
+                ), ),
             ],
           ),
           SizedBox(
-            height: 10,
+            height:5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.green.shade200,
+              Expanded(
+                child: InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15),
+                        ),
+                          color: Color(0xffEDF9EB)
+                      ),
+                      child: Center(
+                        child: Text('家庭关系',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
                   ),
-                  child: Center(
-                    child: Text('家庭关系',style: TextStyle(color: Colors.grey.shade600),),
-                  )
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('个人成长');
+                    });                  },
+                ),
               ),
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.orange.shade200,
+              Expanded(
+                child:InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15),
+                        ),
+                          color: Color(0xffFCF5E3)
+                      ),
+                      child: Center(
+                        child: Text('人际关系',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
                   ),
-                  child: Center(
-                    child: Text('人际关系',style: TextStyle(color: Colors.grey.shade600),),
-                  )
-              ),
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.deepOrange.shade200,
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('个人成长');
+                    });                  },
+                ), ),
+              Expanded(
+                child: InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15),
+                        ),
+                          color: Color(0xffFCF1F5)
+                      ),
+                      child: Center(
+                        child: Text('亲子关系',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
                   ),
-                  child: Center(
-                    child: Text('亲子关系',style: TextStyle(color: Colors.grey.shade600),),
-                  )
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('个人成长');
+                    });                  },
+                ),
               ),
-              SizedBox(),
-              Container(
-                  height: ScreenUtil().setHeight(4.5),
-                  width: ScreenUtil().setHeight(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15),
-                    ),
-                    color: Colors.green.shade200,
+              Expanded(
+                child:InkWell(
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: ScreenUtil().setHeight(4.5),
+                      width: ScreenUtil().setHeight(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15),
+                        ),
+                          color: Color(0xffE9EBFD)
+                      ),
+                      child: Center(
+                        child: Text('行为关系',style: TextStyle(color: Color(0xff919191),fontSize: 12),),
+                      )
                   ),
-                  child: Center(
-                    child: Text('行为关系',style: TextStyle(color: Colors.grey.shade600),),
-                  )
+                  onTap: (){
+                    setState(() {
+                      _requestCoreading('个人成长');
+                    });                  },
+                ),
               ),
-              SizedBox(),
 
             ],
           ),
           SizedBox(
-            height: 13,
+            height: 8,
           ),
-          Container(
-            height: ScreenUtil().setHeight(25),
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(flex: 1,child: Container(
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage('https://ss1.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=328381647,2298442252&fm=26&gp=0.jpg'))
-                  ),
-                )),
-                Expanded(flex: 2,child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          isShowLoading4
+              ? LoadingWidget.childWidget()
+              : (list.length == 0)
+              ? Container(
+            width: double.infinity,
+            height: double.infinity,
+            alignment: Alignment.center,
+            child: Text('暂无数据'),
+          )
+              :ListView.builder(
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: list.length,
+            itemBuilder: (context , index){
+            return InkWell(
+              child: Container(
+                height: 150,
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: Row(
                   children: <Widget>[
-                    SizedBox(height: 15,),
-                    Text('如何做到喜欢自己',style: TextStyle(fontSize: 18),),
-                    SizedBox(height: 5,),
-                    Row(
+                    Expanded(flex: 1,child: Container(
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(list[index].coverImgId))
+                      ),
+                    )),
+                    Expanded(
+                      flex: 2,child:
+                    Flex(
+                      direction: Axis.vertical,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.star,color: Colors.orange,),
-                        Text('  205人在读',style: TextStyle(color: Colors.orange),),
-                      ],
-                    ),
-                    SizedBox(height: 10,),
-                    Text('这是内容',style: TextStyle(color: Colors.grey.shade600))
-                  ],
-                ),),
+                        SizedBox(height: 23,),
+                        Text(list[index].name,style: TextStyle(fontSize: 18),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                        SizedBox(height: 5,),
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.star,color: Colors.orange,),
+                            Text('  ${list[index].learnedUserCount}人在读',style: TextStyle(color: Colors.orange)),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Expanded(
+                          child: Text(list[index].shortDesc,style: TextStyle(color: Color(0xff919191),fontSize: 12),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                        ),
 
-              ],
-            ),
-          ),
-          Container(
-            height: ScreenUtil().setHeight(25),
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(flex: 1,child: Container(
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage('http://b-ssl.duitang.com/uploads/item/201610/12/20161012150657_2GTru.thumb.700_0.jpeg'))
-                  ),
-                )),
-                Expanded(flex: 2,child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 15,),
-                    Text('我和世界爱着你',style: TextStyle(fontSize: 18),),
-                    SizedBox(height: 5,),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.star,color: Colors.orange,),
-                        Text('  205人在读',style: TextStyle(color: Colors.orange),),
                       ],
-                    ),
-                    SizedBox(height: 10,),
-                    Text('这是内容',style: TextStyle(color: Colors.grey.shade600))
-                  ],
-                ),),
+                    ),),
 
-              ],
-            ),
-          ),
-          Container(
-            height: ScreenUtil().setHeight(25),
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(flex: 1,child: Container(
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage('http://www.wndhw.com/fengjing/zhaopian/images/zp016t13.jpg'))
-                  ),
-                )),
-                Expanded(flex: 2,child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 15,),
-                    Text('学会调节情绪',style: TextStyle(fontSize: 18),),
-                    SizedBox(height: 5,),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.star,color: Colors.orange,),
-                        Text('  205人在读',style: TextStyle(color: Colors.orange),),
-                      ],
-                    ),
-                    SizedBox(height: 10,),
-                    Text('这是内容',style: TextStyle(color: Colors.grey.shade600))
                   ],
-                ),),
-
-              ],
-            ),
-          ),
+                ),
+              ),
+              onTap: (){
+                _getCoreadingLike(list[index].id);
+                Router.push(context, list[index].detailDesc, {"title":list[index].shortDesc});
+              },
+            );
+          }),
         ],
       ),
     );

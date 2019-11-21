@@ -28,7 +28,6 @@ import 'package:flutter_first/pages/home/home_widgets/images_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_detail.dart';
 import 'package:flutter_first/pages/home/home_widgets/pstConsult_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/psyTest_page.dart';
-import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_course_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/catalog_detail_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_catalog_page.dart';
@@ -90,7 +89,6 @@ class Router {
   static const test1 = 'app://test1';
   static const test2 = 'app://test2';
   static const test3 = 'app://test3';
-  static const simplereading = 'app://SimpleReading';
   static const togethereading = 'app://Togethereading';
   static const everydaytest = 'app://Everydaytest';
   static const myself = 'app://Myself';
@@ -135,8 +133,6 @@ class Router {
           return EverydayTest();
         case togethereading:
           return SimpleCoreading();
-        case simplereading:
-          return SimpleReading();//简单共读
         case loginPage:
           return LoginPage();
         case smsLogin:

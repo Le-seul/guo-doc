@@ -29,6 +29,7 @@ class _EverydayTestState extends State<EverydayTest>
       appBar: AppBar(
         title: Text('趣味自测'),
         centerTitle: true,
+        backgroundColor: Colours.bg_green,
         bottom: TabBar(
           controller: _tabController,
           tabs: <Widget>[

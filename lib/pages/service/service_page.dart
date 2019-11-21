@@ -47,29 +47,43 @@ class _ServicePageState extends State<ServicePage> {
 
     return Scaffold(
       backgroundColor: Colours.line,
+      appBar: PreferredSize(
+          child: AppBar(
+            title: Text('服务',style: TextStyle(fontSize: 18),),
+            centerTitle: true,
+            backgroundColor: Colours.bg_green,
+            elevation: 0,
+          ),
+          preferredSize: Size.fromHeight(30)),
       body: SafeArea(
           child: ListView(
+            physics: ClampingScrollPhysics(),
+
             children: <Widget>[
               Stack(
                 children: <Widget>[
                   Container(
-                    height: ScreenUtil().setHeight(34),
-                    color: Colours.bg_green,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        width: double.infinity,
-                        height: ScreenUtil().setHeight(14 ),
-                        color: Colours.line,
-                      ),
-                    ),
+
+                    child:Column(
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          height: ScreenUtil().setHeight(20),
+                          color: Colours.bg_green,                        ),
+                        Container(
+                          width: double.infinity,
+                          height: ScreenUtil().setHeight(12),
+                          color: Colours.line,
+                        ),
+                      ],
+                    )
+
+
+
                   ),
+
                   Positioned(
-                    left:ScreenUtil().setWidth(45) ,
-                    top:10,
-                      child: Text('服务',style: TextStyle(color: Colors.white,fontSize: 18),)),
-                  Positioned(
-                    top: 30,
+                    top: 10,
                     //left: 10,
                     child: Container(
                     padding:EdgeInsets.only(top: 15,left:ScreenUtil().setWidth(5),bottom: 15 ),
@@ -84,7 +98,7 @@ class _ServicePageState extends State<ServicePage> {
                       ],
                     ),),),
                   Positioned(
-                    top: 80,
+                    top: 60,
                       left: 18,
                       child: Container(
                        height: ScreenUtil().setHeight(18),
@@ -117,7 +131,7 @@ class _ServicePageState extends State<ServicePage> {
                                           context, Router.graphicConsultation);
                                     },
                               ),
-                                  Text('图文问诊')
+                                  Text('图文问诊',style: TextStyle(fontSize: 12),)
                                 ],
                               ),
                             ),
@@ -142,7 +156,7 @@ class _ServicePageState extends State<ServicePage> {
                                     },
                                   ),
 
-                                  Text('电话问诊')
+                                  Text('电话问诊',style: TextStyle(fontSize: 12),)
                                 ],
                               ),
                             ),
@@ -167,7 +181,7 @@ class _ServicePageState extends State<ServicePage> {
                                     },
                                   ),
 
-                                  Text('历史咨询')
+                                  Text('历史咨询',style: TextStyle(fontSize: 12),)
                                 ],
                               ) ,
                             ),
@@ -188,7 +202,7 @@ class _ServicePageState extends State<ServicePage> {
                     ),
                     Text('   活动参与',style: TextStyle(fontSize: 16.5),),
                     SizedBox(width: ScreenUtil().setWidth(57),),
-                    Text('更多>',style: TextStyle(fontSize: 13.5,color: Colors.grey.shade600),),
+                    Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)
 
                   ],
                 ),),
@@ -282,7 +296,7 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                       Container(
                           margin: EdgeInsets.only(left: 13),
-                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 16),)),
+                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 14),)),
                       Container(
                         margin: EdgeInsets.only(left: 13,top: 10),
                         child: Row(
@@ -291,11 +305,11 @@ class _ServicePageState extends State<ServicePage> {
                             RichText(
                               text: TextSpan(
                                   text:'25',
-                                  style: TextStyle(color: Colors.orange),
+                                  style: TextStyle(color: Colors.orange,fontSize: 12),
                                   children: <TextSpan>[
                                     TextSpan(
                                       text: '人已报名',
-                                      style: TextStyle(color: Colors.black54),
+                                      style: TextStyle(color: Colors.black54,fontSize: 12),
                                     )
                                   ]
                               ),
@@ -310,7 +324,7 @@ class _ServicePageState extends State<ServicePage> {
                                   color: Color(0xff2AA586),
                                 ),
                                 child: Center(
-                                  child: Text('活动进行中',style: TextStyle(color: Colors.white),),
+                                  child: Text('活动进行中',style: TextStyle(color: Colors.white,fontSize: 12),),
                                 )
                             )
                           ],
@@ -413,7 +427,7 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                       Container(
                           margin: EdgeInsets.only(left: 13),
-                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 16),)),
+                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 14),)),
                       Container(
                         margin: EdgeInsets.only(left: 13,top: 10),
                         child: Row(
@@ -422,11 +436,11 @@ class _ServicePageState extends State<ServicePage> {
                             RichText(
                               text: TextSpan(
                                   text:'25',
-                                  style: TextStyle(color: Colors.orange),
+                                  style: TextStyle(color: Colors.orange,fontSize: 12),
                                   children: <TextSpan>[
                                     TextSpan(
                                       text: '人已报名',
-                                      style: TextStyle(color: Colors.black54),
+                                      style: TextStyle(color: Colors.black54,fontSize: 12),
                                     )
                                   ]
                               ),
@@ -441,7 +455,7 @@ class _ServicePageState extends State<ServicePage> {
                                   color: Color(0xffF6A744),
                                 ),
                                 child: Center(
-                                  child: Text('即将开始',style: TextStyle(color: Colors.white),),
+                                  child: Text('即将开始',style: TextStyle(color: Colors.white,fontSize: 12),),
                                 )
                             ),
                           ],
@@ -491,7 +505,7 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                       Container(
                           margin: EdgeInsets.only(left: 13),
-                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 16),)),
+                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 14),)),
                       Container(
                         margin: EdgeInsets.only(left: 13,top: 10),
                         child: Row(
@@ -500,11 +514,11 @@ class _ServicePageState extends State<ServicePage> {
                             RichText(
                               text: TextSpan(
                                   text:'25',
-                                  style: TextStyle(color: Colors.orange),
+                                  style: TextStyle(color: Colors.orange,fontSize: 12),
                                   children: <TextSpan>[
                                     TextSpan(
                                       text: '人已报名',
-                                      style: TextStyle(color: Colors.black54),
+                                      style: TextStyle(color: Colors.black54,fontSize: 12),
                                     )
                                   ]
                               ),
@@ -519,7 +533,7 @@ class _ServicePageState extends State<ServicePage> {
                                   color: Color(0xffC6C6C6),
                                 ),
                                 child: Center(
-                                  child: Text('活动已结束',style: TextStyle(color: Colors.white),),
+                                  child: Text('活动已结束',style: TextStyle(color: Colors.white,fontSize: 12),),
                                 )
                             ),
                           ],

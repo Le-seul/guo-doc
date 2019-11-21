@@ -41,7 +41,7 @@ class _instructor_demeanor_detailState
       });
 
     }, onError: (code, msg) {
-      print("sssss");
+      print("获取失败");
     });
   }
 
