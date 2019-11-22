@@ -96,9 +96,9 @@ class BottomControllerBar {
   }
 
   static void show(
-      BuildContext context, CourseDetail courseDetail, ChapterList chapter) {
+      BuildContext context, CourseDetail courseDetail, ChapterList chapter,bool ishow) {
     //创建一个OverlayEntry对象
-//    hide = true;
+    hide = ishow;
     dy = 0.0;
     currentCourse = chapter;
     overlayEntry = new OverlayEntry(builder: (context) {
@@ -175,7 +175,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
     exitLogin = eventBus.on<CourseContent>().listen((event) async{
       if (course.audio == event.chapterList.audio) {
         if (event.type == 0) {
-          if(isSeek){
+          if(event.chapterList.isHighlight == true){
             seekToPlay();
           }else{
             startPlayer(course.audio);
@@ -210,7 +210,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
   init() async{
     course = widget.chapterList;
     if(course.isPlaying == true){
-      if(isSeek){
+      if(course == true){
         seekToPlay();
       }else{
         startPlayer(course.audio);
@@ -363,11 +363,10 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
                               ))),
                       GestureDetector(
                         onTap: () {
-
                           if (course.isPlaying == false) {
                             print('url:${course.audio}');
                             eventBus.fire(CourseContent1(course, 0));
-                            if(isSeek){
+                            if(course.isHighlight == true){
                               seekToPlay();
                             }else{
                               startPlayer(course.audio);

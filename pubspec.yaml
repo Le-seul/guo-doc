@@ -75,7 +75,7 @@ dependencies:
   uuid: 2.0.2
   extended_image: 0.6.5
   flutter_inappbrowser: 1.2.1
-
+  fit_kit: 0.0.6
 
 
 dev_dependencies:

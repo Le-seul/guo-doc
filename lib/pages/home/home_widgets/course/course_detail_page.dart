@@ -92,7 +92,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
           chapter.duration = data.duration;
           if(BottomControllerBar.overlayEntry == null){
             print('创建bottomBar');
-            BottomControllerBar.show(context, courseDetail, chapter);
+            BottomControllerBar.show(context, courseDetail, chapter,false);
           }
 
           if(BottomControllerBar.getCourse().isPlaying == true){
@@ -276,7 +276,11 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   _buildItem(ChapterList chapterList, int index) {
     return GestureDetector(
       onTap: () {
-        BottomControllerBar.hideBottomControllerBar(context, true);
+        if(BottomControllerBar.overlayEntry == null){
+          BottomControllerBar.show(context, courseDetail, chapterList,true);
+        }else{
+          BottomControllerBar.hideBottomControllerBar(context, true);
+        }
         Router.push(context, Router.catalogdetail,chapterList.detailDescription);
         if(chapterList.isPlaying == false){
           if (chapterList.state != 'N') {

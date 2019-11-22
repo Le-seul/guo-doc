@@ -290,7 +290,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 30,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,

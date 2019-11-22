@@ -56,6 +56,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
         children: <Widget>[
           Container(
             height: 45,
+            padding: EdgeInsets.only(left: 5,right: 5),
             color: Color(0xFFFFEBEE),
             alignment: Alignment.center,
             child: Text(

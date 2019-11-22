@@ -1,3 +1,4 @@
+import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
 import 'package:flutter_first/res/colors.dart';
@@ -5,7 +6,33 @@ import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MinePage extends StatelessWidget {
+
+
+class MinePage extends StatefulWidget {
+  @override
+  _MinePageState createState() => _MinePageState();
+}
+
+class _MinePageState extends State<MinePage> {
+  var num = 100;
+  @override
+  void initState() {
+    read();
+  }
+
+  void read() async {
+    print('获取步数');
+    final results = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(days: 5)),
+      DateTime.now(),
+    );
+    print('获取步数1');
+
+    num = results[0].value;
+    print('获取步数num:$num');
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
@@ -119,7 +146,7 @@ class MinePage extends StatelessWidget {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Text('55555',style: TextStyle(color: Colors.white,fontSize: 17),),
+                          Text('$num',style: TextStyle(color: Colors.white,fontSize: 17),),
                           SizedBox(height: 5,),
                           Text('步数',style: TextStyle(color: Colors.white,fontSize: 16),)
                         ],
