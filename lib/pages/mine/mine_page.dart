@@ -1,4 +1,4 @@
-import 'package:fit_kit/fit_kit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
 import 'package:flutter_first/res/colors.dart';
@@ -15,23 +15,6 @@ class MinePage extends StatefulWidget {
 
 class _MinePageState extends State<MinePage> {
   var num = 100;
-  @override
-  void initState() {
-    read();
-  }
-
-  void read() async {
-    print('获取步数');
-    final results = await FitKit.read(
-      DataType.STEP_COUNT,
-      DateTime.now().subtract(Duration(days: 5)),
-      DateTime.now(),
-    );
-    print('获取步数1');
-
-    num = results[0].value;
-    print('获取步数num:$num');
-  }
 
   @override
   Widget build(BuildContext context) {
