@@ -3,6 +3,7 @@ import 'package:flutter_first/bean/consultation_columns_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_tab.dart';
+import 'package:flutter_first/res/colors.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_first/util/toast.dart';
@@ -72,7 +73,7 @@ class _ConsultationPageState extends State<ConsultationPage>
       appBar: AppBar(
         elevation: 0.0,
         title: Text('资讯'),
-        backgroundColor: Color(0xff2CA687),
+        backgroundColor: Colors.blue,
         centerTitle: true,
       ),
       body: isShowLoading

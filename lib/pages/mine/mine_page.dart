@@ -1,51 +1,51 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 
-
-class MinePage extends StatefulWidget {
-  @override
-  _MinePageState createState() => _MinePageState();
-}
-
-class _MinePageState extends State<MinePage> {
-  var num = 100;
-
+class MinePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
     return Scaffold(
+      appBar: PreferredSize(
+          child: AppBar(
+            title: Text('我的',style: TextStyle(fontSize: 18),),
+            centerTitle: true,
+            backgroundColor: Colours.bg_green,
+            elevation: 0,
+          ),
+          preferredSize: Size.fromHeight(30)),
       //backgroundColor: Colours.line,
       body: ListView(
+        physics: ClampingScrollPhysics(),
+
         children: <Widget>[
           Stack(
             children: <Widget>[
               Container(
-                height: ScreenUtil().setHeight(50),
+                height: ScreenUtil().setHeight(40),
                 color: Colours.bg_green,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(12),
+                    height: ScreenUtil().setHeight(8),
                     color: Colors.white,
                   ),
                 ),
               ),
+//              Positioned(
+//                top: 10,
+//                left: ScreenUtil().setWidth(47),
+//                child: Text('我的',
+//                    style: TextStyle(color: Colors.white, fontSize: 18)),
+//              ),
               Positioned(
-                top: 10,
-                left: ScreenUtil().setWidth(47),
-                child: Text('我的',
-                    style: TextStyle(color: Colors.white, fontSize: 18)),
-              ),
-              Positioned(
-                top: ScreenUtil().setHeight(10),
+                top: ScreenUtil().setHeight(3),
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -67,33 +67,38 @@ class _MinePageState extends State<MinePage> {
                       children: <Widget>[
                         Text('张警官',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
+                                TextStyle(color: Colors.white, fontSize: 16)),
                         Text('189*****111',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 15)),
+                                TextStyle(color: Colors.white, fontSize: 12)),
                       ],
                     ),
                     SizedBox(
-                      width: 90,
+                      width: 105,
                     ),
-                    Stack(
-                      alignment: FractionalOffset(0.5, 0.5),
-                      children: <Widget>[
-                        Opacity(
-                          opacity: 0.5,
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(4))),
+                    InkWell(
+                      child: Stack(
+                        alignment: FractionalOffset(0.5, 0.5),
+                        children: <Widget>[
+                          Opacity(
+                            opacity: 0.5,
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              padding: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(4))),
+                            ),
                           ),
-                        ),
-                        Center(
-                          child: Image.asset('assets/images/mine/字母.png',height: 20,width: 20),
-                        )
-                      ],
+                          Center(
+                            child: Image.asset('assets/images/mine/字母.png',height: 20,width: 20),
+                          )
+                        ],
+                      ),
+                      onTap: (){
+                        Share.text('我的分享','www.baidu.com','text/plain');
+                      },
                     ),
 
                     SizedBox(
@@ -122,16 +127,16 @@ class _MinePageState extends State<MinePage> {
                 ),
               ),
               Positioned(
-                top: ScreenUtil().setHeight(22),
+                top: ScreenUtil().setHeight(15),
                   left: ScreenUtil().setWidth(18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Text('$num',style: TextStyle(color: Colors.white,fontSize: 17),),
+                          Text('55555',style: TextStyle(color: Colors.white,fontSize: 18),),
                           SizedBox(height: 5,),
-                          Text('步数',style: TextStyle(color: Colors.white,fontSize: 16),)
+                          Text('步数',style: TextStyle(color: Colors.white,fontSize: 14),)
                         ],
                       ),
                       SizedBox(
@@ -149,9 +154,9 @@ class _MinePageState extends State<MinePage> {
                         child: Container(
                           child: Column(
                             children: <Widget>[
-                              Text('5',style: TextStyle(color: Colors.white,fontSize: 17),),
+                              Text('5',style: TextStyle(color: Colors.white,fontSize: 18),),
                               SizedBox(height: 5,),
-                              Text('排名',style: TextStyle(color: Colors.white,fontSize: 16),)
+                              Text('排名',style: TextStyle(color: Colors.white,fontSize: 14),)
                             ],
                           ),
                         ),
@@ -163,7 +168,7 @@ class _MinePageState extends State<MinePage> {
                     ],
                   )),
               Positioned(
-                top: ScreenUtil().setHeight(32),
+                top: ScreenUtil().setHeight(25),
                 left: ScreenUtil().setWidth(5),
                 child: Container(
                   height: ScreenUtil().setHeight(15),
@@ -209,7 +214,7 @@ class _MinePageState extends State<MinePage> {
                                     ),
                                     Text(
                                       '我的收藏',
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(fontSize: 12),
                                     )
                                   ],
                                 ),
@@ -239,7 +244,7 @@ class _MinePageState extends State<MinePage> {
                                     ),
                                     Text(
                                       '我的步数',
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(fontSize: 12),
                                     )
                                   ],
                                 ),
@@ -263,7 +268,7 @@ class _MinePageState extends State<MinePage> {
                                     ),
                                     Text(
                                       '我的活动',
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(fontSize: 12),
                                     )
                                   ],
                                 ),
@@ -290,7 +295,7 @@ class _MinePageState extends State<MinePage> {
                                     ),
                                     Text(
                                       '消息通知',
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(fontSize: 12),
                                     )
                                   ],
                                 ),
@@ -315,21 +320,22 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/体检报告.png',
-                      height: 32,
+                      height: 25,
+                      color: Color(0xffF76B1C),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  体检报告',
-                      style: TextStyle(fontSize: 15),
+                      '体检报告',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
@@ -342,7 +348,7 @@ class _MinePageState extends State<MinePage> {
           SizedBox(
             height: 2,
             child: Container(
-              color: Colors.grey[200],
+              color: Colours.line,
             ),
           ),
           FlatButton(
@@ -354,21 +360,22 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/健康咨询.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xffF76B1C),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  我的问诊',
-                      style: TextStyle(fontSize: 16),
+                      '我的问诊',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
@@ -381,7 +388,7 @@ class _MinePageState extends State<MinePage> {
           SizedBox(
             height: 2,
             child: Container(
-              color: Colors.grey[200],
+              color: Colours.line,
             ),
           ),
 
@@ -394,21 +401,22 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/问卷量表.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xffF76B1C),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  问卷量表',
-                      style: TextStyle(fontSize: 16),
+                      '问卷量表',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
@@ -419,7 +427,7 @@ class _MinePageState extends State<MinePage> {
           SizedBox(
             height: 9,
             child: Container(
-              color: Colors.grey[200],
+              color: Colours.line,
             ),
           ),
           FlatButton(
@@ -431,21 +439,22 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/意见建议.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xff0778DE),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  意见建议',
-                      style: TextStyle(fontSize: 16),
+                      '意见建议',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
@@ -456,7 +465,7 @@ class _MinePageState extends State<MinePage> {
           SizedBox(
             height: 2,
             child: Container(
-              color: Colors.grey[200],
+              color: Colours.line,
             ),
           ),
           FlatButton(
@@ -468,21 +477,22 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/联系我们.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xff0778DE),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  联系我们',
-                      style: TextStyle(fontSize: 16),
+                      '联系我们',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
@@ -493,7 +503,7 @@ class _MinePageState extends State<MinePage> {
           SizedBox(
             height: 2,
             child: Container(
-              color: Colors.grey[200],
+              color: Colours.line,
             ),
           ),
           FlatButton(
@@ -505,35 +515,33 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/隐私服务.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xff0778DE),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  隐私服务',
-                      style: TextStyle(fontSize: 16),
+                      '隐私服务',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
               ),
             ),
-            onPressed: () {
-              NavigatorUtil.pushPage(
-                  context, PsyCenterDetail(id: 1,),);
-            },
+            onPressed: () {},
           ), //隐私服务
            SizedBox(
                       height: 2,
                       child: Container(
-                        color: Colors.grey[200],
+                        color: Colours.line,
                       ),
                     ),
           FlatButton(
@@ -545,21 +553,22 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/绑定微信.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xff0778DE),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: Text(
-                      '  绑定微信',
-                      style: TextStyle(fontSize: 16),
+                      '绑定微信',
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],
@@ -570,7 +579,7 @@ class _MinePageState extends State<MinePage> {
           SizedBox(
             height: 7,
             child: Container(
-              color: Colors.grey[200],
+              color: Colours.line,
             ),
           ),
 
@@ -584,15 +593,16 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/系统设置.png',
-                      height: 25,
+                      height: 18,
+                      color: Color(0xff429321),
                     ),
                   ),
                   Expanded(
                     flex: 5,
                     child: GestureDetector(
                       child: Text(
-                        '  系统设置',
-                        style: TextStyle(fontSize: 16),
+                        '系统设置',
+                        style: TextStyle(fontSize: 14),
                       ),
                       onTap: () {
                         Router.pushNoParams(context, Router.exitLoginPage);
@@ -603,7 +613,7 @@ class _MinePageState extends State<MinePage> {
                     flex: 1,
                     child: Image.asset(
                       'assets/images/mine/箭头.png',
-                      height: 18,
+                      height: 14,
                     ),
                   ),
                 ],

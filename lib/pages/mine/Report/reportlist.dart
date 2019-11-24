@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/router.dart';
 
 
@@ -14,6 +15,7 @@ class _ReportListState extends State<ReportList> {
       appBar: AppBar(
         title: Text('体检报告'),
         centerTitle: true,
+        backgroundColor: Colours.bg_green,
       ),
       body: ListView(
         children: <Widget>[
