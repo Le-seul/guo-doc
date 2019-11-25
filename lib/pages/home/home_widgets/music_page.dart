@@ -40,9 +40,9 @@ class _MusicPageState extends State<MusicPage>
         isList: true, onSuccessList: (data) {
       setState(() {
         tabs.add(Container(
-          padding: EdgeInsets.only(left: 5, right: 5),
+          padding: EdgeInsets.only(left: 8, right: 8),
           alignment: Alignment.center,
-          child: Text('全部'),
+          child: Text('全部',style: TextStyle(fontSize: 15),),
         ));
         tabViews.add(MusicTabPage('0'));
         musicTagList = data;
@@ -50,9 +50,9 @@ class _MusicPageState extends State<MusicPage>
 
         musicTagList.forEach((str) {
           tabs.add(Container(
-            padding: EdgeInsets.only(left: 5, right: 5),
+            padding: EdgeInsets.only(left: 8, right: 8),
             alignment: Alignment.center,
-            child: Text(str.name),
+            child: Text(str.name,style: TextStyle(fontSize: 15),),
           ));
         });
 

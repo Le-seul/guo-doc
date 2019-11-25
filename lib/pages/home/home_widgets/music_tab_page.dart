@@ -1,29 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_first/pages/consultation/title_widget.dart';
 
 class MusicTabPage extends StatefulWidget {
   String tagId;
+
   MusicTabPage(this.tagId);
   @override
-  _MusicTabPageState createState() => _MusicTabPageState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MusicTabPageState();
+  }
 }
 
 class _MusicTabPageState extends State<MusicTabPage> {
-  bool isShowLoading = true; //课程图片
-  List<GetAllMusic> getTagMusicList = List();
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
   var numb = 1;
+  List<GetAllMusic> getTagMusicList = List();
+  List<ConsulationColumnsInfo> columnsInfoList = List();
+  bool isShowLoading = true;
 
   @override
   void initState() {
+    super.initState();
     if (widget.tagId == "0") {
       _getAllMusicList();
     } else {
@@ -31,8 +39,11 @@ class _MusicTabPageState extends State<MusicTabPage> {
     }
   }
 
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
   void _onRefresh() async {
-    Toast.show('这是下拉刷新操作');
+//    Toast.show('这是下拉刷新操作');
     if (getTagMusicList == null || getTagMusicList.length == 0) {
       _getAllMusicList();
     } else {
@@ -42,8 +53,22 @@ class _MusicTabPageState extends State<MusicTabPage> {
 
   void _onLoading() async {
     _refreshController.requestLoading();
-    Toast.show('这是上拉加载操作');
+//    Toast.show('这是上拉加载操作');
     _getAllMusicList();
+  }
+
+  _getMusicListByTag() {
+    DioUtils.instance.requestNetwork<GetAllMusic>(
+        Method.get, Api.GETMUSICLISTBYTAG,
+        queryParameters: {"tagId": widget.tagId},
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        getTagMusicList = data;
+        isShowLoading = false;
+      });
+    }, onError: (code, msg) {
+      Toast.show('请求失败！');
+    });
   }
 
   _getAllMusicList() {
@@ -75,20 +100,6 @@ class _MusicTabPageState extends State<MusicTabPage> {
     );
   }
 
-  _getMusicListByTag() {
-    DioUtils.instance.requestNetwork<GetAllMusic>(
-        Method.get, Api.GETMUSICLISTBYTAG,
-        queryParameters: {"tagId": widget.tagId},
-        isList: true, onSuccessList: (data) {
-      setState(() {
-        getTagMusicList = data;
-        isShowLoading = false;
-      });
-    }, onError: (code, msg) {
-      Toast.show('请求失败！');
-    });
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -98,9 +109,10 @@ class _MusicTabPageState extends State<MusicTabPage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return isShowLoading
         ? LoadingWidget.childWidget()
-        : getTagMusicList.isEmpty
+        : (getTagMusicList.length == 0 || getTagMusicList == null)
             ? Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -108,8 +120,8 @@ class _MusicTabPageState extends State<MusicTabPage> {
                 child: Text('暂无数据'),
               )
             : SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
+                enablePullDown: widget.tagId == "0" ? true : false,
+                enablePullUp: widget.tagId == "0" ? true : false,
                 header: WaterDropHeader(),
                 footer: CustomFooter(
                   builder: (BuildContext context, LoadStatus mode) {
@@ -140,23 +152,26 @@ class _MusicTabPageState extends State<MusicTabPage> {
     return Container(
         padding: EdgeInsets.only(top: 15, right: 15, left: 15),
         color: Colors.white,
-        child: GridView.builder(
-            physics: ClampingScrollPhysics(),
-            itemCount: getTagMusicList.length,
-            //SliverGridDelegateWithFixedCrossAxisCount 构建一个横轴固定数量Widget
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //横轴元素个数
-                crossAxisCount: 2,
-                //纵轴间距
-                mainAxisSpacing: 0.0,
-                //横轴间距
-                crossAxisSpacing: 15.0,
-                //子组件宽高长度比例
-                childAspectRatio: 0.70),
-            itemBuilder: (BuildContext context, int index) {
-              //Widget Function(BuildContext context, int index)
-              return _buildItem(index);
-            }));
+        child: CustomScrollView(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          slivers: <Widget>[
+            SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //横轴元素个数
+                    crossAxisCount: 2,
+                    //纵轴间距
+                    mainAxisSpacing: 0.0,
+                    //横轴间距
+                    crossAxisSpacing: 15.0,
+                    //子组件宽高长度比例
+                    childAspectRatio: 0.70),
+                delegate: SliverChildBuilderDelegate(
+                    ((BuildContext context, int index) {
+                  return _buildItem(index);
+                }), childCount: getTagMusicList.length)),
+          ],
+        ));
   }
 
   _buildItem(int index) {
