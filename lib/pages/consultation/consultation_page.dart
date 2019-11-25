@@ -73,7 +73,7 @@ class _ConsultationPageState extends State<ConsultationPage>
       appBar: AppBar(
         elevation: 0.0,
         title: Text('资讯'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff2CA687),
         centerTitle: true,
       ),
       body: isShowLoading

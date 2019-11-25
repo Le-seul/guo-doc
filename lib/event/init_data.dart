@@ -73,11 +73,35 @@ class _InitDataState extends State<InitData> {
         },
         onOpenNotification: (Map<String, dynamic> message) {
           // 点击通知栏消息，在此时通常可以做一些页面跳转等
+          Map<String, dynamic> _map =
+          json.decode(message["extras"]["cn.jpush.android.EXTRA"]);
+
+          print("flutter 接收到推送消息0: ${json.encode(message)}");
+          print("flutter 接收到推送消息1: $message");
+          print("flutter 接收到推送消息2: ${message["extras"]}");
+          print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
+          print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["model"]}");
+
+          String content = _map['message'];
+          String model = _map['model'];
+          String target = _map['target'];
+          String time = _map['time'];
+          String type = _map['type'];
+          print('极光推送封装数据：{message:$content, target:$target, time:$time, model:$model, type:$type}');
+
+          if(model == 'chunyuTuwen' || model == 'chunyuFastphone'){
+            Router.push(
+                context, Router.talk, {'orderId': target, 'offstage': false});
+          }else if(model == 'chunyuFastphone'){
+            _initChunyu(model, target);
+          }
+
+
+
           String orderId = json
               .decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
           print("orderid：$orderId");
-          Router.push(
-              context, Router.talk, {'orderId': orderId, 'offstage': false});
+
         },
       );
     }

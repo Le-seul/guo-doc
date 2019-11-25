@@ -90,7 +90,7 @@ class _SMSLoginState extends State<SMSLogin> {
                     _checkVerificationCode();
                   },
                   child: Text(
-                    '登陆',
+                    '登录',
                     style: TextStyle(color: Colors.white,fontSize: 20),
                   )),
             )

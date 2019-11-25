@@ -2,7 +2,9 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/common_dio.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,9 +21,13 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
   bool isSupport = false;
   bool isFavor = false;
   bool isShowingDialog = true;
+  String token = '';
 
   @override
-  void initState() {}
+  void initState() {
+    token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+    print('token:$token');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +108,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
       ),
       body: WebView(
         onWebViewCreated: (WebViewController webViewController) {},
-        initialUrl: widget.consulationColumnsInfo.content,
+        initialUrl: widget.consulationColumnsInfo.content+'&'+token,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

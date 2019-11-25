@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               "用户登录",style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 16,),
+            SizedBox(height: 46,),
             MyTextField(
               focusNode: _nodeText1,
               controller: _nameController,

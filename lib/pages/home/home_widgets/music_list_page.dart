@@ -236,7 +236,7 @@ class _MusicListPageState extends State<MusicListPage> {
                               Text(
                                 musicList[index].name,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 14,
                                     color: isPlaying
                                         ? Color(0xff2CA687)
                                         : Colors.black),

@@ -52,12 +52,12 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.white),
           elevation: 0.0,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xff2CA687),
           title: Text(
             '活动',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
         ),
@@ -78,13 +78,14 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                           physics: ClampingScrollPhysics(),
                           children: <Widget>[
                             Container(
-                              width: double.infinity,
-                              child: Image.network(
-                                activityDetail.cover,
-                                height: 180,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
+                                width: double.infinity,
+                                child: AspectRatio(
+                                  aspectRatio: 375 / 168,
+                                  child: Image.network(
+                                    activityDetail.cover,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
                             SizedBox(
                               height: 10,
                             ),
@@ -95,23 +96,65 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      '活动时间: ${activityDetail.startTime}',
-                                      style: TextStyle(fontSize: 16),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '活动时间:',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          activityDetail.startTime,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black54),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 20,
                                     ),
-                                    Text(
-                                      '活动地点: ${activityDetail.location}',
-                                      style: TextStyle(fontSize: 16),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '活动地点:',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          activityDetail.location ?? "无",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black54),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 20,
                                     ),
-                                    Text(
-                                      '报名人数: ${activityDetail.signInCount}人   先到先得',
-                                      style: TextStyle(fontSize: 16),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '报名人数:',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          '${activityDetail.signInCount}人',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black54),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -123,12 +166,25 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Icon(Icons.person_outline),
-                                Text("${activityDetail.signInCount}人已报名    ")
+                                Icon(
+                                  Icons.person_outline,
+                                  color: Colors.black54,
+                                  size: 18,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "${activityDetail.signInCount}人已报名",
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                )
                               ],
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Offstage(
                               offstage: widget.offstage,
@@ -142,11 +198,12 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(left:15,top: 20,bottom: 20),
+                                      padding: EdgeInsets.only(
+                                          left: 15, top: 20, bottom: 20),
                                       child: Text(
-                                    '相关活动',
-                                    style: TextStyle(fontSize: 18),
-                                  )),
+                                        '相关活动',
+                                        style: TextStyle(fontSize: 18),
+                                      )),
                                   Container(
                                     height: 120,
                                     child: ListView.builder(
@@ -179,8 +236,8 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                     '相关资讯',
                                     style: TextStyle(fontSize: 18),
                                   )),
-                                  Text('更多'),
-                                  Icon(Icons.chevron_right)
+                                  Text('更多',style: TextStyle(color:Colors.black54),),
+                                  Icon(Icons.chevron_right,color: Colors.black54,)
                                 ],
                               ),
                             ),
@@ -301,6 +358,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                       ),
                     )),
               ),
+              SizedBox(width: 10,),
               Expanded(
                 flex: 2,
                 child: Text(
