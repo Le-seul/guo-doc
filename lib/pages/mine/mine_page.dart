@@ -460,7 +460,9 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Router.pushNoParams(context, Router.feedBackPage);
+            },
           ), //意见建议
           SizedBox(
             height: 2,
