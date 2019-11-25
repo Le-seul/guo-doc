@@ -48,7 +48,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text('人工服务'),
+                  Text('人工服务',style: TextStyle(fontSize: 15),),
                 ],
               ),
             ),
@@ -120,7 +120,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
             Container(
               color: Color(0xFFEEEEEE),
               padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
-              child: Text('问题类型'),
+              child: Text('问题类型',style: TextStyle(fontSize: 15),),
             ),
             CheckBoxWidget('功能异常','不能正常使用现有功能'),
             Container(height: 1,color: Colors.black26,margin: EdgeInsets.only(left: 15,right: 20),),
@@ -132,7 +132,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
             Container(
               color: Color(0xFFEEEEEE),
               padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
-              child: Text('详细描述'),
+              child: Text('详细描述',style: TextStyle(fontSize: 15),),
             ),
             Container(
               padding: EdgeInsets.only(bottom: 15),

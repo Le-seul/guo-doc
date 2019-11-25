@@ -4,7 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
+import 'package:flutter_first/pages/home/doctor/doctor_chunyu_home_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
+import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/service/service_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/router.dart';
 
 class Table0 extends StatefulWidget {
@@ -96,7 +104,7 @@ class _Table0State extends State<Table0> {
               ),
             ),
             onTap: () {
-              Router.push(context, Router.musicPage, {'num': 0, 'tagId': ""});
+              NavigatorUtil.pushPage(context, MusicPage(num: 0,tagId: ''));
             },
           ),
           GestureDetector(
@@ -121,7 +129,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              Router.pushNoParams(context, Router.servicePage);
+              NavigatorUtil.pushPage(context, ServicePage());
             },
           ),
           GestureDetector(
@@ -146,7 +154,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              Router.pushNoParams(context, Router.reporylist);
+              NavigatorUtil.pushPage(context, ReportList());
             },
           ),
           Container(
@@ -176,7 +184,7 @@ class _Table0State extends State<Table0> {
                     ],
                   ),
                   onTap: () {
-                    Router.pushNoParams(context, Router.doctorChunyuHomePage);
+                    NavigatorUtil.pushPage(context, DoctorChunyuHomePage());
                   },
                 ),
               ),
@@ -227,7 +235,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              Router.pushNoParams(context, Router.everydaytest);
+              NavigatorUtil.pushPage(context, EverydayTest());
             },
           ),
         ]),
@@ -253,7 +261,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              Router.pushNoParams(context, Router.curriculum);
+              NavigatorUtil.pushPage(context, PsyCourse());
             },
           ),
           GestureDetector(
@@ -277,7 +285,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              Router.pushNoParams(context, Router.togethereading);
+              NavigatorUtil.pushPage(context, SimpleCoreading());
             },
           ),
           GestureDetector(
