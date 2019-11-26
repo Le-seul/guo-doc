@@ -170,4 +170,7 @@ class Api {
 
   //体检报告列表
   static const String GETYEARLIST = "/api/exam.do?getYearList";
+
+  //保存用户意见
+  static const String SAVESUGGESTION = "/api/suggestion.do?saveSuggestion";
 }

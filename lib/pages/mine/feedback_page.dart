@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first/bean/imageUrl.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/tel_service.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/checkboxWidget.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,8 +21,12 @@ class FeedBackPage extends StatefulWidget {
 
 class _FeedBackPageState extends State<FeedBackPage> {
   List<String> list = List();
-  String emergePerson = '';
-  TextEditingController _vCodeController = TextEditingController();
+
+  String imageIdList = '';
+  int groupValue = -1;
+  String type = '';
+  TextEditingController _textController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   final TelAndSmsService _service = locator<TelAndSmsService>();
 
   @override
@@ -48,12 +56,15 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text('人工服务',style: TextStyle(fontSize: 15),),
+                  Text(
+                    '人工服务',
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ],
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 _service.call('65256250');
               },
               child: Container(
@@ -69,18 +80,22 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     ),
                     Expanded(
                         child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("拨打官方服务电话：65256250",style: TextStyle(fontSize: 15),),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "(周一至周日09:00-22:00)",
-                          style: TextStyle(color: Colors.black26, fontSize: 12),
-                        )
-                      ],
-                    ))
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "拨打官方服务电话：65256250",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "(周一至周日09:00-22:00)",
+                              style: TextStyle(
+                                  color: Colors.black26, fontSize: 12),
+                            )
+                          ],
+                        ))
                   ],
                 ),
               ),
@@ -95,7 +110,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
               height: 20,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 _service.sendSms('65256250');
               },
               child: Container(
@@ -109,7 +124,10 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('意见反馈',style: TextStyle(fontSize: 15),),
+                    Text(
+                      '意见反馈',
+                      style: TextStyle(fontSize: 15),
+                    ),
                   ],
                 ),
               ),
@@ -119,20 +137,94 @@ class _FeedBackPageState extends State<FeedBackPage> {
             ),
             Container(
               color: Color(0xFFEEEEEE),
-              padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
-              child: Text('问题类型',style: TextStyle(fontSize: 15),),
+              padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+              child: Text(
+                '问题类型',
+                style: TextStyle(fontSize: 15),
+              ),
             ),
-            CheckBoxWidget('功能异常','不能正常使用现有功能'),
-            Container(height: 1,color: Colors.black26,margin: EdgeInsets.only(left: 15,right: 20),),
-            CheckBoxWidget('使用建议','用的不满意的地方都提出来吧'),
-            Container(height: 1,color: Colors.black26,margin: EdgeInsets.only(left: 15,right: 20),),
-            CheckBoxWidget('功能需求','现有功能不能满足'),
-            Container(height: 1,color: Colors.black26,margin: EdgeInsets.only(left: 15,right: 20),),
-            CheckBoxWidget('系统闪退','APP意外退出，闪退'),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Row(children: <Widget>[
+                Text('功能异常',style: TextStyle(fontSize: 14),),
+                SizedBox(width: 10,),
+                Expanded(child: Text('不能正常使用现有功能',style: TextStyle(color: Colors.black26,fontSize: 14),)),
+                Radio(
+                    value: 0,
+                    groupValue:
+                    groupValue, //当value和groupValue一致的时候则选中
+                    onChanged: (T) {
+                      genderChange(T);
+                    }),
+              ],),
+            ),
+            Container(
+              height: 1,
+              color: Colors.black26,
+              margin: EdgeInsets.only(left: 15, right: 20),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Row(children: <Widget>[
+                Text('使用建议',style: TextStyle(fontSize: 14),),
+                SizedBox(width: 10,),
+                Expanded(child: Text('用的不满意的地方都提出来吧',style: TextStyle(color: Colors.black26,fontSize: 14),)),
+                Radio(
+                    value: 1,
+                    groupValue:
+                    groupValue, //当value和groupValue一致的时候则选中
+                    onChanged: (T) {
+                      genderChange(T);
+                    }),
+              ],),
+            ),
+            Container(
+              height: 1,
+              color: Colors.black26,
+              margin: EdgeInsets.only(left: 15, right: 20),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Row(children: <Widget>[
+                Text('功能需求',style: TextStyle(fontSize: 14),),
+                SizedBox(width: 10,),
+                Expanded(child: Text('现有功能不能满足',style: TextStyle(color: Colors.black26,fontSize: 14),)),
+                Radio(
+                    value: 2,
+                    groupValue:
+                    groupValue, //当value和groupValue一致的时候则选中
+                    onChanged: (T) {
+                      genderChange(T);
+                    }),
+              ],),
+            ),
+            Container(
+              height: 1,
+              color: Colors.black26,
+              margin: EdgeInsets.only(left: 15, right: 20),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Row(children: <Widget>[
+                Text('系统闪退',style: TextStyle(fontSize: 14),),
+                SizedBox(width: 10,),
+                Expanded(child: Text('APP意外退出，闪退',style: TextStyle(color: Colors.black26,fontSize: 14),)),
+                Radio(
+                    value: 3,
+                    groupValue:
+                    groupValue, //当value和groupValue一致的时候则选中
+                    onChanged: (T) {
+                      genderChange(T);
+                    }),
+              ],),
+            ),
             Container(
               color: Color(0xFFEEEEEE),
-              padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
-              child: Text('详细描述',style: TextStyle(fontSize: 15),),
+              padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+              child: Text(
+                '详细描述',
+                style: TextStyle(fontSize: 15),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(bottom: 15),
@@ -142,7 +234,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   TextField(
                       onChanged: (val) {},
                       maxLines: 6,
-                      controller: _vCodeController,
+                      controller: _textController,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         hintText: '如果您对我们有什么建议、想法和期望，请告诉我们',
@@ -151,19 +243,23 @@ class _FeedBackPageState extends State<FeedBackPage> {
                         border: InputBorder.none,
                       )),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(left: 10,right: 10),
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
+                    padding: EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-
                         Wrap(
                           alignment: WrapAlignment.start,
                           spacing: 10,
                           runSpacing: 10,
                           children: List.generate(
-                              list.length+1,
-                                  (index) => index == 0 ?GestureDetector(
+                              list.length + 1,
+                                  (index) =>
+                              index == 0
+                                  ? GestureDetector(
                                 child: Image.asset(
                                   'assets/images/add.png',
                                   height: 60,
@@ -173,8 +269,9 @@ class _FeedBackPageState extends State<FeedBackPage> {
                                 onTap: () {
                                   clickIcon();
                                 },
-                              ):Image.file(
-                                File(list[index-1]),
+                              )
+                                  : Image.file(
+                                File(list[index - 1]),
                                 height: 60,
                                 width: 60,
                                 fit: BoxFit.fill,
@@ -183,24 +280,36 @@ class _FeedBackPageState extends State<FeedBackPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
-                  Container(height: 1,color: Colors.black26,margin: EdgeInsets.only(left: 15,right: 20),),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 1,
+                    color: Colors.black26,
+                    margin: EdgeInsets.only(left: 15, right: 20),
+                  ),
                   Container(
                     padding: EdgeInsets.only(left: 15),
                     child: Row(
                       children: <Widget>[
                         Text('手机号'),
-                        SizedBox(width: 10,),
-                        Container(height: 20,width: 1,color: Colors.black26,),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          height: 20,
+                          width: 1,
+                          color: Colors.black26,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(right: 10),
                             height: 25,
                             child: TextField(
-                                onChanged: (val) {
-                                  emergePerson = val;
-                                },
+                                controller: _phoneController,
                                 inputFormatters: <TextInputFormatter>[
                                   WhitelistingTextInputFormatter
                                       .digitsOnly, //只输入数字
@@ -221,16 +330,12 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   SizedBox(
                     height: 50,
                   )
-
                 ],
               ),
             )
-
-
           ],
         ),
       ),
-
       bottomSheet: GestureDetector(
         child: Container(
           height: 45,
@@ -242,23 +347,48 @@ class _FeedBackPageState extends State<FeedBackPage> {
           ),
         ),
         onTap: () {
+          if(type == '' ){
+            Toast.show('请选择问题类型');
+            return;
+          }else if(_textController.text == null||_textController.text == ''){
+            Toast.show('请输入详情描述');
+            return;
+          } else if(formData == null){
+            _updateProposal();
+          }else{
+            updateImage();
+          }
         },
       ),
     );
   }
 
+  genderChange(val) {
+    this.setState(() {
+      groupValue = val;
+      if (groupValue == 0) {
+        type = 'GNYC';
+      } else if (groupValue == 1) {
+        type = 'SYJY';
+      } else if (groupValue == 2) {
+        type = 'GNXQ';
+      } else if (groupValue == 3) {
+        type = 'XTST';
+      }
+    });
+  }
+
   FormData formData;
+
   clickIcon() async {
     var arr = new Map();
     List<UploadFileInfo> files = [];
     try {
-      List<Asset> resultList = await MultiImagePicker.pickImages(
-          maxImages: 9,
-          enableCamera: true
-      );
+      List<Asset> resultList =
+      await MultiImagePicker.pickImages(maxImages: 9, enableCamera: true);
       if (resultList.length > 0) {
         formData = new FormData.from({});
-        for(int i = 0; i< resultList.length; i ++) {
+        for (int i = 0; i < resultList.length; i++) {
           Asset asset = resultList[i];
           ByteData byteData = await asset.requestThumbnail(200, 200);
           List<int> imageData = byteData.buffer.asUint8List();
@@ -280,18 +410,54 @@ class _FeedBackPageState extends State<FeedBackPage> {
           });
 
           print('图片path：${imageFile.path}');
-          var file = new UploadFileInfo(imageFile, '${path}originalImage_$uuid.png', contentType: ContentType.parse("image/png"));
+          var file = new UploadFileInfo(
+              imageFile, '${path}originalImage_$uuid.png',
+              contentType: ContentType.parse("image/png"));
           arr['file$i'] = file;
           print("file$i");
           formData["file$i"] = file;
-        };
+        }
+        ;
 //        formData = new FormData.from(arr);
 //        print("formData:${json.encode(arr)}");
-      } else {
-
-      }
+      } else {}
     } catch (e) {
       print(e.message);
     }
   }
+
+  updateImage() {
+    DioUtils.instance.requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,
+        params: formData, isList: true, onSuccessList: (data) {
+          setState(() {
+            for(ImageUrl imageUrl in data){
+              imageIdList = imageUrl.id + ',' + imageIdList;
+            }
+            imageIdList = imageIdList.substring(0,imageIdList.length - 1);
+            print('上传图片成功!');
+            _updateProposal();
+          });
+        }, onError: (code, msg) {
+          setState(() {
+            print('上传图片失败!');
+          });
+        });
+  }
+
+  _updateProposal() {
+    print('content:${_textController.text};imageIdList:${imageIdList};type:$type;phone:${_phoneController.text}');
+      DioUtils.instance.requestNetwork<String>(Method.post, Api.SAVESUGGESTION,
+          queryParameters: {
+            'content': _textController.text,
+            'imageIdList': imageIdList,
+            'type': type,
+            'phone':_phoneController.text
+          },
+          onSuccess: (data) {
+            Toast.show('上传建议成功!');
+          }, onError: (code, msg) {
+            Toast.show('上传建议失败!');
+          });
+    }
+
 }

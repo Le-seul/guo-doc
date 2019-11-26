@@ -1,10 +1,14 @@
 class ImageUrl {
   String url;
+  String id;
 
-  ImageUrl({this.url});
+  ImageUrl({this.url,this.id});
 
   ImageUrl.fromJson(Map<String, dynamic> json) {
     url = json['url'];
+    if(json['id'] != null){
+      id = json['id'];
+    }
   }
 
   Map<String, dynamic> toJson() {
