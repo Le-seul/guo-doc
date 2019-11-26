@@ -436,7 +436,7 @@ class _instructor_demeanor_detailState
                   children: <Widget>[
                     Container(
                       child: Image.asset('assets/images/consultation/中心2.png',
-                          fit: BoxFit.fill),
+                          fit: BoxFit.fitHeight),
                       height: ScreenUtil().setHeight(13),
                       width: ScreenUtil().setHeight(18),
                     ),

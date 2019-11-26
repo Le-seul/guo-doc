@@ -98,6 +98,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                   theme: new ThemeData(
+                    appBarTheme:AppBarTheme(color: Color(0xff2CA687)),
                     platform: TargetPlatform.iOS,
                   ),
                 ),

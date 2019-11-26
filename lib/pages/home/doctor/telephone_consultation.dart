@@ -291,7 +291,7 @@ class SelectDialog extends Dialog {
 
   SelectDialog(this.callback);
 
-  var items = ['儿科', '妇科', '皮肤科', '男科', '产科', '心理咨询', '呼吸内科', '消化内科', '泌尿内科'];
+  var items = ['儿科', '妇科', '皮肤科', '男科', '产科', '呼吸内科', '消化内科', '泌尿内科'];
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

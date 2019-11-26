@@ -289,6 +289,21 @@ class _Table0State extends State<Table0> {
             },
           ),
           GestureDetector(
+            child: Column(
+              children: <Widget>[
+                loadAssetImage('entry/psychological_consultation.png',height: 50,
+                  width: 50,),
+                SizedBox(height: 8,),
+                Text(
+                  '心理咨询',
+                  style: TextStyle(fontSize: 12),
+                ),
+                SizedBox(height: 10,)
+              ],
+            ),
+            onTap: () {Router.pushNoParams(context, Router.psychologicalConcult);},
+          ),
+          GestureDetector(
             child: Container(),
 //            child: Column(
 //              children: <Widget>[
@@ -320,22 +335,6 @@ class _Table0State extends State<Table0> {
 //              ],
 //            ),),
 //            onTap: () { Router.pushNoParams(context, Router.eating);},
-          ),
-          GestureDetector(
-            child: Container(),
-//            child: Column(
-//              children: <Widget>[
-//                loadAssetImage('entry/psychological_consultation.png',height: 50,
-//                  width: 50,),
-//                SizedBox(height: 8,),
-//                Text(
-//                  '心理咨询',
-//                  style: TextStyle(fontSize: 12),
-//                ),
-//                SizedBox(height: 10,)
-//              ],
-//            ),
-//            onTap: () {Router.pushNoParams(context, Router.psychologicalConcult);},
           ),
         ]),
       ],
