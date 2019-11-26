@@ -9,6 +9,7 @@ import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
+import 'package:marquee_flutter/marquee_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/pages/consultation/title_widget.dart';
 
@@ -165,7 +166,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
                     //横轴间距
                     crossAxisSpacing: 15.0,
                     //子组件宽高长度比例
-                    childAspectRatio: 0.70),
+                    childAspectRatio: 0.78),
                 delegate: SliverChildBuilderDelegate(
                     ((BuildContext context, int index) {
                   return _buildItem(index);
@@ -184,44 +185,75 @@ class _MusicTabPageState extends State<MusicTabPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: AspectRatio(
-                    aspectRatio: 1.0,
-                    child: Image.network(
-                      getTagMusicList[index].image,
-                      height: 140,
-                      width: 140,
-                      fit: BoxFit.fill,
+              Container(
+                child: Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: AspectRatio(
+                          aspectRatio: 1.0,
+                          child: Image.network(
+                            getTagMusicList[index].image,
+                            height: 140,
+                            width: 140,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                    Positioned(
+                      top: 3.0,
+                      left: 3.0,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.headset,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '2038',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  )),
-              SizedBox(
-                height: 8,
+                    Positioned(
+                      bottom: 0.0,
+                      right: 0.0,
+                      child: Container(
+                          margin: EdgeInsets.only(bottom: 10, right: 10),
+                          child: Icon(
+                            Icons.play_circle_outline,
+                            color: Colors.white,
+                            size: 32,
+                          )),
+                    )
+                  ],
+                ),
               ),
+              SizedBox(
+                height: 13,
+              ),
+//              Container(
+//                height: 15,
+//                child: MarqueeWidget(
+//                  ratioOfBlankToScreen: 0.1,
+//                  text:  '《${getTagMusicList[index].name}》',
+//                  textStyle: TextStyle(fontSize: 14),
+//                  scrollAxis: Axis.horizontal,
+//                ),
+//              ),
               Text(
-                getTagMusicList[index].name,
+                '《${getTagMusicList[index].name}》',
                 style: TextStyle(fontSize: 14),
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.headset,
-                    size: 12,
-                    color: Colors.black26,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '2038',
-                    style: TextStyle(color: Colors.black54, fontSize: 12),
-                  ),
-                ],
-              )
             ],
           )),
     );

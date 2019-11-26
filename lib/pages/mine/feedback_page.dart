@@ -44,7 +44,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
           physics: ClampingScrollPhysics(),
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 15, top: 12, bottom: 12),
+              padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
               color: Color(0xFFEEEEEE),
               child: Row(
                 children: <Widget>[
@@ -68,6 +68,8 @@ class _FeedBackPageState extends State<FeedBackPage> {
                 _service.call('65256250');
               },
               child: Container(
+                width: double.infinity,
+                color: Colors.white,
                 padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
                 child: Row(
                   children: <Widget>[
@@ -114,6 +116,8 @@ class _FeedBackPageState extends State<FeedBackPage> {
                 _service.sendSms('65256250');
               },
               child: Container(
+                width: double.infinity,
+                color: Colors.white,
                 padding: EdgeInsets.only(left: 15, right: 15),
                 child: Row(
                   children: <Widget>[

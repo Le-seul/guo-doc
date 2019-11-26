@@ -182,7 +182,7 @@ class _MusicListPageState extends State<MusicListPage> {
                           style: TextStyle(color: Colors.black54),
                           strutStyle:
                               StrutStyle(forceStrutHeight: true, height: 1.5),
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],

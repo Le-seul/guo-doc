@@ -42,7 +42,7 @@ class _MusicPageState extends State<MusicPage>
         tabs.add(Container(
           padding: EdgeInsets.only(left: 8, right: 8),
           alignment: Alignment.center,
-          child: Text('全部',style: TextStyle(fontSize: 15),),
+          child: Text('全部分类',style: TextStyle(fontSize: 15),),
         ));
         tabViews.add(MusicTabPage('0'));
         musicTagList = data;
