@@ -144,7 +144,7 @@ class Router {
         case psychologicalServiceCenterPage:
           return PsychologicalServiceCenterPage();
         case consulationDetailPage:
-          return ConsultationDetailPage(consulationColumnsInfo: params['consulationColumnsInfo']);
+          return ConsultationDetailPage(id: params,);
         case imagesPage:
           return ImagesPage(indext: params);
         case psychologicalConcult:

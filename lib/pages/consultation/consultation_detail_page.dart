@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/common_dio.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ConsultationDetailPage extends StatefulWidget {
-  ConsulationColumnsInfo consulationColumnsInfo;
 
-  ConsultationDetailPage({Key key, @required this.consulationColumnsInfo})
+  String id;
+  ConsultationDetailPage({Key key, @required this.id})
       : super(key: key);
   _ConsultationDetailPageState createState() => _ConsultationDetailPageState();
 }
@@ -22,11 +25,34 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
   bool isFavor = false;
   bool isShowingDialog = true;
   String token = '';
+  bool isShowLoading = true;
+  ArticleContent articleContent = new ArticleContent();
 
   @override
   void initState() {
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+    _getArticleDetail();
     print('token:$token');
+  }
+  _getArticleDetail(){
+    DioUtils.instance.requestNetwork<ArticleContent>(
+      Method.get,
+      Api.GETARTICLECONTENT,
+      queryParameters: {"articleId": widget.id},
+      onSuccess: (data) {
+
+        setState(() {
+          articleContent = data;
+          isShowLoading = false;
+          print('资讯详情请求成功！');
+          print('资讯详情连接！${articleContent.content}');
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+        });
+      },
+    );
   }
 
   @override
@@ -38,7 +64,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
         ),
         actions: <Widget>[
           Offstage(
-            offstage: widget.consulationColumnsInfo.canCollect != 'Y',
+            offstage: articleContent.canCollect != 'Y',
             child: GestureDetector(
               child: isFavor?Icon(
                 Icons.star,
@@ -53,9 +79,9 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
                 setState(() {
                   isFavor = !isFavor;
                   if (isFavor) {
-                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'SC');
+                    CommonRequest.UserReadingLog(articleContent.id,'A', 'SC');
                   } else {
-                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QS');
+                    CommonRequest.UserReadingLog(articleContent.id,'A', 'QS');
                   }
                 });
               },
@@ -65,7 +91,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
             width: 10,
           ),
           Offstage(
-            offstage: widget.consulationColumnsInfo.canLike != 'Y',
+            offstage: articleContent.canLike != 'Y',
             child: GestureDetector(
               child: isSupport?Icon(Icons.favorite,
                   color: Colors.redAccent, size: 20):Icon(Icons.favorite_border,
@@ -74,9 +100,9 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
                 setState(() {
                   isSupport = !isSupport;
                   if (isSupport) {
-                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'DZ');
+                    CommonRequest.UserReadingLog(articleContent.id,'A', 'DZ');
                   } else {
-                    CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'QD');
+                    CommonRequest.UserReadingLog(articleContent.id,'A', 'QD');
                   }
                 });
               },
@@ -86,15 +112,15 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
             width: 10,
           ),
           Offstage(
-            offstage: widget.consulationColumnsInfo.canTransmit != 'Y',
+            offstage: articleContent.canTransmit != 'Y',
             child: GestureDetector(
               child: Icon(Icons.share, color: Colors.white, size: 20),
               onTap: () async {
                 Share.text(
                     '我的分享',
-                    '${widget.consulationColumnsInfo.title}:\n${widget.consulationColumnsInfo.content}',
+                    '${articleContent.title}:\n${articleContent.content}',
                     'text/plain');
-                CommonRequest.UserReadingLog(widget.consulationColumnsInfo.id,widget.consulationColumnsInfo.type, 'ZF');
+                CommonRequest.UserReadingLog(articleContent.id,"A", 'ZF');
               },
             ),
           ),
@@ -106,9 +132,18 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
         centerTitle: true,
         backgroundColor: Color(0xff2CA687),
       ),
-      body: WebView(
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : (articleContent == null)
+          ? Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Text('暂无数据'),
+      )
+          :WebView(
         onWebViewCreated: (WebViewController webViewController) {},
-        initialUrl: widget.consulationColumnsInfo.content+'&'+token,
+        initialUrl: articleContent.content,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

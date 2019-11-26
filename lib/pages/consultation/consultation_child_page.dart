@@ -215,12 +215,11 @@ class _ChildPageState extends State<ChildPage> {
           ? getContentItem(item)
           : getThreeImagItem(item),
       onTap: () {
-
           if (!widget.isTopic&&item.type == 'T') {
             Router.push(context, Router.topicPage, {"id": item.id});
             CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
           } else {
-            Router.push(context, Router.consulationDetailPage, {'consulationColumnsInfo':item});
+            Router.push(context, Router.consulationDetailPage, item.id);
             CommonRequest.UserReadingLog(item.id, item.type, 'YD');
           }
 
