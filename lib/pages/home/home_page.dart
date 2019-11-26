@@ -39,7 +39,8 @@ class _HomePageState extends State<HomePage> {
 //  static String tu0;
 //  static String tu1;
 //  static String tu2;
-
+  String defaultImage =
+      'https://www.aireading.club/phms_resource_base/image_base/BJ_YaJianKang_02.jpg';
   var listText = ['今年心理健康状况采集活动开始啦！', '心理健康资讯有新的内容啦！', '参与填写心理健康问卷可获取最新的健康报告！'];
   List<BannerModel> testList;
   List<BannerImage> bannerlist;
@@ -57,8 +58,8 @@ class _HomePageState extends State<HomePage> {
   void _getColumnsInfo() {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
       Method.get,
-      Api.GETAllCOlUMNINFO,
-      queryParameters: {"columnId": 1, "pageSize": 3, "pageNumber": 1},
+      Api.GETDEFAUTLTCOLUMNINFO,
+      queryParameters: {"columnId": 1, "pageSize": 10, "pageNumber": 1},
       isList: true,
       onSuccessList: (data) {
         setState(() {
@@ -393,7 +394,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               flex: 1,
               child: Image.network(
-                item.cover1,
+                item.cover1??defaultImage,
                 height: 90,
                 fit: BoxFit.fill,
               ),
@@ -413,14 +414,14 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         '中国健康网',
-                        style: TextStyle(color: Colors.black12, fontSize: 12),
+                        style: TextStyle(color: Colors.black54, fontSize: 12),
                       ),
                       Expanded(
                         child: Container(
                           child: Text(
-                            '${item.readCount == null ? 0 : item.readCount}人查看·12小时前',
+                            '${item.readCount??0}人查看·12小时前',
                             style:
-                                TextStyle(color: Colors.black12, fontSize: 12),
+                                TextStyle(color: Colors.black54, fontSize: 12),
                           ),
                           alignment: Alignment.bottomLeft,
                         ),
@@ -456,21 +457,21 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Expanded(
                   child: Image.network(
-                    item.cover1,
+                    item.cover1??defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),
                 ),
                 Expanded(
                   child: Image.network(
-                    item.cover2,
+                    item.cover2??defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),
                 ),
                 Expanded(
                   child: Image.network(
-                    item.cover3,
+                    item.cover3??defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),

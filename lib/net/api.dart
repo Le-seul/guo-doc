@@ -5,6 +5,9 @@ class Api {
   //获取栏目内容
   static const String GETAllCOlUMNINFO = "/api/information.do?getColumnInfo";
 
+  //获取第一个栏目的内容
+  static const String GETDEFAUTLTCOLUMNINFO = "/api/information.do?getDefaultColumnInfo";
+
   //获取文章详情
   static const String GETARTICLECONTENT = "/api/article.do?getArticleContent";
 

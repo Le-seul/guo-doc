@@ -292,6 +292,7 @@ class _ChildPageState extends State<ChildPage> {
                 ],
               ),
             ),
+            SizedBox(width: 5,),
             Expanded(
               flex: 1,
               child: Image.network(

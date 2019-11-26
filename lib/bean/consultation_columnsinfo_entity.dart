@@ -28,8 +28,12 @@ class ConsulationColumnsInfo {
     articleType = json['articleType'];
     description = json['description'];
     cover1 = json['cover1'];
-    cover2 = json['cover2'];
-    cover3 = json['cover3'];
+    if(json['cover2'] != null){
+      cover2 = json['cover2'];
+    }
+    if(cover3 != null){
+      cover3 = json['cover3'];
+    }
     state = json['state'];
     canTransmit = json['canTransmit'];
     title = json['title'];
