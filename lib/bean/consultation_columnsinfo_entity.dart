@@ -22,7 +22,9 @@ class ConsulationColumnsInfo {
 
   ConsulationColumnsInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    type = json['type'];
+    if(json['type']!=null){
+      type = json['type'];
+    }
     articleType = json['articleType'];
     description = json['description'];
     cover1 = json['cover1'];

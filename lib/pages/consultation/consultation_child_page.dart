@@ -13,7 +13,9 @@ import 'package:flutter_first/pages/consultation/title_widget.dart';
 
 class ChildPage extends StatefulWidget {
   bool offstage;
-  ChildPage(this.offstage, {Key key}) : super(key: key);
+  String id;
+  bool isTopic;
+  ChildPage(this.offstage, this.id, this.isTopic, {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,6 +26,8 @@ class ChildPage extends StatefulWidget {
 
 class _ChildPageState extends State<ChildPage> {
   var numb = 1;
+  String defaultImage =
+      'https://www.aireading.club/phms_resource_base/image_base/BJ_YaJianKang_02.jpg';
   bool offstage;
   Widget titleWidget;
   List<ConsulationColumnsInfo> columnsInfoList = List();
@@ -37,38 +41,82 @@ class _ChildPageState extends State<ChildPage> {
       margin: EdgeInsets.only(bottom: 5.0),
       child: TitleWidget(),
     );
-    _getColumnsInfo();
+    if (widget.isTopic) {
+      _getTopicList();
+    } else {
+      _getColumnsInfo();
+    }
   }
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    Toast.show('这是下拉刷新操作');
-    if(columnsInfoList == null||columnsInfoList.length == 0){
-      _getColumnsInfo();
-    }else{
+//    Toast.show('这是下拉刷新操作');
+    if (columnsInfoList == null || columnsInfoList.length == 0) {
+      if (widget.isTopic) {
+        _getTopicList();
+      } else {
+        _getColumnsInfo();
+      }
+    } else {
       _refreshController.refreshCompleted();
     }
-
   }
 
   void _onLoading() async {
     _refreshController.requestLoading();
-    Toast.show('这是上拉加载操作');
-    _getColumnsInfo();
+//    Toast.show('这是上拉加载操作');
+    if (widget.isTopic) {
+      _getTopicList();
+    } else {
+      _getColumnsInfo();
+    }
+  }
+
+  _getTopicList() {
+    DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
+      Method.get,
+      Api.GETARTICLETOPIC,
+      queryParameters: {"topicId": widget.id},
+      isList: true,
+      onSuccessList: (data) {
+        if (data == null || data.length == 0) {
+          _refreshController.loadNoData();
+        } else {
+          numb++;
+          _refreshController.loadComplete();
+        }
+        setState(() {
+          columnsInfoList.addAll(data);
+          isShowLoading = false;
+          _refreshController.refreshCompleted();
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          _refreshController.refreshFailed();
+          _refreshController.loadFailed();
+          isShowLoading = false;
+        });
+      },
+    );
   }
 
   void _getColumnsInfo() {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
       Method.get,
       Api.GETAllCOlUMNINFO,
-      queryParameters: {"columnId": 1, "pageSize":3, "pageNumber": 1},
+      queryParameters: {
+        "columnId": widget.id,
+        "pageSize": 20,
+        "pageNumber": numb
+      },
       isList: true,
       onSuccessList: (data) {
-        if (data == null||data.length == 0) {
+        if (data == null || data.length == 0) {
           _refreshController.loadNoData();
-        }else{
+        } else {
           numb++;
           _refreshController.loadComplete();
         }
@@ -167,13 +215,15 @@ class _ChildPageState extends State<ChildPage> {
           ? getContentItem(item)
           : getThreeImagItem(item),
       onTap: () {
-        if (item.type == 'T') {
-          Router.push(context, Router.topicPage, true);
-          CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
-        } else {
-          Router.push(context, Router.consulationDetailPage, item);
-          CommonRequest.UserReadingLog(item.id, item.type, 'YD');
-        }
+
+          if (!widget.isTopic&&item.type == 'T') {
+            Router.push(context, Router.topicPage, {"id": item.id});
+            CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
+          } else {
+            Router.push(context, Router.consulationDetailPage, {'consulationColumnsInfo':item});
+            CommonRequest.UserReadingLog(item.id, item.type, 'YD');
+          }
+
       },
     );
   }
@@ -208,22 +258,34 @@ class _ChildPageState extends State<ChildPage> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        item.type == "T"?Container():Expanded(
-                          flex: 3,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Image.asset('assets/images/consultation/查看.png',height: 10,),
-                              Text('${item.readCount}'),
-                              Gaps.hGap8,
-                              Image.asset('assets/images/consultation/点赞.png',height: 12,),
-                              Text('${item.likeCount}'),
-                              Gaps.hGap8,
-                              Image.asset('assets/images/consultation/分享.png',height: 12,),
-                              Text('${item.transmitCount}'),
-                            ],
-                          ),
-                        ),
+                        item.type == "T"
+                            ? Container()
+                            : Expanded(
+                                flex: 3,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/consultation/查看.png',
+                                      height: 10,
+                                    ),
+                                    Text('${item.readCount}'),
+                                    Gaps.hGap8,
+                                    Image.asset(
+                                      'assets/images/consultation/点赞.png',
+                                      height: 12,
+                                    ),
+                                    Text('${item.likeCount}'),
+                                    Gaps.hGap8,
+                                    Image.asset(
+                                      'assets/images/consultation/分享.png',
+                                      height: 12,
+                                    ),
+                                    Text('${item.transmitCount}'),
+                                  ],
+                                ),
+                              ),
                       ],
                     ),
                     alignment: Alignment.bottomLeft,
@@ -234,7 +296,7 @@ class _ChildPageState extends State<ChildPage> {
             Expanded(
               flex: 1,
               child: Image.network(
-                item.cover1,
+                item.cover1 ?? defaultImage,
                 height: 90,
                 fit: BoxFit.fill,
               ),
@@ -243,7 +305,7 @@ class _ChildPageState extends State<ChildPage> {
         ));
   }
 
-    getThreeImagItem(ConsulationColumnsInfo item) {
+  getThreeImagItem(ConsulationColumnsInfo item) {
     return Container(
         height: 120,
         color: Colors.white,
@@ -260,21 +322,21 @@ class _ChildPageState extends State<ChildPage> {
               children: <Widget>[
                 Expanded(
                   child: Image.network(
-                    item.cover1,
+                    item.cover1 ?? defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),
                 ),
                 Expanded(
                   child: Image.network(
-                    item.cover2,
+                    item.cover2 ?? defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),
                 ),
                 Expanded(
                   child: Image.network(
-                    item.cover3,
+                    item.cover3 ?? defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),

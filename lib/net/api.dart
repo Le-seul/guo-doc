@@ -5,6 +5,12 @@ class Api {
   //获取栏目内容
   static const String GETAllCOlUMNINFO = "/api/information.do?getColumnInfo";
 
+  //获取文章详情
+  static const String GETARTICLECONTENT = "/api/article.do?getArticleContent";
+
+//获取专题包含的文章
+  static const String GETARTICLETOPIC = "/api/topic.do?getArticleOfTopic";
+
   //获取活动列表
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
 

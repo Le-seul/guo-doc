@@ -370,10 +370,10 @@ class _HomePageState extends State<HomePage> {
           : getThreeImagItem(columnsInfoList[index]),
       onTap: () {
         if (columnsInfoList[index].type == 'T') {
-          Router.push(context, Router.topicPage, true);
+          Router.push(context, Router.topicPage,{"id":columnsInfoList[index].id});
           CommonRequest.UserReadingLog(columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
         } else {
-          Router.push(context, Router.consulationDetailPage, columnsInfoList[index]);
+          Router.push(context, Router.consulationDetailPage, {'consulationColumnsInfo':columnsInfoList[index]});
           CommonRequest.UserReadingLog(columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
         }
 

@@ -126,7 +126,7 @@ class Router {
     } else {
       switch (url) {
         case topicPage:
-          return TopicPage();
+          return TopicPage(params["id"]);
         case reporylist:
           return ReportList();
         case bodyreport:
@@ -144,7 +144,7 @@ class Router {
         case psychologicalServiceCenterPage:
           return PsychologicalServiceCenterPage();
         case consulationDetailPage:
-          return ConsultationDetailPage(consulationColumnsInfo: params,);
+          return ConsultationDetailPage(consulationColumnsInfo: params['consulationColumnsInfo']);
         case imagesPage:
           return ImagesPage(indext: params);
         case psychologicalConcult:

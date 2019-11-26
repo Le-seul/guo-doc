@@ -1,6 +1,7 @@
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/common_dio.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-//主页，显示一个列表
 class ConsultationDetailPage extends StatefulWidget {
   ConsulationColumnsInfo consulationColumnsInfo;
 

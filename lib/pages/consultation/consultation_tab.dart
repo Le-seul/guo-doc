@@ -15,9 +15,9 @@ class FlutterTabBarView extends StatelessWidget {
     int num = columnsList.length;
     for(int i = 1; i <= num ; i++){
       if(i == 1){
-        viewList.add(ChildPage(false));
+        viewList.add(ChildPage(false,columnsList[i-1].id,false));
       }else{
-        viewList.add(ChildPage(true));
+        viewList.add(ChildPage(true,columnsList[i-1].id,false));
       }
     }
     return TabBarView(

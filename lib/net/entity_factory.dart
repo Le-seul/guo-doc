@@ -1,6 +1,7 @@
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/HealthYear.dart';
+import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
@@ -122,7 +123,9 @@ class EntityFactory {
       return CourseBookmark.fromJson(json) as T;
     } else if (T.toString() == "HearthYear") {
       return HearthYear.fromJson(json) as T;
-    } else {
+    } else if (T.toString() == "ArticleContent") {
+      return ArticleContent.fromJson(json) as T;
+    }else {
       return null;
     }
   }

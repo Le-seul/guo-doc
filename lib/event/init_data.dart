@@ -92,8 +92,9 @@ class _InitDataState extends State<InitData> {
           if(model == 'chunyuTuwen' || model == 'chunyuFastphone'){
             Router.push(
                 context, Router.talk, {'orderId': target, 'offstage': false});
-          }else if(model == 'chunyuFastphone'){
-            _initChunyu(model, target);
+          }else if(model == 'article'){
+            Router.push(context, Router.consulationDetailPage, target);
+//            CommonRequest.UserReadingLog(item.id, item.type, 'YD');
           }
 
 
