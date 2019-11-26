@@ -231,7 +231,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
             ),
             Container(
               margin: EdgeInsets.only(top: 16,bottom: 0),
-                height: ScreenUtil().setHeight(30),
+                height: 198,
               color: Colors.white,
                 child: Column(
                   children: <Widget>[
@@ -274,15 +274,15 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             children: <Widget>[
                               GestureDetector(
                                 child: Container(
-                                    height: 75,
-                                    width: 75,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
                                                 Ranklist[0].imgId),
                                             ),
                                         borderRadius:
-                                        BorderRadius.circular(37.5))),
+                                        BorderRadius.circular(35))),
                                 onTap: (){
                                   Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[0].id);
                                 },
@@ -297,8 +297,8 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             children: <Widget>[
                               GestureDetector(
                                 child: Container(
-                                    height: 75,
-                                    width: 75,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
@@ -320,8 +320,8 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             children: <Widget>[
                               GestureDetector(
                                 child: Container(
-                                    height: 75,
-                                    width: 75,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(

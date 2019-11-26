@@ -130,7 +130,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                     Row(
                       children: <Widget>[
                         Icon(Icons.home,color: Colours.bg_green,size: 18,),
-                        Text('  '+list[0].location,style: TextStyle(color: Colors.grey),)
+                        Text('  '+list[0].location,style: TextStyle(color: Color(0xff595959),fontSize: 12),)
                       ],
                     ),
                     SizedBox(
@@ -139,7 +139,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                     Row(
                       children: <Widget>[
                         Icon(Icons.timer,color: Colours.bg_green,size: 18,),
-                        Text('  '+list[0].conTime,style: TextStyle(color: Colors.grey),)
+                        Text('  '+list[0].conTime,style: TextStyle(color: Color(0xff595959),fontSize: 12),)
                       ],
                     ),
                     SizedBox(
@@ -148,7 +148,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                     Row(
                       children: <Widget>[
                         Icon(Icons.headset,color: Colours.bg_green,size: 18,),
-                        Text('  '+list[0].contacts,style: TextStyle(color: Colors.grey),)
+                        Text('  '+list[0].contacts,style: TextStyle(color: Color(0xff595959),fontSize: 12),)
                       ],
                     ),
                     SizedBox(
@@ -157,7 +157,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                     Row(
                       children: <Widget>[
                         Icon(Icons.phone,color: Colours.bg_green,size: 18,),
-                        Text('  '+list[0].phone,style: TextStyle(color: Colors.grey),)
+                        Text('  '+list[0].phone,style: TextStyle(color: Color(0xff595959),fontSize: 12),)
                       ],
                     ),
                   ],
@@ -284,7 +284,10 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        child: Image.asset('assets/images/consultation/中心1.png',fit: BoxFit.fill),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/consultation/中心2.png'),fit: BoxFit.fitHeight)
+                        ),
                         height: ScreenUtil().setHeight(13),
                         width: ScreenUtil().setHeight(18),
                       ),
@@ -318,7 +321,10 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        child: Image.asset('assets/images/consultation/中心2.png',fit: BoxFit.fill),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/consultation/中心2.png'),fit: BoxFit.fitHeight)
+                        ),
                         height: ScreenUtil().setHeight(13),
                         width: ScreenUtil().setHeight(18),
                       ),
@@ -353,7 +359,10 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        child: Image.asset('assets/images/consultation/中心3.png',fit: BoxFit.fill),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/consultation/中心3.png'),fit: BoxFit.fitHeight)
+                        ),
                         height: ScreenUtil().setHeight(13),
                         width: ScreenUtil().setHeight(18),
                       ),

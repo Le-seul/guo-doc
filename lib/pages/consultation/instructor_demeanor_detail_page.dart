@@ -103,9 +103,10 @@ class _instructor_demeanor_detailState
                       child: Container(
                         margin: EdgeInsets.fromLTRB(20, 25, 20, 25),
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(Testlist[0].imgId))),
+                                image: NetworkImage(Testlist[0].imgId)),
+                          borderRadius: BorderRadius.circular(36)
+                        ),
                       ),
                       onTap: () {
                         showPhoto(
@@ -275,7 +276,8 @@ class _instructor_demeanor_detailState
                       alignment: Alignment.topLeft,
                       child: Text(
                         Testlist[0].major,
-                        style: TextStyle(color: Colors.black54, fontSize: 13),
+                        style: TextStyle(color: Colors.black54, fontSize: 13,),
+
                       ),
                     ),
                   ),
@@ -311,8 +313,8 @@ class _instructor_demeanor_detailState
                               : InkWell(
                                   child: Container(
                                     margin: EdgeInsets.fromLTRB(0, 0, 10, 5),
-                                    height: ScreenUtil().setHeight(20),
-                                    width: ScreenUtil().setHeight(20),
+                                    height: 130,
+                                    width: 130,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(Testlist[0].showImg[index].showId)),
@@ -354,7 +356,10 @@ class _instructor_demeanor_detailState
                       alignment: Alignment.topLeft,
                       child: Text(
                         Testlist[0].shortDesc,
-                        maxLines: 5,
+                        maxLines: 4,
+                        strutStyle: StrutStyle(
+                          height: 2,
+                        ),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Colors.black54, fontSize: 13),
                       ),
@@ -409,6 +414,9 @@ class _instructor_demeanor_detailState
                                     TextStyle(fontSize: 12, color: Colors.grey),
                                 softWrap: true,
                                 maxLines: 3,
+                                strutStyle: StrutStyle(
+                                  height: 2,
+                                ),
                               ),
                             )
                           ],
@@ -463,6 +471,9 @@ class _instructor_demeanor_detailState
                                     TextStyle(fontSize: 12, color: Colors.grey),
                                 softWrap: true,
                                 maxLines: 3,
+                                strutStyle: StrutStyle(
+                                  height: 2,
+                                ),
                               ),
                             )
                           ],
@@ -517,6 +528,9 @@ class _instructor_demeanor_detailState
                                     TextStyle(fontSize: 12, color: Colors.grey),
                                 softWrap: true,
                                 maxLines: 3,
+                                strutStyle: StrutStyle(
+                                  height: 2,
+                                ),
                               ),
                             )
                           ],
@@ -543,12 +557,14 @@ void showPhoto(BuildContext context, f, index, name) {
       MaterialPageRoute<void>(builder: (BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('${name}')),
-      body: SizedBox.expand(
-        child: Hero(
-          tag: index,
-          child: new Photo(url: f),
+      body: Container(
+        child: SizedBox.expand(
+          child: Hero(
+            tag: index,
+            child: new Photo(url: f),
+          ),
         ),
-      ),
+      )
     );
   }));
 }
