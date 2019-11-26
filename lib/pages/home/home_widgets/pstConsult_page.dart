@@ -153,42 +153,39 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Expanded(
-                            flex: 1,
-                            child: CircleAvatar(
-                                backgroundColor: Color(0xffFBF3E7),
-                                maxRadius: 20,
-                                child: Icon(
-                                  Icons.create,
-                                  color: Colors.blue[200],
-                                ))),
-                        Expanded(
-                            flex: 1,
-                            child: CircleAvatar(
-                                backgroundColor: Colors.blue[100],
-                                maxRadius: 20,
-                                child: Icon(
-                                  Icons.perm_identity,
-                                  color: Colors.blue[200],
-                                ))),
-                        Expanded(
-                            flex: 1,
-                            child: CircleAvatar(
-                                backgroundColor: Colors.orange[100],
-                                maxRadius: 20,
-                                child: Icon(
-                                  Icons.mail_outline,
-                                  color: Colors.blue[200],
-                                ))),
-                        Expanded(
-                            flex: 1,
-                            child: CircleAvatar(
-                                backgroundColor: Color(0xffD6F1F0),
-                                maxRadius: 20,
-                                child: Icon(
-                                  Icons.description,
-                                  color: Colors.blue[200],
-                                ))),
+                        SizedBox(width: 10,),
+                        CircleAvatar(
+                            backgroundColor: Color(0xffFBF3E7),
+                            maxRadius: 20,
+                            child: Icon(
+                              Icons.create,
+                              color: Colors.blue[200],
+                            )),
+                        Expanded(flex: 1,child: Container(),),
+                        CircleAvatar(
+                            backgroundColor: Colors.blue[100],
+                            maxRadius: 20,
+                            child: Icon(
+                              Icons.perm_identity,
+                              color: Colors.blue[200],
+                            )),
+                        Expanded(flex: 1,child: Container(),),
+                        CircleAvatar(
+                            backgroundColor: Colors.orange[100],
+                            maxRadius: 20,
+                            child: Icon(
+                              Icons.mail_outline,
+                              color: Colors.blue[200],
+                            )),
+                        Expanded(flex: 1,child: Container(),),
+                        CircleAvatar(
+                            backgroundColor: Color(0xffD6F1F0),
+                            maxRadius: 20,
+                            child: Icon(
+                              Icons.description,
+                              color: Colors.blue[200],
+                            )),
+                        SizedBox(width: 10,),
                       ],
                     ),
                     SizedBox(height: 20,),
