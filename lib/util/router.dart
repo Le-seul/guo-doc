@@ -42,6 +42,7 @@ import 'package:flutter_first/pages/home/home_widgets/music_sort_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
 import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/diet_records_page.dart';
 import 'package:flutter_first/pages/selfhelp/daily_recording/movement_clock_page.dart';
@@ -115,6 +116,7 @@ class Router {
   static const psycourse = 'app://psycourse';
   static const locationsearch = 'app://locationsearch';
   static const servicePage = 'app://ServicePage';
+  static const feedBackPage = 'app://FeedBackPage';
 
 
 
@@ -229,7 +231,8 @@ class Router {
           return LocationSearch();
         case servicePage:
           return ServicePage();
-
+        case feedBackPage:
+          return FeedBackPage();
 
       }
     }
@@ -254,4 +257,6 @@ class Router {
       return _getPage(url, params);
     }));
   }
+
+
 }

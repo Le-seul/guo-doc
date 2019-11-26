@@ -7,7 +7,7 @@ class TopicPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff2CA687),
         title: Text('专题'),
         centerTitle: true,
       ),

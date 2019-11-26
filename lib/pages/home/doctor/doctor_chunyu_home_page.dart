@@ -96,7 +96,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                     Center(
                       child: Text(
                         '在线问诊',
-                        style: TextStyle(fontSize: 22.0, color: Colors.white),
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
                       ),
                     ),
                     SizedBox(
@@ -118,7 +118,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                                 Text(
                                   '服务说明',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
@@ -225,13 +225,22 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Row(children: <Widget>[
-                Container(width: 4,height: 15,color: Color(0xff2CA687),),
-                SizedBox(
-                  width: 10,
-                ),
-                Text('问诊服务',style: TextStyle(fontSize: 18),)
-              ],),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: 4,
+                    height: 15,
+                    color: Color(0xff2CA687),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '问诊服务',
+                    style: TextStyle(fontSize: 16),
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: 10,
@@ -267,7 +276,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                   ),
                   GestureDetector(
                     child: _gridItem(
-                       Colors.green,
+                        Colors.green,
                         'assets/images/service/钟.png',
                         '历史记录',
                         '您之前问过的问题都在这里',
@@ -280,27 +289,39 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                 ],
               ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 30,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-              Text('我们将全力保护您的隐私'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('严格遵守'),
-                  GestureDetector(
-                    onTap: (){
-                      Router.push(
-                          context,
-                          'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
-                          {'title': '服务条款及隐私政策'});
-                    },
-                      child: Text('服务条款及隐私政策',style: TextStyle(color: Colors.blue,decoration: TextDecoration.underline,),))
-                ],
-              )
-            ],),
-            SizedBox(height: 20,),
+                Text('我们将全力保护您的隐私',style: TextStyle(color: Colors.black26,fontSize: 12),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('严格遵守',style: TextStyle(color: Colors.black26,fontSize: 12)),
+                    GestureDetector(
+                        onTap: () {
+                          Router.push(
+                              context,
+                              'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
+                              {'title': '服务条款及隐私政策'});
+                        },
+                        child: Text(
+                          '服务条款及隐私政策',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 12,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ))
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
@@ -356,55 +377,74 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         });
   }
 
-  _gridItem(Color color, String icon, String text,String txt, String count, offstage) {
+  _gridItem(Color color, String icon, String text, String txt, String count,
+      offstage) {
     return Container(
-        padding: EdgeInsets.all(10), child: MyCard(child: Container(
-      padding: EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          CircleAvatar(
-            radius: 30.0,
-            backgroundImage:
-           AssetImage(icon),
-          ),
-          SizedBox(width: 8,),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Stack(
+        padding: EdgeInsets.all(10),
+        child: MyCard(
+            child: Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Image.asset(icon,height: 55,width: 55,fit: BoxFit.fill,),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(text,style: TextStyle(fontSize: 18),),
-                    Offstage(
-                      offstage: offstage,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          padding: EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                    Container(
+                      width: 90,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              text,
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
-                          child: Text(
-                            count,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
+                          Offstage(
+                            offstage: offstage,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: 6, right: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(6.0),
+                                  ),
+                                ),
+                                child: Text(
+                                  count,
+                                  style: TextStyle(color: Colors.white,fontSize: 10),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      txt,
+                      style: TextStyle(color: Colors.black26,fontSize: 12),
                     )
                   ],
                 ),
-                SizedBox(height: 5,),
-                Text(txt,style: TextStyle(color: Colors.black54),)
-              ],
-            ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: Colors.black54,
+              )
+            ],
           ),
-          Icon(Icons.chevron_right,color: Colors.black54,)
-        ],
-      ),
-    )));
+        )));
   }
 }

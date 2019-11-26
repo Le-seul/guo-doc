@@ -22,7 +22,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
   List<CenterDetail> list = List();
   bool isShowLoading = true;
   InAppWebViewController _controller;
-  double _htmlHeight = 200; // 目的是在回调完成之前先展示出200高度的内容, 提高用户体验
+  double _htmlHeight = 400; // 目的是在回调完成之前先展示出200高度的内容, 提高用户体验
   static const String HANDLER_NAME = 'InAppWebView';
 
   @override
@@ -38,10 +38,12 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
   }
 
   void _setJSHandler(InAppWebViewController controller) {
+
+    print("webView创建");
     JavaScriptHandlerCallback callback = (List<dynamic> arguments) async {
       // 解析argument, 获取到高度, 直接设置即可(iphone手机需要+20高度)
-      print('高度：${arguments[0]}');
-      double height = double.parse(arguments[0]);
+      print('高度:${arguments[0]}');
+      double height = double.parse(arguments[0].toString());
       if (height > 0) {
         setState(() {
           _htmlHeight = height;
@@ -195,7 +197,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                     Container(
                       height: _htmlHeight,
                       child: InAppWebView(
-                        initialUrl: list[0].detailDesc,
+                        initialUrl: 'https://www.jianshu.com/p/19853b8efc51',
                         onWebViewCreated: (InAppWebViewController controller) {
                           _controller = controller;
                           _setJSHandler(_controller); // 设置js方法回掉, 拿到高度
@@ -203,7 +205,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                         onLoadStop: (InAppWebViewController controller, String url) {
                           // 页面加载完成后注入js方法, 获取页面总高度
                           controller.injectScriptCode("""
-                  window.flutter_inappbrowser.callHandler('InAppWebView', document.body.scrollHeight));
+                  window.flutter_inappbrowser.callHandler('InAppWebView', document.body.scrollHeight);
                 """);
                         },
                       ),

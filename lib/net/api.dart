@@ -113,24 +113,34 @@ class Api {
 
   //获取快捷电话医生总结内容
   static const String GETFASTPHONEREPLYCONTENT = "/api/chunyuFastphone.do?getFastphoneReplyContent";
+
   //教官列表
   static const String PsyTeacherList = "/api/psyTeacher.do?getPsyTeacherList";
+
   //教官列表最美教官
   static const String PsyTeacherBest = "/api/psyTeacher.do?getPsyTeacherBest&teacherId=1";
+
   //教官点赞
   static const String PsyTeacherLike = "/api/psyTeacher.do?getPsyTeacherLike";
+
   //每日一测全部
   static const String PsyDailyTest = "/api/psyDailyTest.do?getPsyDailyTest";
+
   //每日一测已测
   static const String PsyDailyTested = "/api/psyDailyTest.do?getPsyDailyTestRecord";
+
   //每日一测阅读人数
   static const String PsyDailyTestedLike = "/api/psyDailyTest.do?getPsyDailyTestDetail";
+
   //心理课程详情1
   static const String PsyCourseDetail = "/api/psyCourse.do?getCouserDetail&id=1";
+
   //服务中心列表
   static const String GETPSYSERVICECENTERLIST = "/api/psyServiceCenter.do?getPsyServiceCenterList";
+
   //服务中心详情
   static const String GETPSYSERVICECENTERDETAIL = "/api/psyServiceCenter.do?getPsyServiceCenterDetail";
+
   //按地区查找
   static const String GETPSYSERVICECENTERBYLOCATION = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation";
 
@@ -152,4 +162,6 @@ class Api {
   //用户阅读行为记录
   static const String USEREADINGLOG = "/api/article.do?userReadingLog";
 
+  //体检报告列表
+  static const String GETYEARLIST = "/api/exam.do?getYearList";
 }

@@ -8,6 +8,7 @@ import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
+import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -91,7 +92,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
           chapter.duration = data.duration;
           if(BottomControllerBar.overlayEntry == null){
             print('创建bottomBar');
-            BottomControllerBar.show(context, courseDetail, chapter);
+            BottomControllerBar.show(context, courseDetail, chapter,false);
           }
 
           if(BottomControllerBar.getCourse().isPlaying == true){
@@ -275,35 +276,44 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   _buildItem(ChapterList chapterList, int index) {
     return GestureDetector(
       onTap: () {
-
-        if (chapterList.state != 'N') {
-
-          if (chapterList.isPlaying == false) {
-            chapterList.isPlaying = true;
-            BottomControllerBar.setCourse(chapterList);
-            eventBus.fire(CourseContent(chapterList, 0));
-          } else {
-            chapterList.isPlaying = false;
-            BottomControllerBar.setCourse(chapterList);
-            eventBus.fire(CourseContent(chapterList, 1));
-          }
-          if(BottomControllerBar.overlayEntry == null){
-            print('创建bottomBar');
-            BottomControllerBar.show(context, courseDetail, chapterList);
-          }
-
+        if(BottomControllerBar.overlayEntry == null){
+          BottomControllerBar.show(context, courseDetail, chapterList,true);
+        }else{
+          BottomControllerBar.hideBottomControllerBar(context, true);
         }
-        for (ChapterList chapterList in courseDetail.chapterList) {
-          chapterList.isHighlight = false;
-          if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
-            chapterList.isPlaying = false;
+        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
+        if(chapterList.isPlaying == false){
+          if (chapterList.state != 'N') {
+            if (chapterList.isPlaying == false) {
+              chapterList.isPlaying = true;
+              BottomControllerBar.setCourse(chapterList);
+              eventBus.fire(CourseContent(chapterList, 0));
+            } else {
+              chapterList.isPlaying = false;
+              BottomControllerBar.setCourse(chapterList);
+              eventBus.fire(CourseContent(chapterList, 1));
+            }
+//          if(BottomControllerBar.overlayEntry == null){
+//            print('创建bottomBar');
+//            BottomControllerBar.show(context, courseDetail, chapterList);
+//          }
+
           }
-        }
-        chapterList.isHighlight = true;
-        setState(() {
+          for (ChapterList chapterList in courseDetail.chapterList) {
+            chapterList.isHighlight = false;
+            if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
+              chapterList.isPlaying = false;
+            }
+          }
+          chapterList.isHighlight = true;
+          setState(() {
 //          chapterList.isPlaying = BottomControllerBar.getCourse().isPlaying;
-        });
-        _sendBookMark(chapterList);
+          });
+          _sendBookMark(chapterList);
+        }
+
+
+
 //        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
       },
       child: Column(

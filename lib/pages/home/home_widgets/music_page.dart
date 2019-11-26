@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_tab_page.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 
 class MusicPage extends StatefulWidget {
   String tagId;
@@ -14,16 +16,53 @@ class MusicPage extends StatefulWidget {
   _MusicPageState createState() => _MusicPageState();
 }
 
-class _MusicPageState extends State<MusicPage> {
+class _MusicPageState extends State<MusicPage>
+    with SingleTickerProviderStateMixin {
   List<GetAllMusic> GetAllMusicList = List();
+  List<MusicTag> musicTagList = List();
+  List<Widget> tabs = [];
+  List<Widget> tabViews = [];
+  int tagNum = 1;
 
+  TabController _tabController;
   @override
   void initState() {
-    if (widget.num == 0) {
-      _getAllMusicList();
-    } else if (widget.num == 1) {
-      _getMusicListByTag();
-    }
+    _getMusicTag();
+//    if (widget.num == 0) {
+//      _getAllMusicList();
+//    } else if (widget.num == 1) {
+//      _getMusicListByTag();
+//    }
+  }
+
+  _getMusicTag() {
+    DioUtils.instance.requestNetwork<MusicTag>(Method.get, Api.GETMUSICTAG,
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        tabs.add(Container(
+          padding: EdgeInsets.only(left: 8, right: 8),
+          alignment: Alignment.center,
+          child: Text('全部',style: TextStyle(fontSize: 15),),
+        ));
+        tabViews.add(MusicTabPage('0'));
+        musicTagList = data;
+        _tabController = TabController(length: data.length + 1, vsync: this);
+
+        musicTagList.forEach((str) {
+          tabs.add(Container(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            alignment: Alignment.center,
+            child: Text(str.name,style: TextStyle(fontSize: 15),),
+          ));
+        });
+
+        musicTagList.forEach((str) {
+          tabViews.add(MusicTabPage(str.id));
+        });
+      });
+    }, onError: (code, msg) {
+      Toast.show('请求失败！');
+    });
   }
 
   _getMusicListByTag() {
@@ -39,90 +78,40 @@ class _MusicPageState extends State<MusicPage> {
     });
   }
 
-  _getAllMusicList() {
-    DioUtils.instance.requestNetwork<GetAllMusic>(
-        Method.get, Api.GETAllMUSICLIST,
-        queryParameters: {"pageSize": 20, "pageNumber": 1},
-        isList: true, onSuccessList: (data) {
-      setState(() {
-        GetAllMusicList = data;
-      });
-    }, onError: (code, msg) {
-      Toast.show('请求失败！');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black,),
+        elevation: 0.0,
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '轻松音乐',
-          style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Container(
-          padding: EdgeInsets.only(top: 15, right: 15, left: 15),
-          color: Colors.white,
-          child: GridView.builder(
-            physics: ClampingScrollPhysics(),
-              itemCount: GetAllMusicList.length,
-              //SliverGridDelegateWithFixedCrossAxisCount 构建一个横轴固定数量Widget
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //横轴元素个数
-                  crossAxisCount: 2,
-                  //纵轴间距
-                  mainAxisSpacing: 0.0,
-                  //横轴间距
-                  crossAxisSpacing: 15.0,
-                  //子组件宽高长度比例
-                  childAspectRatio: 0.70),
-              itemBuilder: (BuildContext context, int index) {
-                //Widget Function(BuildContext context, int index)
-                return _buildItem(index);
-              })),
-    );
-  }
-
-  _buildItem(int index) {
-    return GestureDetector(
-      onTap: () {
-        Router.push(context, Router.musicListPage, GetAllMusicList[index]);
-      },
-      child: Container(
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: AspectRatio(
-                    aspectRatio: 1.0,
-                    child: Image.network(
-                      GetAllMusicList[index].image,
-                      height: 140,
-                      width: 140,
-                      fit: BoxFit.fill,
-                    ),
-                  )),
-              SizedBox(
-                height: 5,
-              ),
-              Text(GetAllMusicList[index].name, style: TextStyle(fontSize: 18)),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: <Widget>[
-                  Icon(Icons.headset,size: 15,color: Colors.black54,),
-                  SizedBox(width: 5,),
-                  Text('2038',style: TextStyle(color: Colors.black54),),
-                ],
-              )
-            ],
-          )),
+      body: _tabController == null
+          ? LoadingWidget.childWidget()
+          : Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  height: 35,
+                  child: TabBar(
+                    isScrollable: true,
+                    controller: _tabController,
+                    labelPadding: EdgeInsets.all(0.0),
+                    indicatorColor: Color(0xff2CA687),
+                    labelColor: Color(0xff2CA687),
+                    unselectedLabelColor: Color(0xff666666),
+                    unselectedLabelStyle: TextStyle(fontSize: 14),
+                    labelStyle: TextStyle(fontSize: 14.0),
+                    tabs: tabs,
+                  ),
+                ),
+                Flexible(
+                    child: TabBarView(
+                        controller: _tabController, children: tabViews)),
+              ],
+            ),
     );
   }
 }

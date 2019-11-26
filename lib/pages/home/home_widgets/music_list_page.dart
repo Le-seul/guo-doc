@@ -39,14 +39,14 @@ class _MusicListPageState extends State<MusicListPage> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xff2CA687),
           elevation: 0.0,
           iconTheme: IconThemeData(
-            color: Colors.black,
+            color: Colors.white,
           ),
           title: Text(
             '列表',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
         ),
         body: Container(
@@ -72,14 +72,14 @@ class _MusicListPageState extends State<MusicListPage> {
                         quiet.playWithList(musicList[0], musicList, 'playlist');
                       },
                       child: Container(
-                        padding: EdgeInsets.only(left: 10, right: 10,top: 3,bottom: 3),
+                        padding: EdgeInsets.only(
+                            left: 10, right: 10, top: 3, bottom: 3),
                         margin: EdgeInsets.only(
                           right: 10.0,
                         ),
                         decoration: new BoxDecoration(
                             color: Color(0xff2CA687),
                             borderRadius: new BorderRadius.circular(15.0)),
-
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Row(
@@ -168,14 +168,14 @@ class _MusicListPageState extends State<MusicListPage> {
                       children: <Widget>[
                         Text(
                           widget.allMusicList.name,
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Text('周杰伦', style: TextStyle(color: Colors.black54)),
                         SizedBox(
-                          height: 25,
+                          height: 20,
                         ),
                         Text(
                           widget.allMusicList.name,
@@ -236,7 +236,7 @@ class _MusicListPageState extends State<MusicListPage> {
                               Text(
                                 musicList[index].name,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 14,
                                     color: isPlaying
                                         ? Color(0xff2CA687)
                                         : Colors.black),
