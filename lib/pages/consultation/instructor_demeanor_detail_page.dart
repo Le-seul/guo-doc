@@ -97,14 +97,15 @@ class _instructor_demeanor_detailState
               color: Colors.white,
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: InkWell(
+
+                     InkWell(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 25, 20, 25),
+                        margin: EdgeInsets.only(left: 10,right: 10),
+                        height: 72,
+                        width:72,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: NetworkImage(Testlist[0].imgId)),
+                                image: NetworkImage(Testlist[0].imgId),fit: BoxFit.fill),
                           borderRadius: BorderRadius.circular(36)
                         ),
                       ),
@@ -113,9 +114,9 @@ class _instructor_demeanor_detailState
                             context, Testlist[0].imgId, 0, Testlist[0].name);
                       },
                     ),
-                  ),
+
                   Expanded(
-                      flex: 3,
+
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,61 +230,66 @@ class _instructor_demeanor_detailState
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
               padding: EdgeInsets.only(left: 20),
-              height: ScreenUtil().setHeight(14),
+              height: ScreenUtil().setHeight(18),
               color: Colors.white,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    child: Align(
+                  SizedBox(
+                    height: 12,
+                  ),
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Text('心理服务格言', style: TextStyle(fontSize: 16)),
                     ),
+                  SizedBox(
+                    height: 10,
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
+                  Text(
                         Testlist[0].slogan,
-                        style: TextStyle(color: Colors.black54, fontSize: 13),
+                        style: TextStyle(color: Color(0xff999999), fontSize: 14),
                         overflow: TextOverflow.ellipsis,
+                        strutStyle: StrutStyle(height: 1.5),
                         maxLines: 2,
                       ),
-                    ),
-                  ),
+
+
                 ],
               ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
               padding: EdgeInsets.only(left: 20),
-              height: ScreenUtil().setHeight(14),
+              height: ScreenUtil().setHeight(16),
               color: Colors.white,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('特长.专长(研究方向.教学方向)',
-                          style: TextStyle(fontSize: 16)),
-                    ),
+                  SizedBox(
+                    height: 12,
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        Testlist[0].major,
-                        style: TextStyle(color: Colors.black54, fontSize: 13,),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('特长.专长(研究方向.教学方向)', style: TextStyle(fontSize: 16)),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    Testlist[0].major,
+                    style: TextStyle(color: Color(0xff999999), fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                    strutStyle: StrutStyle(height: 1.5),
+                    maxLines: 2,
+                  ),
 
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
             ),
+
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
               padding: EdgeInsets.only(left: 20),
@@ -337,7 +343,7 @@ class _instructor_demeanor_detailState
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
               padding: EdgeInsets.only(left: 20),
-              height: ScreenUtil().setHeight(20),
+              height: 180,
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -387,7 +393,7 @@ class _instructor_demeanor_detailState
                   children: <Widget>[
                     Container(
                       child: Image.asset('assets/images/consultation/中心1.png',
-                          fit: BoxFit.fill),
+                          fit: BoxFit.fitHeight),
                       height: ScreenUtil().setHeight(13),
                       width: ScreenUtil().setHeight(18),
                     ),
@@ -415,7 +421,7 @@ class _instructor_demeanor_detailState
                                 softWrap: true,
                                 maxLines: 3,
                                 strutStyle: StrutStyle(
-                                  height: 2,
+                                  height: 1.5,
                                 ),
                               ),
                             )
@@ -444,7 +450,7 @@ class _instructor_demeanor_detailState
                   children: <Widget>[
                     Container(
                       child: Image.asset('assets/images/consultation/中心2.png',
-                          fit: BoxFit.fill),
+                          fit: BoxFit.fitHeight),
                       height: ScreenUtil().setHeight(13),
                       width: ScreenUtil().setHeight(18),
                     ),
@@ -472,7 +478,7 @@ class _instructor_demeanor_detailState
                                 softWrap: true,
                                 maxLines: 3,
                                 strutStyle: StrutStyle(
-                                  height: 2,
+                                  height: 1.5,
                                 ),
                               ),
                             )
@@ -501,7 +507,7 @@ class _instructor_demeanor_detailState
                   children: <Widget>[
                     Container(
                       child: Image.asset('assets/images/consultation/中心3.png',
-                          fit: BoxFit.fill),
+                          fit: BoxFit.fitHeight),
                       height: ScreenUtil().setHeight(13),
                       width: ScreenUtil().setHeight(18),
                     ),
@@ -529,7 +535,7 @@ class _instructor_demeanor_detailState
                                 softWrap: true,
                                 maxLines: 3,
                                 strutStyle: StrutStyle(
-                                  height: 2,
+                                  height: 1.5,
                                 ),
                               ),
                             )

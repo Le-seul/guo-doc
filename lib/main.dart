@@ -86,7 +86,7 @@ class _MyAppState extends State<MyApp> {
                     '/login': (BuildContext context) => new LoginPage(),
                     '/playing': (BuildContext context) => new PlayingPage(),
                   },
-                  title: '畅想健康',
+                  title: '畅享健康',
                   //debugShowCheckedModeBanner: false,
                   home: Scaffold(
                     body: InitData(

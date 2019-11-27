@@ -86,7 +86,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
           children: <Widget>[
             GestureDetector(
               child: Container(
-                margin: EdgeInsets.only(top: 2,bottom: 0),
+                margin: EdgeInsets.only(top: 20,bottom: 0),
                 height: ScreenUtil().setHeight(35),
                   color: Colors.white,
                 child: Column(
@@ -388,9 +388,12 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                                           Ranklist[index].imgId),
                                                       ),
                                                   borderRadius:
-                                                  BorderRadius.circular(35))),
+                                                  BorderRadius.circular(21))),
                                           SizedBox(height: 20,)
                                         ],
+                                      ),
+                                      SizedBox(
+                                        width: 7  ,
                                       ),
                                       Expanded(
                                         child: Column(
@@ -401,6 +404,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                               direction: Axis.horizontal,
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: <Widget>[
+
                                                 Text(Ranklist[index].name,style:TextStyle(fontSize: 18) ,),
                                                 SizedBox(
                                                   width: 7  ,
