@@ -326,10 +326,10 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       color: Color(0xFFD5D5D5),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 12,
                     ),
                     Text(
-                      '各科咨询服务时间为9:00-21:00 服务时长为十分钟。心理咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日10:00-21:00',
+                      '服务说明：电话咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日：19:00-21:00。',
                       strutStyle:
                           StrutStyle(forceStrutHeight: true, height: 1.8),
                       style: TextStyle(color: Color(0xFF999999)),

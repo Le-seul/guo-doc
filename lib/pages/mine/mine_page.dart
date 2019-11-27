@@ -4,7 +4,6 @@ import 'package:flutter_first/util/router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
-
 class MinePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,10 @@ class MinePage extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: AppBar(
-            title: Text('我的',style: TextStyle(fontSize: 18),),
+            title: Text(
+              '我的',
+              style: TextStyle(fontSize: 18),
+            ),
             centerTitle: true,
             backgroundColor: Colours.bg_green,
             elevation: 0,
@@ -22,7 +24,6 @@ class MinePage extends StatelessWidget {
       //backgroundColor: Colours.line,
       body: ListView(
         physics: ClampingScrollPhysics(),
-
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -57,7 +58,8 @@ class MinePage extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: NetworkImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572862144&di=d3fabea17ef23e6434c8a3499bc74e3e&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20181003%2F17%2F1538557769-tTlpNrusja.jpg'))),
+                              image: NetworkImage(
+                                  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572862144&di=d3fabea17ef23e6434c8a3499bc74e3e&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20181003%2F17%2F1538557769-tTlpNrusja.jpg'))),
                     ),
                     SizedBox(
                       width: 15,
@@ -88,19 +90,20 @@ class MinePage extends StatelessWidget {
                               padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(4))),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4))),
                             ),
                           ),
                           Center(
-                            child: Image.asset('assets/images/mine/字母.png',height: 20,width: 20),
+                            child: Image.asset('assets/images/mine/字母.png',
+                                height: 20, width: 20),
                           )
                         ],
                       ),
-                      onTap: (){
-                        Share.text('我的分享','www.baidu.com','text/plain');
+                      onTap: () {
+                        Share.text('我的分享', 'www.baidu.com', 'text/plain');
                       },
                     ),
-
                     SizedBox(
                       width: 10,
                     ),
@@ -115,11 +118,13 @@ class MinePage extends StatelessWidget {
                             padding: EdgeInsets.all(3),
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(4))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
                           ),
                         ),
                         Center(
-                          child: Image.asset('assets/images/mine/二维码.png',height: 20,width: 20),
+                          child: Image.asset('assets/images/mine/二维码.png',
+                              height: 20, width: 20),
                         )
                       ],
                     ),
@@ -127,21 +132,29 @@ class MinePage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: ScreenUtil().setHeight(15),
+                  top: ScreenUtil().setHeight(15),
                   left: ScreenUtil().setWidth(18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Text('55555',style: TextStyle(color: Colors.white,fontSize: 18),),
-                          SizedBox(height: 5,),
-                          Text('步数',style: TextStyle(color: Colors.white,fontSize: 14),)
+                          Text(
+                            '55555',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '步数',
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          )
                         ],
                       ),
                       SizedBox(
                         width: 70,
-                        ),
+                      ),
                       Container(
                         width: 1,
                         height: 35,
@@ -154,15 +167,24 @@ class MinePage extends StatelessWidget {
                         child: Container(
                           child: Column(
                             children: <Widget>[
-                              Text('5',style: TextStyle(color: Colors.white,fontSize: 18),),
-                              SizedBox(height: 5,),
-                              Text('排名',style: TextStyle(color: Colors.white,fontSize: 14),)
+                              Text(
+                                '5',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '排名',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              )
                             ],
                           ),
                         ),
-                        onTap: (){
-                          Router.pushNoParams(
-                                      context, Router.step_ranking);
+                        onTap: () {
+                          Router.pushNoParams(context, Router.step_ranking);
                         },
                       )
                     ],
@@ -175,18 +197,18 @@ class MinePage extends StatelessWidget {
                   width: ScreenUtil().setWidth(90),
                   padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                   decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                      //阴影颜色
-                        color: Colors.grey,
-                        //阴影位置
-                        offset: Offset(0, 0),
-                        //越大越透明
-                        blurRadius: 10.0,
-                        //阴影模糊大小
-                        spreadRadius: 1.0,)
-                    ],
-
+                      boxShadow: [
+                        BoxShadow(
+                          //阴影颜色
+                          color: Colors.grey,
+                          //阴影位置
+                          offset: Offset(0, 0),
+                          //越大越透明
+                          blurRadius: 10.0,
+                          //阴影模糊大小
+                          spreadRadius: 1.0,
+                        )
+                      ],
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Column(
@@ -199,7 +221,6 @@ class MinePage extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: InkWell(
-
                               child: Container(
                                 height: 60,
                                 width: 40,
@@ -219,15 +240,16 @@ class MinePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              onTap: (){
-                                Router.pushNoParams(context, Router.instructor_demeanorPage);
+                              onTap: () {
+                                Router.pushNoParams(
+                                    context, Router.instructor_demeanorPage);
                               },
                             ),
                           ),
                           Expanded(
                             flex: 1,
                             child: InkWell(
-                              onTap: (){
+                              onTap: () {
                                 Router.pushNoParams(context, Router.psycourse);
                               },
                               child: Container(
@@ -273,8 +295,9 @@ class MinePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              onTap: (){
-                                Router.pushNoParams(context, Router.instructor_demeanorPage);
+                              onTap: () {
+                                Router.pushNoParams(
+                                    context, Router.instructor_demeanorPage);
                               },
                             ),
                           ),
@@ -346,7 +369,7 @@ class MinePage extends StatelessWidget {
             },
           ), // 体检报告
           SizedBox(
-            height: 2,
+            height: 1,
             child: Container(
               color: Colours.line,
             ),
@@ -386,7 +409,7 @@ class MinePage extends StatelessWidget {
             },
           ), //健康咨询
           SizedBox(
-            height: 2,
+            height: 1,
             child: Container(
               color: Colours.line,
             ),
@@ -465,7 +488,7 @@ class MinePage extends StatelessWidget {
             },
           ), //意见建议
           SizedBox(
-            height: 2,
+            height: 1,
             child: Container(
               color: Colours.line,
             ),
@@ -503,7 +526,7 @@ class MinePage extends StatelessWidget {
             onPressed: () {},
           ), //联系我们
           SizedBox(
-            height: 2,
+            height: 1,
             child: Container(
               color: Colours.line,
             ),
@@ -540,12 +563,12 @@ class MinePage extends StatelessWidget {
             ),
             onPressed: () {},
           ), //隐私服务
-           SizedBox(
-                      height: 2,
-                      child: Container(
-                        color: Colours.line,
-                      ),
-                    ),
+          SizedBox(
+            height: 1,
+            child: Container(
+              color: Colours.line,
+            ),
+          ),
           FlatButton(
             child: Container(
               height: 40,
@@ -584,7 +607,6 @@ class MinePage extends StatelessWidget {
               color: Colours.line,
             ),
           ),
-
 
           FlatButton(
             child: Container(

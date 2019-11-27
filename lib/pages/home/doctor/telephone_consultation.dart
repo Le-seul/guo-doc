@@ -191,19 +191,23 @@ class _TelConsultationState extends State<TelConsultation>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       '服务说明',
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 12,
                     ),
                     Text(
-                        """（1）选择科室：需实现的技术：心理咨询-工作日19:00-21:00可拨号65260001 非工作时间咨询可提示一下时间。
- （2）接听手机：可直接是用户注册电话.
- （3）服务说明：提交成功后，医生会尽快联系您；非服务时间，医生会在次日联系您，请您保持电话畅通。
- 除心理咨询外，各科咨询服务时间为9:00-21:00  服务时长为10分钟。心理咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日19:00-21:00 。
+                        """提交成功后，医生会尽快联系您；非服务时间，医生会在次日联系您，请您保持电话畅通。
+ 各科咨询服务时间为9:00-21:00  服务时长为10分钟。
  如有疑问，请联系客服400-001-8855.""",textScaleFactor: 1.1,strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5),),
+                    SizedBox(
+                      height: 5,
+                    ),
                   ],
                 ),
               )),
