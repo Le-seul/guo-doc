@@ -523,7 +523,12 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Router.push(
+                  context,
+                  'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm',
+                  {'title': '关于“畅享健康”APP'});
+            },
           ), //联系我们
           SizedBox(
             height: 1,
@@ -561,7 +566,13 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Router.push(
+                  context,
+                  'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm',
+                  {'title': '畅享健康用户注册协议'});
+
+            },
           ), //隐私服务
           SizedBox(
             height: 1,
