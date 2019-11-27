@@ -102,6 +102,7 @@ flutter:
     - assets/images/login/
     - assets/images/consultation/
     - assets/images/mine/
+    - assets/images/music/
     - assets/images/doctor/
     - assets/images/mine/rank/
     - mock/
