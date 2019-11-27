@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/tel_service.dart';
@@ -48,7 +49,6 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                     ),
                   )),
               Container(
-
                 color: Color(0xfff5f5f5),
                 padding:
                     EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
@@ -67,15 +67,21 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text('为什么',style: TextStyle(fontSize: 12),),
-                                  CircleAvatar(
-                                      backgroundColor: Color(0xFF9AE5E1),
-                                      maxRadius: 10,
-                                      child: Text('?',style: TextStyle(color: Colors.white),)),
+                                  Text(
+                                    '为什么',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  loadAssetImage('psychological/why.png',
+                                      height: 20, width: 20),
                                 ],
                               ),
-                              SizedBox(height: 10,),
-                              Text('要进行心理咨询',style: TextStyle(fontSize: 12),),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '要进行心理咨询',
+                                style: TextStyle(fontSize: 12),
+                              ),
                             ],
                           ),
                         ),
@@ -97,19 +103,21 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text('如何进行',style: TextStyle(fontSize: 12),),
-                                  CircleAvatar(
-                                      backgroundColor: Color(0xFFFBB57D),
-                                      maxRadius: 10,
-                                      child: Icon(
-                                        Icons.search,
-                                        size: 15,
-                                        color: Colors.white,
-                                      )),
+                                  Text(
+                                    '如何进行',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  loadAssetImage('psychological/search1.png',
+                                      height: 20, width: 20),
                                 ],
                               ),
-                              SizedBox(height: 10,),
-                              Text('第一次心理咨询',style: TextStyle(fontSize: 12),),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '第一次心理咨询',
+                                style: TextStyle(fontSize: 12),
+                              ),
                             ],
                           ),
                         ),
@@ -131,19 +139,21 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text('心理咨询',style: TextStyle(fontSize: 12),),
-                                  CircleAvatar(
-                                      backgroundColor: Color(0xFF9CC4EB),
-                                      maxRadius: 10,
-                                      child: Icon(
-                                        Icons.description,
-                                        size: 12,
-                                        color: Colors.white,
-                                      )),
+                                  Text(
+                                    '心理咨询',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  loadAssetImage('psychological/message.png',
+                                      height: 20, width: 20),
                                 ],
                               ),
-                              SizedBox(height: 10,),
-                              Text('服务条数',style: TextStyle(fontSize: 12),),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '服务条数',
+                                style: TextStyle(fontSize: 12),
+                              ),
                             ],
                           ),
                         ),
@@ -154,54 +164,60 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
               ),
               Container(
                 padding:
-                    EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 25),
+                    EdgeInsets.only(left: 15, right: 15, top: 25, bottom: 25),
                 color: Colors.white,
                 child: Column(
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        SizedBox(width: 10,),
-                        CircleAvatar(
-                            backgroundColor: Color(0xffFBF3E7),
-                            maxRadius: 20,
-                            child: Icon(
-                              Icons.create,
-                              color: Color(0xff5c79c3),
-                            )),
-                        Expanded(flex: 1,child: Container(),),
-                        CircleAvatar(
-                            backgroundColor: Color(0xffd7eeff),
-                            maxRadius: 20,
-                            child: Icon(
-                              Icons.perm_identity,
-                              color: Color(0xff5c79c3),
-                            )),
-                        Expanded(flex: 1,child: Container(),),
-                        CircleAvatar(
-                            backgroundColor: Color(0xffffe5cf),
-                            maxRadius: 20,
-                            child: Icon(
-                              Icons.mail_outline,
-                              color: Color(0xff5c79c3),
-                            )),
-                        Expanded(flex: 1,child: Container(),),
-                        CircleAvatar(
-                            backgroundColor: Color(0xffd6f1f0),
-                            maxRadius: 20,
-                            child: Icon(
-                              Icons.description,
-                              color: Color(0xff5c79c3),
-                            )),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        loadAssetImage('psychological/application.png',
+                            height: 38, width: 38),
+                        Expanded(
+                          flex: 1,
+                          child: Container(),
+                        ),
+                        loadAssetImage('psychological/audit.png',
+                            height: 38, width: 38),
+                        Expanded(
+                          flex: 1,
+                          child: Container(),
+                        ),
+                        loadAssetImage('psychological/communication.png',
+                            height: 38, width: 38),
+                        Expanded(
+                          flex: 1,
+                          child: Container(),
+                        ),
+                        loadAssetImage('psychological/feedback.png',
+                            height: 38, width: 38),
+                        SizedBox(
+                          width: 10,
+                        ),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.only(left: 15,top: 3,right: 15,bottom: 3),
-                          color: Color(0xFF5C79C3),
-                          child: Text('申请',style: TextStyle(fontSize: 12,color: Colors.white),),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/psychological/rectangle_dark.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          padding: EdgeInsets.only(
+                              left: 15, top: 3, right: 15, bottom: 3),
+                          child: Text(
+                            '申请',
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          ),
                         ),
                         Expanded(
                           child: Container(
@@ -210,37 +226,64 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 15,top: 3,right: 15,bottom: 3),
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.black26),
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/psychological/rectangle_light.png"),
+                              fit: BoxFit.fill,
                             ),
-                          child: Text('审核',style: TextStyle(fontSize: 12),),
+                          ),
+                          padding: EdgeInsets.only(
+                              left: 15, top: 3, right: 15, bottom: 3),
+                          child: Text(
+                            '审核',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                         Expanded(
                           child: Container(
                             height: 2,
-                            color: Colors.black26,
+                            color: Color(0xffDAD9E6),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 15,top: 3,right: 15,bottom: 3),
+                          padding: EdgeInsets.only(
+                              left: 15, top: 3, right: 15, bottom: 3),
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.black26),
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/psychological/rectangle_light.png"),
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          child: Text('沟通',style: TextStyle(fontSize: 12),),
+                          child: Text(
+                            '沟通',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                         Expanded(
                           child: Container(
                             height: 2,
-                            color: Colors.black26,
+                            color: Color(0xffDAD9E6),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 15,top: 3,right: 15,bottom: 3),
+                          padding: EdgeInsets.only(
+                              left: 15, top: 3, right: 15, bottom: 3),
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.black26),
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/psychological/rectangle_light.png"),
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          child: Text('反馈',style: TextStyle(fontSize: 12),),
+                          child: Text(
+                            '反馈',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                       ],
                     ),
@@ -255,9 +298,25 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                     SizedBox(
                       height: 15,
                     ),
-                    Text(
-                      '服务说明',
-                      style: TextStyle(fontSize: 18, color: Color(0xFF999999)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        loadAssetImage('psychological/diamond.png',
+                            height: 12, width: 12),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          '服务说明',
+                          style:
+                              TextStyle(fontSize: 18, color: Color(0xFF999999)),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        loadAssetImage('psychological/diamond.png',
+                            height: 12, width: 12),
+                      ],
                     ),
                     SizedBox(
                       height: 15,
@@ -291,7 +350,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
               Expanded(
                 flex: 1,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
 //                    Router.pushNoParams(
 //                        context, Router.relativesInformationPage);
                   },
@@ -301,16 +360,14 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(
-                            Icons.headset_mic,
-                            color: Colors.white,
-                          ),
+                          loadAssetImage('psychological/face_consultation.png',
+                              height: 18, width: 18),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
                             '预约面咨',
-                            style: TextStyle(color: Colors.white,fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           )
                         ],
                       )),
@@ -319,7 +376,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
               Expanded(
                 flex: 1,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     _service.call('65260001');
                   },
                   child: Container(
@@ -328,16 +385,14 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(
-                            Icons.phone_in_talk,
-                            color: Colors.white,
-                          ),
+                          loadAssetImage('psychological/phone_consultation.png',
+                              height: 18, width: 18),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
                             '电话咨询',
-                            style: TextStyle(color: Colors.white,fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           )
                         ],
                       )),

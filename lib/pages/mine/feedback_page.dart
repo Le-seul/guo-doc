@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/tel_service.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -74,11 +75,9 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   child: Container(
                     padding: EdgeInsets.all(15),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(
-                          Icons.phone,
-                          color: Colors.redAccent,
-                        ),
+                        loadAssetImage('phone.png',height: 22,width: 22),
                         SizedBox(
                           width: 10,
                         ),
@@ -94,7 +93,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                               height: 5,
                             ),
                             Text(
-                              "(周一至周日09:00-22:00)",
+                              "(周一至周日09：00-22：00)",
                               style: TextStyle(
                                   color: Colors.black54, fontSize: 13),
                             )
@@ -368,7 +367,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
                             hintText: '如果您对我们有什么建议、想法和期望，请告诉我们...',
-                            hintStyle: TextStyle(fontSize: 14),
+                            hintStyle: TextStyle(fontSize: 12),
                             border: InputBorder.none,
                           )),
                       Container(
@@ -384,12 +383,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                                   list.length + 1,
                                   (index) => index == 0
                                       ? GestureDetector(
-                                          child: Image.asset(
-                                            'assets/images/add.png',
-                                            height: 60,
-                                            width: 60,
-                                            fit: BoxFit.fill,
-                                          ),
+                                          child: loadAssetImage('camera.png',height: 60,width: 60),
                                           onTap: () {
                                             clickIcon();
                                           },

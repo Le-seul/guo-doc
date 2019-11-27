@@ -3,6 +3,7 @@ import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_tab_page.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
@@ -40,9 +41,15 @@ class _MusicPageState extends State<MusicPage>
         isList: true, onSuccessList: (data) {
       setState(() {
         tabs.add(Container(
-          padding: EdgeInsets.only(left: 8, right: 8),
+          margin: EdgeInsets.only(left: 8, right: 8),
           alignment: Alignment.center,
-          child: Text('全部分类',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600,),),
+          child: Text(
+            '全部分类',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ));
         tabViews.add(MusicTabPage('0'));
         musicTagList = data;
@@ -50,9 +57,12 @@ class _MusicPageState extends State<MusicPage>
 
         musicTagList.forEach((str) {
           tabs.add(Container(
-            padding: EdgeInsets.only(left: 8, right: 8),
+            margin: EdgeInsets.only(left: 8, right: 8),
             alignment: Alignment.center,
-            child: Text(str.name,style: TextStyle(fontSize: 13),),
+            child: Text(
+              str.name,
+              style: TextStyle(fontSize: 13),
+            ),
           ));
         });
 
@@ -92,22 +102,28 @@ class _MusicPageState extends State<MusicPage>
           ? LoadingWidget.childWidget()
           : Column(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  alignment: Alignment.centerLeft,
-                  height: 35,
-                  child: TabBar(
-                    isScrollable: true,
-                    controller: _tabController,
-                    labelPadding: EdgeInsets.all(0.0),
-                    indicatorColor: Color(0xff2CA687),
-                    labelColor: Color(0xff2CA687),
-                    indicatorSize: TabBarIndicatorSize.label,
-                    unselectedLabelColor: Color(0xff666666),
-                    unselectedLabelStyle: TextStyle(fontSize: 14),
-                    labelStyle: TextStyle(fontSize: 14.0),
-                    tabs: tabs,
-                  ),
+                SizedBox(height: 5,),
+                Flex(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(left: 12,top: 8,bottom: 10,right: 5),
+                        child: loadAssetImage('music/music.png',height: 32,width: 32)),
+                    Expanded(
+                      child: TabBar(
+                        isScrollable: true,
+                        controller: _tabController,
+                        labelPadding: EdgeInsets.all(0.0),
+                        indicatorColor: Color(0xff2CA687),
+                        labelColor: Color(0xff2CA687),
+                        indicator: const BoxDecoration(),
+                        unselectedLabelColor: Color(0xff666666),
+                        unselectedLabelStyle: TextStyle(fontSize: 14),
+                        labelStyle: TextStyle(fontSize: 14.0),
+                        tabs: tabs,
+                      ),
+                    )
+                  ],
                 ),
                 Flexible(
                     child: TabBarView(

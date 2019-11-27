@@ -6,6 +6,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/styles.dart';
+import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
@@ -206,11 +207,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
                         margin: EdgeInsets.only(left: 10, top: 10),
                         child: Row(
                           children: <Widget>[
-                            Icon(
-                              Icons.headset,
-                              size: 14,
-                              color: Colors.white,
-                            ),
+                            loadAssetImage('music/music_ear.png',height: 12,width: 12),
                             SizedBox(
                               width: 5,
                             ),
@@ -228,11 +225,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
                       right: 0.0,
                       child: Container(
                           margin: EdgeInsets.only(bottom: 10, right: 10),
-                          child: Icon(
-                            Icons.play_circle_outline,
-                            color: Colors.white,
-                            size: 32,
-                          )),
+                          child: loadAssetImage('music/music_play.png',height: 32,width: 32)),
                     )
                   ],
                 ),

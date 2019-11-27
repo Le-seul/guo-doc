@@ -16,7 +16,7 @@
     <application
         android:name=".AppContext"
         android:icon="@mipmap/ic_launcher"
-        android:label="畅想健康"
+        android:label="畅享健康"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
