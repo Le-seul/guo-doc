@@ -86,7 +86,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
           children: <Widget>[
             GestureDetector(
               child: Container(
-                margin: EdgeInsets.only(top: 2,bottom: 0),
+                margin: EdgeInsets.only(top: 20,bottom: 0),
                 height: ScreenUtil().setHeight(35),
                   color: Colors.white,
                 child: Column(
@@ -231,7 +231,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
             ),
             Container(
               margin: EdgeInsets.only(top: 16,bottom: 0),
-                height: ScreenUtil().setHeight(30),
+                height: 198,
               color: Colors.white,
                 child: Column(
                   children: <Widget>[
@@ -274,15 +274,15 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             children: <Widget>[
                               GestureDetector(
                                 child: Container(
-                                    height: 75,
-                                    width: 75,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
                                                 Ranklist[0].imgId),
                                             ),
                                         borderRadius:
-                                        BorderRadius.circular(37.5))),
+                                        BorderRadius.circular(35))),
                                 onTap: (){
                                   Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[0].id);
                                 },
@@ -297,8 +297,8 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             children: <Widget>[
                               GestureDetector(
                                 child: Container(
-                                    height: 75,
-                                    width: 75,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
@@ -320,8 +320,8 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                             children: <Widget>[
                               GestureDetector(
                                 child: Container(
-                                    height: 75,
-                                    width: 75,
+                                    height: 70,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
@@ -388,9 +388,12 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                                           Ranklist[index].imgId),
                                                       ),
                                                   borderRadius:
-                                                  BorderRadius.circular(35))),
+                                                  BorderRadius.circular(21))),
                                           SizedBox(height: 20,)
                                         ],
+                                      ),
+                                      SizedBox(
+                                        width: 7  ,
                                       ),
                                       Expanded(
                                         child: Column(
@@ -401,6 +404,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                               direction: Axis.horizontal,
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: <Widget>[
+
                                                 Text(Ranklist[index].name,style:TextStyle(fontSize: 18) ,),
                                                 SizedBox(
                                                   width: 7  ,

@@ -220,7 +220,7 @@ class MinePage extends StatelessWidget {
                                 ),
                               ),
                               onTap: (){
-                                Router.pushNoParams(context, Router.service_center);
+                                Router.pushNoParams(context, Router.instructor_demeanorPage);
                               },
                             ),
                           ),
