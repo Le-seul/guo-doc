@@ -91,14 +91,14 @@ class _Table0State extends State<Table0> {
                     width: 50,
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 10,
                   ),
                   Text(
                     '轻松音乐',
                     style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   )
                 ],
               ),
@@ -117,14 +117,14 @@ class _Table0State extends State<Table0> {
                   width: 50,
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
                 Text(
                   '活动参与',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 )
               ],
             ),
@@ -142,14 +142,14 @@ class _Table0State extends State<Table0> {
                   width: 50,
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
                 Text(
                   '体检报告',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 )
               ],
             ),
@@ -172,14 +172,14 @@ class _Table0State extends State<Table0> {
                         width: 50,
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 10,
                       ),
                       Text(
                         '在线问诊',
                         style: TextStyle(fontSize: 12),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 15,
                       )
                     ],
                   ),
@@ -223,14 +223,14 @@ class _Table0State extends State<Table0> {
                   width: 50,
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
                 Text(
                   '趣味自测',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 )
               ],
             ),
@@ -249,7 +249,7 @@ class _Table0State extends State<Table0> {
                   width: 50,
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
                 Text(
                   '心理课程',
@@ -273,7 +273,7 @@ class _Table0State extends State<Table0> {
                   width: 50,
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
                 Text(
                   '心理共读',

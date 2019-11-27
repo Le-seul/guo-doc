@@ -89,7 +89,7 @@ class _PsyCourseState extends State<PsyCourse>
                     height: 15,
                   ),
                   SearchTextFieldWidget(
-                    isborder: true,
+                    isborder: false,
                     hintText: '搜索课程',
                     margin: const EdgeInsets.only(left: 15.0, right: 15.0),
                     onTab: () {},
@@ -176,16 +176,17 @@ class _PsyCourseState extends State<PsyCourse>
                           labelPadding: EdgeInsets.only(left: 5, right: 5),
                           indicatorColor: Color(0xff2CA687),
                           labelColor: Color(0xff2CA687),
+                          indicatorSize: TabBarIndicatorSize.label,
                           unselectedLabelColor: Color(0xff666666),
                           unselectedLabelStyle: TextStyle(fontSize: 14),
                           labelStyle: TextStyle(fontSize: 14.0),
                           tabs: <Widget>[
-                            Text('全部'),
-                            Text('情绪调节'),
-                            Text('亲密关系'),
-                            Text('自我成长'),
-                            Text('咨询培训'),
-                            Text('简单共读'),
+                            Container(child: Text('全部'),margin: EdgeInsets.only(left: 4,right: 4),),
+                            Container(child: Text('情绪调节'),margin: EdgeInsets.only(left: 4,right: 4),),
+                            Container(child: Text('亲密关系'),margin: EdgeInsets.only(left: 4,right: 4),),
+                            Container(child: Text('自我成长'),margin: EdgeInsets.only(left: 4,right: 4),),
+                            Container(child: Text('咨询培训'),margin: EdgeInsets.only(left: 4,right: 4),),
+                            Container(child: Text('简单共读'),margin: EdgeInsets.only(left: 4,right: 4),),
                           ],
                         ),
                       ),
@@ -371,7 +372,7 @@ class _PsyCourseState extends State<PsyCourse>
                     decoration: BoxDecoration(color: Color(0x90000000),
                         borderRadius: BorderRadius.circular(8)),
                   ),
-                  Text('敬请期待',style: TextStyle(color: Colors.white),)
+                  Text('敬请期待',style: TextStyle(color: Colors.white ,fontStyle: FontStyle.italic,),)
                 ],
               ),
               SizedBox(

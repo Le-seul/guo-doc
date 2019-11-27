@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
       return new Container(height: 0.0);
     }
     return new AspectRatio(
-      aspectRatio: 16.0 / 9.0,
+      aspectRatio: 2.0 / 1.0,
       child: lib1.Swiper(
         indicatorAlignment: AlignmentDirectional.topEnd,
         circular: true,
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: <Widget>[
                 SizedBox(
-                  height: MediaQueryData.fromWindow(window).padding.top + 10,
+                  height: MediaQueryData.fromWindow(window).padding.top + 15,
                 ),
                 Row(
                   //扫码加搜索栏
@@ -145,6 +145,9 @@ class _HomePageState extends State<HomePage> {
                       child: loadAssetImage('scanning.png'),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
@@ -177,9 +180,11 @@ class _HomePageState extends State<HomePage> {
                             '公告',
                             style: TextStyle(color: Colors.white, fontSize: 10),
                           ),
+                          decoration: BoxDecoration(
+                              color: Color(0xff2CA687),
+                              borderRadius: BorderRadius.circular(2.0)),
                           padding: EdgeInsets.only(
                               top: 2, bottom: 2, right: 5, left: 5),
-                          color: Colors.green,
                         ),
                         SizedBox(
                           width: 10,
@@ -249,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '张三',
+                                  '张警官',
                                   style: TextStyle(fontSize: 15),
                                 ),
                                 SizedBox(
@@ -270,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
-                                  'http://pic.51yuansu.com/pic2/cover/00/32/66/5810fed3aa0df_610.jpg',
+                                  'https://www.aireading.club/phms_resource_base/image_base/%E6%95%99%E5%AE%98%E7%85%A7%E7%89%87/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B0/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B01.jpg',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -323,7 +328,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+
               Container(
+                margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.all(10.0),
                 child: MyCard(
                     child: Column(
@@ -333,7 +340,11 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Expanded(child: Text('健康知识',style: TextStyle(fontSize: 15),)),
+                          Expanded(
+                              child: Text(
+                            '健康知识',
+                            style: TextStyle(fontSize: 15),
+                          )),
                           Text(
                             '更多',
                             style: TextStyle(color: Colors.black12),
@@ -345,10 +356,8 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-
-
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.all(0.0),
                         itemCount: columnsInfoList.length,
@@ -371,14 +380,16 @@ class _HomePageState extends State<HomePage> {
           : getThreeImagItem(columnsInfoList[index]),
       onTap: () {
         if (columnsInfoList[index].type == 'T') {
-          Router.push(context, Router.topicPage,{"id":columnsInfoList[index].id});
-          CommonRequest.UserReadingLog(columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
+          Router.push(
+              context, Router.topicPage, {"id": columnsInfoList[index].id});
+          CommonRequest.UserReadingLog(
+              columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
         } else {
-          Router.push(context, Router.consulationDetailPage, columnsInfoList[index].id);
-          CommonRequest.UserReadingLog(columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
+          Router.push(
+              context, Router.consulationDetailPage, columnsInfoList[index].id);
+          CommonRequest.UserReadingLog(
+              columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
         }
-
-
       },
     );
   }
@@ -394,7 +405,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               flex: 1,
               child: Image.network(
-                item.cover1??defaultImage,
+                item.cover1 ?? defaultImage,
                 height: 90,
                 fit: BoxFit.fill,
               ),
@@ -419,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Container(
                           child: Text(
-                            '${item.readCount??0}人查看·12小时前',
+                            '${item.readCount ?? 0}人查看·12小时前',
                             style:
                                 TextStyle(color: Colors.black54, fontSize: 12),
                           ),
@@ -457,21 +468,21 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Expanded(
                   child: Image.network(
-                    item.cover1??defaultImage,
+                    item.cover1 ?? defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),
                 ),
                 Expanded(
                   child: Image.network(
-                    item.cover2??defaultImage,
+                    item.cover2 ?? defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),
                 ),
                 Expanded(
                   child: Image.network(
-                    item.cover3??defaultImage,
+                    item.cover3 ?? defaultImage,
                     height: 85,
                     fit: BoxFit.fill,
                   ),

@@ -42,7 +42,7 @@ class _MusicPageState extends State<MusicPage>
         tabs.add(Container(
           padding: EdgeInsets.only(left: 8, right: 8),
           alignment: Alignment.center,
-          child: Text('全部分类',style: TextStyle(fontSize: 15),),
+          child: Text('全部分类',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600,),),
         ));
         tabViews.add(MusicTabPage('0'));
         musicTagList = data;
@@ -52,7 +52,7 @@ class _MusicPageState extends State<MusicPage>
           tabs.add(Container(
             padding: EdgeInsets.only(left: 8, right: 8),
             alignment: Alignment.center,
-            child: Text(str.name,style: TextStyle(fontSize: 15),),
+            child: Text(str.name,style: TextStyle(fontSize: 13),),
           ));
         });
 
@@ -93,6 +93,7 @@ class _MusicPageState extends State<MusicPage>
           : Column(
               children: <Widget>[
                 Container(
+                  margin: EdgeInsets.only(top: 10),
                   alignment: Alignment.centerLeft,
                   height: 35,
                   child: TabBar(
@@ -101,6 +102,7 @@ class _MusicPageState extends State<MusicPage>
                     labelPadding: EdgeInsets.all(0.0),
                     indicatorColor: Color(0xff2CA687),
                     labelColor: Color(0xff2CA687),
+                    indicatorSize: TabBarIndicatorSize.label,
                     unselectedLabelColor: Color(0xff666666),
                     unselectedLabelStyle: TextStyle(fontSize: 14),
                     labelStyle: TextStyle(fontSize: 14.0),

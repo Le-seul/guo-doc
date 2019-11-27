@@ -403,7 +403,8 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
                               text,
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 16,color: Color(0xFF4E4E4E)),
+
                             ),
                           ),
                           Offstage(
