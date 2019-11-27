@@ -81,13 +81,24 @@ class _CoreadingChildState extends State<CoreadingChild> {
               ),
               child: Row(
                 children: <Widget>[
-                  Expanded(flex: 1,child: Container(
-                    margin: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(list[index].coverImgId))
-                    ),
-                  )),
+                  Expanded(
+                      flex: 1,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.fromLTRB(23.5, 20, 15, 42.5),
+                            color: Color(0xFFFFCDD2),
+                          ),
+                          Positioned(
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(15, 33, 28, 20),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: NetworkImage(list[index].coverImgId),fit: BoxFit.fill)
+                                ),
+                              ))
+                        ],
+                      )
+                  ),
                   Expanded(flex: 2,child:
                   Flex(
                     direction: Axis.vertical,
@@ -99,8 +110,8 @@ class _CoreadingChildState extends State<CoreadingChild> {
                       SizedBox(height: 5,),
                       Row(
                         children: <Widget>[
-                          Icon(Icons.star,color: Colors.orange,),
-                          Text('  ${list[index].learnedUserCount}人在读',style: TextStyle(color: Colors.orange)),
+                          Icon(Icons.star,color: Color(0xffFF9935),size: 18,),
+                          Text('${list[index].learnedUserCount}人在读',style: TextStyle(color:  Color(0xffFF9935))),
                         ],
                       ),
                       SizedBox(height: 10,),
