@@ -62,12 +62,12 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '亲属资料填写',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -230,7 +230,7 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
           alignment: Alignment.center,
           width: double.infinity,
           height: 45,
-          color: Colors.blue,
+          color: Color(0xff2CA687),
           child: GestureDetector(
             child: Text(
               '下一步',

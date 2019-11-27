@@ -6,61 +6,61 @@ import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/router.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 
-class MyDialog {
-  static void showMyMaterialDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new AlertDialog(
-            title: new Container(
-              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-              child: Text(
-                "提示",
-                style: TextStyle(color: Colors.white),
-              ),
-              color: Colors.orange,
-            ),
-            contentPadding: EdgeInsets.only(left: 24, top: 24, bottom: 80),
-            titlePadding: EdgeInsets.all(0.0),
-            content: Text("与本人的关系"),
-            actions: <Widget>[
-              Container(
-                width: 125,
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            InitiateConsultationPage('SELF')));
-                  },
-                  child: new Text(
-                    "本人",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Colors.lightBlueAccent,
-                ),
-              ),
-              Container(
-                width: 125,
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Router.pushNoParams(
-                        context, Router.relativesInformationPage);
-                  },
-                  child: new Text(
-                    "家属",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Colors.red,
-                ),
-              ),
-
-            ],
-          );
-        });
-  }
-}
+//class MyDialog {
+//  static void showMyMaterialDialog(BuildContext context) {
+//    showDialog(
+//        context: context,
+//        builder: (context) {
+//          return new AlertDialog(
+//            title: new Container(
+//              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+//              child: Text(
+//                "提示",
+//                style: TextStyle(color: Colors.white),
+//              ),
+//              color: Colors.orange,
+//            ),
+//            contentPadding: EdgeInsets.only(left: 24, top: 24, bottom: 80),
+//            titlePadding: EdgeInsets.all(0.0),
+//            content: Text("与本人的关系"),
+//            actions: <Widget>[
+//              Container(
+//                width: 125,
+//                child: FlatButton(
+//                  onPressed: () {
+//                    Navigator.of(context).pop();
+//                    Navigator.push(context, MaterialPageRoute(
+//                        builder: (context) =>
+//                            InitiateConsultationPage('SELF')));
+//                  },
+//                  child: new Text(
+//                    "本人",
+//                    style: TextStyle(color: Colors.white),
+//                  ),
+//                  color: Colors.lightBlueAccent,
+//                ),
+//              ),
+//              Container(
+//                width: 125,
+//                child: FlatButton(
+//                  onPressed: () {
+//                    Navigator.of(context).pop();
+//                    Router.pushNoParams(
+//                        context, Router.relativesInformationPage);
+//                  },
+//                  child: new Text(
+//                    "家属",
+//                    style: TextStyle(color: Colors.white),
+//                  ),
+//                  color: Colors.red,
+//                ),
+//              ),
+//
+//            ],
+//          );
+//        });
+//  }
+//}
 
 class LoadingDialog extends Dialog {
   String text;

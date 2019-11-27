@@ -80,7 +80,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                           color: Colors.redAccent,
                         ),
                         SizedBox(
-                          width: 5,
+                          width: 10,
                         ),
                         Expanded(
                             child: Column(
@@ -207,7 +207,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     ),
                     Container(
                       height: 1,
-                      color: Colors.black26,
+                      color: Color(0xFFEEEEEE),
                       margin: EdgeInsets.only(left: 15, right: 20),
                     ),
                     Container(
@@ -249,7 +249,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     ),
                     Container(
                       height: 1,
-                      color: Colors.black26,
+                      color: Color(0xFFEEEEEE),
                       margin: EdgeInsets.only(left: 15, right: 20),
                     ),
                     Container(
@@ -291,7 +291,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     ),
                     Container(
                       height: 1,
-                      color: Colors.black26,
+                      color: Color(0xFFEEEEEE),
                       margin: EdgeInsets.only(left: 15, right: 20),
                     ),
                     Container(
@@ -497,7 +497,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                 margin: EdgeInsets.only(right: 10, left: 10),
                 padding: EdgeInsets.only(top: 13, bottom: 13),
                 decoration: BoxDecoration(
-                    color: Colors.red, borderRadius: BorderRadius.circular(20)),
+                    color: Color(0xFFFD4141), borderRadius: BorderRadius.circular(20)),
                 child: Center(
                     child: Text(
                   '立即提交',

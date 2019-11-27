@@ -57,12 +57,12 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '心理咨询',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -333,11 +333,11 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
           alignment: Alignment.center,
           width: double.infinity,
           height: 45,
-          color: Colors.blue,
+          color: Color(0xff2CA687),
           child: GestureDetector(
             child: Text(
               '提交',
-              style: TextStyle(fontSize: 17),
+              style: TextStyle(fontSize: 17,color: Colors.white),
             ),
             onTap: () {
               if(emergePerson == ""||emergePerson == null){

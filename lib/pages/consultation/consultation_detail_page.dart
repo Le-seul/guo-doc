@@ -25,6 +25,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
   bool isFavor = false;
   bool isShowingDialog = true;
   String token = '';
+  String articlUrl = '';
   bool isShowLoading = true;
   ArticleContent articleContent = new ArticleContent();
 
@@ -44,8 +45,8 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
         setState(() {
           articleContent = data;
           isShowLoading = false;
-          print('资讯详情请求成功！');
-          print('资讯详情连接！${articleContent.content}');
+          articlUrl = '${articleContent.content}&token=$token';
+          print("拼接地址：${articleContent.content}&token=$token");
         });
       },
       onError: (code, msg) {
@@ -143,7 +144,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
       )
           :WebView(
         onWebViewCreated: (WebViewController webViewController) {},
-        initialUrl: articleContent.content,
+        initialUrl: articlUrl,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

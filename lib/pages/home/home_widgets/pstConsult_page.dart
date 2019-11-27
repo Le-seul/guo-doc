@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/serviceLocator.dart';
+import 'package:flutter_first/util/tel_service.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
 
@@ -11,6 +13,8 @@ class PsychologicalConcult extends StatefulWidget {
 }
 
 class _PsychologicalConcultState extends State<PsychologicalConcult> {
+  final TelAndSmsService _service = locator<TelAndSmsService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
           centerTitle: true,
         ),
         body: Container(
-          color: Color(0xFFEEEEEE),
+          color: Color(0xFFF5F5F5),
           child: ListView(
             physics: ClampingScrollPhysics(),
             children: <Widget>[
@@ -45,7 +49,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                   )),
               Container(
 
-                color: Color(0xFFEEEEEE),
+                color: Color(0xfff5f5f5),
                 padding:
                     EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
                 child: Row(
@@ -53,6 +57,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                     Expanded(
                       flex: 1,
                       child: MyCard(
+                        borderRadius: 3.0,
                         child: Container(
                           padding: EdgeInsets.all(10),
                           child: Column(
@@ -82,6 +87,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                     Expanded(
                       flex: 1,
                       child: MyCard(
+                        borderRadius: 3.0,
                         child: Container(
                           padding: EdgeInsets.all(10),
                           child: Column(
@@ -115,6 +121,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                     Expanded(
                       flex: 1,
                       child: MyCard(
+                        borderRadius: 3.0,
                         child: Container(
                           padding: EdgeInsets.all(10),
                           child: Column(
@@ -159,31 +166,31 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                             maxRadius: 20,
                             child: Icon(
                               Icons.create,
-                              color: Colors.blue[200],
+                              color: Color(0xff5c79c3),
                             )),
                         Expanded(flex: 1,child: Container(),),
                         CircleAvatar(
-                            backgroundColor: Colors.blue[100],
+                            backgroundColor: Color(0xffd7eeff),
                             maxRadius: 20,
                             child: Icon(
                               Icons.perm_identity,
-                              color: Colors.blue[200],
+                              color: Color(0xff5c79c3),
                             )),
                         Expanded(flex: 1,child: Container(),),
                         CircleAvatar(
-                            backgroundColor: Colors.orange[100],
+                            backgroundColor: Color(0xffffe5cf),
                             maxRadius: 20,
                             child: Icon(
                               Icons.mail_outline,
-                              color: Colors.blue[200],
+                              color: Color(0xff5c79c3),
                             )),
                         Expanded(flex: 1,child: Container(),),
                         CircleAvatar(
-                            backgroundColor: Color(0xffD6F1F0),
+                            backgroundColor: Color(0xffd6f1f0),
                             maxRadius: 20,
                             child: Icon(
                               Icons.description,
-                              color: Colors.blue[200],
+                              color: Color(0xff5c79c3),
                             )),
                         SizedBox(width: 10,),
                       ],
@@ -194,7 +201,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                         Container(
                           padding: EdgeInsets.only(left: 15,top: 3,right: 15,bottom: 3),
                           color: Color(0xFF5C79C3),
-                          child: Text('申请'),
+                          child: Text('申请',style: TextStyle(fontSize: 12,color: Colors.white),),
                         ),
                         Expanded(
                           child: Container(
@@ -207,7 +214,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                           decoration: BoxDecoration(
                             border: Border.all(width: 1.0,color: Colors.black26),
                             ),
-                          child: Text('审核'),
+                          child: Text('审核',style: TextStyle(fontSize: 12),),
                         ),
                         Expanded(
                           child: Container(
@@ -220,7 +227,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                           decoration: BoxDecoration(
                             border: Border.all(width: 1.0,color: Colors.black26),
                           ),
-                          child: Text('沟通'),
+                          child: Text('沟通',style: TextStyle(fontSize: 12),),
                         ),
                         Expanded(
                           child: Container(
@@ -233,7 +240,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                           decoration: BoxDecoration(
                             border: Border.all(width: 1.0,color: Colors.black26),
                           ),
-                          child: Text('反馈'),
+                          child: Text('反馈',style: TextStyle(fontSize: 12),),
                         ),
                       ],
                     ),
@@ -241,7 +248,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                 ),
               ),
               Container(
-                color: Color(0xFFEEEEEE),
+                color: Color(0xfff5f5f5),
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   children: <Widget>[
@@ -272,7 +279,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                 ),
               ),
               SizedBox(
-                height: 60,
+                height: 65,
               )
             ],
           ),
@@ -283,47 +290,58 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: Container(
-                    color: Color(0xFFD5D5D5),
-                    height: 45,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.headset_mic,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '预约面咨',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )),
+                child: GestureDetector(
+                  onTap: (){
+//                    Router.pushNoParams(
+//                        context, Router.relativesInformationPage);
+                  },
+                  child: Container(
+                      color: Color(0xFFD5D5D5),
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.headset_mic,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '预约面咨',
+                            style: TextStyle(color: Colors.white,fontSize: 16),
+                          )
+                        ],
+                      )),
+                ),
               ),
               Expanded(
                 flex: 1,
-                child: Container(
-                    color: Color(0xFFF6A744),
-                    height: 45,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.phone_in_talk,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '电话咨询',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )),
+                child: GestureDetector(
+                  onTap: (){
+                    _service.call('65260001');
+                  },
+                  child: Container(
+                      color: Color(0xFFF6A744),
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.phone_in_talk,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '电话咨询',
+                            style: TextStyle(color: Colors.white,fontSize: 16),
+                          )
+                        ],
+                      )),
+                ),
               ),
             ],
           ),

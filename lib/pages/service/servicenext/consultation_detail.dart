@@ -15,12 +15,11 @@ class _PsychologicalDetailPageState extends State<PsychologicalDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        elevation: 0.0,
-        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '心理咨询',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -31,69 +30,72 @@ class _PsychologicalDetailPageState extends State<PsychologicalDetailPage> {
           Container(
             padding: EdgeInsets.all(15),
             child: MyCard(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                          width: 80,
-                          height: 80,
-                          child: MyCard(child: Image.network(
-                            'http://b-ssl.duitang.com/uploads/item/201712/22/20171222223729_d8HCB.jpeg',
-                            fit: BoxFit.fill,
-                          ),)
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                            width: 80,
+                            height: 80,
+                            child: MyCard(child: Image.network(
+                              'http://b-ssl.duitang.com/uploads/item/201712/22/20171222223729_d8HCB.jpeg',
+                              fit: BoxFit.fill,
+                            ),)
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
 
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('张警官'),
-                          Text('预约日期：2019-8-8',style: TextStyle(color: Colors.black12),),
-                          Text('预约地点：808分区服务中心',style: TextStyle(color: Colors.black12)),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(height: 2,color: Colors.white12,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(width: 20,),
-                            Image.asset('assets/images/mine/体检报告.png',height: 15,),
-                            Text('   压力测试',style: TextStyle(fontSize: 13),)
+                            Text('张警官'),
+                            Text('预约日期：2019-8-8',style: TextStyle(color: Colors.black12),),
+                            Text('预约地点：808分区服务中心',style: TextStyle(color: Colors.black12)),
                           ],
                         ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text('咨询师:张医师 ',style: TextStyle(fontSize: 13),),
-                            ClipOval(child: Image.network('http://pic2.52pk.com/files/140801/4682170_094640_5_lit.jpg',height: 25,),)
-                          ],
+                        SizedBox(
+                          width: 10,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(height: 2,color: Colors.white12,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              SizedBox(width: 20,),
+                              Image.asset('assets/images/mine/体检报告.png',height: 15,),
+                              Text('   压力测试',style: TextStyle(fontSize: 13),)
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Text('咨询师:张医师 ',style: TextStyle(fontSize: 13),),
+                              ClipOval(child: Image.network('http://pic2.52pk.com/files/140801/4682170_094640_5_lit.jpg',height: 25,),)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
