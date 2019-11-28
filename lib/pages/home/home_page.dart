@@ -401,52 +401,71 @@ class _HomePageState extends State<HomePage> {
   }
 
   getContentItem(ConsulationColumnsInfo item, int index) {
-    return Container(
-        height: 120,
-        color: Colors.white,
-        padding:
-            EdgeInsets.only(left: 10.0, right: 10.0, bottom: 15.0, top: 15.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Image.network(
-                item.cover1 ?? defaultImage,
-                fit: BoxFit.fill,
-              ),
-            ),
-            Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(item.title),
-                      SizedBox(
-                        height: 5,
+    return Column(
+      children: <Widget>[
+        Container(
+            height: 90,
+            color: Colors.white,
+            padding:
+            EdgeInsets.only(left: 5.0, right: 10.0, bottom: 10.0, top: 10.0),
+            child: Row(
+              children: <Widget>[
+
+                Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 10,
+                        bottom: 0
                       ),
-                      Text(
-                        '中国健康网',
-                        style: TextStyle(color: Colors.black54, fontSize: 12),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            '${item.readCount ?? 0}人查看·12小时前',
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 3),
+                            child: Text(item.title,style: TextStyle(fontSize: 15),strutStyle: StrutStyle(
+                              height: 1.5
+                            ),),
                           ),
-                          alignment: Alignment.bottomLeft,
-                        ),
-                      )
-                    ],
+
+
+                          Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '中国健康网',
+                                    style: TextStyle(color: Colors.black54, fontSize: 11),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    '12小时前',
+                                    style:
+                                    TextStyle(color: Colors.black54, fontSize: 11),
+                                  ),
+                                ],
+                              )
+                          ),
+
+                        ],
+                      ),
+                    )),
+                Expanded(
+                  flex: 1,
+                  child: Image.network(
+                    item.cover1 ?? defaultImage,
+                    fit: BoxFit.fill,
                   ),
-                )),
-          ],
-        ));
+                ),
+              ],
+            )),
+        Container(
+          color: Colours.line,
+          height: 1,
+          margin: EdgeInsets.only(left: 10,right: 10),
+        )
+      ],
+    );
   }
 
   getThreeImagItem(ConsulationColumnsInfo item) {

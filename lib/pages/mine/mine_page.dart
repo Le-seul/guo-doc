@@ -143,7 +143,7 @@ class MinePage extends StatelessWidget {
                       Column(
                         children: <Widget>[
                           Text(
-                            '55555',
+                            '16480',
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           SizedBox(

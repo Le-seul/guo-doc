@@ -200,7 +200,7 @@ class _HomePageTabBarState extends State<HomePageTabBar> {
 //   void Function(T value) this.onTap,按下时的响应事件
     return Container(
 //      margin: EdgeInsets.only(top:0),
-      color: Color(0xFFFFEBEE),
+      color: Colours.line,
       child: TabBar(
         tabs: tabList,
         isScrollable: true,

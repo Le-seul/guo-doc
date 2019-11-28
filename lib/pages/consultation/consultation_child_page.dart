@@ -204,7 +204,11 @@ class _ChildPageState extends State<ChildPage> {
           SliverList(
               delegate: SliverChildBuilderDelegate(
                   ((BuildContext context, int index) {
-            return getCommonItem(columnsInfoList, index);
+            return Column(
+              children: <Widget>[
+                index==0? SizedBox(height: 5,):SizedBox(),
+                getCommonItem(columnsInfoList, index)],
+            );
           }), childCount: columnsInfoList.length)),
         ],
       ),
@@ -236,31 +240,29 @@ class _ChildPageState extends State<ChildPage> {
 
   getContentItem(ConsulationColumnsInfo item) {
     return Container(
-        height: 120,
+        height: 93,
         color: Colors.white,
         margin: const EdgeInsets.only(bottom: 5.0),
         padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 15.0, bottom: 15.0),
+            left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 2,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    child: Align(
-                      child: Text(item.title),
-                      alignment: Alignment.topLeft,
-                    ),
-                  ),
-                  Expanded(
-                      child: Align(
-                    child: Row(
+                  Text(item.title,style: TextStyle(fontSize: 15,color: Colors.black87),strutStyle: StrutStyle(
+                    height: 1.5
+                  ),),
+                 Row(
                       children: <Widget>[
                         Expanded(
                           flex: 2,
                           child: Text(
-                            item.description,
+                            '中国健康网',
+                            style: TextStyle(color: Colors.grey,fontSize: 11),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -270,32 +272,38 @@ class _ChildPageState extends State<ChildPage> {
                                 flex: 3,
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.center,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/consultation/查看.png',
-                                      height: 10,
+                                      height: 9,
                                     ),
-                                    Text('${item.readCount}'),
+                                    Text(' ${item.readCount}',
+                                      style: TextStyle(color: Colors.grey,fontSize: 11),
+                                    ),
                                     Gaps.hGap8,
                                     Image.asset(
                                       'assets/images/consultation/点赞.png',
-                                      height: 12,
+                                      height: 11,
                                     ),
-                                    Text('${item.likeCount}'),
+                                    Text(' ${item.likeCount}',
+                                      style: TextStyle(color: Colors.grey,fontSize: 11),
+                                    ),
                                     Gaps.hGap8,
                                     Image.asset(
                                       'assets/images/consultation/分享.png',
-                                      height: 12,
+                                      height: 11,
+                                      color: Colors.grey,
                                     ),
-                                    Text('${item.transmitCount}'),
+                                    Text(' ${item.transmitCount}',
+                                      style: TextStyle(color: Colors.grey,fontSize: 11),
+                                    ),
                                   ],
                                 ),
                               ),
                       ],
                     ),
-                    alignment: Alignment.bottomLeft,
-                  ))
+
                 ],
               ),
             ),
@@ -304,11 +312,13 @@ class _ChildPageState extends State<ChildPage> {
             ),
             Expanded(
               flex: 1,
-              child: Image.network(
-                item.cover1 ?? defaultImage,
-                height: 90,
-                fit: BoxFit.fill,
-              ),
+              child: Container(
+                child: Image.network(
+                  item.cover1 ?? defaultImage,
+                  height: 90,
+                  fit: BoxFit.fill,
+                ),
+              )
             )
           ],
         ));
