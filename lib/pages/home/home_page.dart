@@ -9,12 +9,14 @@ import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/common_dio.dart';
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
+import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-import 'package:flutter_first/util/router.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -99,7 +101,7 @@ class _HomePageState extends State<HomePage> {
         children: list.map((model) {
           return new InkWell(
             onTap: () {
-              Router.push(context, model.actionTarget, {'title': model.name});
+              NavigatorUtil.pushWebView(context, model.actionTarget, {'title': model.name});
             },
             child: new CachedNetworkImage(
               fit: BoxFit.fill,
@@ -214,10 +216,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     )),
                 onTap: () {
-                  Router.push(
-                      context,
-                      'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1',
-                      {'title': '专业测评'});
+                  NavigatorUtil.pushWebView(context, 'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1', {'title': '专业测评'});
                 },
               ),
               //消息通知
@@ -292,8 +291,7 @@ class _HomePageState extends State<HomePage> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
-                                Router.pushNoParams(
-                                    context, Router.step_ranking);
+                                NavigatorUtil.pushPage(context,StepRanking());
                               },
                               child: Row(
                                 children: <Widget>[
@@ -380,13 +378,11 @@ class _HomePageState extends State<HomePage> {
           : getThreeImagItem(columnsInfoList[index]),
       onTap: () {
         if (columnsInfoList[index].type == 'T') {
-          Router.push(
-              context, Router.topicPage, {"id": columnsInfoList[index].id});
+          NavigatorUtil.pushPage(context,TopicPage(columnsInfoList[index].id));
           CommonRequest.UserReadingLog(
               columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
         } else {
-          Router.push(
-              context, Router.consulationDetailPage, columnsInfoList[index].id);
+          NavigatorUtil.pushPage(context,ConsultationDetailPage(id: columnsInfoList[index].id,));
           CommonRequest.UserReadingLog(
               columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
         }

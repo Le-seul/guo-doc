@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_bean.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -77,7 +79,7 @@ class _ServiceChildState extends State<ServiceChild> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Router.push(context, Router.center_detail,list[index].id);
+                  NavigatorUtil.pushPage(context,PsyCenterDetail(id: list[index].id,));
                 },
                 child: Container(
                   color: Colors.white,
@@ -200,7 +202,7 @@ class _ServiceChildState extends State<ServiceChild> {
   _buildChild2(LeisurePost leisurePost) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.center_detail,leisurePost.id);
+        NavigatorUtil.pushPage(context,PsyCenterDetail(id: leisurePost.id,));
       },
       child: Container(
         color: Colors.white,
@@ -252,7 +254,7 @@ class _ServiceChildState extends State<ServiceChild> {
   _buildChild(ServiceStation serviceStation) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.center_detail,serviceStation.id);
+        NavigatorUtil.pushPage(context,PsyCenterDetail(id: serviceStation.id,));
       },
       child: Container(
         color: Colors.white,

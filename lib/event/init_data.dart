@@ -6,7 +6,10 @@ import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/pages/home/doctor/talk_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
@@ -90,10 +93,9 @@ class _InitDataState extends State<InitData> {
           print('极光推送封装数据：{message:$content, target:$target, time:$time, model:$model, type:$type}');
 
           if(model == 'chunyuTuwen' || model == 'chunyuFastphone'){
-            Router.push(
-                context, Router.talk, {'orderId': target, 'offstage': false});
+            NavigatorUtil.pushPage(context,TalkPage(orderId: target,offstage: false,type: model,));
           }else if(model == 'article'){
-            Router.push(context, Router.consulationDetailPage, target);
+            NavigatorUtil.pushPage(context,ConsultationDetailPage(id: target,));
 //            CommonRequest.UserReadingLog(item.id, item.type, 'YD');
           }
 

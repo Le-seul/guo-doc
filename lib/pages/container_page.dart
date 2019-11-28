@@ -17,7 +17,7 @@ import 'package:flutter_first/pages/mine/mine_page.dart';
 import 'package:flutter_first/pages/selfhelp/selfhelp_page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';

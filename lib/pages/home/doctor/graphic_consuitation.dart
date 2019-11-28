@@ -8,8 +8,10 @@ import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/util/dialog.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -233,7 +235,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           'content': content,
         }, onSuccess: (data) {
           setState(() {
-            Router.pushReplacementNamed(context, Router.historyRecord,null);
+            NavigatorUtil.pushReplacementNamed(context,HistoryRecord());
             Toast.show('获取订单成功!');
           });
         }, onError: (code, msg) {

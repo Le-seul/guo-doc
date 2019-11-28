@@ -4,7 +4,8 @@ import 'package:flukit/flukit.dart' as lib1;
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/pages/home/home_page.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 
 Widget buildBanner(BuildContext context, List<BannerImage> list) {
   if (list == null) {
@@ -20,7 +21,7 @@ Widget buildBanner(BuildContext context, List<BannerImage> list) {
       children: list.map((model) {
         return new InkWell(
           onTap: () {
-            Router.push(context, model.imgId, {'title': model.name});
+            NavigatorUtil.pushWebView(context, model.imgId, {'title': model.name});
           },
           child: new CachedNetworkImage(
             fit: BoxFit.fill,

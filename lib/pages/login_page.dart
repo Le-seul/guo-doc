@@ -7,7 +7,9 @@ import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/sms_login_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/text_field.dart';
@@ -124,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
         onSuccess: (data) {
           setState(() async{
             await StorageManager.sharedPreferences.setString(Constant.userInfo, json.encode(data));
-            Router.pushReplacementNamed(context, Router.smsLogin,data);
+            NavigatorUtil.pushReplacementNamed(context,SMSLogin(user: data,));
           });
         },
         onError: (code, msg) {

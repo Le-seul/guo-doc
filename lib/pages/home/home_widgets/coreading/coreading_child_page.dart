@@ -3,7 +3,8 @@ import 'package:flutter_first/bean/CoreadingLike.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -127,7 +128,8 @@ class _CoreadingChildState extends State<CoreadingChild> {
             ),
             onTap: (){
               _getCoreadingLike(list[index].id);
-              Router.push(context, list[index].detailDesc, {"title":list[index].shortDesc});
+              NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
+
             },
           );
         });

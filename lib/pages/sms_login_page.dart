@@ -5,8 +5,10 @@ import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/utils.dart';
@@ -215,7 +217,7 @@ class _SMSLoginState extends State<SMSLogin> {
         saveToken(tokenData.token);
         dio.unlock();
         _updateRegistrationID();
-        Router.pushReplacementNamed(context, Router.containerPage, data);
+        NavigatorUtil.pushReplacementNamed(context,ContainerPage());
       });
     }, onError: (code, msg) {
       setState(() {

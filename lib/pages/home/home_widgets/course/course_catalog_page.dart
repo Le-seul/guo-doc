@@ -8,7 +8,8 @@ import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -345,7 +346,7 @@ class _CatalogState extends State<Catalog> {
                     ),
                   ),
                   onTap: (){
-                    psycoursecateloglist[index].state==1?Router.push(context, psycoursecateloglist[index].detailDesc, {'title':'课程'}):null;
+                    psycoursecateloglist[index].state==1? NavigatorUtil.pushWebView(context, psycoursecateloglist[index].detailDesc, {'title':'课程'}):null;
                   },
                 );
               } ,

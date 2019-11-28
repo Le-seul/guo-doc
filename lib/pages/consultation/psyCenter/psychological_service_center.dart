@@ -2,8 +2,10 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_entity.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -133,7 +135,8 @@ class _PsychologicalServiceCenterPageState extends State<PsychologicalServiceCen
           )
        ,
       onTap: () {
-        Router.pushNoParams(context, Router.center_detail);
+        NavigatorUtil.pushPage(context,PsyCenterDetail());
+
       },
 
     );

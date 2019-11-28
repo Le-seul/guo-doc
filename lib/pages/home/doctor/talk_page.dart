@@ -15,9 +15,12 @@ import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/doctor/doctor_page.dart';
+import 'package:flutter_first/pages/home/doctor/evaluation_page.dart';
 import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/util/dialog.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/voice_animation_image.dart';
@@ -431,7 +434,7 @@ class _TalkPageState extends State<TalkPage>
             ),
             onTap: () {
               if (doctorInfo.image != null) {
-                Router.push(context, Router.doctorPage, doctorInfo);
+                NavigatorUtil.pushPage(context,DoctorPage(doctorInfo: doctorInfo,));
               }
             }),
         Container(
@@ -493,8 +496,7 @@ class _TalkPageState extends State<TalkPage>
                     offstage: visivility,
                     child: GestureDetector(
                       onTap: () {
-                        Router.push(
-                            context, Router.evaluationPage, {'orderId': widget.orderId, 'doctorInfo': doctorInfo});
+                        NavigatorUtil.pushPage(context,EvaluationPage(orderId: widget.orderId,doctorInfo: doctorInfo,));
                       },
                       child: Text('评价'),
                     ),
@@ -538,8 +540,7 @@ class _TalkPageState extends State<TalkPage>
                             offstage: offstage,
                             child: GestureDetector(
                               onTap: () {
-                                Router.push(
-                                    context, Router.doctorPage, doctorInfo);
+                                NavigatorUtil.pushPage(context,DoctorPage(doctorInfo: doctorInfo,));
                               },
                               child: Container(
                                 color: Colors.white,

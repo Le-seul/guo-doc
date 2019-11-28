@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/util/datetime_picer/datetime_picker_theme.dart';
 import 'package:flutter_first/util/datetime_picer/flutter_datetime_picker.dart';
 import 'package:flutter_first/util/datetime_picer/i18n_model.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 
 class RelativesInformationPage extends StatefulWidget {
@@ -242,12 +244,7 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
               } else if (birthday == '' || birthday == null) {
                 Toast.show('请输入生日!');
               } else {
-                Router.push(context, Router.initiateConsultationPage, {
-                  'name': name,
-                  'relation': relation,
-                  'gender': gender,
-                  'birthday': birthday
-                });
+                NavigatorUtil.pushPage(context,InitiateConsultationPage('FAMI',name: name,gender: gender,birthday: birthday,relation: relation,));
               }
             },
           )),

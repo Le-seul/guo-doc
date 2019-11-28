@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
+import 'package:flutter_first/pages/exit_login_page.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
+import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/mine/feedback_page.dart';
+import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
@@ -184,7 +192,7 @@ class MinePage extends StatelessWidget {
                           ),
                         ),
                         onTap: () {
-                          Router.pushNoParams(context, Router.step_ranking);
+                          NavigatorUtil.pushPage(context,StepRanking());
                         },
                       )
                     ],
@@ -241,8 +249,7 @@ class MinePage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                Router.pushNoParams(
-                                    context, Router.instructor_demeanorPage);
+                                NavigatorUtil.pushPage(context,instructor_demeanor());
                               },
                             ),
                           ),
@@ -250,7 +257,7 @@ class MinePage extends StatelessWidget {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
-                                Router.pushNoParams(context, Router.psycourse);
+                                NavigatorUtil.pushPage(context, PsyCourse());
                               },
                               child: Container(
                                 height: 60,
@@ -296,8 +303,7 @@ class MinePage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                Router.pushNoParams(
-                                    context, Router.instructor_demeanorPage);
+                                NavigatorUtil.pushPage(context,instructor_demeanor());
                               },
                             ),
                           ),
@@ -365,7 +371,7 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.pushNoParams(context, Router.reporylist);
+              NavigatorUtil.pushPage(context,ReportList());
             },
           ), // 体检报告
           SizedBox(
@@ -405,7 +411,7 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.pushNoParams(context, Router.historyRecord);
+              NavigatorUtil.pushPage(context,HistoryRecord());
             },
           ), //健康咨询
           SizedBox(
@@ -484,7 +490,7 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.pushNoParams(context, Router.feedBackPage);
+              NavigatorUtil.pushPage(context, FeedBackPage());
             },
           ), //意见建议
           SizedBox(
@@ -524,10 +530,7 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.push(
-                  context,
-                  'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm',
-                  {'title': '关于“畅享健康”APP'});
+              NavigatorUtil.pushWebView(context, 'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm', {'title': '关于“畅享健康”APP'});
             },
           ), //联系我们
           SizedBox(
@@ -567,11 +570,7 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.push(
-                  context,
-                  'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm',
-                  {'title': '畅享健康用户注册协议'});
-
+              NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm', {'title': '畅享健康用户注册协议'});
             },
           ), //隐私服务
           SizedBox(
@@ -640,7 +639,7 @@ class MinePage extends StatelessWidget {
                         style: TextStyle(fontSize: 14),
                       ),
                       onTap: () {
-                        Router.pushNoParams(context, Router.exitLoginPage);
+                        NavigatorUtil.pushPage(context,ExitLoginPage());
                       },
                     ),
                   ),

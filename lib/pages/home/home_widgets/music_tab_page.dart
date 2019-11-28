@@ -5,9 +5,11 @@ import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
 import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:marquee_flutter/marquee_flutter.dart';
@@ -179,7 +181,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
   _buildItem(int index) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.musicListPage, getTagMusicList[index]);
+        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: getTagMusicList[index]));
       },
       child: Container(
           color: Colors.white,

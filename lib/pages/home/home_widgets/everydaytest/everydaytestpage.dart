@@ -5,8 +5,10 @@ import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 
 class EverydayTest extends StatefulWidget {
@@ -127,7 +129,7 @@ class _AllState extends State<All> {
                         InkWell(
                           onTap: () {
                             _getTestLike(psylist[index].id);
-                            Router.push(context, Router.test0,psylist[index].testEntry);
+                            NavigatorUtil.pushPage(context,Test0(Url: psylist[index].testEntry,));
                           },
                           child: Container(
                             margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
@@ -242,7 +244,7 @@ class _SelectedState extends State<Selected> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Router.push(context, Router.test0,Selectedlist[index].testEntry);
+                  NavigatorUtil.pushPage(context,Test0(Url: Selectedlist[index].testEntry,));
                 },
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 10, 10, 5),

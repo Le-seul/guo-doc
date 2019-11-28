@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_first/util/web_view_page.dart';
 
 class NavigatorUtil {
   static void pushPage(
@@ -20,10 +21,11 @@ class NavigatorUtil {
 
   static void pushWebView(
       BuildContext context,
-      Widget page,
+      String url,
+      dynamic params
       ) {
-    Navigator.pushReplacement(
-        context, CupertinoPageRoute<void>(builder: (context) => page));
+    Navigator.push(
+        context, CupertinoPageRoute<void>(builder: (context) => WebViewPage(url, params: params)));
   }
 
 }

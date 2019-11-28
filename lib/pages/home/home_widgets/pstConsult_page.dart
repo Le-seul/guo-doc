@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/tel_service.dart';
 import 'package:flutter_first/widgets/my_card.dart';

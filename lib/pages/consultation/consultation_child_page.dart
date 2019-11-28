@@ -4,8 +4,12 @@ import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/pages/consultation/topic_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/res/styles.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -216,10 +220,10 @@ class _ChildPageState extends State<ChildPage> {
           : getThreeImagItem(item),
       onTap: () {
           if (!widget.isTopic&&item.type == 'T') {
-            Router.push(context, Router.topicPage, {"id": item.id});
+            NavigatorUtil.pushPage(context, TopicPage(item.id));
             CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
           } else {
-            Router.push(context, Router.consulationDetailPage, item.id);
+            NavigatorUtil.pushPage(context, ConsultationDetailPage(id: item.id,));
             CommonRequest.UserReadingLog(item.id, item.type, 'YD');
           }
 

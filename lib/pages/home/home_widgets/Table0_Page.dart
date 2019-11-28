@@ -9,11 +9,12 @@ import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.d
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/pstConsult_page.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/service/service_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-import 'package:flutter_first/util/router.dart';
+
 
 class Table0 extends StatefulWidget {
   Table0({Key key}) : super(key: key);
@@ -301,7 +302,9 @@ class _Table0State extends State<Table0> {
                 SizedBox(height: 10,)
               ],
             ),
-            onTap: () {Router.pushNoParams(context, Router.psychologicalConcult);},
+            onTap: () {
+              NavigatorUtil.pushPage(context, PsychologicalConcult());
+            }
           ),
           GestureDetector(
             child: Container(),

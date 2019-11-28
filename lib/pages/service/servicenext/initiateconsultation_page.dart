@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/service/servicenext/consultation_detail.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/utils.dart';
 
@@ -316,7 +318,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
                     child: Text('详情',style: TextStyle(color: Colors.blue),),
                   ),
                   onTap: (){
-                    Router.pushNoParams(context, Router.psychologicalDetailPage);
+                    NavigatorUtil.pushPage(context,PsychologicalDetailPage());
                   },
                 ),
 

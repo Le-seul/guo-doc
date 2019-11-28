@@ -1,9 +1,11 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 
 //class MyDialog {
@@ -125,7 +127,8 @@ class LoadingDialog extends Dialog {
   }
 }
 class ConsutationDialog extends Dialog {
-
+  BuildContext mContext;
+  ConsutationDialog(this.mContext);
   @override
   Widget build(BuildContext context) {
     return new Material( //创建透明层
@@ -171,7 +174,7 @@ class ConsutationDialog extends Dialog {
                           child: Text('继续已有问诊',style: TextStyle(color: Colors.white),),
                         ),
                         onTap: (){
-                          Router.pushNoParams(context, Router.historyRecord);
+                          NavigatorUtil.pushReplacementNamed(mContext,HistoryRecord());
                         },
                       ),
                     ),

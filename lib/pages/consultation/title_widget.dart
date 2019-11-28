@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/consultation/clinic_information_page.dart';
+import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/psychological_service_center.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_center.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 typedef TapCallback = void Function();
 
 ///《书影业》顶部四个TAB
@@ -17,21 +21,21 @@ class TitleWidget extends StatelessWidget {
             '心理服务中心',
             'assets/images/psychological_subcenter.png',
             tabCallBack: () {
-              Router.pushNoParams(context, Router.service_center);
+              NavigatorUtil.pushPage(context, ServiceCenterPage());
             },
           ),
           _TextImgWidget(
             '教官风采',
             'assets/images/instructor_demeanor.png',
             tabCallBack: () {
-              Router.pushNoParams(context, Router.instructor_demeanorPage);
+              NavigatorUtil.pushPage(context,instructor_demeanor());
             },
           ),
           _TextImgWidget(
             '门诊信息',
             'assets/images/outpatient_information.png',
             tabCallBack: () {
-              Router.pushNoParams(context, Router.clinic_informationPage);
+              NavigatorUtil.pushPage(context,Clinic_information());
             },
           ),
         ],

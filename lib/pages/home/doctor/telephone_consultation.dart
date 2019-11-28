@@ -5,7 +5,9 @@ import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/tel_service.dart';
@@ -273,7 +275,7 @@ class _TelConsultationState extends State<TelConsultation>
           queryParameters: {"clinicNo": clinicNo, "phone": phone},
           onSuccess: (data) {
             print('创建快捷电话订单成功！');
-        Router.pushReplacementNamed(context, Router.historyRecord,null);
+            NavigatorUtil.pushReplacementNamed(context,HistoryRecord());
 //            Toast.show('clinicNo:$clinicNo,phone:$phone');
 
       }, onError: (code, msg) {

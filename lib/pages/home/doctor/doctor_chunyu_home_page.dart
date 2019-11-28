@@ -10,9 +10,13 @@ import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -141,10 +145,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                                           height: 1.5),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          Router.push(
-                                              context,
-                                              'https://www.chunyuyisheng.com/',
-                                              {'title': '在线问诊'});
+                                          NavigatorUtil.pushWebView(context, 'https://www.chunyuyisheng.com/', {'title': '在线问诊'});
                                         },
                                     ),
                                     TextSpan(
@@ -259,7 +260,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         tuWenNum == "0" || tuWenNum == ''),
                     onTap: () {
                       getOrderCount();
-                      Router.pushNoParams(context, Router.graphicConsultation);
+                      NavigatorUtil.pushPage(context,GraphicConsultation());
                     },
                   ),
                   GestureDetector(
@@ -271,7 +272,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         "$fastPhone",
                         fastPhone == "0" || fastPhone == ''),
                     onTap: () {
-                      Router.pushNoParams(context, Router.telConsultation);
+                      NavigatorUtil.pushPage(context,TelConsultation());
                     },
                   ),
                   GestureDetector(
@@ -283,7 +284,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         '',
                         true),
                     onTap: () {
-                      Router.pushNoParams(context, Router.historyRecord);
+                      NavigatorUtil.pushPage(context,HistoryRecord());
                     },
                   )
                 ],
@@ -302,10 +303,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                     Text('严格遵守',style: TextStyle(color: Colors.black26,fontSize: 12)),
                     GestureDetector(
                         onTap: () {
-                          Router.push(
-                              context,
-                              'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
-                              {'title': '服务条款及隐私政策'});
+                          NavigatorUtil.pushWebView(context, 'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm', {'title': '服务条款及隐私政策'});
                         },
                         child: Text(
                           '服务条款及隐私政策',
@@ -338,7 +336,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               context: context, //BuildContext对象
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return ConsutationDialog();
+                return ConsutationDialog(context);
               });
         }
 
@@ -363,7 +361,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                 child: new Text("正在咨询$orderCount"),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Router.pushNoParams(context, Router.historyRecord);
+                  NavigatorUtil.pushPage(context,HistoryRecord());
                 },
               ),
               new SimpleDialogOption(

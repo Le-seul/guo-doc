@@ -8,7 +8,9 @@ import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/doctor/talk_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
@@ -113,8 +115,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
   _buildItem(int index, String num, bool offstage) {
     return GestureDetector(
         onTap: () {
-          Router.push(context, Router.talk,
-              {'orderId': progressOrderList[index].id, 'offstage': false,'type':progressOrderList[index].type});
+          NavigatorUtil.pushPage(context,TalkPage(orderId: progressOrderList[index].id,offstage: false,type: progressOrderList[index].type,));
         },
         child: Stack(
           children: <Widget>[
