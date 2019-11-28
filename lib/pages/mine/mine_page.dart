@@ -21,7 +21,6 @@ class MinePage extends StatelessWidget {
       appBar: AppBar(
             title: Text(
               '我的',
-              style: TextStyle(fontSize: 18),
             ),
             centerTitle: true,
             backgroundColor: Colours.bg_green,

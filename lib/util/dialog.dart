@@ -81,8 +81,8 @@ class LoadingDialog extends Dialog {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 230.0,
-                  height: 240.0,
+                  width: 150.0,
+                  height: 150.0,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -95,7 +95,7 @@ class LoadingDialog extends Dialog {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      loadAssetImage('successful_registration.png',height: 110,width: 110),
+                      loadAssetImage('successful_registration.png',height: 80,width: 80),
                       new Padding(
                         padding: const EdgeInsets.only(
                           top: 20.0,
@@ -103,7 +103,7 @@ class LoadingDialog extends Dialog {
                         child: new Text(
                           '报名成功!',
                           textAlign: TextAlign.center,
-                          style: new TextStyle(fontSize: 22.0),
+                          style: new TextStyle(fontSize: 20.0),
                         ),
                       ),
                     ],
@@ -127,7 +127,8 @@ class LoadingDialog extends Dialog {
   }
 }
 class ConsutationDialog extends Dialog {
-
+  BuildContext mContext;
+  ConsutationDialog(this.mContext);
   @override
   Widget build(BuildContext context) {
     return new Material( //创建透明层
@@ -149,13 +150,13 @@ class ConsutationDialog extends Dialog {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                  Text('请选择'),
-                  GestureDetector(child: Icon(Icons.close,size: 25,color: Colors.black26,),onTap: (){
+                  Text('请选择',style: TextStyle(fontSize: 18),),
+                  GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
                     Navigator.of(context).pop();
                   },)
                 ],),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 25,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -167,13 +168,13 @@ class ConsutationDialog extends Dialog {
 
                           decoration: BoxDecoration(
                               color: Color(0xff2CA687),
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(12)),
                           padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
 
-                          child: Text('继续已有问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                          child: Text('继续已有问诊',style: TextStyle(color: Colors.white),),
                         ),
                         onTap: (){
-                          NavigatorUtil.pushReplacementNamed(context,HistoryRecord());
+                          NavigatorUtil.pushReplacementNamed(mContext,HistoryRecord());
                         },
                       ),
                     ),
@@ -185,9 +186,9 @@ class ConsutationDialog extends Dialog {
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.orange,
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(12)),
                           padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
-                          child: Text('创建新的问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
+                          child: Text('创建新的问诊',style: TextStyle(color: Colors.white),),
                         ),
                         onTap: (){
                           Navigator.of(context).pop();

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/net/api.dart';
@@ -19,8 +21,9 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
-
+  int day1,day2,day3,hour1,hour2,hour3,min1,min2,min3,sec1,sec2,sec3;
   List<ServiceActivity> serviceActivityList = List();
+  static Timer _timer; //倒计时的计时器
 
   @override
   void initState() {
@@ -37,6 +40,7 @@ class _ServicePageState extends State<ServicePage> {
        onSuccessList: (data) {
          setState(() {
            serviceActivityList = data;
+           startTimer(DateTime(2019,12,1));
            print('活动详情请求成功！');
          });
 
@@ -49,19 +53,14 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   Widget build(BuildContext context) {
+
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
-    int currentMon = DateTime.now().month;
-    int currentDay = DateTime.now().day;
-    int currentHour = DateTime.now().hour;
-    int currentMin = DateTime.now().minute;
-    int currentSec = DateTime.now().second;
 
     return Scaffold(
       backgroundColor: Colours.line,
       appBar: AppBar(
         title: Text(
           '服务',
-          style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
         backgroundColor: Colours.bg_green,
@@ -211,7 +210,10 @@ class _ServicePageState extends State<ServicePage> {
                       height: ScreenUtil().setHeight(3),
                       width: ScreenUtil().setWidth(1.2),
                     ),
-                    Text('   活动参与',style: TextStyle(fontSize: 16.5),),
+                    GestureDetector(
+                      onTap: (){
+                      },
+                        child: Text('   活动参与',style: TextStyle(fontSize: 16.5),)),
 
                   ],
                 ),),
@@ -257,7 +259,7 @@ class _ServicePageState extends State<ServicePage> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child: Center(
-                                        child: Text('132',style: TextStyle(color: Colors.grey.shade600),),
+                                        child: Text(day1.toString(),style: TextStyle(color: Colors.grey.shade600),),
                                       )
                                   ),
                                   Text(' 天 ',style: TextStyle(color: Colors.white)),
@@ -269,7 +271,7 @@ class _ServicePageState extends State<ServicePage> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child: Center(
-                                        child: Text('07',style: TextStyle(color: Colors.grey.shade600),),
+                                        child: Text(hour1.toString(),style: TextStyle(color: Colors.grey.shade600),),
                                       )
                                   ),
                                   Text(' 时 ',style: TextStyle(color: Colors.white)),
@@ -281,7 +283,7 @@ class _ServicePageState extends State<ServicePage> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child: Center(
-                                        child: Text('46',style: TextStyle(color: Colors.grey.shade600),),
+                                        child: Text(min1.toString(),style: TextStyle(color: Colors.grey.shade600),),
                                       )
                                   ),
                                   Text(' 分 ',style: TextStyle(color: Colors.white)),
@@ -293,7 +295,7 @@ class _ServicePageState extends State<ServicePage> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child: Center(
-                                        child: Text('21',style: TextStyle(color: Colors.grey.shade600),),
+                                        child: Text(sec1.toString(),style: TextStyle(color: Colors.grey.shade600),),
                                       )
                                   ),
                                   Text(' 秒 ',style: TextStyle(color: Colors.white)),
@@ -424,7 +426,7 @@ class _ServicePageState extends State<ServicePage> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child: Center(
-                                        child: Text(currentSec.toString(),style: TextStyle(color: Colors.grey.shade600),),
+                                        child: Text(sec1.toString(),style: TextStyle(color: Colors.grey.shade600),),
                                       )
                                   ),
                                   Text(' 秒 ',style: TextStyle(color: Colors.white)),
@@ -565,8 +567,34 @@ class _ServicePageState extends State<ServicePage> {
 
 
 
+  void startTimer(DateTime stopDate) {
 
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        var today = DateTime.now();
+        //DateTime stop = today.add(Duration(days: 5));
+        //print("today$today");
+        var data1 = today.millisecondsSinceEpoch;
+        var data2 = stopDate.millisecondsSinceEpoch;
+        var diffience = data2 - data1;
+        diffience>0?null:diffience=0;
+        print("data:$data1");
+        day1 = diffience~/86400000;
+        var dif2 =diffience - day1*86400000;
+        hour1 = dif2~/3600000;
+        var dif3 =diffience - day1*86400000-hour1*3600000;
+        min1 = dif3~/60000;
+        var dif4 =diffience - day1*86400000-hour1*3600000-min1*60000;
+        sec1 = dif4~/1000;
 
+        print("day$day1");
+        print("hour$hour1");
+        print("fen$min1");
+        print("miao$sec1");
+      });
+
+    });
+  }
 
 
 }

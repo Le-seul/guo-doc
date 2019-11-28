@@ -127,7 +127,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
       appBar: AppBar(
         title: Text(
           '自助',
-          style: TextStyle(fontSize: 18,color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: Colours.bg_green,
@@ -407,7 +407,16 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 )
               ],
             ),),
-          SingleChildScrollView(
+          isShowLoading1
+              ? LoadingWidget.childWidget()
+              : (GetAllMusicList.length == 0)
+              ? Container(
+            width: double.infinity,
+            height: double.infinity,
+            alignment: Alignment.center,
+            child: Text('暂无数据'),
+          )
+              :SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
