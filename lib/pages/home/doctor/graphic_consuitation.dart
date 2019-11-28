@@ -57,8 +57,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
       body: Column(
         children: <Widget>[
           Container(
-            height: 45,
-            padding: EdgeInsets.only(left: 5,right: 5),
+            padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
             color: Color(0xFFFFEBEE),
             alignment: Alignment.center,
             child: Text(
@@ -135,9 +134,9 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
       ),
       bottomSheet: GestureDetector(
         child: Container(
-          height: 40,
-          color: Color(0xff2CA687),
+          height: 45,
           alignment: Alignment.center,
+          color: Color(0xff2CA687),
           child: Text(
             '立即提交',
             style: TextStyle(color: Colors.white, fontSize: 18),

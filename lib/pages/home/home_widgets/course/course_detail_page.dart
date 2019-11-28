@@ -196,11 +196,14 @@ class _CourseDetailPageState extends State<CourseDetailPage>
               : Container(
                   child: Column(
                     children: <Widget>[
-                      Image.network(
-                        courseDetail.image,
-                        height: 160,
-                        width: double.infinity,
-                        fit: BoxFit.fill,
+                      AspectRatio(
+                        aspectRatio: 11/6,
+                        child: Image.network(
+                          courseDetail.image,
+                          height: 160,
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                       Container(
                         height: 60,

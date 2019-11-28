@@ -58,7 +58,7 @@ class _HistoryRecordState extends State<HistoryRecord>
                           '当前咨询',
                           style: TextStyle(
                             color: isChoice1?Colors.white:Color(0xff2CA687),
-                            fontSize: 15
+                            fontSize: 16
                           ),
                         ),
                       ),
@@ -74,7 +74,7 @@ class _HistoryRecordState extends State<HistoryRecord>
                       child: Container(
                         padding: EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
                         child:
-                            Text('历史纪录', style: TextStyle(color: isChoice2?Colors.white:Color(0xff2CA687),fontSize: 15)),
+                            Text('历史记录', style: TextStyle(color: isChoice2?Colors.white:Color(0xff2CA687),fontSize: 16)),
                         decoration: BoxDecoration(
                           color: isChoice2 ? selectColor : unSelectColor,
                           border:
@@ -96,7 +96,7 @@ class _HistoryRecordState extends State<HistoryRecord>
                 ),
 
             ),
-            preferredSize: Size.fromHeight(40)),
+            preferredSize: Size.fromHeight(56)),
         body: Container(
           child: childWidget,
         ),

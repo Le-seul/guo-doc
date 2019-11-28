@@ -100,14 +100,17 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
                       unselectedLabelColor: Color(0xff666666),
                       labelStyle: TextStyle(fontSize: 16.0),
                       tabs: <Widget>[
-                        Text('图文咨询'),
-                        Text('电话咨询'),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text('其他服务'),
-                            Icon(Icons.arrow_drop_down),
-                          ],
+                        Container(child: Text('图文咨询'),padding: EdgeInsets.only(top: 5),),
+                        Container(child: Text('电话咨询'),padding: EdgeInsets.only(top: 5),),
+                        Container(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('其他服务'),
+                              Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
                         ),
                       ],
                     ),

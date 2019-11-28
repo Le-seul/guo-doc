@@ -44,13 +44,15 @@ class _CourseChildState extends State<CourseChild> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                widget.courseList[index].coverImage,
-                height: 90,
-                fit: BoxFit.fill,
-              )),
+          AspectRatio(
+            aspectRatio: 11/6,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  widget.courseList[index].coverImage,
+                  fit: BoxFit.fill,
+                )),
+          ),
           SizedBox(height: 10,),
           Text('【怎么管理情绪】',style: TextStyle(fontSize: 14,),),
           SizedBox(height: 8,),

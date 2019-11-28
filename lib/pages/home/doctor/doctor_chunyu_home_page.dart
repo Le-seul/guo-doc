@@ -336,7 +336,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
               context: context, //BuildContext对象
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return ConsutationDialog(context);
+                return ConsutationDialog();
               });
         }
 

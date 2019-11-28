@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '运动步数:16480',
+                                    '运动步数：16480',
                                     style: TextStyle(fontSize: 12),
                                   )
                                 ],
