@@ -16,13 +16,13 @@ class WebViewPage extends StatelessWidget {
           title: Text(params[TITLE]),
           backgroundColor: Colours.bg_green,
           centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.share),
-                onPressed: (){
-                  Share.text('我的分享', params[TITLE]+'  请参考  '+url, 'text/plain');
-                })
-          ],
+//          actions: <Widget>[
+//            IconButton(
+//                icon: Icon(Icons.share),
+//                onPressed: (){
+//                  Share.text('我的分享', params[TITLE]+'  请参考  '+url, 'text/plain');
+//                })
+//          ],
         ),
         body: WebView(
           initialUrl: url,
