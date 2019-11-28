@@ -25,6 +25,7 @@ class _ServicePageState extends State<ServicePage> {
   @override
   void initState() {
     _requestActivity();
+
   }
 
  void _requestActivity() {
@@ -49,17 +50,23 @@ class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
+    int currentMon = DateTime.now().month;
+    int currentDay = DateTime.now().day;
+    int currentHour = DateTime.now().hour;
+    int currentMin = DateTime.now().minute;
+    int currentSec = DateTime.now().second;
 
     return Scaffold(
       backgroundColor: Colours.line,
-      appBar: PreferredSize(
-          child: AppBar(
-            title: Text('服务',style: TextStyle(fontSize: 18),),
-            centerTitle: true,
-            backgroundColor: Colours.bg_green,
-            elevation: 0,
-          ),
-          preferredSize: Size.fromHeight(30)),
+      appBar: AppBar(
+        title: Text(
+          '服务',
+          style: TextStyle(fontSize: 18),
+        ),
+        centerTitle: true,
+        backgroundColor: Colours.bg_green,
+        elevation: 0,
+      ),
       body: SafeArea(
           child: ListView(
             physics: ClampingScrollPhysics(),
@@ -73,7 +80,7 @@ class _ServicePageState extends State<ServicePage> {
                       children: <Widget>[
                         Container(
                           width: double.infinity,
-                          height: ScreenUtil().setHeight(20),
+                          height: ScreenUtil().setHeight(16),
                           color: Colours.bg_green,                        ),
                         Container(
                           width: double.infinity,
@@ -88,7 +95,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
 
                   Positioned(
-                    top: 10,
+                    top: 0,
                     //left: 10,
                     child: Container(
                     padding:EdgeInsets.only(top: 15,left:ScreenUtil().setWidth(5),bottom: 15 ),
@@ -103,7 +110,7 @@ class _ServicePageState extends State<ServicePage> {
                       ],
                     ),),),
                   Positioned(
-                    top: 60,
+                    top: 50,
                       left: 18,
                       child: Container(
                        height: ScreenUtil().setHeight(18),
@@ -205,8 +212,6 @@ class _ServicePageState extends State<ServicePage> {
                       width: ScreenUtil().setWidth(1.2),
                     ),
                     Text('   活动参与',style: TextStyle(fontSize: 16.5),),
-                    SizedBox(width: ScreenUtil().setWidth(57),),
-                    Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)
 
                   ],
                 ),),
@@ -419,7 +424,7 @@ class _ServicePageState extends State<ServicePage> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child: Center(
-                                        child: Text('21',style: TextStyle(color: Colors.grey.shade600),),
+                                        child: Text(currentSec.toString(),style: TextStyle(color: Colors.grey.shade600),),
                                       )
                                   ),
                                   Text(' 秒 ',style: TextStyle(color: Colors.white)),

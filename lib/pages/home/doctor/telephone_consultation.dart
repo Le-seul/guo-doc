@@ -222,7 +222,7 @@ class _TelConsultationState extends State<TelConsultation>
       ),
       bottomSheet: GestureDetector(
         child: Container(
-          height: 45,
+          height: 40,
           alignment: Alignment.center,
           color: Color(0xff2CA687),
           child: Text(

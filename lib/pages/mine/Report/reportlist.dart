@@ -67,10 +67,13 @@ class _ReportListState extends State<ReportList> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            SizedBox(width: 20,),
             Image.asset('assets/images/tijian.png'),
             Expanded(child: Center(child: Text('${healthYearList[index].year}体检报告',style: TextStyle(fontSize: 17),))),
-            Icon(Icons.chevron_right)
-          ],
+            Icon(Icons.chevron_right),
+            SizedBox(width: 20,),
+
+      ],
         ),),);
   }
 

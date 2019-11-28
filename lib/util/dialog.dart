@@ -127,6 +127,8 @@ class LoadingDialog extends Dialog {
   }
 }
 class ConsutationDialog extends Dialog {
+  BuildContext mContext;
+  ConsutationDialog(this.mContext);
   @override
   Widget build(BuildContext context) {
     return new Material( //创建透明层
@@ -135,7 +137,8 @@ class ConsutationDialog extends Dialog {
         child:Container(
           padding: EdgeInsets.only(top: 20,bottom: 20),
           margin: EdgeInsets.only(left: 30,right: 30),
-          height: MediaQuery.of(context).size.height*0.20,
+          height: 130,
+
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12)),
@@ -153,7 +156,7 @@ class ConsutationDialog extends Dialog {
                   },)
                 ],),
               ),
-              SizedBox(height: 22,),
+              SizedBox(height: 25,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -171,7 +174,7 @@ class ConsutationDialog extends Dialog {
                           child: Text('继续已有问诊',style: TextStyle(color: Colors.white),),
                         ),
                         onTap: (){
-                          NavigatorUtil.pushReplacementNamed(context,HistoryRecord());
+                          NavigatorUtil.pushReplacementNamed(mContext,HistoryRecord());
                         },
                       ),
                     ),

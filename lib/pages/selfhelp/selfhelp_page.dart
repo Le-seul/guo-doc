@@ -124,18 +124,27 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return Scaffold(
       backgroundColor: Colours.line,
+      appBar: AppBar(
+        title: Text(
+          '自助',
+          style: TextStyle(fontSize: 18,color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colours.bg_green,
+        elevation: 0,
+      ),
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
-          Container(
-            color: Colors.white,
-            height:  ScreenUtil().setHeight(7),
-            alignment: Alignment.center,
-            child: Text(
-              '自助',
-              style: TextStyle(fontSize: 18, color: Colors.black),
-            ),
-          ), //自助
+//          Container(
+//            color: Colors.white,
+//            height:  ScreenUtil().setHeight(7),
+//            alignment: Alignment.center,
+//            child: Text(
+//              '自助',
+//              style: TextStyle(fontSize: 18, color: Colors.black),
+//            ),
+//          ), //自助
           Container(
             padding:EdgeInsets.only(top: 15,left:ScreenUtil().setWidth(5),bottom: 15 ),
             child: Row(
