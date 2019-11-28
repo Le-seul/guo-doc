@@ -28,14 +28,13 @@ class MinePage extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: ScreenUtil().setHeight(40),
-                color: Colours.bg_green,
+                color: Colors.white,
                 child: Align(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.topCenter,
                   child: Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(8),
-                    color: Colors.white,
-                  ),
+                    height: ScreenUtil().setHeight(32),
+                    color: Colours.bg_green,                  ),
                 ),
               ),
 //              Positioned(
@@ -45,7 +44,7 @@ class MinePage extends StatelessWidget {
 //                    style: TextStyle(color: Colors.white, fontSize: 18)),
 //              ),
               Positioned(
-                top: ScreenUtil().setHeight(3),
+                top: 15,
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -127,7 +126,7 @@ class MinePage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: ScreenUtil().setHeight(15),
+                top: 86,
                   left: ScreenUtil().setWidth(18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -168,10 +167,10 @@ class MinePage extends StatelessWidget {
                     ],
                   )),
               Positioned(
-                top: ScreenUtil().setHeight(25),
+                top: 145,
                 left: ScreenUtil().setWidth(5),
                 child: Container(
-                  height: ScreenUtil().setHeight(15),
+                  height: 90,
                   width: ScreenUtil().setWidth(90),
                   padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                   decoration: BoxDecoration(
@@ -347,9 +346,9 @@ class MinePage extends StatelessWidget {
           ), // 体检报告
           SizedBox(
             height: 2,
-            child: Container(
-              color: Colours.line,
-            ),
+//            child: Container(
+//              color: Colours.line,
+//            ),
           ),
           FlatButton(
             child: Container(
@@ -387,11 +386,10 @@ class MinePage extends StatelessWidget {
           ), //健康咨询
           SizedBox(
             height: 2,
-            child: Container(
-              color: Colours.line,
-            ),
+//            child: Container(
+//              color: Colours.line,
+//            ),
           ),
-
           FlatButton(
             child: Container(
               height: 40,
@@ -426,9 +424,9 @@ class MinePage extends StatelessWidget {
           ), //问卷调查
           SizedBox(
             height: 9,
-            child: Container(
-              color: Colours.line,
-            ),
+//            child: Container(
+//              color: Colours.line,
+//            ),
           ),
           FlatButton(
             child: Container(
@@ -466,9 +464,9 @@ class MinePage extends StatelessWidget {
           ), //意见建议
           SizedBox(
             height: 2,
-            child: Container(
-              color: Colours.line,
-            ),
+//            child: Container(
+//              color: Colours.line,
+//            ),
           ),
           FlatButton(
             child: Container(
@@ -504,9 +502,9 @@ class MinePage extends StatelessWidget {
           ), //联系我们
           SizedBox(
             height: 2,
-            child: Container(
-              color: Colours.line,
-            ),
+//            child: Container(
+//              color: Colours.line,
+//            ),
           ),
           FlatButton(
             child: Container(
@@ -542,9 +540,9 @@ class MinePage extends StatelessWidget {
           ), //隐私服务
            SizedBox(
                       height: 2,
-                      child: Container(
-                        color: Colours.line,
-                      ),
+//                      child: Container(
+//                        color: Colours.line,
+//                      ),
                     ),
           FlatButton(
             child: Container(
@@ -580,12 +578,10 @@ class MinePage extends StatelessWidget {
           ), //绑定微信
           SizedBox(
             height: 7,
-            child: Container(
-              color: Colours.line,
-            ),
+//            child: Container(
+//              color: Colours.line,
+//            ),
           ),
-
-
           FlatButton(
             child: Container(
               height: 40,
