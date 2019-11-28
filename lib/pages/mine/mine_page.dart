@@ -18,8 +18,7 @@ class MinePage extends StatelessWidget {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
     return Scaffold(
-      appBar: PreferredSize(
-          child: AppBar(
+      appBar: AppBar(
             title: Text(
               '我的',
               style: TextStyle(fontSize: 18),
@@ -28,8 +27,6 @@ class MinePage extends StatelessWidget {
             backgroundColor: Colours.bg_green,
             elevation: 0,
           ),
-          preferredSize: Size.fromHeight(30)),
-      //backgroundColor: Colours.line,
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
@@ -42,7 +39,7 @@ class MinePage extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(32),
+                    height: ScreenUtil().setHeight(30),
                     color: Colours.bg_green,                  ),
                 ),
               ),
@@ -53,7 +50,7 @@ class MinePage extends StatelessWidget {
 //                    style: TextStyle(color: Colors.white, fontSize: 18)),
 //              ),
               Positioned(
-                top: 15,
+                top: 5,
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -139,7 +136,7 @@ class MinePage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 86,
+                top: 75,
                   left: ScreenUtil().setWidth(18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -197,7 +194,7 @@ class MinePage extends StatelessWidget {
                     ],
                   )),
               Positioned(
-                top: 145,
+                top: 135,
                 left: ScreenUtil().setWidth(5),
                 child: Container(
                   height: 90,

@@ -36,10 +36,10 @@ class _EverydayTestState extends State<EverydayTest>
           controller: _tabController,
           tabs: <Widget>[
             Tab(
-              text: '每日一测',
+              child: Text('每日一测',style: TextStyle(fontSize: 16),),
             ),
             Tab(
-              text: '已测结果',
+              child: Text('已测结果',style: TextStyle(fontSize: 16),),
             ),
           ],
         ),

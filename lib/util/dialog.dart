@@ -81,8 +81,8 @@ class LoadingDialog extends Dialog {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 250.0,
-                  height: 260.0,
+                  width: 180.0,
+                  height: 180.0,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -95,7 +95,7 @@ class LoadingDialog extends Dialog {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      loadAssetImage('successful_registration.png',height: 110,width: 110),
+                      loadAssetImage('successful_registration.png',height: 90,width: 90),
                       new Padding(
                         padding: const EdgeInsets.only(
                           top: 20.0,
@@ -103,7 +103,7 @@ class LoadingDialog extends Dialog {
                         child: new Text(
                           '报名成功!',
                           textAlign: TextAlign.center,
-                          style: new TextStyle(fontSize: 25.0),
+                          style: new TextStyle(fontSize: 20.0),
                         ),
                       ),
                     ],

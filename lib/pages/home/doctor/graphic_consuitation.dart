@@ -63,7 +63,7 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
             alignment: Alignment.center,
             child: Text(
               '重要提示：急重症不适合网上咨询，请立即前往医院就诊',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.red,fontSize: 13.5),
             ),
           ),
           Container(

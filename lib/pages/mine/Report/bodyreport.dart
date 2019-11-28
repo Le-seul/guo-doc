@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/res/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BodyReport extends StatelessWidget {
@@ -6,10 +7,11 @@ class BodyReport extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-//      appBar: AppBar(
-//        title: Text('体检报告'),
-//        centerTitle: true,
-//      ),
+          appBar: AppBar(
+            title: Text('体检报告'),
+            centerTitle: true,
+            backgroundColor: Colours.bg_green,
+          ),
           body: WebView(
               onWebViewCreated: (WebViewController webViewController){
                 webViewController.canGoBack();

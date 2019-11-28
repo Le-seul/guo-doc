@@ -352,7 +352,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                         activityDetail.cover,
                         height: 100,
                         width: 100,
-                        fit: BoxFit.fill,
+
                       ),
                     )),
               ),
@@ -361,7 +361,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                 flex: 2,
                 child: Text(
                   activityDetail.name,
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 14),
                 ),
               ),
             ],

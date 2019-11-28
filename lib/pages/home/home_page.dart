@@ -101,6 +101,7 @@ class _HomePageState extends State<HomePage> {
         children: list.map((model) {
           return new InkWell(
             onTap: () {
+              model.state==1?null:
               NavigatorUtil.pushWebView(context, model.actionTarget, {'title': model.name});
             },
             child: new CachedNetworkImage(
@@ -301,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '步数排名：5',
+                                    '步数排名 : 5',
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(
@@ -313,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '运动步数:16480',
+                                    '运动步数 : 16480',
                                     style: TextStyle(fontSize: 12),
                                   )
                                 ],
