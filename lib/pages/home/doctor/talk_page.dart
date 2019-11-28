@@ -614,9 +614,11 @@ class _TalkPageState extends State<TalkPage>
                           margin: EdgeInsets.only(
                               left: 12, right: 12, top: 10, bottom: 10),
                           color: Colors.black12,
-                          child: Text(
-                            '医生的回复仅为建议，具体诊疗请前往医院进行',
-                            style: TextStyle(color: Colors.black26),
+                          child: Center(
+                            child: Text(
+                              offstage?'等待医生回复':'医生的回复仅为建议，具体诊疗请前往医院进行',
+                              style: TextStyle(color: Colors.black26),
+                            ),
                           ),
                         ),
                         Container(
