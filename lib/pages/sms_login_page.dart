@@ -61,7 +61,7 @@ class _SMSLoginState extends State<SMSLogin> {
               height: 10,
             ),
             Text(
-              "公安健康",
+              "畅享健康",
               style: TextStyle(fontSize: 22),
             ),
             SizedBox(

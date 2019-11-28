@@ -221,7 +221,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                         ),
                         Expanded(
                           child: Container(
-                            height: 2,
+                            height: 1,
                             color: Color(0xFF5C79C3),
                           ),
                         ),
@@ -243,7 +243,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                         ),
                         Expanded(
                           child: Container(
-                            height: 2,
+                            height: 1,
                             color: Color(0xffDAD9E6),
                           ),
                         ),
@@ -265,7 +265,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                         ),
                         Expanded(
                           child: Container(
-                            height: 2,
+                            height: 1,
                             color: Color(0xffDAD9E6),
                           ),
                         ),
@@ -329,9 +329,9 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       height: 12,
                     ),
                     Text(
-                      '服务说明：电话咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日：19:00-21:00。',
+                      '电话咨询是由市局心理服务中心外聘的专业心理咨询师为您解答，服务时间为工作日：19:00-21:00。',
                       strutStyle:
-                          StrutStyle(forceStrutHeight: true, height: 1.8),
+                          StrutStyle(forceStrutHeight: true, height: 1.5),
                       style: TextStyle(color: Color(0xFF999999)),
                     )
                   ],
