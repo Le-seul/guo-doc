@@ -326,47 +326,52 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
   }
 
   _buildItem(int index) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 5, left: 15, right: 15),
-      margin: EdgeInsets.only(top: 15),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 1,
-            color: Colors.grey[200],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Image.network(
-                        activityDetail.cover,
-                        height: 100,
-                        width: 100,
+    return GestureDetector(
+      onTap: (){
+        NavigatorUtil.pushWebView(context, activityDetail.detail, {"title":"活动"});
+      },
+      child: Container(
+        padding: EdgeInsets.only(bottom: 5, left: 15, right: 15),
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 1,
+              color: Colors.grey[200],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Image.network(
+                          activityDetail.cover,
+                          height: 100,
+                          width: 100,
 
-                      ),
-                    )),
-              ),
-              SizedBox(width: 10,),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  activityDetail.name,
-                  style: TextStyle(fontSize: 14),
+                        ),
+                      )),
                 ),
-              ),
-            ],
-          ),
-        ],
+                SizedBox(width: 10,),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    activityDetail.name,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
