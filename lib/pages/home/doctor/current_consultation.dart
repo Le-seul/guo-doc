@@ -139,7 +139,7 @@ class _CurrentConsultationState extends State<CurrentConsultation> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            progressOrderList[index].doctorName ?? "",
+                            progressOrderList[index].doctorName ?? "等待医生回复",
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(

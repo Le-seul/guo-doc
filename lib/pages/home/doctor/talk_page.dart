@@ -616,7 +616,7 @@ class _TalkPageState extends State<TalkPage>
                           color: Colors.black12,
                           child: Center(
                             child: Text(
-                              offstage?'等待医生回复':'医生的回复仅为建议，具体诊疗请前往医院进行',
+                              '医生的回复仅为建议，具体诊疗请前往医院进行',
                               style: TextStyle(color: Colors.black26),
                             ),
                           ),

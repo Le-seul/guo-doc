@@ -14,6 +14,7 @@ List<Widget> tabList;
 
 //资讯页面
 class ConsultationPage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState

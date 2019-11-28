@@ -7,6 +7,10 @@ EventBus eventBus = EventBus();
 class LoginEvent{
 
 }
+class CallBack{
+
+}
+
 class refreshNum{
   String num;
   String orderId;

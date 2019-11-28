@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
@@ -30,9 +31,6 @@ import '../../net/dio_utils.dart';
 import 'home_widgets/course/bottom_player bar.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({
-    Key key,
-  }) : super(key: key);
 
   _HomePageState createState() => _HomePageState();
 }
@@ -343,14 +341,26 @@ class _HomePageState extends State<HomePage> {
                             '健康知识',
                             style: TextStyle(fontSize: 15),
                           )),
-                          Text(
-                            '更多',
-                            style: TextStyle(color: Colors.black12),
+                          GestureDetector(
+                            onTap: (){
+//                              print('点击了更多');
+                              eventBus.fire(CallBack());
+//                              widget.onPress;
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  '更多',
+                                  style: TextStyle(color: Colors.black12),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                loadAssetImage('arrow.png', height: 12, width: 12),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          loadAssetImage('arrow.png', height: 12, width: 12),
+
                         ],
                       ),
                     ),
@@ -395,14 +405,13 @@ class _HomePageState extends State<HomePage> {
         height: 120,
         color: Colors.white,
         padding:
-            EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0, top: 10),
+            EdgeInsets.only(left: 10.0, right: 10.0, bottom: 15.0, top: 15.0),
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 1,
               child: Image.network(
                 item.cover1 ?? defaultImage,
-                height: 90,
                 fit: BoxFit.fill,
               ),
             ),

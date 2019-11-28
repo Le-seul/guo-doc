@@ -219,14 +219,17 @@ class _ChildPageState extends State<ChildPage> {
           ? getContentItem(item)
           : getThreeImagItem(item),
       onTap: () {
-          if (!widget.isTopic&&item.type == 'T') {
-            NavigatorUtil.pushPage(context, TopicPage(item.id));
-            CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
-          } else {
-            NavigatorUtil.pushPage(context, ConsultationDetailPage(id: item.id,));
-            CommonRequest.UserReadingLog(item.id, item.type, 'YD');
-          }
-
+        if (!widget.isTopic && item.type == 'T') {
+          NavigatorUtil.pushPage(context, TopicPage(item.id));
+          CommonRequest.UserReadingLog(item.id, item.type, 'DJ');
+        } else {
+          NavigatorUtil.pushPage(
+              context,
+              ConsultationDetailPage(
+                id: item.id,
+              ));
+          CommonRequest.UserReadingLog(item.id, item.type, 'YD');
+        }
       },
     );
   }
@@ -237,7 +240,7 @@ class _ChildPageState extends State<ChildPage> {
         color: Colors.white,
         margin: const EdgeInsets.only(bottom: 5.0),
         padding: const EdgeInsets.only(
-            left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+            left: 10.0, right: 10.0, top: 15.0, bottom: 15.0),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -262,7 +265,7 @@ class _ChildPageState extends State<ChildPage> {
                           ),
                         ),
                         item.type == "T"
-                            ? Container()
+                            ? Text('')
                             : Expanded(
                                 flex: 3,
                                 child: Row(
@@ -296,7 +299,9 @@ class _ChildPageState extends State<ChildPage> {
                 ],
               ),
             ),
-            SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
             Expanded(
               flex: 1,
               child: Image.network(
