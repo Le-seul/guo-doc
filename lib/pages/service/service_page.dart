@@ -61,7 +61,6 @@ class _ServicePageState extends State<ServicePage> {
       appBar: AppBar(
         title: Text(
           '服务',
-          style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
         backgroundColor: Colours.bg_green,

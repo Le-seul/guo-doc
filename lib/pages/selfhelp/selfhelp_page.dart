@@ -127,7 +127,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
       appBar: AppBar(
         title: Text(
           '自助',
-          style: TextStyle(fontSize: 18,color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: Colours.bg_green,

@@ -112,12 +112,14 @@ _buildItem(int index) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(flex: 2,child: itemWidget,),
-          Expanded(flex: 2,child: Container(
+           Container(
+             height: 20,
+            width: 20,
             padding: EdgeInsets.all(5),
             child: ClipOval(
               child: Image.network('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'),
             ),
-          )),
+          ),
           Expanded(flex: 6,child: Text('  张警官'),),
           Expanded(flex: 3,child: Container(
             child: Row(
