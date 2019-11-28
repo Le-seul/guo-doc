@@ -127,8 +127,6 @@ class LoadingDialog extends Dialog {
   }
 }
 class ConsutationDialog extends Dialog {
-  BuildContext mContext;
-  ConsutationDialog(this.mContext);
   @override
   Widget build(BuildContext context) {
     return new Material( //创建透明层
@@ -137,26 +135,26 @@ class ConsutationDialog extends Dialog {
         child:Container(
           padding: EdgeInsets.only(top: 20,bottom: 20),
           margin: EdgeInsets.only(left: 30,right: 30),
-          height: 130,
+          height: 120,
 
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12)),
           child: new Column(
             children: <Widget>[
-             SizedBox(height: 5,),
+
               Container(
                 padding: EdgeInsets.only(left: 15,right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                  Text('请选择',style: TextStyle(fontSize: 18),),
-                  GestureDetector(child: Icon(Icons.close,size: 25,),onTap: (){
+                  Text('请选择'),
+                  GestureDetector(child: Icon(Icons.close,size: 20,color: Colors.black26),onTap: (){
                     Navigator.of(context).pop();
                   },)
                 ],),
               ),
-              SizedBox(height: 25,),
+              SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -171,10 +169,10 @@ class ConsutationDialog extends Dialog {
                               borderRadius: BorderRadius.circular(12)),
                           padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
 
-                          child: Text('继续已有问诊',style: TextStyle(color: Colors.white),),
+                          child: Text('继续已有问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
                         ),
                         onTap: (){
-                          NavigatorUtil.pushReplacementNamed(mContext,HistoryRecord());
+                          NavigatorUtil.pushReplacementNamed(context,HistoryRecord());
                         },
                       ),
                     ),
@@ -188,7 +186,7 @@ class ConsutationDialog extends Dialog {
                               color: Colors.orange,
                               borderRadius: BorderRadius.circular(12)),
                           padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
-                          child: Text('创建新的问诊',style: TextStyle(color: Colors.white),),
+                          child: Text('创建新的问诊',style: TextStyle(color: Colors.white,fontSize: 15),),
                         ),
                         onTap: (){
                           Navigator.of(context).pop();
