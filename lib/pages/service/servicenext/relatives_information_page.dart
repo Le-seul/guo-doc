@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/util/datetime_picer/datetime_picker_theme.dart';
 import 'package:flutter_first/util/datetime_picer/flutter_datetime_picker.dart';
 import 'package:flutter_first/util/datetime_picer/i18n_model.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 
 class RelativesInformationPage extends StatefulWidget {
@@ -62,12 +64,12 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '亲属资料填写',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -230,7 +232,7 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
           alignment: Alignment.center,
           width: double.infinity,
           height: 45,
-          color: Colors.blue,
+          color: Color(0xff2CA687),
           child: GestureDetector(
             child: Text(
               '下一步',
@@ -242,12 +244,7 @@ class _RelativesInformationPageState extends State<RelativesInformationPage> {
               } else if (birthday == '' || birthday == null) {
                 Toast.show('请输入生日!');
               } else {
-                Router.push(context, Router.initiateConsultationPage, {
-                  'name': name,
-                  'relation': relation,
-                  'gender': gender,
-                  'birthday': birthday
-                });
+                NavigatorUtil.pushPage(context,InitiateConsultationPage('FAMI',name: name,gender: gender,birthday: birthday,relation: relation,));
               }
             },
           )),

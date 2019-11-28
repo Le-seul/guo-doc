@@ -7,8 +7,16 @@ import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -142,7 +150,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)),
                   onTap: (){
-                    Router.pushNoParams(context, Router.everydaytest);
+                    NavigatorUtil.pushPage(context,EverydayTest());
                   },
                 )
               ],
@@ -201,7 +209,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ],
               ),
               onTap: (){
-                Router.push(context, Router.test0,PsyList[0].testEntry);
+                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].testEntry,));
               },
             )
           ),
@@ -219,7 +227,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C))),),
                   onTap: (){
-                    Router.pushNoParams(context, Router.psycourse);
+                    NavigatorUtil.pushPage(context, PsyCourse());
                   },
                 )
 
@@ -240,8 +248,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Router.push(context, Router.curriculumcatalog1,mycourselist[0].id);
-//                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
+                    NavigatorUtil.pushPage(context,CourseDetailPage(courseId: mycourselist[0].id,));
                   },
                   child:Container(
                     margin: EdgeInsets.only(left: 10),
@@ -284,8 +291,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Router.push(context, Router.curriculumcatalog1,mycourselist[1].id);
-//                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
+                    NavigatorUtil.pushPage(context,CourseDetailPage(courseId: mycourselist[1].id,));
                   },
                   child:Container(
                     margin: EdgeInsets.only(left: 10),
@@ -328,8 +334,8 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Router.push(context, Router.curriculumcatalog1,mycourselist[2].id);
-//                    Router.push(context, mycourselist[0].coverImage, {'title': mycourselist[0].name});
+                    NavigatorUtil.pushPage(context,CourseDetailPage(courseId: mycourselist[2].id,));
+
                   },
                   child:Container(
                     margin: EdgeInsets.only(left: 10),
@@ -387,7 +393,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C))),),
                   onTap: (){
-                    Router.push(context, Router.musicPage, {'num': 0, 'tagId': ""});
+                    NavigatorUtil.pushPage(context,MusicPage(num: 0,tagId: ''));
                   },
                 )
               ],
@@ -413,7 +419,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        Router.push(context, Router.musicListPage, GetAllMusicList[0]);
+                        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: GetAllMusicList[0]));
                       },
                     ),
 
@@ -450,7 +456,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        Router.push(context, Router.musicListPage, GetAllMusicList[1]);
+                        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: GetAllMusicList[1]));
                       },
                     ),
 
@@ -487,7 +493,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        Router.push(context, Router.musicListPage, GetAllMusicList[2]);
+                        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: GetAllMusicList[2],));
                       },
                     ),
 
@@ -524,7 +530,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)),
                   onTap: (){
-                    Router.pushNoParams(context, Router.togethereading);
+                    NavigatorUtil.pushPage(context,SimpleCoreading());
                   },
                 )
               ],
@@ -790,7 +796,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
               ),
               onTap: (){
                 _getCoreadingLike(list[index].id);
-                Router.push(context, list[index].detailDesc, {"title":list[index].shortDesc});
+                NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
               },
             );
           }),

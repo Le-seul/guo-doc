@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 class CourseChild extends StatefulWidget {
 
   List<Course> courseList ;
@@ -37,7 +39,7 @@ class _CourseChildState extends State<CourseChild> {
   _buildItem(int index){
     return GestureDetector(
       onTap: (){
-        Router.push(context, Router.curriculumcatalog1,widget.courseList[index].id);
+        NavigatorUtil.pushPage(context,CourseDetailPage(courseId: widget.courseList[index].id,));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

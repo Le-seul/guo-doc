@@ -16,6 +16,7 @@ class _RelativesState extends State<Relatives> {
     return Scaffold(
       appBar: AppBar(
         title: Text('亲属资料填写'),
+        backgroundColor: Color(0xff2CA687),
         centerTitle: true,
       ),
       body: ListView(

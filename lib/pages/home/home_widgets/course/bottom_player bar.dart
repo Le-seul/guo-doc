@@ -7,7 +7,9 @@ import 'package:flutter_first/bean/course_detail.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/catalog_detail_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -306,7 +308,7 @@ class _BottomControllerWidgetState extends State<BottomControllerWidget> {
         if(BottomControllerBar.isClick){
           BottomControllerBar.isClick = false;
           BottomControllerBar.hideBottomControllerBar(context, true);
-          Router.push(context, Router.catalogdetail,course.detailDescription);
+          NavigatorUtil.pushPage(context,CatalogDetail(Detail: course.detailDescription,));
 
           BottomControllerBar.hide = true;
           BottomControllerBar.dy = lib.ScreenUtil.getInstance().screenHeight*0.3;

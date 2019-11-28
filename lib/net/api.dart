@@ -5,6 +5,15 @@ class Api {
   //获取栏目内容
   static const String GETAllCOlUMNINFO = "/api/information.do?getColumnInfo";
 
+  //获取第一个栏目的内容
+  static const String GETDEFAUTLTCOLUMNINFO = "/api/information.do?getDefaultColumnInfo";
+
+  //获取文章详情
+  static const String GETARTICLECONTENT = "/api/article.do?getArticleContent";
+
+//获取专题包含的文章
+  static const String GETARTICLETOPIC = "/api/topic.do?getArticleOfTopic";
+
   //获取活动列表
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
 
@@ -164,4 +173,7 @@ class Api {
 
   //体检报告列表
   static const String GETYEARLIST = "/api/exam.do?getYearList";
+
+  //保存用户意见
+  static const String SAVESUGGESTION = "/api/suggestion.do?saveSuggestion";
 }

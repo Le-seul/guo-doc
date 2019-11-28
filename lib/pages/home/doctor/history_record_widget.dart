@@ -5,7 +5,9 @@ import 'package:flutter_first/bean/history_order_entity.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/doctor/talk_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
@@ -156,7 +158,7 @@ class _HistoryRecordWidgetState extends State<HistoryRecordWidget>
   _buildItem(HistoryOrder historyOrder) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.talk,{'orderId': historyOrder.id, 'offstage': true,'type':historyOrder.type});
+        NavigatorUtil.pushPage(context,TalkPage(orderId: historyOrder.id,offstage: true,type: historyOrder.type,));
       },
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 15),

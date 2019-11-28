@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
+import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_detail.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 
 class MusicListPage extends StatefulWidget {
@@ -68,7 +71,7 @@ class _MusicListPageState extends State<MusicListPage> {
                     Expanded(child: Container()),
                     GestureDetector(
                       onTap: () {
-                        Router.push(context, Router.playingPage, musicList[0]);
+                        NavigatorUtil.pushPage(context,PlayingPage(music: musicList[0],));
                         quiet.playWithList(musicList[0], musicList, 'playlist');
                       },
                       child: Container(
@@ -134,7 +137,7 @@ class _MusicListPageState extends State<MusicListPage> {
   _buildTop() {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.musicDetailPage, widget.allMusicList);
+        NavigatorUtil.pushPage(context,MusicDetail(allMusicList: widget.allMusicList,));
       },
       child: Container(
           padding: EdgeInsets.only(left: 10, right: 5),
@@ -182,7 +185,7 @@ class _MusicListPageState extends State<MusicListPage> {
                           style: TextStyle(color: Colors.black54),
                           strutStyle:
                               StrutStyle(forceStrutHeight: true, height: 1.5),
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
@@ -198,7 +201,7 @@ class _MusicListPageState extends State<MusicListPage> {
   _buildItem(int index, bool isPlaying) {
     return GestureDetector(
         onTap: () {
-          Router.push(context, Router.playingPage, musicList[index]);
+          NavigatorUtil.pushPage(context,PlayingPage(music: musicList[index],));
           quiet.playWithList(musicList[index], musicList, 'playlist');
         },
         child: Container(

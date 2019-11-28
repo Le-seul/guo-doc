@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/doctor/talk_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/my_card.dart';
 class GraphicConsultationPage extends StatefulWidget {
   @override
@@ -29,7 +31,7 @@ class _GraphicConsultationPageState extends State<GraphicConsultationPage> {
   _buildItem(int index) {
     return GestureDetector(
       onTap: (){
-        Router.pushNoParams(context, Router.talk);
+        NavigatorUtil.pushPage(context,TalkPage());
       },
       child:Container(
           height: 120,

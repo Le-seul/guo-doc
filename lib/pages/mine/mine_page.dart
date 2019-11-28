@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
+import 'package:flutter_first/pages/exit_login_page.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
+import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/mine/feedback_page.dart';
+import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-
 
 class MinePage extends StatelessWidget {
   @override
@@ -13,7 +20,10 @@ class MinePage extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: AppBar(
-            title: Text('我的',style: TextStyle(fontSize: 18),),
+            title: Text(
+              '我的',
+              style: TextStyle(fontSize: 18),
+            ),
             centerTitle: true,
             backgroundColor: Colours.bg_green,
             elevation: 0,
@@ -22,7 +32,6 @@ class MinePage extends StatelessWidget {
       //backgroundColor: Colours.line,
       body: ListView(
         physics: ClampingScrollPhysics(),
-
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -56,7 +65,8 @@ class MinePage extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: NetworkImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572862144&di=d3fabea17ef23e6434c8a3499bc74e3e&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20181003%2F17%2F1538557769-tTlpNrusja.jpg'))),
+                              image: NetworkImage(
+                                  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572862144&di=d3fabea17ef23e6434c8a3499bc74e3e&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20181003%2F17%2F1538557769-tTlpNrusja.jpg'))),
                     ),
                     SizedBox(
                       width: 15,
@@ -87,19 +97,20 @@ class MinePage extends StatelessWidget {
                               padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(4))),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4))),
                             ),
                           ),
                           Center(
-                            child: Image.asset('assets/images/mine/字母.png',height: 20,width: 20),
+                            child: Image.asset('assets/images/mine/字母.png',
+                                height: 20, width: 20),
                           )
                         ],
                       ),
-                      onTap: (){
-                        Share.text('我的分享','www.baidu.com','text/plain');
+                      onTap: () {
+                        Share.text('我的分享', 'www.baidu.com', 'text/plain');
                       },
                     ),
-
                     SizedBox(
                       width: 10,
                     ),
@@ -114,11 +125,13 @@ class MinePage extends StatelessWidget {
                             padding: EdgeInsets.all(3),
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(4))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
                           ),
                         ),
                         Center(
-                          child: Image.asset('assets/images/mine/二维码.png',height: 20,width: 20),
+                          child: Image.asset('assets/images/mine/二维码.png',
+                              height: 20, width: 20),
                         )
                       ],
                     ),
@@ -133,14 +146,22 @@ class MinePage extends StatelessWidget {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Text('55555',style: TextStyle(color: Colors.white,fontSize: 18),),
-                          SizedBox(height: 5,),
-                          Text('步数',style: TextStyle(color: Colors.white,fontSize: 14),)
+                          Text(
+                            '55555',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '步数',
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          )
                         ],
                       ),
                       SizedBox(
                         width: 70,
-                        ),
+                      ),
                       Container(
                         width: 1,
                         height: 35,
@@ -153,15 +174,24 @@ class MinePage extends StatelessWidget {
                         child: Container(
                           child: Column(
                             children: <Widget>[
-                              Text('5',style: TextStyle(color: Colors.white,fontSize: 18),),
-                              SizedBox(height: 5,),
-                              Text('排名',style: TextStyle(color: Colors.white,fontSize: 14),)
+                              Text(
+                                '5',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '排名',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              )
                             ],
                           ),
                         ),
-                        onTap: (){
-                          Router.pushNoParams(
-                                      context, Router.step_ranking);
+                        onTap: () {
+                          NavigatorUtil.pushPage(context,StepRanking());
                         },
                       )
                     ],
@@ -174,18 +204,18 @@ class MinePage extends StatelessWidget {
                   width: ScreenUtil().setWidth(90),
                   padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                   decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                      //阴影颜色
-                        color: Colors.grey,
-                        //阴影位置
-                        offset: Offset(0, 0),
-                        //越大越透明
-                        blurRadius: 10.0,
-                        //阴影模糊大小
-                        spreadRadius: 1.0,)
-                    ],
-
+                      boxShadow: [
+                        BoxShadow(
+                          //阴影颜色
+                          color: Colors.grey,
+                          //阴影位置
+                          offset: Offset(0, 0),
+                          //越大越透明
+                          blurRadius: 10.0,
+                          //阴影模糊大小
+                          spreadRadius: 1.0,
+                        )
+                      ],
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Column(
@@ -198,7 +228,6 @@ class MinePage extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: InkWell(
-
                               child: Container(
                                 height: 60,
                                 width: 40,
@@ -218,16 +247,16 @@ class MinePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              onTap: (){
-                                Router.pushNoParams(context, Router.instructor_demeanorPage);
+                              onTap: () {
+                                NavigatorUtil.pushPage(context,instructor_demeanor());
                               },
                             ),
                           ),
                           Expanded(
                             flex: 1,
                             child: InkWell(
-                              onTap: (){
-                                Router.pushNoParams(context, Router.psycourse);
+                              onTap: () {
+                                NavigatorUtil.pushPage(context, PsyCourse());
                               },
                               child: Container(
                                 height: 60,
@@ -272,8 +301,8 @@ class MinePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              onTap: (){
-                                Router.pushNoParams(context, Router.instructor_demeanorPage);
+                              onTap: () {
+                                NavigatorUtil.pushPage(context,instructor_demeanor());
                               },
                             ),
                           ),
@@ -341,11 +370,11 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.pushNoParams(context, Router.reporylist);
+              NavigatorUtil.pushPage(context,ReportList());
             },
           ), // 体检报告
           SizedBox(
-            height: 2,
+            height: 1,
 //            child: Container(
 //              color: Colours.line,
 //            ),
@@ -381,15 +410,16 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.pushNoParams(context, Router.historyRecord);
+              NavigatorUtil.pushPage(context,HistoryRecord());
             },
           ), //健康咨询
           SizedBox(
-            height: 2,
+            height: 1,
 //            child: Container(
 //              color: Colours.line,
 //            ),
           ),
+
           FlatButton(
             child: Container(
               height: 40,
@@ -459,11 +489,11 @@ class MinePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Router.pushNoParams(context, Router.feedBackPage);
+              NavigatorUtil.pushPage(context, FeedBackPage());
             },
           ), //意见建议
           SizedBox(
-            height: 2,
+            height: 1,
 //            child: Container(
 //              color: Colours.line,
 //            ),
@@ -498,10 +528,12 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              NavigatorUtil.pushWebView(context, 'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm', {'title': '关于“畅享健康”APP'});
+            },
           ), //联系我们
           SizedBox(
-            height: 2,
+            height: 1,
 //            child: Container(
 //              color: Colours.line,
 //            ),
@@ -536,10 +568,12 @@ class MinePage extends StatelessWidget {
                 ],
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm', {'title': '畅享健康用户注册协议'});
+            },
           ), //隐私服务
            SizedBox(
-                      height: 2,
+                      height: 1,
 //                      child: Container(
 //                        color: Colours.line,
 //                      ),
@@ -603,7 +637,7 @@ class MinePage extends StatelessWidget {
                         style: TextStyle(fontSize: 14),
                       ),
                       onTap: () {
-                        Router.pushNoParams(context, Router.exitLoginPage);
+                        NavigatorUtil.pushPage(context,ExitLoginPage());
                       },
                     ),
                   ),

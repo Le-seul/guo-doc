@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 
 class MusicSortPage extends StatefulWidget {
@@ -101,8 +103,8 @@ class _MusicSortPageState extends State<MusicSortPage> {
 
       child: GestureDetector(
           onTap: () {
-            Router.push(context, Router.musicPage,
-                {'num': 1, 'tagId': GetAllMusicList[index].id});
+            NavigatorUtil.pushPage(context,MusicPage(num: 1,tagId: GetAllMusicList[index].id));
+
           },
           child: Container(
             padding: EdgeInsets.only(top:2,bottom: 2,left:6,right: 6),

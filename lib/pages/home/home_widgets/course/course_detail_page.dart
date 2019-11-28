@@ -8,7 +8,9 @@ import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/catalog_detail_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -281,7 +283,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
         }else{
           BottomControllerBar.hideBottomControllerBar(context, true);
         }
-        Router.push(context, Router.catalogdetail,chapterList.detailDescription);
+        NavigatorUtil.pushPage(context,CatalogDetail(Detail: chapterList.detailDescription,));
         if(chapterList.isPlaying == false){
           if (chapterList.state != 'N') {
             if (chapterList.isPlaying == false) {

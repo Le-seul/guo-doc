@@ -5,8 +5,9 @@ import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/number.dart';
-import 'package:flutter_first/util/router.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -433,10 +434,8 @@ class _instructor_demeanor_detailState
                 ),
               ),
               onTap: () {
-                Router.push(
-                    context,
-                    'http://news.cpd.com.cn/n18151/201910/t20191030_862809.html',
-                    {"title": '时事新闻'});
+                NavigatorUtil.pushWebView(context, 'http://news.cpd.com.cn/n18151/201910/t20191030_862809.html', {"title": '时事新闻'});
+
               },
             ),
             GestureDetector(
@@ -490,10 +489,8 @@ class _instructor_demeanor_detailState
                 ),
               ),
               onTap: () {
-                Router.push(
-                    context,
-                    'http://news.cpd.com.cn/n18151/201910/t20191030_862812.html',
-                    {"title": '时事新闻'});
+
+                NavigatorUtil.pushWebView(context, 'http://news.cpd.com.cn/n18151/201910/t20191030_862812.html', {"title": '时事新闻'});
               },
             ),
             GestureDetector(
@@ -547,10 +544,7 @@ class _instructor_demeanor_detailState
                 ),
               ),
               onTap: () {
-                Router.push(
-                    context,
-                    'http://news.cpd.com.cn/n18151/201910/t20191030_862813.html',
-                    {"title": '时事新闻'});
+                NavigatorUtil.pushWebView(context, 'http://news.cpd.com.cn/n18151/201910/t20191030_862813.html',  {"title": '时事新闻'});
               },
             ),
           ],

@@ -1,7 +1,9 @@
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/home/doctor/search_hospital_detail.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
 
@@ -174,7 +176,7 @@ class _SearchHospitalState extends State<SearchHospital>
     }
     return GestureDetector(
       onTap: () {
-        Router.pushNoParams(context, Router.searchHospitalDetail);
+        NavigatorUtil.pushPage(context,SearchHospitalDetail());
       },
       child: Container(
         color: Colors.white,

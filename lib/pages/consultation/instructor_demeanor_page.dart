@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/instructor_demeanor_detail_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/number.dart';
-import 'package:flutter_first/util/router.dart';
+
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -226,7 +228,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                 ),
               ),
               onTap: (){
-                Router.push(context, Router.instructor_demeanor_detailPage,BestList[0].id);//记得改List
+                NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:BestList[0].id));
                 },
             ),
             Container(
@@ -284,7 +286,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[0].id);
+                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[0].id));
                                 },
                               ),
                               SizedBox(
@@ -307,7 +309,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[1].id);
+                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[1].id));
                                 },
                               ),
                               SizedBox(
@@ -330,7 +332,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[2].id);
+                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[2].id));
                                 },
                               ),
                               SizedBox(
@@ -470,7 +472,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
 
 
                             onTap: (){
-                              Router.push(context, Router.instructor_demeanor_detailPage,Ranklist[index].id);
+                              NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[index].id));
                             },
                           );
                         })

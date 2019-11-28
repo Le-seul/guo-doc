@@ -14,7 +14,7 @@ import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
-import 'package:flutter_first/util/router.dart';
+
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -98,6 +98,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                   theme: new ThemeData(
+                    appBarTheme:AppBarTheme(color: Color(0xff2CA687)),
                     platform: TargetPlatform.iOS,
                   ),
                 ),

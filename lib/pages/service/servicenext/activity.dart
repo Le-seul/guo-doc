@@ -4,7 +4,8 @@ import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/dialog.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -299,10 +300,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
   _childItem(int index) {
     return GestureDetector(
       onTap: () {
-        Router.push(context, Router.serviceActivityPage, {
-          'offstage': true,
-          'activityId': activityDetail.childActivity[index].id
-        });
+        NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: activityDetail.childActivity[index].id));
       },
       child: Container(
         padding: EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 8),

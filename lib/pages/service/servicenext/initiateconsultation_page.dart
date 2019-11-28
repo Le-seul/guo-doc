@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/service/servicenext/consultation_detail.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/utils.dart';
 
@@ -57,12 +59,12 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xff2CA687),
         title: Text(
           '心理咨询',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -316,7 +318,7 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
                     child: Text('详情',style: TextStyle(color: Colors.blue),),
                   ),
                   onTap: (){
-                    Router.pushNoParams(context, Router.psychologicalDetailPage);
+                    NavigatorUtil.pushPage(context,PsychologicalDetailPage());
                   },
                 ),
 
@@ -333,11 +335,11 @@ class _InitiateConsultationPageState extends State<InitiateConsultationPage> {
           alignment: Alignment.center,
           width: double.infinity,
           height: 45,
-          color: Colors.blue,
+          color: Color(0xff2CA687),
           child: GestureDetector(
             child: Text(
               '提交',
-              style: TextStyle(fontSize: 17),
+              style: TextStyle(fontSize: 17,color: Colors.white),
             ),
             onTap: () {
               if(emergePerson == ""||emergePerson == null){

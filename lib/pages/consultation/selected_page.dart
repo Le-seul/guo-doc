@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/consultation/consulation_detail_page.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/mock_request.dart';
@@ -149,7 +151,7 @@ class _SelectedPageState extends State<SelectedPage> {
     return GestureDetector(
       child: showThree?getThreeImagItem(item):getContentItem(item) ,
       onTap: () {
-        Router.push(context, Router.consulationDetailPage, list[index]);
+        NavigatorUtil.pushPage(context,ConsultationDetailPage(id: '1',));
       },
 
     );

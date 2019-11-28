@@ -3,8 +3,10 @@ import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/evaluation.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/doctor/doctor_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/greenBgWidget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -179,7 +181,7 @@ class _EvaluationPageState extends State<EvaluationPage>
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Router.pushNoParams(context, Router.doctorPage);
+                NavigatorUtil.pushPage(context,DoctorPage());
               },
               child: Container(
                 color: Colors.white,

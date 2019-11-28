@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/pages/home/home_widgets/images_page.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_first/mock_request.dart';
 
@@ -37,7 +39,8 @@ class _swiperDiyState extends State<swiperDiy> {
               size:0,
             ),  
             onTap: (int index){
-             Router.push(context, Router.imagesPage, index);
+              NavigatorUtil.pushPage(context,ImagesPage(indext: index));
+
             },
             scrollDirection: Axis.horizontal,
             autoplay: true,

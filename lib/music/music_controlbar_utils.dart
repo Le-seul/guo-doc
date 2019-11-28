@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/music/channel_media_player.dart';
+import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/music/playing_indicator.dart';
 import 'package:flutter_first/music/time.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:marquee_flutter/marquee_flutter.dart';
 
 import 'cached_image.dart';
@@ -294,7 +296,7 @@ class MusicControlBar {
                 ),
               ),
               onTap: () {
-                Router.pushNoParams(context, Router.playingPage);
+                NavigatorUtil.pushPage(context,PlayingPage());
               },
             ),
           ));

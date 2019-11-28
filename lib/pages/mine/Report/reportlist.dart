@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/HealthYear.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/mine/Report/bodyreport.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 
 
 class ReportList extends StatefulWidget {
@@ -59,7 +61,7 @@ class _ReportListState extends State<ReportList> {
   _buildItem(int index){
     return GestureDetector(
       onTap: (){
-        Router.pushNoParams(context, Router.bodyreport);
+        NavigatorUtil.pushPage(context,BodyReport());
       },
       child: Container(
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 15,right: 15),

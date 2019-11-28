@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
+import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
+import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:flutter_first/util/router.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -127,8 +132,7 @@ class _ServicePageState extends State<ServicePage> {
                                     ),
                                   ),
                                     onTap: (){
-                                      Router.pushNoParams(
-                                          context, Router.graphicConsultation);
+                                      NavigatorUtil.pushReplacementNamed(context,GraphicConsultation());
                                     },
                               ),
                                   Text('图文问诊',style: TextStyle(fontSize: 12),)
@@ -152,7 +156,7 @@ class _ServicePageState extends State<ServicePage> {
                                       ),
                                     ),
                                     onTap: (){
-                                      Router.pushNoParams(context, Router.telConsultation);
+                                      NavigatorUtil.pushPage(context,TelConsultation());
                                     },
                                   ),
 
@@ -177,7 +181,7 @@ class _ServicePageState extends State<ServicePage> {
                                       ),
                                     ),
                                     onTap: (){
-                                      Router.pushNoParams(context, Router.historyRecord);
+                                      NavigatorUtil.pushPage(context,HistoryRecord());
                                     },
                                   ),
 
@@ -334,7 +338,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  Router.push(context, Router.serviceActivityPage, {'offstage':true,'activityId':"1"});
+                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
                 },
               ),
               InkWell(
@@ -465,7 +469,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  Router.push(context, Router.serviceActivityPage, {'offstage':true,'activityId':"1"});
+                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
                 },
               ),
               InkWell(
@@ -543,7 +547,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  Router.push(context, Router.serviceActivityPage, {'offstage':true,'activityId':"1"});
+                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
                 },
               ),
 
