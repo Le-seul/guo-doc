@@ -8,6 +8,7 @@ import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/widgets/my_card.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -19,38 +20,30 @@ class MinePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-            title: Text(
-              '我的',
-            ),
-            centerTitle: true,
-            backgroundColor: Colours.bg_green,
-            elevation: 0,
-          ),
-      body: ListView(
+        title: Text(
+          '我的',
+        ),
+        centerTitle: true,
+        backgroundColor: Colours.bg_green,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Container(
-                height: ScreenUtil().setHeight(40),
-                color: Colors.white,
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    width: double.infinity,
-                    height: ScreenUtil().setHeight(30),
-                    color: Colours.bg_green,                  ),
-                ),
-              ),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: 170,
+              color: Colours.bg_green,
+            ),
 //              Positioned(
 //                top: 10,
 //                left: ScreenUtil().setWidth(47),
 //                child: Text('我的',
 //                    style: TextStyle(color: Colors.white, fontSize: 18)),
 //              ),
-              Positioned(
-                top: 5,
-                child: Row(
+            Column(
+              children: <Widget>[
+                Row(
                   children: <Widget>[
                     SizedBox(
                       width: 20,
@@ -133,93 +126,67 @@ class MinePage extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              Positioned(
-                top: 75,
-                  left: ScreenUtil().setWidth(18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            '16480',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '步数',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 70,
-                      ),
-                      Container(
-                        width: 1,
-                        height: 35,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 70,
-                      ),
-                      InkWell(
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                '5',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '排名',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
-                              )
-                            ],
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          '16480',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                        onTap: () {
-                          NavigatorUtil.pushPage(context,StepRanking());
-                        },
-                      )
-                    ],
-                  )),
-              Positioned(
-                top: 135,
-                left: ScreenUtil().setWidth(5),
-                child: Container(
-                  height: 90,
-                  width: ScreenUtil().setWidth(90),
-                  padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          //阴影颜色
-                          color: Colors.grey,
-                          //阴影位置
-                          offset: Offset(0, 0),
-                          //越大越透明
-                          blurRadius: 10.0,
-                          //阴影模糊大小
-                          spreadRadius: 1.0,
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '步数',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                         )
                       ],
+                    ),
+                    SizedBox(
+                      width: 70,
+                    ),
+                    Container(
+                      width: 1,
+                      height: 35,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(6.0)),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 12,
+                    ),
+                    SizedBox(
+                      width: 70,
+                    ),
+                    InkWell(
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              '5',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              '排名',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                            )
+                          ],
+                        ),
                       ),
-                      Row(
+                      onTap: () {
+                        NavigatorUtil.pushPage(context, StepRanking());
+                      },
+                    )
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: MyCard(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10,right: 10,top: 18,bottom: 18),
+                      child: Row(
                         children: <Widget>[
                           Expanded(
                             flex: 1,
@@ -228,8 +195,7 @@ class MinePage extends StatelessWidget {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/我的收藏.png',
@@ -244,7 +210,8 @@ class MinePage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(context,instructor_demeanor());
+                                NavigatorUtil.pushPage(
+                                    context, instructor_demeanor());
                               },
                             ),
                           ),
@@ -258,8 +225,7 @@ class MinePage extends StatelessWidget {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/我的步数.png',
@@ -282,8 +248,7 @@ class MinePage extends StatelessWidget {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/我的活动.png',
@@ -298,7 +263,8 @@ class MinePage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(context,instructor_demeanor());
+                                NavigatorUtil.pushPage(
+                                    context, instructor_demeanor());
                               },
                             ),
                           ),
@@ -309,8 +275,7 @@ class MinePage extends StatelessWidget {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/消息通知.png',
@@ -327,329 +292,336 @@ class MinePage extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/体检报告.png',
+                            height: 25,
+                            color: Color(0xffF76B1C),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '体检报告',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    NavigatorUtil.pushPage(context, ReportList());
+                  },
+                ), // 体检报告
+                SizedBox(
+                  height: 1,
+//            child: Container(
+//              color: Colours.line,
+//            ),
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/健康咨询.png',
+                            height: 18,
+                            color: Color(0xffF76B1C),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '我的问诊',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    NavigatorUtil.pushPage(context, HistoryRecord());
+                  },
+                ), //健康咨询
+                SizedBox(
+                  height: 1,
+//            child: Container(
+//              color: Colours.line,
+//            ),
+                ),
 
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/体检报告.png',
-                      height: 25,
-                      color: Color(0xffF76B1C),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/问卷量表.png',
+                            height: 18,
+                            color: Color(0xffF76B1C),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '问卷量表',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '体检报告',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              NavigatorUtil.pushPage(context,ReportList());
-            },
-          ), // 体检报告
-          SizedBox(
-            height: 1,
+                  onPressed: () {},
+                ), //问卷调查
+                SizedBox(
+                  height: 9,
 //            child: Container(
 //              color: Colours.line,
 //            ),
-          ),
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/健康咨询.png',
-                      height: 18,
-                      color: Color(0xffF76B1C),
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/意见建议.png',
+                            height: 18,
+                            color: Color(0xff0778DE),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '意见建议',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '我的问诊',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              NavigatorUtil.pushPage(context,HistoryRecord());
-            },
-          ), //健康咨询
-          SizedBox(
-            height: 1,
+                  onPressed: () {
+                    NavigatorUtil.pushPage(context, FeedBackPage());
+                  },
+                ), //意见建议
+                SizedBox(
+                  height: 1,
 //            child: Container(
 //              color: Colours.line,
 //            ),
-          ),
-
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/问卷量表.png',
-                      height: 18,
-                      color: Color(0xffF76B1C),
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/联系我们.png',
+                            height: 18,
+                            color: Color(0xff0778DE),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '联系我们',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '问卷量表',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {},
-          ), //问卷调查
-          SizedBox(
-            height: 9,
+                  onPressed: () {
+                    NavigatorUtil.pushWebView(
+                        context,
+                        'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm',
+                        {'title': '关于“畅享健康”APP'});
+                  },
+                ), //联系我们
+                SizedBox(
+                  height: 1,
 //            child: Container(
 //              color: Colours.line,
 //            ),
-          ),
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/意见建议.png',
-                      height: 18,
-                      color: Color(0xff0778DE),
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/隐私服务.png',
+                            height: 18,
+                            color: Color(0xff0778DE),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '隐私服务',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '意见建议',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              NavigatorUtil.pushPage(context, FeedBackPage());
-            },
-          ), //意见建议
-          SizedBox(
-            height: 1,
-//            child: Container(
-//              color: Colours.line,
-//            ),
-          ),
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/联系我们.png',
-                      height: 18,
-                      color: Color(0xff0778DE),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '联系我们',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              NavigatorUtil.pushWebView(context, 'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm', {'title': '关于“畅享健康”APP'});
-            },
-          ), //联系我们
-          SizedBox(
-            height: 1,
-//            child: Container(
-//              color: Colours.line,
-//            ),
-          ),
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/隐私服务.png',
-                      height: 18,
-                      color: Color(0xff0778DE),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '隐私服务',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm', {'title': '畅享健康用户注册协议'});
-            },
-          ), //隐私服务
-           SizedBox(
-                      height: 1,
+                  onPressed: () {
+                    NavigatorUtil.pushWebView(
+                        context,
+                        'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm',
+                        {'title': '畅享健康用户注册协议'});
+                  },
+                ), //隐私服务
+                SizedBox(
+                  height: 1,
 //                      child: Container(
 //                        color: Colours.line,
 //                      ),
-                    ),
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/绑定微信.png',
-                      height: 18,
-                      color: Color(0xff0778DE),
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/绑定微信.png',
+                            height: 18,
+                            color: Color(0xff0778DE),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '绑定微信',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '绑定微信',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {},
-          ), //绑定微信
-          SizedBox(
-            height: 7,
+                  onPressed: () {},
+                ), //绑定微信
+                SizedBox(
+                  height: 7,
 //            child: Container(
 //              color: Colours.line,
 //            ),
-          ),
-          FlatButton(
-            child: Container(
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/系统设置.png',
-                      height: 18,
-                      color: Color(0xff429321),
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/系统设置.png',
+                            height: 18,
+                            color: Color(0xff429321),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: GestureDetector(
+                            child: Text(
+                              '系统设置',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            onTap: () {
+                              NavigatorUtil.pushPage(
+                                  context, ExitLoginPage());
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                            'assets/images/mine/箭头.png',
+                            height: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: GestureDetector(
-                      child: Text(
-                        '系统设置',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      onTap: () {
-                        NavigatorUtil.pushPage(context,ExitLoginPage());
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/mine/箭头.png',
-                      height: 14,
-                    ),
-                  ),
-                ],
-              ),
+                  onPressed: () {},
+                ), //系统设
+
+              ],
             ),
-            onPressed: () {},
-          ), //系统设置
-        ],
+          ],
+        ),
       ),
     );
   }

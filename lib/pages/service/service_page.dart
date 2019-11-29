@@ -31,7 +31,17 @@ class _ServicePageState extends State<ServicePage> {
 
   }
 
- void _requestActivity() {
+  @override
+  void deactivate() {
+    _timer.cancel();
+  }
+
+  @override
+  void dispose() {
+
+  }
+
+  void _requestActivity() {
    DioUtils.instance.requestNetwork<ServiceActivity>(
        Method.get,
        Api.GETACTIVITIES,
@@ -578,7 +588,7 @@ class _ServicePageState extends State<ServicePage> {
         var data2 = stopDate.millisecondsSinceEpoch;
         var diffience = data2 - data1;
         diffience>0?null:diffience=0;
-        print("data:$data1");
+//        print("data:$data1");
         day1 = diffience~/86400000;
         var dif2 =diffience - day1*86400000;
         hour1 = dif2~/3600000;
@@ -587,10 +597,10 @@ class _ServicePageState extends State<ServicePage> {
         var dif4 =diffience - day1*86400000-hour1*3600000-min1*60000;
         sec1 = dif4~/1000;
 
-        print("day$day1");
-        print("hour$hour1");
-        print("fen$min1");
-        print("miao$sec1");
+//        print("day$day1");
+//        print("hour$hour1");
+//        print("fen$min1");
+//        print("miao$sec1");
       });
 
     });

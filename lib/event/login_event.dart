@@ -4,29 +4,26 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter_first/bean/course_detail.dart';
 
 EventBus eventBus = EventBus();
-class LoginEvent{
 
-}
-class CallBack{
+class LoginEvent {}
 
-}
-
-class refreshNum{
+class refreshNum {
   String num;
   String orderId;
   String location;
-  refreshNum(this.num,{this.orderId,this.location});
+  refreshNum(this.num, {this.orderId, this.location});
 }
 
-class CourseContent{
+class CourseContent {
   ChapterList chapterList;
   int type;
 
-  CourseContent(this.chapterList,this.type);
+  CourseContent(this.chapterList, this.type);
 }
-class CourseContent1{
+
+class CourseContent1 {
   ChapterList chapterList;
   int type;
 
-  CourseContent1(this.chapterList,this.type);
+  CourseContent1(this.chapterList, this.type);
 }

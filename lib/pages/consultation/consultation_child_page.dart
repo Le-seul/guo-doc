@@ -206,7 +206,7 @@ class _ChildPageState extends State<ChildPage> {
                   ((BuildContext context, int index) {
             return Column(
               children: <Widget>[
-                index==0? SizedBox(height: 5,):SizedBox(),
+                
                 getCommonItem(columnsInfoList, index)],
             );
           }), childCount: columnsInfoList.length)),

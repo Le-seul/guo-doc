@@ -17,7 +17,11 @@ import 'package:flutter_first/util/navigator_util.dart';
 
 
 class Table0 extends StatefulWidget {
-  Table0({Key key}) : super(key: key);
+
+  VoidCallback onPress;
+  //constructor
+  Table0(this.onPress);
+
 
   _Table0State createState() => _Table0State();
 }
@@ -130,7 +134,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              NavigatorUtil.pushPage(context, ServicePage());
+             widget.onPress();
             },
           ),
           GestureDetector(

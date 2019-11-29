@@ -23,8 +23,8 @@ class _ExitLoginPageState extends State<ExitLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Dio请求'),
-          backgroundColor: Color(0xff666666),
+          title: Text('系统设置'),
+          backgroundColor: Color(0xff2CA687),
         ),
         body: new Center(
             child: new PageView.custom(

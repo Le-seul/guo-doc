@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
-import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
@@ -17,20 +16,21 @@ import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_swiper/flutter_swiper.dart' as lib2;
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../net/api.dart';
 import '../../net/dio_utils.dart';
-import 'home_widgets/course/bottom_player bar.dart';
 
 class HomePage extends StatefulWidget {
+
+  VoidCallback onPress;
+  VoidCallback onPressActivity;
+  //constructor
+  HomePage(this.onPress,this.onPressActivity);
 
   _HomePageState createState() => _HomePageState();
 }
@@ -45,10 +45,10 @@ class _HomePageState extends State<HomePage> {
   List<BannerModel> testList;
   List<BannerImage> bannerlist;
   List<ConsulationColumnsInfo> columnsInfoList = List();
-  List TableList = [
-    Table0(),
-    //Table1(),
-  ];
+//  List TableList = [
+//    Table0(),
+//    //Table1(),
+//  ];
   @override
   void initState() {
     _requestBanner();
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: Container(
                     height: 175,
-                    child: Table0(),
+                    child: Table0(widget.onPressActivity),
 //                          lib2.Swiper(
 //                            itemCount: 1,
 //                            itemBuilder: (BuildContext context, int index) {
@@ -343,9 +343,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                           GestureDetector(
                             onTap: (){
-//                              print('点击了更多');
-                              eventBus.fire(CallBack());
-//                              widget.onPress;
+                              widget.onPress();
                             },
                             child: Row(
                               children: <Widget>[
