@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/db/order_db.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
@@ -24,21 +27,58 @@ class _ServicePageState extends State<ServicePage> {
   int day1,day2,day3,hour1,hour2,hour3,min1,min2,min3,sec1,sec2,sec3;
   List<ServiceActivity> serviceActivityList = List();
   static Timer _timer; //倒计时的计时器
+  StreamSubscription exitLogin;
+  int orderCount = 0;
+  String tuWenNum = '';
+  String fastPhone = '';
+  var db = OrderDb();
 
   @override
   void initState() {
     _requestActivity();
-
+    init();
+    exitLogin = eventBus.on<refreshNum>().listen((event) {
+      setState(() {
+//        print('数据库evenBus');
+        init();
+      });
+    });
   }
 
   @override
   void deactivate() {
+    init();
     _timer.cancel();
   }
 
   @override
   void dispose() {
 
+  }
+
+  init() async {
+    List<Map> list = await db.getAllOrder();
+//    print("数据库list3:$list");
+    List<OrderNum> listNum = List();
+    for (Map map in list) {
+      listNum.add(OrderNum.fromJson(map));
+    }
+    int intTuWen = 0;
+    int intFastPhone = 0;
+    for (OrderNum orderNum in listNum) {
+      setState(() {
+        if (orderNum.location == "chunyuTuwen") {
+          intTuWen = int.parse(orderNum.num) + intTuWen;
+          tuWenNum = "$intTuWen";
+//          print("tuWenNum2:$tuWenNum");
+        } else {
+          intFastPhone += int.parse(orderNum.num);
+          fastPhone = "$intFastPhone";
+        }
+      });
+    }
+
+//    print("fastPhone:$intFastPhone");
   }
 
   void _requestActivity() {
@@ -122,91 +162,23 @@ class _ServicePageState extends State<ServicePage> {
                     top: 50,
                       left: 18,
                       child: Container(
-                       height: ScreenUtil().setHeight(18),
+                       padding: EdgeInsets.only(top: 15,bottom: 15),
                         width: ScreenUtil().setWidth(90),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  InkWell(
-                                  child: Container(
-                                    margin: EdgeInsets.only(top:15,bottom: 10),
-                                    height: ScreenUtil().setHeight(9),
-                                    width: ScreenUtil().setHeight(9),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff45D5D3),
-                                    ),
-                                    child: Center(
-                                      child: Image.asset('assets/images/service/图.png'),
-                                    ),
-                                  ),
-                                    onTap: (){
-                                      NavigatorUtil.pushReplacementNamed(context,GraphicConsultation());
-                                    },
-                              ),
-                                  Text('图文问诊',style: TextStyle(fontSize: 12),)
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  InkWell(
-                                    child:Container(
-                                      margin: EdgeInsets.only(top:15,bottom: 10),
-                                      height: ScreenUtil().setHeight(9),
-                                      width: ScreenUtil().setHeight(9),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xff44D587),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset('assets/images/service/电话.png'),
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      NavigatorUtil.pushPage(context,TelConsultation());
-                                    },
-                                  ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _itemWidget('assets/images/service/图.png','图文问诊', fastPhone == "0" || fastPhone == '',"$fastPhone"),
+                            _itemWidget('assets/images/service/电话.png','电话问诊', tuWenNum == "0" || tuWenNum == '', "$tuWenNum",),
+                            _itemWidget('assets/images/service/钟.png','历史咨询',true,'1')
 
-                                  Text('电话问诊',style: TextStyle(fontSize: 12),)
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  InkWell(
-                                    child: Container(
-                                      margin: EdgeInsets.only(top:15,bottom: 10),
-                                      height: ScreenUtil().setHeight(9),
-                                      width: ScreenUtil().setHeight(9),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xffA79CE3),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset('assets/images/service/钟.png'),
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      NavigatorUtil.pushPage(context,HistoryRecord());
-                                    },
-                                  ),
-
-                                  Text('历史咨询',style: TextStyle(fontSize: 12),)
-                                ],
-                              ) ,
-                            ),
-
-                          ],
+                            ],
+                          ),
                         ),
                       ))
                 ],
@@ -575,6 +547,55 @@ class _ServicePageState extends State<ServicePage> {
     );
   }
 
+
+  _itemWidget(String url,String name,bool offstage,String count){
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 10,right: 10),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                GestureDetector(
+                  child: Center(
+                    child: Image.asset(url,height: 60,width: 60,fit: BoxFit.fill,),
+                  ),
+                  onTap: (){
+                    NavigatorUtil.pushPage(context,HistoryRecord());
+                  },
+                ),
+                SizedBox(height: 10,),
+                Text(name,style: TextStyle(fontSize: 12),)
+              ],
+            ),
+            Offstage(
+              offstage: offstage,
+              child: Container(
+                padding: EdgeInsets.only(right: 2),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    padding:
+                    EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                    child: Text(
+                      '1',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
 
   void startTimer(DateTime stopDate) {
