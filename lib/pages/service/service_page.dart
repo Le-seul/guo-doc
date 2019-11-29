@@ -46,14 +46,8 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   @override
-  void deactivate() {
-    init();
-    _timer.cancel();
-  }
-
-  @override
   void dispose() {
-
+    _timer.cancel();
   }
 
   init() async {
