@@ -50,7 +50,7 @@ class _Table0State extends State<Table0> {
         if (orderNum.location == "chunyuTuwen") {
           intTuWen = int.parse(orderNum.num) + intTuWen;
         } else {
-          intFastPhone += int.parse(orderNum.num);
+          intFastPhone = int.parse(orderNum.num) + intFastPhone;
         }
       });
     }
@@ -190,7 +190,7 @@ class _Table0State extends State<Table0> {
                 builder: (BuildContext context,
                     AsyncSnapshot<ChunyuMessage> snapshot) {
                   return Offstage(
-                    offstage: count == '0',
+                    offstage: snapshot.hasData?(snapshot.data.fastPhoneNum + snapshot.data.tuwenNum == 0): count == "0",
                     child: Container(
                       padding: EdgeInsets.only(right: 2),
                       child: Align(
@@ -206,7 +206,7 @@ class _Table0State extends State<Table0> {
                             ),
                             child: Text(
                               snapshot.hasData
-                                  ? snapshot.data.tuwenNum.toString()
+                                  ? (snapshot.data.tuwenNum+snapshot.data.fastPhoneNum).toString()
                                   : count,
                               style: TextStyle(color: Colors.white),
                             )),

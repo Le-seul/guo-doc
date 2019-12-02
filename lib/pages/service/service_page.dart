@@ -63,7 +63,7 @@ class _ServicePageState extends State<ServicePage> {
           tuWenNum = "$intTuWen";
 //          print("tuWenNum2:$tuWenNum");
         } else {
-          intFastPhone += int.parse(orderNum.num);
+          intFastPhone = int.parse(orderNum.num) + intFastPhone;
           fastPhone = "$intFastPhone";
         }
       });
@@ -157,7 +157,7 @@ class _ServicePageState extends State<ServicePage> {
                           borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
                         child: Center(
-                          child:             StreamBuilder<ChunyuMessage>(
+                          child: StreamBuilder<ChunyuMessage>(
                             stream: bloc.stream,
                             builder: (BuildContext context,
                                 AsyncSnapshot<ChunyuMessage> snapshot) {
@@ -165,8 +165,8 @@ class _ServicePageState extends State<ServicePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  _itemWidget('assets/images/service/图.png','图文问诊', fastPhone == "0" || fastPhone == '',snapshot.hasData?"${snapshot.data.fastPhoneNum}":fastPhone),
-                                  _itemWidget('assets/images/service/电话.png','电话问诊', tuWenNum == "0" || tuWenNum == '',snapshot.hasData?"${snapshot.data.tuwenNum}":tuWenNum),
+                                  _itemWidget('assets/images/service/图.png','图文问诊', snapshot.hasData?(snapshot.data.tuwenNum == 0):(tuWenNum == '0'||tuWenNum == ''),snapshot.hasData?"${snapshot.data.tuwenNum}":tuWenNum),
+                                  _itemWidget('assets/images/service/电话.png','电话问诊',snapshot.hasData?(snapshot.data.fastPhoneNum == 0):(fastPhone == '0'||fastPhone == ''),snapshot.hasData?"${snapshot.data.fastPhoneNum}":fastPhone),
                                   _itemWidget('assets/images/service/钟.png','历史咨询',true,'1')
 
                                 ],

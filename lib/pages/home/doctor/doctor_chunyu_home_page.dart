@@ -57,7 +57,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
           tuWenNum = "$intTuWen";
 //          print("tuWenNum2:$tuWenNum");
         } else {
-          intFastPhone += int.parse(orderNum.num);
+          intFastPhone = int.parse(orderNum.num) + intFastPhone;
           fastPhone = "$intFastPhone";
         }
       });

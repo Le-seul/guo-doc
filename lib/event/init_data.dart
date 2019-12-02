@@ -151,13 +151,12 @@ class _InitDataState extends State<InitData> {
       setState(() {
         if (orderNum.location == "chunyuTuwen") {
           intTuWen = int.parse(orderNum.num) + intTuWen;
-
         } else {
-          intFastPhone += int.parse(orderNum.num);
+          intFastPhone = int.parse(orderNum.num) + intFastPhone;
         }
       });
     }
-    print('图文推送数：$intTuWen');
+    print('电话推送数：$intFastPhone');
     chunyuMessage.tuwenNum = intTuWen;
     chunyuMessage.fastPhoneNum = intFastPhone;
     _chunyuPushBloc.sink.add(chunyuMessage);
