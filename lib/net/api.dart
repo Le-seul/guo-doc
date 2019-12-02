@@ -14,6 +14,9 @@ class Api {
 //获取专题包含的文章
   static const String GETARTICLETOPIC = "/api/topic.do?getArticleOfTopic";
 
+  //查询点赞状态
+  static const String GRTLIKESTATUS = "/api/article.do?getSocialActionStatus";
+
   //获取活动列表
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
 

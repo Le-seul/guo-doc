@@ -6,7 +6,10 @@ import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
+import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
+import 'package:flutter_first/block/bloc_provider.dart';
+import 'package:flutter_first/block/chunyu_bloc.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
@@ -44,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   var listText = ['今年心理健康状况采集活动开始啦！', '心理健康资讯有新的内容啦！', '参与填写心理健康问卷可获取最新的健康报告！'];
   List<BannerModel> testList;
   List<BannerImage> bannerlist;
+  ChunyuMessage chunyuMessage = new ChunyuMessage();
   List<ConsulationColumnsInfo> columnsInfoList = List();
 //  List TableList = [
 //    Table0(),
@@ -54,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     _requestBanner();
     _getColumnsInfo();
   }
+
 
   void _getColumnsInfo() {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
@@ -139,10 +144,15 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(right: 10),
-                      height: 25,
-                      child: loadAssetImage('scanning.png'),
+                    GestureDetector(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(right: 10),
+                        height: 25,
+                        child: loadAssetImage('scanning.png'),
+                      ),
                     ),
                   ],
                 ),

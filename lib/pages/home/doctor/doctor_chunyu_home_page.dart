@@ -3,8 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/order_count.dart';
+import 'package:flutter_first/block/bloc_provider.dart';
+import 'package:flutter_first/block/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -16,7 +19,6 @@ import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -29,7 +31,6 @@ class DoctorChunyuHomePage extends StatefulWidget {
 }
 
 class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
-  StreamSubscription exitLogin;
   int orderCount = 0;
   String tuWenNum = '';
   String fastPhone = '';
@@ -37,17 +38,6 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
 
   @override
   void initState() {
-    init();
-    exitLogin = eventBus.on<refreshNum>().listen((event) {
-      setState(() {
-//        print('数据库evenBus');
-        init();
-      });
-    });
-  }
-
-  @override
-  void deactivate() {
     init();
   }
 
@@ -79,11 +69,12 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   @override
   void dispose() {
     super.dispose();
-    exitLogin.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    final ChunyuPushBloc bloc = BlocProvider.of<ChunyuPushBloc>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
@@ -145,7 +136,10 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                                           height: 1.5),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          NavigatorUtil.pushWebView(context, 'https://www.chunyuyisheng.com/', {'title': '在线问诊'});
+                                          NavigatorUtil.pushWebView(
+                                              context,
+                                              'https://www.chunyuyisheng.com/',
+                                              {'title': '在线问诊'});
                                         },
                                     ),
                                     TextSpan(
@@ -246,49 +240,56 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
             SizedBox(
               height: 10,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 5, right: 5),
-              child: Column(
-                children: <Widget>[
-                  GestureDetector(
-                    child: _gridItem(
-                        Colors.blue,
-                        'assets/images/service/图.png',
-                        '图文问诊',
-                        '通过聊天方式解决您的问题',
-                        "$tuWenNum",
-                        tuWenNum == "0" || tuWenNum == ''),
-                    onTap: () {
-                      getOrderCount();
-                      NavigatorUtil.pushPage(context,GraphicConsultation());
-                    },
-                  ),
-                  GestureDetector(
-                    child: _gridItem(
-                        Colors.orange,
-                        'assets/images/service/电话.png',
-                        '电话问诊',
-                        '通过电话解决您的问题',
-                        "$fastPhone",
-                        fastPhone == "0" || fastPhone == ''),
-                    onTap: () {
-                      NavigatorUtil.pushPage(context,TelConsultation());
-                    },
-                  ),
-                  GestureDetector(
-                    child: _gridItem(
-                        Colors.green,
-                        'assets/images/service/钟.png',
-                        '历史记录',
-                        '您之前问过的问题都在这里',
-                        '',
-                        true),
-                    onTap: () {
-                      NavigatorUtil.pushPage(context,HistoryRecord());
-                    },
-                  )
-                ],
-              ),
+            StreamBuilder<ChunyuMessage>(
+              stream: bloc.stream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<ChunyuMessage> snapshot) {
+                  return Container(
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          child: _gridItem(
+                              Colors.blue,
+                              'assets/images/service/图.png',
+                              '图文问诊',
+                              '通过聊天方式解决您的问题',
+                              snapshot.hasData?"${snapshot.data.tuwenNum}":tuWenNum,
+                              tuWenNum == '0'||tuWenNum == ''),
+                          onTap: () {
+                            getOrderCount();
+                            NavigatorUtil.pushPage(
+                                context, GraphicConsultation());
+                          },
+                        ),
+                        GestureDetector(
+                          child: _gridItem(
+                              Colors.orange,
+                              'assets/images/service/电话.png',
+                              '电话问诊',
+                              '通过电话解决您的问题',
+                              snapshot.hasData?"${snapshot.data.fastPhoneNum}":fastPhone,
+                              fastPhone == '0'||fastPhone == ''),
+                          onTap: () {
+                            NavigatorUtil.pushPage(context, TelConsultation());
+                          },
+                        ),
+                        GestureDetector(
+                          child: _gridItem(
+                              Colors.green,
+                              'assets/images/service/钟.png',
+                              '历史记录',
+                              '您之前问过的问题都在这里',
+                              '',
+                              true),
+                          onTap: () {
+                            NavigatorUtil.pushPage(context, HistoryRecord());
+                          },
+                        )
+                      ],
+                    ),
+                  );
+              },
             ),
             SizedBox(
               height: 30,
@@ -296,14 +297,21 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text('我们将全力保护您的隐私',style: TextStyle(color: Colors.black26,fontSize: 12),),
+                Text(
+                  '我们将全力保护您的隐私',
+                  style: TextStyle(color: Colors.black26, fontSize: 12),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('严格遵守',style: TextStyle(color: Colors.black26,fontSize: 12)),
+                    Text('严格遵守',
+                        style: TextStyle(color: Colors.black26, fontSize: 12)),
                     GestureDetector(
                         onTap: () {
-                          NavigatorUtil.pushWebView(context, 'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm', {'title': '服务条款及隐私政策'});
+                          NavigatorUtil.pushWebView(
+                              context,
+                              'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
+                              {'title': '服务条款及隐私政策'});
                         },
                         child: Text(
                           '服务条款及隐私政策',
@@ -361,7 +369,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                 child: new Text("正在咨询$orderCount"),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  NavigatorUtil.pushPage(context,HistoryRecord());
+                  NavigatorUtil.pushPage(context, HistoryRecord());
                 },
               ),
               new SimpleDialogOption(
@@ -385,7 +393,12 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Image.asset(icon,height: 55,width: 55,fit: BoxFit.fill,),
+              Image.asset(
+                icon,
+                height: 55,
+                width: 55,
+                fit: BoxFit.fill,
+              ),
               SizedBox(
                 width: 8,
               ),
@@ -401,8 +414,8 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                             margin: EdgeInsets.only(top: 5),
                             child: Text(
                               text,
-                              style: TextStyle(fontSize: 16,color: Color(0xFF4E4E4E)),
-
+                              style: TextStyle(
+                                  fontSize: 16, color: Color(0xFF4E4E4E)),
                             ),
                           ),
                           Offstage(
@@ -410,17 +423,17 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                             child: Align(
                               alignment: Alignment.topRight,
                               child: Container(
-                                padding: EdgeInsets.only(
-                                    left: 6, right: 6),
+                                padding: EdgeInsets.only(left: 6, right: 6),
                                 decoration: BoxDecoration(
                                   color: Colors.red,
                                   borderRadius: BorderRadius.all(
-                                    Radius.circular(6.0),
+                                    Radius.circular(10.0),
                                   ),
                                 ),
                                 child: Text(
                                   count,
-                                  style: TextStyle(color: Colors.white,fontSize: 10),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
                                 ),
                               ),
                             ),
@@ -433,7 +446,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                     ),
                     Text(
                       txt,
-                      style: TextStyle(color: Colors.black26,fontSize: 12),
+                      style: TextStyle(color: Colors.black26, fontSize: 12),
                     )
                   ],
                 ),

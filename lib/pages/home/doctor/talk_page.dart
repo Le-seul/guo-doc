@@ -1,36 +1,35 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
+import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/user_entity.dart';
+import 'package:flutter_first/block/bloc_provider.dart';
+import 'package:flutter_first/block/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
-import 'package:flutter_first/db/databaseHelper.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/doctor/doctor_page.dart';
 import 'package:flutter_first/pages/home/doctor/evaluation_page.dart';
-import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/util/voice_animation_image.dart';
 import 'package:flutter_first/widgets/greenBgWidget.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
-
 import 'package:uuid/uuid.dart';
 
 class TalkPage extends StatefulWidget {
@@ -75,6 +74,9 @@ class _TalkPageState extends State<TalkPage>
   int num = 1;
   int residualTime = 0;
   String dataType = "";
+  var db = OrderDb();
+  ChunyuPushBloc _chunyuPushBloc;
+  ChunyuMessage chunyuMessage = new ChunyuMessage();
   List<String> _rightList = new List();
   List<String> _leftList = new List();
   User user;
@@ -83,6 +85,7 @@ class _TalkPageState extends State<TalkPage>
   @override
   void initState() {
     init();
+    _chunyuPushBloc = BlocProvider.of<ChunyuPushBloc>(context);
     if(widget.type == "fastphone"){
       print('电话咨询aaa');
       _getFastphoneReplyContent();
@@ -240,7 +243,7 @@ class _TalkPageState extends State<TalkPage>
 
   init() async {
     print('residualTime0:$residualTime');
-    var db = OrderDb();
+
     int count = await db.updateOrder(widget.orderId, "0");
     print('residualTime1:$residualTime');
     OrderNum orderNum = await db.getOrder(widget.orderId);
@@ -257,13 +260,39 @@ class _TalkPageState extends State<TalkPage>
       }
     });
 
+    notify();
 
+  }
 
+  notify() async{
+    List<Map> list = await db.getAllOrder();
+//    print("数据库list3:$list");
+    List<OrderNum> listNum = List();
+    for (Map map in list) {
+      listNum.add(OrderNum.fromJson(map));
+    }
+    int intTuWen = 0;
+    int intFastPhone = 0;
+    for (OrderNum orderNum in listNum) {
+      setState(() {
+        if (orderNum.location == "chunyuTuwen") {
+          intTuWen = int.parse(orderNum.num) + intTuWen;
+
+        } else {
+          intFastPhone += int.parse(orderNum.num);
+        }
+      });
+    }
+    print('图文推送数：$intTuWen');
+    chunyuMessage.tuwenNum = intTuWen;
+    chunyuMessage.fastPhoneNum = intFastPhone;
+    _chunyuPushBloc.sink.add(chunyuMessage);
   }
 
   @override
   void dispose() {
     controller.dispose();
+    _chunyuPushBloc.dispose();
     flutterSound.stopRecorder();
     exitLogin.cancel();
     super.dispose();

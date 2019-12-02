@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/block/bloc_provider.dart';
+import 'package:flutter_first/block/chunyu_bloc.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
@@ -11,6 +14,7 @@ import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_list.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
@@ -27,7 +31,6 @@ class _ServicePageState extends State<ServicePage> {
   int day1,day2,day3,hour1,hour2,hour3,min1,min2,min3,sec1,sec2,sec3;
   List<ServiceActivity> serviceActivityList = List();
   static Timer _timer; //倒计时的计时器
-  StreamSubscription exitLogin;
   int orderCount = 0;
   String tuWenNum = '';
   String fastPhone = '';
@@ -37,12 +40,6 @@ class _ServicePageState extends State<ServicePage> {
   void initState() {
     _requestActivity();
     init();
-    exitLogin = eventBus.on<refreshNum>().listen((event) {
-      setState(() {
-//        print('数据库evenBus');
-        init();
-      });
-    });
   }
 
   @override
@@ -71,7 +68,6 @@ class _ServicePageState extends State<ServicePage> {
         }
       });
     }
-
 //    print("fastPhone:$intFastPhone");
   }
 
@@ -87,17 +83,15 @@ class _ServicePageState extends State<ServicePage> {
            startTimer(DateTime(2019,12,1));
            print('活动详情请求成功！');
          });
-
        },
        onError: (code, msg) {
-
          Toast.show('活动详情请求失败！');
        });
  }
 
   @override
   Widget build(BuildContext context) {
-
+    final ChunyuPushBloc bloc = BlocProvider.of<ChunyuPushBloc>(context);
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
     return Scaffold(
@@ -163,16 +157,22 @@ class _ServicePageState extends State<ServicePage> {
                           borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
                         child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _itemWidget('assets/images/service/图.png','图文问诊', fastPhone == "0" || fastPhone == '',"$fastPhone"),
-                            _itemWidget('assets/images/service/电话.png','电话问诊', tuWenNum == "0" || tuWenNum == '', "$tuWenNum",),
-                            _itemWidget('assets/images/service/钟.png','历史咨询',true,'1')
+                          child:             StreamBuilder<ChunyuMessage>(
+                            stream: bloc.stream,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<ChunyuMessage> snapshot) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _itemWidget('assets/images/service/图.png','图文问诊', fastPhone == "0" || fastPhone == '',snapshot.hasData?"${snapshot.data.fastPhoneNum}":fastPhone),
+                                  _itemWidget('assets/images/service/电话.png','电话问诊', tuWenNum == "0" || tuWenNum == '',snapshot.hasData?"${snapshot.data.tuwenNum}":tuWenNum),
+                                  _itemWidget('assets/images/service/钟.png','历史咨询',true,'1')
 
-                            ],
-                          ),
+                                ],
+                              );
+                            },
+                          )
                         ),
                       ))
                 ],
@@ -321,7 +321,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
+                  NavigatorUtil.pushPage(context,ActivityListPage());
                 },
               ),
               InkWell(
@@ -452,7 +452,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
+                  NavigatorUtil.pushPage(context,ActivityListPage());
                 },
               ),
               InkWell(
@@ -530,7 +530,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
+                  NavigatorUtil.pushPage(context,ActivityListPage());
                 },
               ),
 
@@ -578,7 +578,7 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                     ),
                     child: Text(
-                      '1',
+                      count,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
