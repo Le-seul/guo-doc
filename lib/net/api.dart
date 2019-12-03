@@ -11,7 +11,7 @@ class Api {
   //获取文章详情
   static const String GETARTICLECONTENT = "/api/article.do?getArticleContent";
 
-//获取专题包含的文章
+  //获取专题包含的文章
   static const String GETARTICLETOPIC = "/api/topic.do?getArticleOfTopic";
 
   //查询点赞状态

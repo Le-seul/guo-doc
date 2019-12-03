@@ -38,6 +38,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
         setState(() {
           isShowLoading = false;
           activityDetail = data;
+          print('活动内容获取成功');
         });
       },
       onError: (code, msg) {
@@ -188,7 +189,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               height: 20,
                             ),
                             Offstage(
-                              offstage: widget.offstage,
+                              offstage: activityDetail.childActivity == null,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[

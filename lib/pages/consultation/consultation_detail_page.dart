@@ -61,7 +61,6 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
       Api.GETARTICLECONTENT,
       queryParameters: {"articleId": widget.id},
       onSuccess: (data) {
-
         setState(() {
           articleContent = data;
           isShowLoading = false;
@@ -190,6 +189,15 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           _getLikeStatus();
           print('上传$action成功!');
         }, onError: (code, msg) {
+          if (action == 'DZ') {
+            Toast.show('点赞失败！');
+          } else if (action == 'QD') {
+            Toast.show('取消点赞失败！');
+          } else if (action == 'SC') {
+            Toast.show('收藏失败！');
+          } else if (action == 'QS') {
+            Toast.show('取消收藏失败！');
+          }
           print('上传$action失败!');
         });
   }
