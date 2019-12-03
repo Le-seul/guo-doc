@@ -23,6 +23,9 @@ class Api {
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivityInfo";
 
+  //活动报名
+  static const String SIGNUPACTIVITY = "/api/activity.do?signUp";
+
   //获取还未开始的活动列表
   static const String GRTACTIVITYNOTSTART = "/api/activity.do?getActivityNotStart";
 

@@ -81,8 +81,8 @@ class LoadingDialog extends Dialog {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 150.0,
-                  height: 150.0,
+                  width: 180.0,
+                  height: 180.0,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(

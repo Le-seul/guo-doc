@@ -281,12 +281,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               padding: EdgeInsets.only(left: 30.0, right: 30.0),
                               child: FlatButton(
                                 onPressed: () {
-                                  showDialog<Null>(
-                                      context: context, //BuildContext对象
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return LoadingDialog();
-                                      });
+                                  sugnUpActivity();
                                 },
                                 color: Colors.orange,
                                 child: Text(
@@ -331,6 +326,29 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
           ],
         ),
       ),
+    );
+  }
+
+  sugnUpActivity(){
+    DioUtils.instance.requestNetwork<String>(
+      Method.post,
+      Api.SIGNUPACTIVITY,
+      queryParameters: {"activityId": widget.activityId},
+      onSuccess: (data) {
+        setState(() {
+          showDialog<Null>(
+              context: context, //BuildContext对象
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return LoadingDialog();
+              });
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          Toast.show('活动报名失败');
+        });
+      },
     );
   }
 
