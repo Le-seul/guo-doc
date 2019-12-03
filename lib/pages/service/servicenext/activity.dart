@@ -119,6 +119,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                       height: 20,
                                     ),
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           '活动地点:',
@@ -127,11 +128,13 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                         SizedBox(
                                           width: 15,
                                         ),
-                                        Text(
-                                          activityDetail.location ?? "无",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black54),
+                                        Expanded(
+                                          child: Text(
+                                            activityDetail.location ?? "无",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black54),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -198,7 +201,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                   ),
                                   Container(
                                       padding: EdgeInsets.only(
-                                          left: 15, top: 20, bottom: 20),
+                                          left: 15,top: 15),
                                       child: Text(
                                         '相关活动',
                                         style: TextStyle(fontSize: 18),
@@ -225,28 +228,35 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                 color: Colors.grey[200],
                               ),
                             ),
-                            Container(
-                              padding:
-                                  EdgeInsets.only(top: 15, left: 15, right: 15),
-                              child: Row(
+                            Offstage(
+                              offstage: activityDetail.articleList.isEmpty,
+                              child: Column(
                                 children: <Widget>[
-                                  Expanded(
-                                      child: Text(
-                                    '相关资讯',
-                                    style: TextStyle(fontSize: 18),
-                                  )),
-                                  Text('更多',style: TextStyle(color:Colors.black54),),
-                                  Icon(Icons.chevron_right,color: Colors.black54,)
+                                  Container(
+                                    padding:
+                                    EdgeInsets.only(top: 15, left: 15, right: 15),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Text(
+                                              '相关资讯',
+                                              style: TextStyle(fontSize: 18),
+                                            )),
+                                        Text('更多',style: TextStyle(color:Colors.black54),),
+                                        Icon(Icons.chevron_right,color: Colors.black54,)
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    child: ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: 3,
+                                      itemBuilder: (context, index) =>
+                                          _buildItem(index),
+                                    ),
+                                  ),
                                 ],
-                              ),
-                            ),
-                            Container(
-                              child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: 3,
-                                itemBuilder: (context, index) =>
-                                    _buildItem(index),
                               ),
                             ),
                             Container(
@@ -310,6 +320,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
               width: 120,
               fit: BoxFit.fill,
             ),
+            SizedBox(height: 5,),
             Container(
                 width: 120,
                 child: Text(

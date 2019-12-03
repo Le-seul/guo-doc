@@ -21,7 +21,7 @@ class Api {
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
 
   //获取活动详情
-  static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
+  static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivityInfo";
 
   //获取还未开始的活动列表
   static const String GRTACTIVITYNOTSTART = "/api/activity.do?getActivityNotStart";

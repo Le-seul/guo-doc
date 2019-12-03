@@ -534,8 +534,6 @@ class _ServicePageState extends State<ServicePage> {
                   NavigatorUtil.pushPage(context,ActivityListPage('已结束'));
                 },
               ),
-
-
             ],
           )
       ),
