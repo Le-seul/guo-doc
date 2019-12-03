@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
-import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class ServiceActivityPage extends StatefulWidget {
   bool offstage = true;
