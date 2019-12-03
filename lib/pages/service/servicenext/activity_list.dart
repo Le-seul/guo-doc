@@ -9,6 +9,8 @@ import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 class ActivityListPage extends StatefulWidget {
+  String type;
+  ActivityListPage(this.type);
   @override
   _ActivityListPageState createState() => _ActivityListPageState();
 }
@@ -16,17 +18,25 @@ class ActivityListPage extends StatefulWidget {
 class _ActivityListPageState extends State<ActivityListPage> {
   List<ServiceActivity> serviceActivityList = List();
   bool isShowLoading = true;
+  String api;
 
   @override
   void initState() {
+    if(widget.type == '进行中'){
+      api = Api.GETACTIVITYINPROGRESS;
+    }else if(widget.type == '即将开始'){
+      api = Api.GRTACTIVITYNOTSTART;
+    }else{
+      api = Api.GETACTIVITYFINISHED;
+    }
     _requestActivity();
   }
 
   void _requestActivity() {
     DioUtils.instance.requestNetwork<ServiceActivity>(
         Method.get,
-        Api.GETACTIVITIES,
-        queryParameters: {"pageSize": 1, "pageNumber": 1},
+        api,
+        queryParameters: {"pageSize": 10, "pageNumber": 1},
         isList: true,
         onSuccessList: (data) {
           setState(() {
@@ -82,36 +92,33 @@ class _ActivityListPageState extends State<ActivityListPage> {
           child: Container(
             padding: EdgeInsets.all(15),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: 80,
-                      width: 80,
-                      child: Image.network(serviceActivity.cover,fit: BoxFit.fill,),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-
-                        Text(
-                          serviceActivity.name,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          serviceActivity.name,
-                          style: TextStyle(color: Colors.black26),
-                        ),
-                      ],
-                    ),
-                  ],
+                Container(
+                  height: 80,
+                  width: 80,
+                  child: Image.network(serviceActivity.cover,fit: BoxFit.fill,),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        serviceActivity.name,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        serviceActivity.name,
+                        style: TextStyle(color: Colors.black26),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

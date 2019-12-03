@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/order_count.dart';
-import 'package:flutter_first/block/bloc_provider.dart';
-import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -255,7 +255,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                               '图文问诊',
                               '通过聊天方式解决您的问题',
                               snapshot.hasData?"${snapshot.data.tuwenNum}":tuWenNum,
-                              tuWenNum == '0'||tuWenNum == ''),
+                              snapshot.hasData?snapshot.data.tuwenNum == 0:tuWenNum == '0'||tuWenNum == ''),
                           onTap: () {
                             getOrderCount();
                             NavigatorUtil.pushPage(
@@ -269,7 +269,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                               '电话问诊',
                               '通过电话解决您的问题',
                               snapshot.hasData?"${snapshot.data.fastPhoneNum}":fastPhone,
-                              fastPhone == '0'||fastPhone == ''),
+                              snapshot.hasData?snapshot.data.fastPhoneNum == 0:fastPhone == '0'||fastPhone == ''),
                           onTap: () {
                             NavigatorUtil.pushPage(context, TelConsultation());
                           },

@@ -23,6 +23,15 @@ class Api {
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
 
+  //获取还未开始的活动列表
+  static const String GRTACTIVITYNOTSTART = "/api/activity.do?getActivityNotStart";
+
+  //获取进行中的活动列表
+  static const String GETACTIVITYINPROGRESS = "/api/activity.do?getActivityInProgress";
+
+  //获取已结束的活动列表
+  static const String GETACTIVITYFINISHED = "/api/activity.do?getActivityFinished";
+
   //获取服务中心列表
   static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";
 

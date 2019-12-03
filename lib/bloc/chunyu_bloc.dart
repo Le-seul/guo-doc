@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_first/bean/chunyu_message.dart';
-import 'package:flutter_first/block/bloc_provider.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
 
 class ChunyuPushBloc implements BlocBase {
 

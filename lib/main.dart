@@ -1,29 +1,21 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_first/bean/orderNum.dart';
-import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+
+
+import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/data/global_user_data.dart';
-import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/init_data.dart';
-import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/music/lryic.dart';
 import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/pages/container_page.dart';
 import 'package:flutter_first/pages/login_page.dart';
-
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:flutter_first/util/toast.dart';
-import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import 'block/bloc_provider.dart';
 import 'pages/exit_login_page.dart';
 
 void main() async {
