@@ -291,6 +291,7 @@ class _TalkPageState extends State<TalkPage>
 
   @override
   void dispose() {
+//    _chunyuPushBloc.dispose();
     controller.dispose();
     flutterSound.stopRecorder();
     exitLogin.cancel();

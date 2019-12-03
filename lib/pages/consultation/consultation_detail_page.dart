@@ -114,9 +114,15 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           Offstage(
             offstage: articleContent.canLike != 'Y',
             child: GestureDetector(
-              child: likeStatus.likeStatus == 1?Icon(Icons.favorite,
-                  color: Colors.redAccent, size: 20):Icon(Icons.favorite_border,
-                  color: Colors.white, size: 20),
+              child:
+              Container(
+                height: 18,
+                width: 18,
+                child: Image.asset(
+                  'assets/images/consultation/点赞.png',
+                  color: likeStatus.likeStatus == 1?Colors.redAccent:Colors.white,
+                ),
+              ),
               onTap: () {
                 setState(() {
                   if(likeStatus.likeStatus == 1){

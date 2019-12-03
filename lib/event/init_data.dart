@@ -102,9 +102,6 @@ class _InitDataState extends State<InitData> {
             NavigatorUtil.pushPage(context,ConsultationDetailPage(id: target,));
 //            CommonRequest.UserReadingLog(item.id, item.type, 'YD');
           }
-
-
-
           String orderId = json
               .decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
           print("orderid：$orderId");
