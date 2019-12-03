@@ -1,6 +1,7 @@
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/config.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -23,12 +24,14 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     isHtml = widget.url.contains('.html');
-
     if(isHtml){
       String token = StorageManager.sharedPreferences.getString(Constant.access_Token);
       String path = widget.url.split('/phms_resource_base/')[1];
-      htmlUrl = 'https://www.aireading.club/jeecg/api/staticResource.do?redirect&url=' + path + '&token=' + token;
-      print('htmlUrl:$htmlUrl');
+      htmlUrl = '${Config.apiHost}/api/staticResource.do?getResource&url=' + path + '&token=' + token;
+      if(widget.params['year'] != null){
+        htmlUrl = htmlUrl + '&year=${widget.params['year']}';
+      }
+      print("htmlUrl:$htmlUrl");
     }
   }
 

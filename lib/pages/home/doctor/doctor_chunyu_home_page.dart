@@ -310,7 +310,7 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
                         onTap: () {
                           NavigatorUtil.pushWebView(
                               context,
-                              'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
+                              'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy1.htm',
                               {'title': '服务条款及隐私政策'});
                         },
                         child: Text(

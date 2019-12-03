@@ -59,7 +59,7 @@ class _ReportListState extends State<ReportList> {
   _buildItem(int index){
     return GestureDetector(
       onTap: (){
-        NavigatorUtil.pushWebView(context,'http://ygyd.aireading.top/mobile_phy_exam/html/index.html',{"title": '体检报告'});
+        NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/psyReading/XinLiXueWZ_CZ.html',{"title": '体检报告','year':healthYearList[index].year});
       },
       child: Container(
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 15,right: 15),
