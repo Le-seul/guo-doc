@@ -52,7 +52,6 @@ class _ContainerPageState extends State<ContainerPage> {
     _Item('我的', 'navigation/ic_tab_mine_active.png', 'navigation/ic_tab_mine_normal.png')
   ];
   StreamSubscription exitLogin;
-  StreamSubscription callBack;
 
   List<BottomNavigationBarItem> itemList;
 
@@ -64,6 +63,16 @@ class _ContainerPageState extends State<ContainerPage> {
 //    });
 //
 //  }
+  void onPressFirstBtn(){
+    setState(() {
+      _selectIndex = 1;
+    });
+  }
+  void onPressActivity(){
+    setState(() {
+      _selectIndex = 2;
+    });
+  }
 
   @override
   void initState() {
@@ -74,14 +83,8 @@ class _ContainerPageState extends State<ContainerPage> {
       showExitDialog.showMyMaterialDialog(context);
     });
 
-    callBack = eventBus.on<CallBack>().listen((event) {
-      setState(() {
-        _selectIndex = 1;
-      });
-    });
-
     if (pages == null) {
-      pages = [HomePage(), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
+      pages = [HomePage(onPressFirstBtn, onPressActivity), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
     }
     if (itemList == null) {
       itemList = itemNames
@@ -105,7 +108,6 @@ class _ContainerPageState extends State<ContainerPage> {
   int _selectIndex = 0;
   @override
   void dispose() {
-    callBack.cancel();
     exitLogin.cancel();
   }
 

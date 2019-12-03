@@ -254,7 +254,7 @@ class _EvaluationPageState extends State<EvaluationPage>
                         ),
                         Text(
                           '您对医生的服务满意吗？',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(
                           height: 15,

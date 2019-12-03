@@ -1,13 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/chunyu_message.dart';
+import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
+import 'package:flutter_first/block/bloc_provider.dart';
+import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/db/order_db.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_list.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
@@ -24,14 +31,47 @@ class _ServicePageState extends State<ServicePage> {
   int day1,day2,day3,hour1,hour2,hour3,min1,min2,min3,sec1,sec2,sec3;
   List<ServiceActivity> serviceActivityList = List();
   static Timer _timer; //倒计时的计时器
+  int orderCount = 0;
+  String tuWenNum = '';
+  String fastPhone = '';
+  var db = OrderDb();
 
   @override
   void initState() {
     _requestActivity();
-
+    init();
   }
 
- void _requestActivity() {
+  @override
+  void dispose() {
+    _timer.cancel();
+  }
+
+  init() async {
+    List<Map> list = await db.getAllOrder();
+//    print("数据库list3:$list");
+    List<OrderNum> listNum = List();
+    for (Map map in list) {
+      listNum.add(OrderNum.fromJson(map));
+    }
+    int intTuWen = 0;
+    int intFastPhone = 0;
+    for (OrderNum orderNum in listNum) {
+      setState(() {
+        if (orderNum.location == "chunyuTuwen") {
+          intTuWen = int.parse(orderNum.num) + intTuWen;
+          tuWenNum = "$intTuWen";
+//          print("tuWenNum2:$tuWenNum");
+        } else {
+          intFastPhone = int.parse(orderNum.num) + intFastPhone;
+          fastPhone = "$intFastPhone";
+        }
+      });
+    }
+//    print("fastPhone:$intFastPhone");
+  }
+
+  void _requestActivity() {
    DioUtils.instance.requestNetwork<ServiceActivity>(
        Method.get,
        Api.GETACTIVITIES,
@@ -43,17 +83,15 @@ class _ServicePageState extends State<ServicePage> {
            startTimer(DateTime(2019,12,1));
            print('活动详情请求成功！');
          });
-
        },
        onError: (code, msg) {
-
          Toast.show('活动详情请求失败！');
        });
  }
 
   @override
   Widget build(BuildContext context) {
-
+    final ChunyuPushBloc bloc = BlocProvider.of<ChunyuPushBloc>(context);
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
     return Scaffold(
@@ -112,91 +150,29 @@ class _ServicePageState extends State<ServicePage> {
                     top: 50,
                       left: 18,
                       child: Container(
-                       height: ScreenUtil().setHeight(18),
+                       padding: EdgeInsets.only(top: 15,bottom: 15),
                         width: ScreenUtil().setWidth(90),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
+                        child: Center(
+                          child: StreamBuilder<ChunyuMessage>(
+                            stream: bloc.stream,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<ChunyuMessage> snapshot) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  InkWell(
-                                  child: Container(
-                                    margin: EdgeInsets.only(top:15,bottom: 10),
-                                    height: ScreenUtil().setHeight(9),
-                                    width: ScreenUtil().setHeight(9),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff45D5D3),
-                                    ),
-                                    child: Center(
-                                      child: Image.asset('assets/images/service/图.png'),
-                                    ),
-                                  ),
-                                    onTap: (){
-                                      NavigatorUtil.pushReplacementNamed(context,GraphicConsultation());
-                                    },
-                              ),
-                                  Text('图文问诊',style: TextStyle(fontSize: 12),)
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  InkWell(
-                                    child:Container(
-                                      margin: EdgeInsets.only(top:15,bottom: 10),
-                                      height: ScreenUtil().setHeight(9),
-                                      width: ScreenUtil().setHeight(9),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xff44D587),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset('assets/images/service/电话.png'),
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      NavigatorUtil.pushPage(context,TelConsultation());
-                                    },
-                                  ),
+                                  _itemWidget('assets/images/service/图.png','图文问诊', snapshot.hasData?(snapshot.data.tuwenNum == 0):(tuWenNum == '0'||tuWenNum == ''),snapshot.hasData?"${snapshot.data.tuwenNum}":tuWenNum),
+                                  _itemWidget('assets/images/service/电话.png','电话问诊',snapshot.hasData?(snapshot.data.fastPhoneNum == 0):(fastPhone == '0'||fastPhone == ''),snapshot.hasData?"${snapshot.data.fastPhoneNum}":fastPhone),
+                                  _itemWidget('assets/images/service/钟.png','历史咨询',true,'1')
 
-                                  Text('电话问诊',style: TextStyle(fontSize: 12),)
                                 ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  InkWell(
-                                    child: Container(
-                                      margin: EdgeInsets.only(top:15,bottom: 10),
-                                      height: ScreenUtil().setHeight(9),
-                                      width: ScreenUtil().setHeight(9),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xffA79CE3),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset('assets/images/service/钟.png'),
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      NavigatorUtil.pushPage(context,HistoryRecord());
-                                    },
-                                  ),
-
-                                  Text('历史咨询',style: TextStyle(fontSize: 12),)
-                                ],
-                              ) ,
-                            ),
-
-                          ],
+                              );
+                            },
+                          )
                         ),
                       ))
                 ],
@@ -345,7 +321,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
+                  NavigatorUtil.pushPage(context,ActivityListPage());
                 },
               ),
               InkWell(
@@ -476,7 +452,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
+                  NavigatorUtil.pushPage(context,ActivityListPage());
                 },
               ),
               InkWell(
@@ -554,7 +530,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: "1"));
+                  NavigatorUtil.pushPage(context,ActivityListPage());
                 },
               ),
 
@@ -565,6 +541,55 @@ class _ServicePageState extends State<ServicePage> {
     );
   }
 
+
+  _itemWidget(String url,String name,bool offstage,String count){
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 10,right: 10),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                GestureDetector(
+                  child: Center(
+                    child: Image.asset(url,height: 60,width: 60,fit: BoxFit.fill,),
+                  ),
+                  onTap: (){
+                    NavigatorUtil.pushPage(context,HistoryRecord());
+                  },
+                ),
+                SizedBox(height: 10,),
+                Text(name,style: TextStyle(fontSize: 12),)
+              ],
+            ),
+            Offstage(
+              offstage: offstage,
+              child: Container(
+                padding: EdgeInsets.only(right: 2),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    padding:
+                    EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                    child: Text(
+                      count,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
 
   void startTimer(DateTime stopDate) {
@@ -578,7 +603,7 @@ class _ServicePageState extends State<ServicePage> {
         var data2 = stopDate.millisecondsSinceEpoch;
         var diffience = data2 - data1;
         diffience>0?null:diffience=0;
-        print("data:$data1");
+//        print("data:$data1");
         day1 = diffience~/86400000;
         var dif2 =diffience - day1*86400000;
         hour1 = dif2~/3600000;
@@ -587,10 +612,10 @@ class _ServicePageState extends State<ServicePage> {
         var dif4 =diffience - day1*86400000-hour1*3600000-min1*60000;
         sec1 = dif4~/1000;
 
-        print("day$day1");
-        print("hour$hour1");
-        print("fen$min1");
-        print("miao$sec1");
+//        print("day$day1");
+//        print("hour$hour1");
+//        print("fen$min1");
+//        print("miao$sec1");
       });
 
     });

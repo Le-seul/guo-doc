@@ -624,9 +624,10 @@ class _FeedBackPageState extends State<FeedBackPage> {
           'type': type,
           'phone': _phoneController.text
         }, onSuccess: (data) {
-      Toast.show('上传建议成功!');
+      Toast.show('提交建议成功!');
+      Navigator.pop(context);
     }, onError: (code, msg) {
-      Toast.show('上传建议失败!');
+      Toast.show('提交建议失败!');
     });
   }
 }

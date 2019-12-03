@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/orderNum.dart';
+import 'package:flutter_first/block/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/data/global_user_data.dart';
 import 'package:flutter_first/db/order_db.dart';
@@ -22,6 +23,7 @@ import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'block/bloc_provider.dart';
 import 'pages/exit_login_page.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 void main() async {
@@ -77,35 +79,38 @@ class _MyAppState extends State<MyApp> {
           child: ScopedModel<PlayingLyric>(
               model: model,
               child: Quiet(
-                child: MaterialApp(
-                  //定义路由
-                  //没有路由可以进行匹配的时候
-                  debugShowCheckedModeBanner: false,
-                  onUnknownRoute: (RouteSettings setting) {
-                    String name = setting.name;
-                    print("onUnknownRoute:$name");
-                    return new MaterialPageRoute(builder: (context) {
-                      return new NotFoundPage();
-                    });
-                  },
-                  routes: <String, WidgetBuilder>{
-                    '/login': (BuildContext context) => new LoginPage(),
-                    '/playing': (BuildContext context) => new PlayingPage(),
-                  },
-                  title: '畅享健康',
-                  //debugShowCheckedModeBanner: false,
-                  home: Scaffold(
-                    body: InitData(
-                      child: Center(
-                        child: (token == null || token == '')
-                            ? LoginPage()
-                            : ContainerPage(),
+                child: BlocProvider<ChunyuPushBloc>(
+                  bloc: ChunyuPushBloc(),
+                  child: MaterialApp(
+                    //定义路由
+                    //没有路由可以进行匹配的时候
+                    debugShowCheckedModeBanner: false,
+                    onUnknownRoute: (RouteSettings setting) {
+                      String name = setting.name;
+                      print("onUnknownRoute:$name");
+                      return new MaterialPageRoute(builder: (context) {
+                        return new NotFoundPage();
+                      });
+                    },
+                    routes: <String, WidgetBuilder>{
+                      '/login': (BuildContext context) => new LoginPage(),
+                      '/playing': (BuildContext context) => new PlayingPage(),
+                    },
+                    title: '畅享健康',
+                    //debugShowCheckedModeBanner: false,
+                    home: Scaffold(
+                      body: InitData(
+                        child: Center(
+                          child: (token == null || token == '')
+                              ? LoginPage()
+                              : ContainerPage(),
+                        ),
                       ),
                     ),
-                  ),
-                  theme: new ThemeData(
-                    appBarTheme:AppBarTheme(color: Color(0xff2CA687)),
-                    platform: TargetPlatform.iOS,
+                    theme: new ThemeData(
+                      appBarTheme:AppBarTheme(color: Color(0xff2CA687)),
+                      platform: TargetPlatform.iOS,
+                    ),
                   ),
                 ),
               )),

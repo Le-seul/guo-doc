@@ -2,6 +2,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/article_detail.dart';
+import 'package:flutter_first/bean/article_likestatus.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
@@ -21,19 +22,38 @@ class ConsultationDetailPage extends StatefulWidget {
 }
 
 class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
-  bool isSupport = false;
-  bool isFavor = false;
   bool isShowingDialog = true;
   String token = '';
   String articlUrl = '';
   bool isShowLoading = true;
+  LikeStatus likeStatus = new LikeStatus();
   ArticleContent articleContent = new ArticleContent();
 
   @override
   void initState() {
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
     _getArticleDetail();
+    _getLikeStatus();
     print('token:$token');
+  }
+
+  _getLikeStatus(){
+    DioUtils.instance.requestNetwork<LikeStatus>(
+      Method.get,
+      Api.GRTLIKESTATUS,
+      queryParameters: {"articleId": widget.id},
+      onSuccess: (data) {
+        setState(() {
+          likeStatus = data;
+          print("获取点赞状态成功！");
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          print("获取点赞状态失败！");
+        });
+      },
+    );
   }
   _getArticleDetail(){
     DioUtils.instance.requestNetwork<ArticleContent>(
@@ -67,7 +87,7 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           Offstage(
             offstage: articleContent.canCollect != 'Y',
             child: GestureDetector(
-              child: isFavor?Icon(
+              child: likeStatus.collectStatus == 1?Icon(
                 Icons.star,
                 color: Colors.redAccent,
                 size: 24,
@@ -78,11 +98,12 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
               ),
               onTap: () {
                 setState(() {
-                  isFavor = !isFavor;
-                  if (isFavor) {
-                    CommonRequest.UserReadingLog(articleContent.id,'A', 'SC');
+                  if (likeStatus.collectStatus == 1) {
+
+                    _userReadingLog(articleContent.id,'A', 'QS');
                   } else {
-                    CommonRequest.UserReadingLog(articleContent.id,'A', 'QS');
+
+                    _userReadingLog(articleContent.id,'A', 'SC');
                   }
                 });
               },
@@ -94,16 +115,17 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           Offstage(
             offstage: articleContent.canLike != 'Y',
             child: GestureDetector(
-              child: isSupport?Icon(Icons.favorite,
+              child: likeStatus.likeStatus == 1?Icon(Icons.favorite,
                   color: Colors.redAccent, size: 20):Icon(Icons.favorite_border,
                   color: Colors.white, size: 20),
               onTap: () {
                 setState(() {
-                  isSupport = !isSupport;
-                  if (isSupport) {
-                    CommonRequest.UserReadingLog(articleContent.id,'A', 'DZ');
-                  } else {
-                    CommonRequest.UserReadingLog(articleContent.id,'A', 'QD');
+                  if(likeStatus.likeStatus == 1){
+
+                    _userReadingLog(articleContent.id,'A', 'QD');
+                  }else{
+
+                    _userReadingLog(articleContent.id,'A', 'DZ');
                   }
                 });
               },
@@ -148,5 +170,27 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );
+  }
+ _userReadingLog(String resourceId, String type, String action) {
+    DioUtils.instance.requestNetwork<String>(Method.post, Api.USEREADINGLOG,
+        queryParameters: {
+          'resourceId': resourceId,
+          'type': type,
+          'action': action,
+        }, onSuccess: (data) {
+          if (action == 'DZ') {
+            Toast.show('点赞成功！');
+          } else if (action == 'QD') {
+            Toast.show('取消点赞！');
+          } else if (action == 'SC') {
+            Toast.show('收藏成功！');
+          } else if (action == 'QS') {
+            Toast.show('取消收藏！');
+          }
+          _getLikeStatus();
+          print('上传$action成功!');
+        }, onError: (code, msg) {
+          print('上传$action失败!');
+        });
   }
 }
