@@ -4,7 +4,9 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child2.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/dialog.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/search.dart';

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
-import 'package:flutter_first/block/bloc_provider.dart';
-import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/pages/home/doctor/doctor_chunyu_home_page.dart';
@@ -15,13 +15,12 @@ import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/pstConsult_page.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/service/service_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
 class Table0 extends StatefulWidget {
-  VoidCallback onPress;
-  //constructor
-  Table0(this.onPress);
 
   _Table0State createState() => _Table0State();
 }
@@ -122,7 +121,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              widget.onPress();
+              NavigatorUtil.pushPage(context, ActivityParticipation());
             },
           ),
           GestureDetector(
@@ -190,7 +189,7 @@ class _Table0State extends State<Table0> {
                 builder: (BuildContext context,
                     AsyncSnapshot<ChunyuMessage> snapshot) {
                   return Offstage(
-                    offstage: snapshot.hasData?(snapshot.data.fastPhoneNum + snapshot.data.tuwenNum == 0): count == "0",
+                    offstage: snapshot.hasData?(snapshot.data.fastPhoneNum + snapshot.data.tuwenNum == 0): count == "0"||count == '',
                     child: Container(
                       padding: EdgeInsets.only(right: 2),
                       child: Align(

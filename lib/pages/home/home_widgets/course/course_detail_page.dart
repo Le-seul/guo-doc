@@ -260,7 +260,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
               SizedBox(
                 width: 10,
               ),
-              Text('共16讲', style: TextStyle(color: Colors.black26))
+              Text('共${courseDetail.chapterList.length}讲', style: TextStyle(color: Colors.black26))
             ],
           ),
           SizedBox(

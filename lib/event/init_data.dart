@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
-import 'package:flutter_first/block/bloc_provider.dart';
-import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -102,9 +102,6 @@ class _InitDataState extends State<InitData> {
             NavigatorUtil.pushPage(context,ConsultationDetailPage(id: target,));
 //            CommonRequest.UserReadingLog(item.id, item.type, 'YD');
           }
-
-
-
           String orderId = json
               .decode(message["extras"]["cn.jpush.android.EXTRA"])["orderId"];
           print("orderid：$orderId");

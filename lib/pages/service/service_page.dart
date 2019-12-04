@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
-import 'package:flutter_first/block/bloc_provider.dart';
-import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
@@ -177,6 +177,7 @@ class _ServicePageState extends State<ServicePage> {
                       ))
                 ],
               ),
+              SizedBox(height: 10,),
               Container(
                 padding:EdgeInsets.only(top: 0,left:ScreenUtil().setWidth(5), ),
                 child: Row(
@@ -195,7 +196,7 @@ class _ServicePageState extends State<ServicePage> {
                 ),),
               InkWell(
                 child: Container(
-                  margin:EdgeInsets.fromLTRB(ScreenUtil().setWidth(5),ScreenUtil().setWidth(5),ScreenUtil().setWidth(5),0),
+                  margin:EdgeInsets.fromLTRB(ScreenUtil().setWidth(5),10,ScreenUtil().setWidth(5),0),
                   height: ScreenUtil().setHeight(40),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -321,7 +322,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ActivityListPage());
+                  NavigatorUtil.pushPage(context,ActivityListPage('进行中'));
                 },
               ),
               InkWell(
@@ -452,7 +453,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ActivityListPage());
+                  NavigatorUtil.pushPage(context,ActivityListPage('即将开始'));
                 },
               ),
               InkWell(
@@ -530,11 +531,9 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 onTap: (){
-                  NavigatorUtil.pushPage(context,ActivityListPage());
+                  NavigatorUtil.pushPage(context,ActivityListPage('已结束'));
                 },
               ),
-
-
             ],
           )
       ),

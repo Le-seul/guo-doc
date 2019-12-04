@@ -11,8 +11,8 @@ import 'package:flutter_first/bean/imageUrl.dart';
 import 'package:flutter_first/bean/message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bean/user_entity.dart';
-import 'package:flutter_first/block/bloc_provider.dart';
-import 'package:flutter_first/block/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -291,6 +291,7 @@ class _TalkPageState extends State<TalkPage>
 
   @override
   void dispose() {
+//    _chunyuPushBloc.dispose();
     controller.dispose();
     flutterSound.stopRecorder();
     exitLogin.cancel();

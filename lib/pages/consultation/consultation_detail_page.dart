@@ -61,7 +61,6 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
       Api.GETARTICLECONTENT,
       queryParameters: {"articleId": widget.id},
       onSuccess: (data) {
-
         setState(() {
           articleContent = data;
           isShowLoading = false;
@@ -115,9 +114,15 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           Offstage(
             offstage: articleContent.canLike != 'Y',
             child: GestureDetector(
-              child: likeStatus.likeStatus == 1?Icon(Icons.favorite,
-                  color: Colors.redAccent, size: 20):Icon(Icons.favorite_border,
-                  color: Colors.white, size: 20),
+              child:
+              Container(
+                height: 18,
+                width: 18,
+                child: Image.asset(
+                  'assets/images/consultation/点赞.png',
+                  color: likeStatus.likeStatus == 1?Colors.redAccent:Colors.white,
+                ),
+              ),
               onTap: () {
                 setState(() {
                   if(likeStatus.likeStatus == 1){
@@ -190,6 +195,15 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
           _getLikeStatus();
           print('上传$action成功!');
         }, onError: (code, msg) {
+          if (action == 'DZ') {
+            Toast.show('点赞失败！');
+          } else if (action == 'QD') {
+            Toast.show('取消点赞失败！');
+          } else if (action == 'SC') {
+            Toast.show('收藏失败！');
+          } else if (action == 'QS') {
+            Toast.show('取消收藏失败！');
+          }
           print('上传$action失败!');
         });
   }

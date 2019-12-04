@@ -11,7 +11,7 @@ class Api {
   //获取文章详情
   static const String GETARTICLECONTENT = "/api/article.do?getArticleContent";
 
-//获取专题包含的文章
+  //获取专题包含的文章
   static const String GETARTICLETOPIC = "/api/topic.do?getArticleOfTopic";
 
   //查询点赞状态
@@ -21,7 +21,19 @@ class Api {
   static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
 
   //获取活动详情
-  static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivity";
+  static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivityInfo";
+
+  //活动报名
+  static const String SIGNUPACTIVITY = "/api/activity.do?signUp";
+
+  //获取还未开始的活动列表
+  static const String GRTACTIVITYNOTSTART = "/api/activity.do?getActivityNotStart";
+
+  //获取进行中的活动列表
+  static const String GETACTIVITYINPROGRESS = "/api/activity.do?getActivityInProgress";
+
+  //获取已结束的活动列表
+  static const String GETACTIVITYFINISHED = "/api/activity.do?getActivityFinished";
 
   //获取服务中心列表
   static const String GETSERVICECENTERLIST = "/api/psyConsult.do?getServiceCenterList";

@@ -30,7 +30,7 @@ class _ServiceChildState extends State<ServiceChild> {
   _getServiceCenter() {
     print('location:${widget.location}');
     DioUtils.instance
-        .requestNetwork<ServCenter>(Method.get, widget.location == ''?Api.GETPSYSERVICECENTERLIST:Api.GETPSYSERVICECENTERBYLOCATION,
+        .requestNetwork<ServCenter>(Method.get, widget.location == '按地区'?Api.GETPSYSERVICECENTERLIST:Api.GETPSYSERVICECENTERBYLOCATION,
             queryParameters: {
               'location': widget.location,
             },

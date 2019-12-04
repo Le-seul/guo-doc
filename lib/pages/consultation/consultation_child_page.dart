@@ -5,15 +5,12 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/pages/consultation/title_widget.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
-import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-
-import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_first/pages/consultation/title_widget.dart';
 
 class ChildPage extends StatefulWidget {
   bool offstage;
