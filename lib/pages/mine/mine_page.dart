@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/pages/consultation/clinic_information_page.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_center.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
@@ -13,8 +15,53 @@ import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
-class MinePage extends StatelessWidget {
+class MinePage extends StatefulWidget {
   @override
+  _MinePageState createState() => _MinePageState();
+}
+
+class _MinePageState extends State<MinePage> {
+  String _result = "无";
+
+
+  @override
+//  void initState() {
+//    super.initState();
+//    fluwx.responseFromAuth.listen((data) {
+//      if (mounted) {
+//      }
+//      // 这里返回结果，errCode=1为微信用户授权成功的标志，其他看微信官方开发文档
+//      setState(() {
+//        _result = "initState ======   ${data.errCode}  --- ${data.code}";
+//        int errCode = data.errCode;
+//        if (errCode == Constant.WECHAT_SUCCESS) {
+//          String code = data.code;
+//          print('code  $code');
+//          getWeChatAccessToken(code);
+//        }else {
+//          Util.showToast("${data.code}");
+//        }
+//        print('aaaa ====== >   $_result');
+//      });
+//    });
+//  }
+//
+//  @override
+//  void dispose() {
+//    super.dispose();
+//    _result = null;
+//  }
+  @override
+//  void _weChatLogin(){
+//    fluwx.sendAuth(
+//        scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
+//        .then((data) {
+//      setState(() {
+//
+//      });
+//    }).catchError((e){print('weChatLogin  e  $e');});
+//  }
+
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
@@ -65,10 +112,10 @@ class MinePage extends StatelessWidget {
                       children: <Widget>[
                         Text('张警官',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
+                            TextStyle(color: Colors.white, fontSize: 16)),
                         Text('189*****111',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 12)),
+                            TextStyle(color: Colors.white, fontSize: 12)),
                       ],
                     ),
                     SizedBox(
@@ -87,7 +134,7 @@ class MinePage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
+                                  BorderRadius.all(Radius.circular(4))),
                             ),
                           ),
                           Center(
@@ -115,7 +162,7 @@ class MinePage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
+                                BorderRadius.all(Radius.circular(4))),
                           ),
                         ),
                         Center(
@@ -162,7 +209,7 @@ class MinePage extends StatelessWidget {
                             Text(
                               '5',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                              TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -170,7 +217,7 @@ class MinePage extends StatelessWidget {
                             Text(
                               '排名',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
+                              TextStyle(color: Colors.white, fontSize: 14),
                             )
                           ],
                         ),
@@ -211,7 +258,7 @@ class MinePage extends StatelessWidget {
                               ),
                               onTap: () {
                                 NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
+                                    context, Clinic_information());
                               },
                             ),
                           ),
@@ -264,7 +311,7 @@ class MinePage extends StatelessWidget {
                               ),
                               onTap: () {
                                 NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
+                                    context, ServiceCenterPage());
                               },
                             ),
                           ),
@@ -571,7 +618,10 @@ class MinePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    //_weChatLogin();
+
+                  },
                 ), //绑定微信
                 SizedBox(
                   height: 7,
@@ -626,3 +676,5 @@ class MinePage extends StatelessWidget {
     );
   }
 }
+
+

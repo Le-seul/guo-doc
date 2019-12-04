@@ -8,6 +8,7 @@ import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/centerdetail_page.dart';
 import 'package:flutter_first/bean/chapter_record.dart';
+import 'package:flutter_first/bean/clinic_info.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
@@ -128,6 +129,8 @@ class EntityFactory {
       return ArticleContent.fromJson(json) as T;
     }else if (T.toString() == "LikeStatus") {
       return LikeStatus.fromJson(json) as T;
+    }else if (T.toString() == "Clinic") {
+      return Clinic.fromJson(json) as T;
     }else {
       return null;
     }

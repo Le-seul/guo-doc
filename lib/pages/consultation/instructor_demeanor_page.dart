@@ -18,14 +18,17 @@ class instructor_demeanor extends StatefulWidget {
 
 class _instructor_demeanorState extends State<instructor_demeanor> {
   List<PsyTeacherList> Ranklist = List();
+  List<PsyTeacherList> Localist = List();
   List<PsyTeacherList> BestList = List();
   bool isShowLoadingRank = true; //\
+  bool isShowLoadingLocal = true; //\
   bool isShowLoadingBest = true; //\
 
   void initState() {
     super.initState();
     _requestBest();
     _requestFirstRank();
+    _requestLocal();
   }
 
   @override
@@ -37,6 +40,20 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
         print('教官成功');
         Ranklist = data;
         isShowLoadingRank = false;
+      });
+    }, onError: (code, msg) {
+      print('教官失败');
+    });
+  }
+  void _requestLocal() {
+    DioUtils.instance.requestNetwork<PsyTeacherList>(
+        Method.get, Api.PsyTeacherLocal,
+        queryParameters: {'orgId':'北京警察学院'},
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        print('教官成功');
+        Localist = data;
+        isShowLoadingLocal = false;
       });
     }, onError: (code, msg) {
       print('教官失败');
@@ -132,7 +149,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                        BestList[0].imgId),
+                                                        BestList[0].imgIdThumb),
                                                     fit: BoxFit.fill),
                                                 borderRadius:
                                                     BorderRadius.circular(35))),
@@ -258,7 +275,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                     ),
                     isShowLoadingRank
                         ? LoadingWidget.childWidget()
-                        : (Ranklist.length == 0)
+                        : (Localist.length == 0)
                         ? Container(
                       width: double.infinity,
                       height: double.infinity,
@@ -270,7 +287,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                       child: Row(
                         mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                        MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Column(
                             children: <Widget>[
@@ -281,18 +298,18 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                Ranklist[0].imgId),
+                                                Localist[0].imgIdThumb),
                                             ),
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[0].id));
+                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Localist[0].id));
                                 },
                               ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(Ranklist[0].name)
+                              Text(Localist[0].name)
                             ],
                           ),
                           Column(
@@ -304,43 +321,21 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                Ranklist[1].imgId),
+                                                Localist[1].imgIdThumb),
                                             ),
                                         borderRadius:
                                         BorderRadius.circular(35))),
                                 onTap: (){
-                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[1].id));
+                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Localist[1].id));
                                 },
                               ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(Ranklist[1].name)
+                              Text(Localist[1].name)
                             ],
                           ),
-                          Column(
-                            children: <Widget>[
-                              GestureDetector(
-                                child: Container(
-                                    height: 70,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                Ranklist[2].imgId),
-                                            ),
-                                        borderRadius:
-                                        BorderRadius.circular(35))),
-                                onTap: (){
-                                  NavigatorUtil.pushPage(context,instructor_demeanor_detail(id:Ranklist[2].id));
-                                },
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(Ranklist[2].name)
-                            ],
-                          ),
+
                         ],
                       ),
                     ),
@@ -387,7 +382,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
                                               decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                          Ranklist[index].imgId),
+                                                          Ranklist[index].imgIdThumb),
                                                       ),
                                                   borderRadius:
                                                   BorderRadius.circular(21))),

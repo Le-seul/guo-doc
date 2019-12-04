@@ -106,7 +106,7 @@ class _instructor_demeanor_detailState
                         width:72,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: NetworkImage(Testlist[0].imgId),fit: BoxFit.fill),
+                                image: NetworkImage(Testlist[0].imgIdThumb),fit: BoxFit.fill),
                           borderRadius: BorderRadius.circular(36)
                         ),
                       ),
@@ -315,7 +315,7 @@ class _instructor_demeanor_detailState
                         shrinkWrap: true,
                         itemCount: Testlist[0].showImg.length,
                         itemBuilder: (context, index) {
-                          return Testlist[0].showImg[index].showId == null
+                          return Testlist[0].showImg[index].showIdThumb == null
                               ? Container()
                               : InkWell(
                                   child: Container(
@@ -324,7 +324,7 @@ class _instructor_demeanor_detailState
                                     width: 130,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            image: NetworkImage(Testlist[0].showImg[index].showId)),
+                                            image: NetworkImage(Testlist[0].showImg[index].showIdThumb)),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5))),
                                   ),

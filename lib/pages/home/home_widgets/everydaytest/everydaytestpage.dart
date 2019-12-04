@@ -128,8 +128,8 @@ class _AllState extends State<All> {
                       children: <Widget>[
                         InkWell(
                           onTap: () {
-                            _getTestLike(psylist[index].id);
-                            NavigatorUtil.pushPage(context,Test0(Url: psylist[index].testEntry,));
+                          //  _getTestLike(psylist[index].questionId);
+                            NavigatorUtil.pushPage(context,Test0(Url: psylist[index].questionId,));
                           },
                           child: Container(
                             margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
@@ -162,10 +162,7 @@ class _AllState extends State<All> {
                                 ),
                                 Container(
                                   child: Text(
-                                    psylist[index].shortDesc +
-                                        '丨' +
-                                        psylist[index].questionCount +
-                                        '个问题',
+                                    psylist[index].description,
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.black45),
                                   ),
@@ -244,7 +241,7 @@ class _SelectedState extends State<Selected> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  NavigatorUtil.pushPage(context,Test0(Url: Selectedlist[index].testEntry,));
+                  NavigatorUtil.pushPage(context,Test0(Url: Selectedlist[index].questionId,));
                 },
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
@@ -277,10 +274,7 @@ class _SelectedState extends State<Selected> {
                       ),
                       Container(
                         child: Text(
-                          Selectedlist[index].shortDesc +
-                              '丨' +
-                              Selectedlist[index].questionCount +
-                              '个问题',
+                          Selectedlist[index].description,
                           style: TextStyle(
                               fontSize: 12, color: Colors.black45),
                         ),

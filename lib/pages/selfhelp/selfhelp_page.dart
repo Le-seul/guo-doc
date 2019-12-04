@@ -39,11 +39,14 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
 
   @override
   void initState() {
+    super.initState();
     //生命周期函数,固定写法
     _requestData();
     _requestPsycourse();
     _getAllMusicList();
     _requestCoreading('');
+
+
   }
 
 
@@ -210,7 +213,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         SizedBox(height: 10,),
                         Container(
                           padding: EdgeInsets.only(left:10 ),
-                          child:Text(PsyList[0].shortDesc,style: TextStyle(color: Colors.grey.shade600),),
+                          child:Text(PsyList[0].description,style: TextStyle(color: Colors.grey.shade600),maxLines: 3,overflow: TextOverflow.ellipsis,),
                         )
                       ],
                     ),
@@ -218,7 +221,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ],
               ),
               onTap: (){
-                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].testEntry,));
+                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].questionId,));
               },
             )
           ),

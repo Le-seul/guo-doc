@@ -25,7 +25,6 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'block/bloc_provider.dart';
 import 'pages/exit_login_page.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 void main() async {
 // 注册服务
   setupLocator();
@@ -50,19 +49,19 @@ class _MyAppState extends State<MyApp> {
       SystemUiOverlayStyle(statusBarColor: Colors.transparent);
 //  StreamSubscription exitLogin;
   @override
-  void initState() async{
+  void initState() {
 //    exitLogin = eventBus.on<LoginEvent>().listen((event) {
 //        Navigator.of(context)
 //            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
 //    });
 
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
-    await fluwx.register(
-        appId: "wx492f591816c2cd20",
-        doOnAndroid: true,
-        doOnIOS: true,
-        );
-    var result = await fluwx.isWeChatInstalled();
+//    await fluwx.register(
+//        appId: "wx492f591816c2cd20",
+//        doOnAndroid: true,
+//        doOnIOS: true,
+//        );
+//    var result = await fluwx.isWeChatInstalled();
 
   }
 

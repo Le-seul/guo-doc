@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_child2.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
 import 'package:flutter_first/res/colors.dart';
 
@@ -25,7 +26,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
   void initState() {
     super.initState();
     mController = TabController(
-      length: 6,
+      length: 7,
       vsync: this,
     );
   }
@@ -68,7 +69,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
               Container(
                 height: 30,
                 child: TabBar(
-                  isScrollable: false,
+                  isScrollable: true,
                   //是否可以滚动
                   controller: mController,
                   labelPadding:EdgeInsets.all(0.0),
@@ -78,12 +79,41 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                   unselectedLabelStyle: TextStyle(fontSize: 14),
                   labelStyle: TextStyle(fontSize: 16.0),
                   tabs: <Widget>[
-                    Text('按地区'),
-                    Text('东城区'),
-                    Text('西城区'),
-                    Text('朝阳区'),
-                    Text('海淀区'),
-                    Text('丰台区'),
+                    Container(
+
+                        child: Text('全部'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+                    ),
+                    Container(
+
+                      child: Text('直属单位'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+                    ),
+                    Container(
+
+                      child: Text('东城'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+                    ),
+                    Container(
+
+                      child: Text('西城'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+                    ),Container(
+
+                      child: Text('朝阳'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+                    ),Container(
+
+                      child: Text('海淀'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+                    ),
+
+                    Container(
+                      child: Text('丰台'),
+                      margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    ),
+
+
                   ],
                 ),
               ),
@@ -92,6 +122,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                   controller: mController,
                   children: <Widget>[
                   ServiceChild(''),
+                  ServiceChild2('直属单位'),
                   ServiceChild('东城区'),
                   ServiceChild('西城区'),
                   ServiceChild('朝阳区'),
