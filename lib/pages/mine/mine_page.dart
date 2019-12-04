@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
@@ -13,7 +14,34 @@ import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
-class MinePage extends StatelessWidget {
+class MinePage extends StatefulWidget {
+
+
+  @override
+  _MinePageState createState() => _MinePageState();
+}
+
+class _MinePageState extends State<MinePage> {
+
+
+  int _counter = 0;
+  static const platform = const MethodChannel("add");
+
+  Future<Null> incrementCount() async {
+    int result = 0;
+    try {
+      //参数为方法名称
+      result = await platform.invokeMethod("getNumber");
+    } on PlatformException catch (e) {
+      print(e.message);
+    }
+
+    //获取结果后改变界面状态,更新界面
+    setState(() {
+      _counter = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
@@ -132,7 +160,7 @@ class MinePage extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         Text(
-                          '16480',
+                          '$_counter',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         SizedBox(

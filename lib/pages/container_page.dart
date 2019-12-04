@@ -80,7 +80,7 @@ class _ContainerPageState extends State<ContainerPage> {
     print('initState _ContainerPageState');
 
     exitLogin = eventBus.on<LoginEvent>().listen((event) {
-      showExitDialog.showMyMaterialDialog(context);
+      ShowExitDialog.showMyMaterialDialog(context);
     });
 
     if (pages == null) {

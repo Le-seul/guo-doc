@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
@@ -10,17 +7,14 @@ import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
-import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/doctor/graphic_consuitation.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/doctor/telephone_consultation.dart';
 import 'package:flutter_first/util/dialog.dart';
-import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/real_rich_text.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
@@ -41,7 +35,10 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
     init();
   }
 
+
+
   init() async {
+
     List<Map> list = await db.getAllOrder();
 //    print("数据库list3:$list");
     List<OrderNum> listNum = List();
@@ -62,8 +59,10 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
         }
       });
     }
-
-//    print("fastPhone:$intFastPhone");
+    bool isAree = StorageManager.sharedPreferences.getBool(Constant.isAgree);
+    if(isAree == null||isAree == false){
+      ShowClauseDialog.showMyMaterialDialog(context);
+    }
   }
 
   @override
@@ -74,7 +73,6 @@ class _DoctorChunyuHomePageState extends State<DoctorChunyuHomePage> {
   @override
   Widget build(BuildContext context) {
     final ChunyuPushBloc bloc = BlocProvider.of<ChunyuPushBloc>(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
