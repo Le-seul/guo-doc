@@ -3,7 +3,9 @@ import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/dialog.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -15,19 +17,31 @@ class ServiceCenterPage extends StatefulWidget {
 }
 
 class _ServiceCenterPageState extends State<ServiceCenterPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin implements OnPressMunu{
   List<PsyServiceCenter> ServiceList = List();
   List<PsyServiceCenter> TypeList = List();
   bool isShowLoading = true; //\
   String type = "心理服务分中心";
+  var tabText = ['按地区','东城区', '西城区', '朝阳区', '海淀区', '丰台区'];
   TabController mController;
+  List<Widget> tabs = [];
+  List<Widget> tabViews = [];
 
   void initState() {
     super.initState();
     mController = TabController(
-      length: 6,
+      length: tabText.length,
       vsync: this,
     );
+    tabText.forEach((item) {
+      tabs.add(Container(
+        padding: EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
+        child: Text(item),
+      ));
+    });
+    tabText.forEach((item) {
+      tabViews.add(ServiceChild(item));
+    });
   }
 
   @override
@@ -65,43 +79,51 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                 hintText: '请输入',
                 isborder: true,
               ),
-              Container(
-                height: 30,
-                child: TabBar(
-                  isScrollable: false,
-                  //是否可以滚动
-                  controller: mController,
-                  labelPadding:EdgeInsets.all(0.0),
-                  indicatorColor: Color(0xff2CA687),
-                  labelColor: Color(0xff2CA687),
-                  unselectedLabelColor: Color(0xff666666),
-                  unselectedLabelStyle: TextStyle(fontSize: 14),
-                  labelStyle: TextStyle(fontSize: 16.0),
-                  tabs: <Widget>[
-                    Text('按地区'),
-                    Text('东城区'),
-                    Text('西城区'),
-                    Text('朝阳区'),
-                    Text('海淀区'),
-                    Text('丰台区'),
-                  ],
-                ),
+              Flex(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                direction: Axis.horizontal,
+                children: <Widget>[
+                  Expanded(
+                    child: TabBar(
+                      isScrollable: true,
+                      //是否可以滚动
+                      controller: mController,
+                      labelPadding:EdgeInsets.all(0.0),
+                      indicatorColor: Color(0xff2CA687),
+                      labelColor: Color(0xff2CA687),
+                      unselectedLabelColor: Color(0xff666666),
+                      unselectedLabelStyle: TextStyle(fontSize: 14),
+                      labelStyle: TextStyle(fontSize: 14.0),
+                      tabs: tabs,
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false, //BuildContext对象
+                            builder: (BuildContext context) {
+                              return ShowActivityTab(tabText, this);
+                            });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Center(child: Icon(Icons.menu)))),
+                ],
               ),
               Flexible(
                 child: TabBarView(
                   controller: mController,
-                  children: <Widget>[
-                  ServiceChild(''),
-                  ServiceChild('东城区'),
-                  ServiceChild('西城区'),
-                  ServiceChild('朝阳区'),
-                  ServiceChild('海淀区'),
-                  ServiceChild('丰台区'),
-                  ],
+                  children: tabViews
                 ),
               ),
             ],
           ),
         ));
+  }
+
+  @override
+  void onPress(int index) {
+    mController.index = index;
   }
 }

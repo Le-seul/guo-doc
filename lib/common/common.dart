@@ -6,7 +6,8 @@ class Constant {
   static const String tuWenNum = 'tuWenNum';
   static const String fastFhoneNum = 'fastFhoneNum';
   static const String access_Token = 'accessToken';
-  static const String isAgree = 'isAgree';
+  static const String onlinIsAgree = 'onlinIsAgree';
+  static const String psychologicalIsAgree = 'psychologicalIsAgree';
   static const String refresh_Token = 'refreshToken';
 
 }

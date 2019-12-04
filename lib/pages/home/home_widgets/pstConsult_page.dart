@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 
 import 'package:flutter_first/util/serviceLocator.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/tel_service.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -15,6 +17,21 @@ class PsychologicalConcult extends StatefulWidget {
 
 class _PsychologicalConcultState extends State<PsychologicalConcult> {
   final TelAndSmsService _service = locator<TelAndSmsService>();
+  String title = '心理咨询热线须知';
+  String content = '''        感谢您对于心理咨询热线的信任与支持！当您开始使用热线咨询服务时，我们可能会对您的个人信息进行收集及研究，请您仔细阅读《心理咨询热线隐私条款》并确定了解我们对您个人信息的处理规则。
+         如果您同意《隐私条款》请点击“同意”开始使用心理咨询热线，我们将尽全力保护您的个人信息及合法权益，再次感谢您的信任。''';
+
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 1)).then((value) {
+      bool isAree = StorageManager.sharedPreferences.getBool(Constant.psychologicalIsAgree);
+      if(isAree == null||isAree == false){
+        ShowClauseDialog.showMyMaterialDialog(context,title,content,'psychological');
+      }
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
