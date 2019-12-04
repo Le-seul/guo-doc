@@ -261,73 +261,104 @@ class ShowClauseDialog extends Dialog {
         context: context, //BuildContext对象
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return Material(
-            //创建透明层
-            type: MaterialType.transparency, //透明类型
-            child: Center(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height * 0.7,
-                width: MediaQuery.of(context).size.width * 0.8,
-                color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Center(
-                            child: Text(
-                          '在线问诊须知',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
-                        ))),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: SingleChildScrollView(
-                          physics: ClampingScrollPhysics(),
-                          child: Text(
-                            '''“在线问诊”服务充分尊重并保护用户个人隐私权，我们将以高度审慎的态度对待您的信息。为便于您使用该项服务，请您在使用服务前，仔细阅读并充分理解以下条款。
-                          1.在进行在线问诊时，为您提供咨询的医生是由“春雨医生”系统根据医疗咨询病情，智能推荐的有丰富咨询经验的专业医生。
-                          2. 为正常完成图文问诊服务功能，您需提供自身症状、疾病和身体状况的描述。医生将根据您提供的信息进行咨询服务。为您服务的医生仅了解您自主提供的信息，不会知晓您的姓名、联系方式、工作单位等个人信息，也不会知晓您在本APP和《民警健康管理系统》中任何与您相关的健康档案信息。
-                          3.您在“电话问诊”中留下的电话号码，仅会提供给“春雨医生”系统。为您提供电话咨询的医生，不会知晓您的电话号码，同样，也不会知晓您的个人信息和健康档案信息。
-                          4.您在“电话问诊”中如果选择了“心理咨询”，在服务时段内，系统将会为您拨打市局民警心理服务热线——(010)65260001，“市局民警心理服务中心”委托“北京心理卫生协会”派驻的专业心理咨询师将会接听您的心理咨询电话。同样，心理咨询师会按照《北京市公安局民警心理服务中心热线咨询工作守则》严格保护您的个人隐私。
-                        5.在问诊过程中，为了更好的帮助到您，医生可能需要您提供性别、年龄、诊断证明、检查单、CT、磁核共振（MRI）的图片等信息，您可自主选择提供或不提供，均由您自己决定。同时，我们不建议您在问诊过程中，透露与医疗咨询无关的您的姓名、工作单位、联系方式等个人信息。
+          return WillPopScope(
+            child: Material(
+              //创建透明层
+              type: MaterialType.transparency, //透明类型
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                  padding: EdgeInsets.only(top: 10,bottom: 10),
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.8,
 
-                            ''',
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.only(top: 5,right: 15,left: 15),
+                          child: Center(
+                              child: Text(
+                            '在线问诊栏目有关服务条款及隐私政策需求',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w600),
+                          ))),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15,right: 15,top: 5),
+                          child: SingleChildScrollView(
+                            physics: ClampingScrollPhysics(),
+                            child: Column(
+                              children: <Widget>[
+                                Text('服务条款及隐私政策',textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 15, fontWeight: FontWeight.w600),),
+                                SizedBox(height: 10,),
+                                Text(
+                                  '''“在线问诊”服务充分尊重并保护用户个人隐私权，我们将以高度审慎的态度对待您的信息。为便于您使用该项服务，请您在使用服务前，仔细阅读并充分理解以下条款。
+
+1.在进行在线问诊时，为您提供咨询的医生是由“春雨医生”系统根据医疗咨询病情，智能推荐的有丰富咨询经验的专业医生。
+
+2. 为正常完成图文问诊服务功能，您需提供自身症状、疾病和身体状况的描述。医生将根据您提供的信息进行咨询服务。为您服务的医生仅了解您自主提供的信息，不会知晓您的姓名、联系方式、工作单位等个人信息，也不会知晓您在本APP和《民警健康管理系统》中任何与您相关的健康档案信息。
+
+3.您在“电话问诊”中留下的电话号码，仅会提供给“春雨医生”系统。为您提供电话咨询的医生，不会知晓您的电话号码，同样，也不会知晓您的个人信息和健康档案信息。
+
+4.在问诊过程中，为了更好的帮助到您，医生可能需要您提供性别、年龄、诊断证明、检查单、CT、磁核共振（MRI）的图片等信息，您可自主选择提供或不提供，均由您自己决定。同时，我们不建议您在问诊过程中，透露与医疗咨询无关的您的姓名、工作单位、联系方式等个人信息。
+
+5.医生对于您所咨询病情的回复、提出的诊断或者医嘱，均基于您提供的信息和医生个人专业判断，仅供参考。如遇急重症病情不适合网上咨询，请立即前往医院就诊。
+
+6.如果您需要帮他人咨询医疗问题，请参照本文第2款 至第6款内容，将患者有关信息提供给医生开展问诊。
+
+7.所有上述基于“春雨医生”系统的服务，您的所有信息均为匿名信息，“春雨医生”平台不会知晓您没有主动提供的个人信息和健康档案信息，对于匿名的问诊内容“春雨医生”也会严格保密。
+
+8.本APP以及《民警健康管理系统》对您的问诊记录将会严格保密，我们保证不对外公开或向任何第三方提供您的问诊信息。对于您的在线问诊史（包括问诊文字和图片），您可自主选择删除或保留（删除后，您自己也将无法再次查看问诊信息）；对于您已经删除的问诊史，我们保证不在系统中留存任何备份。
+
+9.隐私是每个人的权利。我们会严格遵守本文规定，并通过技术手段，确保您个人信息的安全。''',
+                                ),
+                                SizedBox(height: 10,)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
+                      Container(height: 1,color: Colors.black26,),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                                child: Center(
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('不同意并退出')))),
+                            Container(height: 20,width:1,color: Colors.black26,),
+                            Expanded(
                               child: Center(
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('取消')))),
-                          Expanded(
-                            child: Center(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    setAgree();
-                                  },
-                                  child: Text('同意')),
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      setAgree();
+                                    },
+                                    child: Text('同意')),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
+            onWillPop: () async {
+              return Future.value(false);
+            },
           );
         });
   }

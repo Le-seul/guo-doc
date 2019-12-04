@@ -41,15 +41,8 @@ class _ActivityParticipationState extends State<ActivityParticipation>
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Color(0xff2CA687),
-        title: GestureDetector(
-          onTap: () {
-            setState(() {
-              _tabController.index = 2;
-            });
-          },
-          child: Text(
-            '活动参与',
-          ),
+        title: Text(
+          '活动参与',
         ),
       ),
       body: Container(

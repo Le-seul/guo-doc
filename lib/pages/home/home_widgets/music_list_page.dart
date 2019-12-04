@@ -71,7 +71,11 @@ class _MusicListPageState extends State<MusicListPage> {
                     Expanded(child: Container()),
                     GestureDetector(
                       onTap: () {
-                        NavigatorUtil.pushPage(context,PlayingPage(music: musicList[0],));
+                        NavigatorUtil.pushPage(
+                            context,
+                            PlayingPage(
+                              music: musicList[0],
+                            ));
                         quiet.playWithList(musicList[0], musicList, 'playlist');
                       },
                       child: Container(
@@ -137,7 +141,11 @@ class _MusicListPageState extends State<MusicListPage> {
   _buildTop() {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,MusicDetail(allMusicList: widget.allMusicList,));
+        NavigatorUtil.pushPage(
+            context,
+            MusicDetail(
+              allMusicList: widget.allMusicList,
+            ));
       },
       child: Container(
           padding: EdgeInsets.only(left: 10, right: 5),
@@ -176,12 +184,12 @@ class _MusicListPageState extends State<MusicListPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('周杰伦', style: TextStyle(color: Colors.black54)),
+                        Text('', style: TextStyle(color: Colors.black54)),
                         SizedBox(
                           height: 20,
                         ),
                         Text(
-                          widget.allMusicList.name,
+                          '',
                           style: TextStyle(color: Colors.black54),
                           strutStyle:
                               StrutStyle(forceStrutHeight: true, height: 1.5),
@@ -201,7 +209,11 @@ class _MusicListPageState extends State<MusicListPage> {
   _buildItem(int index, bool isPlaying) {
     return GestureDetector(
         onTap: () {
-          NavigatorUtil.pushPage(context,PlayingPage(music: musicList[index],));
+          NavigatorUtil.pushPage(
+              context,
+              PlayingPage(
+                music: musicList[index],
+              ));
           quiet.playWithList(musicList[index], musicList, 'playlist');
         },
         child: Container(
@@ -248,7 +260,7 @@ class _MusicListPageState extends State<MusicListPage> {
                                 height: 10,
                               ),
                               Text(
-                                '周杰伦',
+                                '',
                                 style: TextStyle(
                                     color: isPlaying
                                         ? Color(0xff2CA687)
