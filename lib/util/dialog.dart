@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -332,8 +333,63 @@ class ShowClauseDialog extends Dialog {
   }
 
   static setAgree() async {
-    await StorageManager.sharedPreferences
-        .setBool(Constant.isAgree, true);
+    await StorageManager.sharedPreferences.setBool(Constant.isAgree, true);
+  }
+}
+
+class ShowActivityTab extends Dialog {
+  final OnPressMunu onPressMunu;
+  List<String> listText;
+  ShowActivityTab(this.listText, this.onPressMunu);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      //创建透明层
+      child: Center(
+        child: Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                child: Icon(Icons.close),
+            ),
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 2.0),
+                      itemCount: listText.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            onPressMunu.onPress(index);
+                          },
+                          child: Container(
+                            color: Color(0xFFEEEEEE),
+                            child: Center(
+                                child: Text(
+                              listText[index],
+                              style: TextStyle(fontSize: 15),
+                            )),
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            )),
+      ),
+    );
   }
 }
 

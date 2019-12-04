@@ -68,11 +68,6 @@ class _ContainerPageState extends State<ContainerPage> {
       _selectIndex = 1;
     });
   }
-  void onPressActivity(){
-    setState(() {
-      _selectIndex = 2;
-    });
-  }
 
   @override
   void initState() {
@@ -84,7 +79,7 @@ class _ContainerPageState extends State<ContainerPage> {
     });
 
     if (pages == null) {
-      pages = [HomePage(onPressFirstBtn, onPressActivity), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
+      pages = [HomePage(onPressFirstBtn), ConsultationPage(), ServicePage(), SelfHelpPage(), MinePage()];
     }
     if (itemList == null) {
       itemList = itemNames

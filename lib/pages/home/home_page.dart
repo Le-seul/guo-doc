@@ -31,9 +31,9 @@ import '../../net/dio_utils.dart';
 class HomePage extends StatefulWidget {
 
   VoidCallback onPress;
-  VoidCallback onPressActivity;
+
   //constructor
-  HomePage(this.onPress,this.onPressActivity);
+  HomePage(this.onPress);
 
   _HomePageState createState() => _HomePageState();
 }
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: Container(
                     height: 175,
-                    child: Table0(widget.onPressActivity),
+                    child: Table0(),
 //                          lib2.Swiper(
 //                            itemCount: 1,
 //                            itemBuilder: (BuildContext context, int index) {
