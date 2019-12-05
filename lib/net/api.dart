@@ -23,6 +23,12 @@ class Api {
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivityInfo";
 
+  //获取地区列表
+  static const String GETREGIONLIST = "/api/activity.do?getRegionList";
+
+  //根据地区获取活动
+  static const String GETBYREGION = "/api/activity.do?getActivityByRegion";
+
   //活动报名
   static const String SIGNUPACTIVITY = "/api/activity.do?signUp";
 
@@ -164,6 +170,12 @@ class Api {
 
   //服务中心列表
   static const String GETPSYSERVICECENTERLIST = "/api/psyServiceCenter.do?getPsyServiceCenterList";
+
+  //服务中心直属单位
+  static const String GETPSYSERVICECENTERUNIT = "/api/psyServiceCenter.do?getPsyServiceCenterByCatalog";
+
+  //获取地区列表
+  static const String GETREGIONLIST2 = "/api/psyServiceCenter.do?getRegionList";
 
   //服务中心详情
   static const String GETPSYSERVICECENTERDETAIL = "/api/psyServiceCenter.do?getPsyServiceCenterDetail";

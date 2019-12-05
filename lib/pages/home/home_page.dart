@@ -146,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     GestureDetector(
                       onTap: (){
-
                       },
                       child: Container(
                         padding: EdgeInsets.only(right: 10),

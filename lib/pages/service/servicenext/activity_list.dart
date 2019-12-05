@@ -84,7 +84,7 @@ class _ActivityListPageState extends State<ActivityListPage> {
   _buildItem(ServiceActivity serviceActivity) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: serviceActivity.id));
+        NavigatorUtil.pushPage(context,ServiceActivityPage(activityId: serviceActivity.id));
       },
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -92,10 +92,11 @@ class _ActivityListPageState extends State<ActivityListPage> {
           child: Container(
             padding: EdgeInsets.all(15),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                   height: 80,
-                  width: 80,
+                  width: 120,
                   child: Image.network(serviceActivity.cover,fit: BoxFit.fill,),
                 ),
                 SizedBox(

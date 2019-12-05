@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/region.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_list2.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 
 class ActivityParticipation extends StatefulWidget {
   @override
@@ -10,24 +14,45 @@ class ActivityParticipation extends StatefulWidget {
 class _ActivityParticipationState extends State<ActivityParticipation>
     with SingleTickerProviderStateMixin
     implements OnPressMunu {
-  var tabText = ['东城区', '西城区', '海淀区', '朝阳区', '丰台区', '房山区', '通州区', '昌平区'];
+  var tabText = [];
   TabController _tabController;
   List<Widget> tabs = [];
   List<Widget> tabViews = [];
 
   @override
   void initState() {
-    _tabController = TabController(length: tabText.length, vsync: this);
+    _getActivityTab();
+  }
 
-    tabText.forEach((item) {
-      tabs.add(Container(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
-        child: Text(item),
-      ));
-    });
-    tabText.forEach((item) {
-      tabViews.add(ActivityList2());
-    });
+
+  _getActivityTab() {
+    DioUtils.instance.requestNetwork<RegionList>(
+      Method.get,
+      Api.GETREGIONLIST,
+      onSuccess: (data) {
+        print('活动TAB获取成功');
+        setState(() {
+          tabText = data.regionList;
+          _tabController = TabController(length: tabText.length, vsync: this);
+          tabText.forEach((item) {
+            tabs.add(Container(
+              padding: EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
+              child: Text(item),
+            ));
+          });
+          tabText.forEach((item) {
+            tabViews.add(ActivityList2(item));
+          });
+          print('活动TAB获取成功');
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+
+          print('活动TAB获取失败！');
+        });
+      },
+    );
   }
 
   @override
@@ -47,7 +72,9 @@ class _ActivityParticipationState extends State<ActivityParticipation>
       ),
       body: Container(
         color: Color(0xFFEEEEEE),
-        child: Column(
+        child: _tabController == null
+            ? LoadingWidget.childWidget()
+            : Column(
           children: <Widget>[
             SizedBox(
               height: 5,

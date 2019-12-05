@@ -33,6 +33,7 @@ import 'package:flutter_first/bean/psyteacher.dart';
 import 'package:flutter_first/bean/psyteacher_like.dart';
 
 import 'package:flutter_first/bean/psyteacherlist.dart';
+import 'package:flutter_first/bean/region.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/bean/service_center_bean.dart';
@@ -129,6 +130,8 @@ class EntityFactory {
       return ArticleContent.fromJson(json) as T;
     }else if (T.toString() == "LikeStatus") {
       return LikeStatus.fromJson(json) as T;
+    }else if (T.toString() == "RegionList") {
+      return RegionList.fromJson(json) as T;
     }else if (T.toString() == "Clinic") {
       return Clinic.fromJson(json) as T;
     }else {

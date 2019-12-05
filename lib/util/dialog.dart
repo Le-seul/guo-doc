@@ -270,7 +270,7 @@ class ShowClauseDialog extends Dialog {
                   decoration: BoxDecoration(
                       color: Colors.white, borderRadius: BorderRadius.circular(15)),
                   padding: EdgeInsets.only(top: 10,bottom: 10),
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: type == 'psychological'?MediaQuery.of(context).size.height * 0.48:MediaQuery.of(context).size.height * 0.7,
                   width: MediaQuery.of(context).size.width * 0.8,
 
                   child: Column(
@@ -354,7 +354,7 @@ class ShowClauseDialog extends Dialog {
 
 class ShowActivityTab extends Dialog {
   final OnPressMunu onPressMunu;
-  List<String> listText;
+  var listText;
   ShowActivityTab(this.listText, this.onPressMunu);
 
   @override
@@ -378,6 +378,7 @@ class ShowActivityTab extends Dialog {
                 ),
                 Expanded(
                   child: GridView.builder(
+                    physics: ClampingScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 10,

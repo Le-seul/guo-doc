@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/step_ranking.dart';
+import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
@@ -10,28 +13,29 @@ class StepRanking extends StatefulWidget {
   _StepRankingState createState() => _StepRankingState();
 }
 
-class _StepRankingState extends State<StepRanking> {
+class _StepRankingState extends State<StepRanking> implements RefreshList{
   List<Stepranking> steplist = List();
   List<Stepranking> Rankinglist = List();
+  bool offstage = false;
+  StreamSubscription exitLogin;
 
   void initState() {
-    _requestAPI();
+    exitLogin = eventBus.on<Refresh>().listen((event) {
+      setState(() {
+        offstage = event.offstage;
+      });
+    });
   }
 
-  void _requestAPI() async {
-//    var _request= MockRequest();
-    var result = await MockRequest().getNoParams('step');
-    var resultList = result['step'];
-    steplist = resultList
-        .map<Stepranking>((item) => Stepranking.fromMap(item))
-        .toList();
-    //list.addAll(steplist);
-    setState(() {});
+
+  @override
+  void dispose() {
+    exitLogin.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
+
 
     return Scaffold(
       backgroundColor: Colours.line,
@@ -56,19 +60,84 @@ class _StepRankingState extends State<StepRanking> {
           )
         ],
       ),
-      body: Container(
-        margin: EdgeInsets.all(13),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        child: ListView.builder(
-          itemCount: 11,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildItem(index);
-          },
-        ),
+      body: Stack(
+        children: <Widget>[
+          Container(
+              margin: EdgeInsets.only(left: 10, top: 10, right: 10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              child: ListView.custom(
+                physics: ClampingScrollPhysics(),
+                childrenDelegate: MySliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return _buildItem(index);
+                  },
+                  childCount: 30,
+                ),
+                cacheExtent: 0.0,
+              )),
+          Positioned(
+              bottom: 0.0,
+              child:  Offstage(
+                offstage: offstage,
+                child: Container(
+                  margin: EdgeInsets.only(left: 10,right: 10),
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  height: 70,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 50,
+                        width: 50,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.black12,
+                          radius: 13,
+                          child: Container(
+                            child: Text(
+                              '9',
+                              style: TextStyle(fontSize: 17, color: Colors.black54),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.all(5),
+                        child: ClipOval(
+                          child: Image.network(
+                              'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'),
+                        ),
+                      ),
+                      Expanded(child: Text('  张警官')),
+                      loadAssetImage('mine/脚印.png', height: 20),
+                      Text(
+                        '  20000',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+          )
+        ],
       ),
     );
+  }
+
+  @override
+  void refresh(bool visiblity) {
+    setState(() {
+      offstage = visiblity;
+    });
   }
 }
 
@@ -83,29 +152,38 @@ _buildItem(int index) {
   }
   if (index == 0) {
     itemWidget = Container(
-      child: loadAssetImage('mine/rank/排行 1.png',height: 40 ),
+      height: 50,
+      width: 50,
+      child: loadAssetImage('mine/rank/排行 1.png', height: 40),
       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
     );
   } else if (index == 1) {
     itemWidget = Container(
-      child: loadAssetImage('mine/rank/排行 2.png',height: 40),
+      height: 50,
+      width: 50,
+      child: loadAssetImage('mine/rank/排行 2.png', height: 40),
       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
     );
   } else if (index == 2) {
     itemWidget = Container(
+      height: 50,
+      width: 50,
       child: loadAssetImage('mine/rank/排行 3.png', height: 40),
       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
     );
   } else {
     itemWidget = Container(
-      margin: EdgeInsets.only(left: 16,right: 16),
-      height: 40,
+      padding: EdgeInsets.all(10),
+      height: 50,
+      width: 50,
       child: CircleAvatar(
         backgroundColor: Colors.black12,
-        radius: 10,
-        child: Text(
-          num,
-          style: TextStyle(fontSize: 17, color: Colors.black54),
+        radius: 13,
+        child: Container(
+          child: Text(
+            num,
+            style: TextStyle(fontSize: 17, color: Colors.black54),
+          ),
         ),
       ),
     );
@@ -116,11 +194,11 @@ _buildItem(int index) {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(left: 10, right: 10),
-          height: ScreenUtil().setHeight(11),
+          height: 70,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              itemWidget ,
+              itemWidget,
               Container(
                 height: 50,
                 width: 50,
@@ -130,24 +208,14 @@ _buildItem(int index) {
                       'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'),
                 ),
               ),
-              Text('  张警官'),
-              Expanded(
-                flex: 3,
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      loadAssetImage('mine/脚印.png', height: 20),
-                      Text(
-                        '  20000',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      )
-                    ],
-                  ),
-                ),
+              Expanded(child: Text('  张警官')),
+              loadAssetImage('mine/脚印.png', height: 20),
+              Text(
+                '  20000',
+                style: TextStyle(color: Colors.red),
+              ),
+              SizedBox(
+                width: 15,
               ),
             ],
           ),
@@ -160,4 +228,124 @@ _buildItem(int index) {
       ],
     ),
   );
+}
+
+
+
+class VisibilityState {
+  const VisibilityState({this.firstIndex, this.lastIndex});
+
+  final int firstIndex;
+  final int lastIndex;
+}
+
+class ChangeSet {
+  final List<int> exposure = [];
+  final List<int> hidden = [];
+
+  bool get empty => exposure.length == 0 && hidden.length == 0;
+}
+
+class VisibilityMonitor {
+  VisibilityState lastState;
+
+  addSequenceToList(List<int> list, int sequenceStart, int sequenceEnd) {
+    if (sequenceStart <= sequenceEnd) {
+      for (var i = sequenceStart; i <= sequenceEnd; i++) {
+        list.add(i);
+      }
+    } else {
+      for (var i = sequenceEnd; i >= sequenceStart; i--) {
+        list.add(i);
+      }
+    }
+  }
+
+  update(VisibilityState newState) {
+    if (lastState != null &&
+        newState.firstIndex == lastState.firstIndex &&
+        newState.lastIndex == lastState.lastIndex) {
+      return;
+    }
+
+    final changeSet = ChangeSet();
+
+    if (lastState == null) {
+      addSequenceToList(
+          changeSet.exposure, newState.firstIndex, newState.lastIndex);
+    } else if (newState.firstIndex > lastState.lastIndex) {
+      addSequenceToList(
+          changeSet.exposure, newState.firstIndex, newState.lastIndex);
+      addSequenceToList(
+          changeSet.hidden, lastState.firstIndex, lastState.lastIndex);
+    } else if (newState.lastIndex < lastState.firstIndex) {
+      addSequenceToList(
+          changeSet.exposure, newState.lastIndex, newState.firstIndex);
+      addSequenceToList(
+          changeSet.hidden, lastState.lastIndex, lastState.firstIndex);
+    } else {
+      if (newState.firstIndex < lastState.firstIndex) {
+        addSequenceToList(
+            changeSet.exposure, lastState.firstIndex , newState.firstIndex);
+      }
+
+      if (newState.firstIndex > lastState.firstIndex) {
+        addSequenceToList(
+            changeSet.hidden, lastState.firstIndex, newState.firstIndex );
+      }
+
+      if (newState.lastIndex > lastState.lastIndex) {
+        addSequenceToList(
+            changeSet.exposure, lastState.lastIndex , newState.lastIndex);
+      }
+
+      if (newState.lastIndex < lastState.lastIndex) {
+        addSequenceToList(
+            changeSet.hidden, lastState.lastIndex, newState.lastIndex );
+      }
+    }
+
+    lastState = newState;
+
+    if (!changeSet.empty) {
+      changeSet.exposure.forEach((i) {
+        if(i == 9){
+          eventBus.fire(Refresh(true));
+        }
+//        print('第 $i 张卡片曝光了');
+      });
+
+       changeSet.hidden.forEach((i) {
+         if(i == 9){
+           eventBus.fire(Refresh(false));
+         }
+        print('第 $i 张卡片隐藏了');
+      });
+    }
+  }
+}
+
+class MySliverChildBuilderDelegate extends SliverChildBuilderDelegate {
+  MySliverChildBuilderDelegate(
+    Widget Function(BuildContext, int) builder, {
+    int childCount,
+    bool addAutomaticKeepAlives = true,
+    bool addRepaintBoundaries = true,
+  }) : super(builder,
+            childCount: childCount,
+            addAutomaticKeepAlives: addAutomaticKeepAlives,
+            addRepaintBoundaries: addRepaintBoundaries);
+
+  final visibilityMonitor = VisibilityMonitor();
+
+  @override
+  void didFinishLayout(int firstIndex, int lastIndex) {
+    visibilityMonitor.update(VisibilityState(
+      firstIndex: firstIndex,
+      lastIndex: lastIndex,
+    ));
+  }
+}
+abstract class RefreshList {
+  void refresh(bool offstage);
 }

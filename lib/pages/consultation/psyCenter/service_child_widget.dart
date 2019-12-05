@@ -21,29 +21,36 @@ class _ServiceChildState extends State<ServiceChild> {
   List<ServCenter> list = List();
   bool offstage = true;
   bool isShowLoading = true;
+  String url;
 
   @override
   void initState() {
+    if (widget.location == '全部') {
+      url = Api.GETPSYSERVICECENTERLIST;
+    } else if (widget.location == '直属单位') {
+      url = Api.GETPSYSERVICECENTERUNIT;
+    } else {
+      url = Api.GETPSYSERVICECENTERBYLOCATION;
+    }
     _getServiceCenter();
   }
 
   _getServiceCenter() {
     print('location:${widget.location}');
-    DioUtils.instance
-        .requestNetwork<ServCenter>(Method.get, widget.location == '按地区'?Api.GETPSYSERVICECENTERLIST:Api.GETPSYSERVICECENTERBYLOCATION,
-            queryParameters: {
-              'location': widget.location,
-            },
-            isList: true, onSuccessList: (data) {
+    DioUtils.instance.requestNetwork<ServCenter>(Method.get, url,
+        queryParameters: {'location': widget.location, 'catalog': '直属单位'},
+        isList: true, onSuccessList: (data) {
       setState(() {
-        list = data;
+        if(data != null){
+          list = data;
+        }
         isShowLoading = false;
-        print('这个ID是'+list[0].id);
-//        print('获取服务中心成功!');
+//        print('这个ID是' + list[0].id);
+        print('获取服务中心成功!');
       });
     }, onError: (code, msg) {
       setState(() {
-//        print('获取服务中心失败!');
+        print('获取服务中心失败!');
       });
     });
   }
@@ -52,7 +59,7 @@ class _ServiceChildState extends State<ServiceChild> {
   Widget build(BuildContext context) {
     return isShowLoading
         ? LoadingWidget.childWidget()
-        : list.length == 0
+        : list.isEmpty
             ? Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -79,7 +86,11 @@ class _ServiceChildState extends State<ServiceChild> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  NavigatorUtil.pushPage(context,PsyCenterDetail(id: list[index].id,));
+                  NavigatorUtil.pushPage(
+                      context,
+                      PsyCenterDetail(
+                        id: list[index].id,
+                      ));
                 },
                 child: Container(
                   color: Colors.white,
@@ -120,49 +131,51 @@ class _ServiceChildState extends State<ServiceChild> {
                           SizedBox(
                             height: 5,
                           ),
-
-                          list[index].serviceStation.length == 0&&list[index].leisurePost.length == 0?Container(): Row(
-                                 children: <Widget>[
-                                   Expanded(
-                                       child: Row(
-                                     children: <Widget>[
-                                       list[index].serviceStation.length == 0
-                                           ? Container()
-                                           : Text(
-                                               '心理服务站 ${list[index].serviceStation.length}   ',
-                                               style: TextStyle(
-                                                   color: Colors.black26)),
-                                       list[index].leisurePost.length == 0
-                                           ? Container()
-                                           : Text(
-                                               '休闲驿站 ${list[index].leisurePost.length}',
-                                               style: TextStyle(
-                                                   color: Colors.black26)),
-                                     ],
-                                   )),
-                                   GestureDetector(
-                                     child: list[index].offstage
-                                         ? Row(
-                                             children: <Widget>[
-                                               Text('展开'),
-                                               Icon(Icons.arrow_drop_down)
-                                             ],
-                                           )
-                                         : Row(
-                                             children: <Widget>[
-                                               Text('收起'),
-                                               Icon(Icons.arrow_drop_up)
-                                             ],
-                                           ),
-                                     onTap: () {
-                                       setState(() {
-                                         list[index].offstage =
-                                             !list[index].offstage;
-                                       });
-                                     },
-                                   )
-                                 ],
-                               ),
+                          list[index].serviceStation.length == 0 &&
+                                  list[index].leisurePost.length == 0
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Row(
+                                      children: <Widget>[
+                                        list[index].serviceStation.length == 0
+                                            ? Container()
+                                            : Text(
+                                                '心理服务站 ${list[index].serviceStation.length}   ',
+                                                style: TextStyle(
+                                                    color: Colors.black26)),
+                                        list[index].leisurePost.length == 0
+                                            ? Container()
+                                            : Text(
+                                                '休闲驿站 ${list[index].leisurePost.length}',
+                                                style: TextStyle(
+                                                    color: Colors.black26)),
+                                      ],
+                                    )),
+                                    GestureDetector(
+                                      child: list[index].offstage
+                                          ? Row(
+                                              children: <Widget>[
+                                                Text('展开'),
+                                                Icon(Icons.arrow_drop_down)
+                                              ],
+                                            )
+                                          : Row(
+                                              children: <Widget>[
+                                                Text('收起'),
+                                                Icon(Icons.arrow_drop_up)
+                                              ],
+                                            ),
+                                      onTap: () {
+                                        setState(() {
+                                          list[index].offstage =
+                                              !list[index].offstage;
+                                        });
+                                      },
+                                    )
+                                  ],
+                                ),
                         ],
                       ))
                     ],
@@ -199,10 +212,15 @@ class _ServiceChildState extends State<ServiceChild> {
       ),
     );
   }
+
   _buildChild2(LeisurePost leisurePost) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,PsyCenterDetail(id: leisurePost.id,));
+        NavigatorUtil.pushPage(
+            context,
+            PsyCenterDetail(
+              id: leisurePost.id,
+            ));
       },
       child: Container(
         color: Colors.white,
@@ -251,10 +269,15 @@ class _ServiceChildState extends State<ServiceChild> {
       ),
     );
   }
+
   _buildChild(ServiceStation serviceStation) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,PsyCenterDetail(id: serviceStation.id,));
+        NavigatorUtil.pushPage(
+            context,
+            PsyCenterDetail(
+              id: serviceStation.id,
+            ));
       },
       child: Container(
         color: Colors.white,

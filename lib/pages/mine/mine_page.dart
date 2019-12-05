@@ -93,10 +93,10 @@ class _MinePageState extends State<MinePage> {
                       children: <Widget>[
                         Text('张警官',
                             style:
-                            TextStyle(color: Colors.white, fontSize: 16)),
+                                TextStyle(color: Colors.white, fontSize: 16)),
                         Text('189*****111',
                             style:
-                            TextStyle(color: Colors.white, fontSize: 12)),
+                                TextStyle(color: Colors.white, fontSize: 12)),
                       ],
                     ),
                     SizedBox(
@@ -115,7 +115,7 @@ class _MinePageState extends State<MinePage> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
+                                      BorderRadius.all(Radius.circular(4))),
                             ),
                           ),
                           Center(
@@ -143,7 +143,7 @@ class _MinePageState extends State<MinePage> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(4))),
+                                    BorderRadius.all(Radius.circular(4))),
                           ),
                         ),
                         Center(
@@ -190,7 +190,7 @@ class _MinePageState extends State<MinePage> {
                             Text(
                               '5',
                               style:
-                              TextStyle(color: Colors.white, fontSize: 18),
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -198,7 +198,7 @@ class _MinePageState extends State<MinePage> {
                             Text(
                               '排名',
                               style:
-                              TextStyle(color: Colors.white, fontSize: 14),
+                                  TextStyle(color: Colors.white, fontSize: 14),
                             )
                           ],
                         ),

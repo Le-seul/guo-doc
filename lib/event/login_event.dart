@@ -6,6 +6,10 @@ import 'package:flutter_first/bean/course_detail.dart';
 EventBus eventBus = EventBus();
 
 class LoginEvent {}
+class Refresh {
+  bool offstage;
+  Refresh(this.offstage);
+}
 
 class refreshNum {
   String num;

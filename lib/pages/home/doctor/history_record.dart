@@ -36,8 +36,8 @@ class _HistoryRecordState extends State<HistoryRecord>
     return Scaffold(
         appBar: PreferredSize(
             child: AppBar(
-              automaticallyImplyLeading: false, //设置没有返回按钮
               centerTitle: true,
+              iconTheme: IconThemeData(color: Colors.black,),
               backgroundColor: Colors.white,
               title: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,7 +91,8 @@ class _HistoryRecordState extends State<HistoryRecord>
                           childWidget = HistoryRecordWidget();
                         });
                       },
-                    )
+                    ),
+                    SizedBox(width: 50,)
                   ],
                 ),
 

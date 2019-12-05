@@ -18,18 +18,44 @@ class ServiceCenterPage extends StatefulWidget {
 }
 
 class _ServiceCenterPageState extends State<ServiceCenterPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin implements OnPressMunu{
   List<PsyServiceCenter> ServiceList = List();
   List<PsyServiceCenter> TypeList = List();
-  bool isShowLoading = true; //\
-  String type = "心理服务分中心";
+  var tabText = [];
   TabController mController;
+  List<Widget> tabs = [];
+  List<Widget> tabViews = [];
 
   void initState() {
     super.initState();
-    mController = TabController(
-      length: 7,
-      vsync: this,
+    _getActivityTab();
+
+  }
+  _getActivityTab() {
+    DioUtils.instance.requestNetwork<RegionList>(
+      Method.get,
+      Api.GETREGIONLIST2,
+      onSuccess: (data) {
+        print('服务中心TAB获取成功');
+        setState(() {
+          tabText = data.regionList;
+          mController = TabController(
+            length: tabText.length,
+            vsync: this,
+          );
+          tabText.forEach((item) {
+            tabs.add(Text(item));
+          });
+          tabText.forEach((item) {
+            tabViews.add(ServiceChild(item));
+          });
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          print('服务中心TAB获取失败！');
+        });
+      },
     );
   }
 
@@ -68,73 +94,52 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                 hintText: '请输入',
                 isborder: true,
               ),
-              Container(
-                height: 30,
-                child: TabBar(
-                  isScrollable: true,
-                  //是否可以滚动
-                  controller: mController,
-                  labelPadding:EdgeInsets.all(0.0),
-                  indicatorColor: Color(0xff2CA687),
-                  labelColor: Color(0xff2CA687),
-                  unselectedLabelColor: Color(0xff666666),
-                  unselectedLabelStyle: TextStyle(fontSize: 14),
-                  labelStyle: TextStyle(fontSize: 16.0),
-                  tabs: <Widget>[
-                    Container(
-
-                        child: Text('全部'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
+              Flex(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                direction: Axis.horizontal,
+                children: <Widget>[
+                  Expanded(
+                    child: TabBar(
+                      isScrollable: true,
+                      //是否可以滚动
+                      controller: mController,
+                      labelPadding:EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
+                      indicatorColor: Color(0xff2CA687),
+                      labelColor: Color(0xff2CA687),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      unselectedLabelColor: Color(0xff666666),
+                      unselectedLabelStyle: TextStyle(fontSize: 14),
+                      labelStyle: TextStyle(fontSize: 14.0),
+                      tabs: tabs,
                     ),
-                    Container(
-
-                      child: Text('直属单位'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
-                    ),
-                    Container(
-
-                      child: Text('东城'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
-                    ),
-                    Container(
-
-                      child: Text('西城'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
-                    ),Container(
-
-                      child: Text('朝阳'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
-                    ),Container(
-
-                      child: Text('海淀'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 9, 0),
-                    ),
-
-                    Container(
-                      child: Text('丰台'),
-                      margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    ),
-
-
-                  ],
-                ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false, //BuildContext对象
+                            builder: (BuildContext context) {
+                              return ShowActivityTab(tabText, this);
+                            });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Center(child: Icon(Icons.menu)))),
+                ],
               ),
               Flexible(
                 child: TabBarView(
                   controller: mController,
-                  children: <Widget>[
-                  ServiceChild(''),
-                  ServiceChild2('直属单位'),
-                  ServiceChild('东城区'),
-                  ServiceChild('西城区'),
-                  ServiceChild('朝阳区'),
-                  ServiceChild('海淀区'),
-                  ServiceChild('丰台区'),
-                  ],
+                  children: tabViews
                 ),
               ),
             ],
           ),
         ));
+  }
+
+  @override
+  void onPress(int index) {
+    mController.index = index;
   }
 }
