@@ -95,7 +95,7 @@ class _ActivityListPageState extends State<ActivityListPage> {
               children: <Widget>[
                 Container(
                   height: 80,
-                  width: 80,
+                  width: 120,
                   child: Image.network(serviceActivity.cover,fit: BoxFit.fill,),
                 ),
                 SizedBox(
