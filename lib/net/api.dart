@@ -23,6 +23,12 @@ class Api {
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivityInfo";
 
+  //获取地区列表
+  static const String GETREGIONLIST = "/api/activity.do?getRegionList";
+
+  //根据地区获取活动
+  static const String GETBYREGION = "/api/activity.do?getActivityByRegion";
+
   //活动报名
   static const String SIGNUPACTIVITY = "/api/activity.do?signUp";
 

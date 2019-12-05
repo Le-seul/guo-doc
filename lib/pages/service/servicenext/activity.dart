@@ -8,13 +8,13 @@ import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 
 class ServiceActivityPage extends StatefulWidget {
-  bool offstage = true;
+
   String activityId;
   @override
   _ServiceActivityPageState createState() => _ServiceActivityPageState();
 
   ServiceActivityPage(
-      {Key key, @required this.offstage, @required this.activityId})
+      {Key key, @required this.activityId})
       : super(key: key);
 }
 
@@ -303,7 +303,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
   _childItem(int index) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,ServiceActivityPage(offstage: true,activityId: activityDetail.childActivity[index].id));
+        NavigatorUtil.pushPage(context,ServiceActivityPage(activityId: activityDetail.childActivity[index].id));
       },
       child: Container(
         padding: EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 8),

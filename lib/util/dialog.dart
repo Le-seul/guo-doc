@@ -354,7 +354,7 @@ class ShowClauseDialog extends Dialog {
 
 class ShowActivityTab extends Dialog {
   final OnPressMunu onPressMunu;
-  List<String> listText;
+  var listText;
   ShowActivityTab(this.listText, this.onPressMunu);
 
   @override

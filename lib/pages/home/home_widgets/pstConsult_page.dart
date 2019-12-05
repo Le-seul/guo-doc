@@ -3,6 +3,7 @@ import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/util/serviceLocator.dart';
 import 'package:flutter_first/util/storage_manager.dart';
@@ -350,6 +351,29 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       strutStyle:
                           StrutStyle(forceStrutHeight: true, height: 1.5),
                       style: TextStyle(color: Color(0xFF999999)),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: (){
+                        NavigatorUtil.pushWebView(
+                            context,
+                            'http://49.232.168.124/phms_resource_base/HomePageDetail/psyPrivacyPolicy.htm',
+                            {'title': '心理热线服务隐私政策'});
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          loadAssetImage('psychological/exclamation.png',
+                              height: 14, width: 14),
+                          SizedBox(width:3,),
+                          Text('请遵守',style: TextStyle(color: Color(0xFF999999),fontSize: 12)),
+                          Text('心理热线服务隐私政策',style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 12,
+                            decoration: TextDecoration.underline,
+                          ),),
+                        ],
+                      ),
                     )
                   ],
                 ),
