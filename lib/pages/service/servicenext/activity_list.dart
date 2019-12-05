@@ -92,6 +92,7 @@ class _ActivityListPageState extends State<ActivityListPage> {
           child: Container(
             padding: EdgeInsets.all(15),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                   height: 80,

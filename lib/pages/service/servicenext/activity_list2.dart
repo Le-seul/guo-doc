@@ -18,6 +18,7 @@ class ActivityList2 extends StatefulWidget {
 class _ActivityList2State extends State<ActivityList2> {
   List<ServiceActivity> serviceActivityList = List();
   bool isShowLoading = true;
+  bool isRemind = false;
 
   @override
   void initState() {
@@ -183,10 +184,17 @@ class _ActivityList2State extends State<ActivityList2> {
                   ),
                   Row(
                     children: <Widget>[
-                      Icon(
-                        Icons.check_circle,
-                        size: 18,
-                        color: Colors.black45,
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            isRemind = !isRemind;
+                          });
+                        },
+                        child: Icon(
+                          Icons.check_circle,
+                          size: 18,
+                          color: isRemind?Colors.red:Colors.black45,
+                        ),
                       ),
                       SizedBox(
                         width: 10,

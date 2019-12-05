@@ -270,7 +270,7 @@ class ShowClauseDialog extends Dialog {
                   decoration: BoxDecoration(
                       color: Colors.white, borderRadius: BorderRadius.circular(15)),
                   padding: EdgeInsets.only(top: 10,bottom: 10),
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: type == 'psychological'?MediaQuery.of(context).size.height * 0.48:MediaQuery.of(context).size.height * 0.7,
                   width: MediaQuery.of(context).size.width * 0.8,
 
                   child: Column(

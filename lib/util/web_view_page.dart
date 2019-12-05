@@ -19,15 +19,15 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
 
   String htmlUrl = '';
-  bool isHtml = false;
+  bool redirectoon = false;
 
   @override
   void initState() {
-    isHtml = widget.url.contains('.html');
-    if(isHtml){
+
+    if(widget.params['redirection'] != null){
+      redirectoon = true;
       String token = StorageManager.sharedPreferences.getString(Constant.access_Token);
-      String path = widget.url.split('/phms_resource_base/')[1];
-      htmlUrl = '${Config.apiHost}/api/staticResource.do?getResource&url=' + path + '&token=' + token;
+      htmlUrl = '${Config.apiHost}/api/staticResource.do?getResource&url=mobile-phy-exam-report-ui/html/index.html' + '&token=' + token;
       if(widget.params['year'] != null){
         htmlUrl = htmlUrl + '&year=${widget.params['year']}';
       }
@@ -44,7 +44,7 @@ class _WebViewPageState extends State<WebViewPage> {
           centerTitle: true,
         ),
         body: WebView(
-          initialUrl: isHtml?htmlUrl:widget.url,
+          initialUrl: redirectoon?htmlUrl:widget.url,
           javascriptMode: JavascriptMode.unrestricted,
         ));
   }
