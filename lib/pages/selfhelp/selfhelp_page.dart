@@ -39,11 +39,14 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
 
   @override
   void initState() {
+    super.initState();
     //生命周期函数,固定写法
     _requestData();
     _requestPsycourse();
     _getAllMusicList();
     _requestCoreading('');
+
+
   }
 
 
@@ -210,7 +213,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         SizedBox(height: 10,),
                         Container(
                           padding: EdgeInsets.only(left:10 ),
-                          child:Text(PsyList[0].shortDesc,style: TextStyle(color: Colors.grey.shade600),),
+                          child:Text(PsyList[0].description,style: TextStyle(color: Colors.grey.shade600),maxLines: 3,overflow: TextOverflow.ellipsis,),
                         )
                       ],
                     ),
@@ -218,7 +221,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ],
               ),
               onTap: (){
-                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].testEntry,));
+                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].questionId,));
               },
             )
           ),
@@ -759,55 +762,68 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
             itemBuilder: (context , index){
             return InkWell(
               child: Container(
-                height: 150,
+//                height: 155,
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white,
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
                         flex: 1,
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.fromLTRB(23.5, 20, 15, 42.5),
-                              color: Color(0xFFFFCDD2),
-                            ),
-                            Positioned(
-                                child: Container(
-                                  margin: EdgeInsets.fromLTRB(15, 33, 28, 20),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(image: NetworkImage(list[index].coverImgId),fit: BoxFit.fill)
-                                  ),
-                                ))
-                          ],
+                        child: Container(
+                          height: 120,
+                          width: 80,
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.fromLTRB(26.5, 10, 15, 32.5),
+                                color: Color(0xFFFFCDD2),
+                              ),
+                              Positioned(
+                                  child: Container(
+                                    margin: EdgeInsets.fromLTRB(15, 23, 28, 20),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(image: NetworkImage(list[index].coverImgId),fit: BoxFit.fill)
+                                    ),
+                                  ))
+                            ],
+                          ),
                         )
                     ),
                     Expanded(
                       flex: 2,child:
-                    Flex(
-                      direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(height: 23,),
-                        Text(list[index].name,style: TextStyle(fontSize: 18),maxLines: 2,overflow: TextOverflow.ellipsis,),
-                        SizedBox(height: 5,),
-                        Row(
+                    Container(
+                      padding: EdgeInsets.only(
+                        right: 5,
+                        top: 10,
+                        bottom: 5
+                      ),
+                      child: Flex(
+                          direction: Axis.vertical,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Icon(Icons.star,color:  Color(0xffFF9935),size: 18,),
-                            Text('${list[index].learnedUserCount}人在读',style: TextStyle(color:  Color(0xffFF9935))),
+                            Container(
+                              child: Text(list[index].name,style: TextStyle(fontSize: 17),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                            ),
+                            SizedBox(height: 5,),
+                            Row(
+                              children: <Widget>[
+                                Icon(Icons.star,color:  Color(0xffFF9935),size: 18,),
+                                Text('${list[index].learnedUserCount}人在读',style: TextStyle(color:  Color(0xffFF9935))),
+                              ],
+                            ),
+                            SizedBox(height: 8,),
+                            Text(list[index].shortDesc,style: TextStyle(color: Color(0xff919191),fontSize: 12),maxLines: 2,overflow: TextOverflow.ellipsis,),
+
                           ],
                         ),
-                        SizedBox(height: 10,),
-                        Expanded(
-                          child: Text(list[index].shortDesc,style: TextStyle(color: Color(0xff919191),fontSize: 12),maxLines: 2,overflow: TextOverflow.ellipsis,),
-                        ),
 
-                      ],
-                    ),),
+                    ),
+                    ),
 
                   ],
                 ),

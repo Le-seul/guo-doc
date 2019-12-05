@@ -1,7 +1,7 @@
 class PsyTeacherList {
   String detailDesc;
   String pqc;
-  String imgId;
+  String imgIdThumb;
   String major;
   String name;
   String shortDesc;
@@ -15,7 +15,7 @@ class PsyTeacherList {
   PsyTeacherList({
     this.detailDesc,
     this.pqc,
-    this.imgId,
+    this.imgIdThumb,
     this.major,
     this.name,
     this.shortDesc,
@@ -30,7 +30,7 @@ class PsyTeacherList {
   factory PsyTeacherList.fromJson(Map<String, dynamic> json) => PsyTeacherList(
     detailDesc: json["detailDesc"],
     pqc: json["pqc"],
-    imgId: json["imgId"],
+    imgIdThumb: json["imgIdThumb"],
     major: json["major"],
     name: json["name"],
     shortDesc: json["shortDesc"],
@@ -45,7 +45,7 @@ class PsyTeacherList {
   Map<String, dynamic> toJson() => {
     "detailDesc": detailDesc,
     "pqc": pqc,
-    "imgId": imgId,
+    "imgIdThumb": imgIdThumb,
     "major": major,
     "name": name,
     "shortDesc": shortDesc,

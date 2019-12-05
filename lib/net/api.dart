@@ -79,8 +79,8 @@ class Api {
 
   //心理共读
   static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
-  //心理共读类别
 
+  //心理共读类别
   static const String CoReadingKind = "/api/psyCoreading.do?getPsyCoReadingByCategoryId";
 
   //心理共读点赞
@@ -147,6 +147,9 @@ class Api {
   //教官列表
   static const String PsyTeacherList = "/api/psyTeacher.do?getPsyTeacherList";
 
+  //本单位教官
+  static const String PsyTeacherLocal = "/api/psyTeacher.do?getPsyTeacherByOrgId";
+
   //教官列表最美教官
   static const String PsyTeacherBest = "/api/psyTeacher.do?getPsyTeacherBest&teacherId=1";
 
@@ -180,6 +183,9 @@ class Api {
   //按地区查找
   static const String GETPSYSERVICECENTERBYLOCATION = "/api/psyServiceCenter.do?getPsyServiceCenterByLocation";
 
+  //按地区查找
+  static const String GETPSYSERVICECENTERBYCATALOG = "/api/psyServiceCenter.do?getPsyServiceCenterByCatalog";
+
   //获取课程详情
   static const String GETCOURSTEDETAIL = "/api/psyCourse.do?getCourseDetail";
 
@@ -203,4 +209,7 @@ class Api {
 
   //保存用户意见
   static const String SAVESUGGESTION = "/api/suggestion.do?saveSuggestion";
+
+  //门诊信息
+  static const String CLINICINFO = "/api/clinicInfo.do?getClinicInfo";
 }

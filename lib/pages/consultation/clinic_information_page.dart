@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/clinic_info.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +14,26 @@ class Clinic_information extends StatefulWidget {
 }
 
 class _Clinic_informationState extends State<Clinic_information> {
+  List<Clinic> list = List();
+  bool isShowLoading = true;
+  void initState(){
+    _requestClinic();
+  }
+
   @override
+  void _requestClinic() {
+    DioUtils.instance.requestNetwork<Clinic>(
+        Method.get, Api.CLINICINFO,
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        print('教官成功');
+        list = data;
+        isShowLoading = false;
+      });
+    }, onError: (code, msg) {
+      print('教官失败');
+    });
+  }
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
     return  Scaffold(
@@ -20,12 +44,21 @@ class _Clinic_informationState extends State<Clinic_information> {
         iconTheme: IconThemeData(color: Colors.black,size: 32),
       ),
       backgroundColor: Colours.line,
-      body: GridView.builder(
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : (list.length == 0)
+          ? Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Text('暂无数据'),
+      )
+          :GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.85
           ),
-          itemCount: 8,
+          itemCount: list.length,
           itemBuilder: (BuildContext context,int index){
             return InkWell(
               child: Container(
@@ -35,7 +68,7 @@ class _Clinic_informationState extends State<Clinic_information> {
                   children: <Widget>[
                     Expanded(flex: 6,child:
                     Container(decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571473312&di=371b527aa619c775e08a0f00720da054&imgtype=jpg&er=1&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201808%2F24%2F20180824191229_qycvp.jpg'),fit: BoxFit.fill)
+                        image: DecorationImage(image: NetworkImage(list[index].imgId),fit: BoxFit.fill)
                     ),)),
                     Expanded(flex: 2,
                         child: Column(
@@ -44,9 +77,9 @@ class _Clinic_informationState extends State<Clinic_information> {
                               padding: EdgeInsets.only(left: 10),
                               child: Row(
                                 children: <Widget>[
-                                  Text('李医生',style: TextStyle(fontWeight:FontWeight.w600 ),),
+                                  Text(list[index].name,style: TextStyle(fontWeight:FontWeight.w600 ),),
                                   SizedBox(width:ScreenUtil().setWidth(3),),
-                                  Text('神经外科主任医师',style: TextStyle(fontSize: 11),)
+                                  Text(list[index].post,style: TextStyle(fontSize: 11),)
                                 ],
                               ),
                               alignment: Alignment.centerLeft,
@@ -54,7 +87,7 @@ class _Clinic_informationState extends State<Clinic_information> {
                             Expanded(child: Container(
                               padding: EdgeInsets.only(left: 10),
                               alignment: Alignment.topLeft,
-                              child: Text('出诊时间:周一上午',style: TextStyle(fontSize: 11,color: Colors.grey),maxLines: 2,overflow:TextOverflow.ellipsis ,),)),
+                              child: Text('出诊时间:'+list[index].workTime,style: TextStyle(fontSize: 11,color: Colors.grey),maxLines: 1,overflow:TextOverflow.ellipsis ,),)),
 
                           ],
                         )
@@ -64,6 +97,7 @@ class _Clinic_informationState extends State<Clinic_information> {
                 ),
               ),
               onTap: (){
+                NavigatorUtil.pushWebView(context, "http://49.232.168.124/phms_resource_base/clinicInfo/GJH.html", {'title':'详情'});
               },
             );
           }),

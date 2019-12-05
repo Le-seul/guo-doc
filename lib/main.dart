@@ -17,7 +17,6 @@ import 'package:flutter_first/util/storage_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'pages/exit_login_page.dart';
-
 void main() async {
 // 注册服务
   setupLocator();
@@ -49,6 +48,12 @@ class _MyAppState extends State<MyApp> {
 //    });
 
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+//    await fluwx.register(
+//        appId: "wx492f591816c2cd20",
+//        doOnAndroid: true,
+//        doOnIOS: true,
+//        );
+//    var result = await fluwx.isWeChatInstalled();
 
   }
 
