@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
         children: list.map((model) {
           return new InkWell(
             onTap: () {
-              NavigatorUtil.pushWebView(context, model.actionTarget, {'title': model.name});
+              model.state==0?NavigatorUtil.pushWebView(context, model.actionTarget, {'title': model.name}):null;
             },
             child: new CachedNetworkImage(
               fit: BoxFit.fill,

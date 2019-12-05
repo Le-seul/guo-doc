@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/pages/consultation/clinic_information_page.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
-import 'package:flutter_first/pages/consultation/psyCenter/service_center.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
@@ -44,53 +42,7 @@ class _MinePageState extends State<MinePage> {
     });
   }
 
-class MinePage extends StatefulWidget {
   @override
-  _MinePageState createState() => _MinePageState();
-}
-
-class _MinePageState extends State<MinePage> {
-  String _result = "无";
-
-
-  @override
-//  void initState() {
-//    super.initState();
-//    fluwx.responseFromAuth.listen((data) {
-//      if (mounted) {
-//      }
-//      // 这里返回结果，errCode=1为微信用户授权成功的标志，其他看微信官方开发文档
-//      setState(() {
-//        _result = "initState ======   ${data.errCode}  --- ${data.code}";
-//        int errCode = data.errCode;
-//        if (errCode == Constant.WECHAT_SUCCESS) {
-//          String code = data.code;
-//          print('code  $code');
-//          getWeChatAccessToken(code);
-//        }else {
-//          Util.showToast("${data.code}");
-//        }
-//        print('aaaa ====== >   $_result');
-//      });
-//    });
-//  }
-//
-//  @override
-//  void dispose() {
-//    super.dispose();
-//    _result = null;
-//  }
-  @override
-//  void _weChatLogin(){
-//    fluwx.sendAuth(
-//        scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
-//        .then((data) {
-//      setState(() {
-//
-//      });
-//    }).catchError((e){print('weChatLogin  e  $e');});
-//  }
-
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
@@ -287,7 +239,7 @@ class _MinePageState extends State<MinePage> {
                               ),
                               onTap: () {
                                 NavigatorUtil.pushPage(
-                                    context, Clinic_information());
+                                    context, instructor_demeanor());
                               },
                             ),
                           ),
@@ -340,7 +292,7 @@ class _MinePageState extends State<MinePage> {
                               ),
                               onTap: () {
                                 NavigatorUtil.pushPage(
-                                    context, ServiceCenterPage());
+                                    context, instructor_demeanor());
                               },
                             ),
                           ),
@@ -647,10 +599,7 @@ class _MinePageState extends State<MinePage> {
                       ],
                     ),
                   ),
-                  onPressed: () {
-                    //_weChatLogin();
-
-                  },
+                  onPressed: () {},
                 ), //绑定微信
                 SizedBox(
                   height: 7,
