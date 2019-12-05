@@ -67,7 +67,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
             ),
             GestureDetector(
               onTap: () {
-                _service.call('65256250');
+                _service.call('65260001');
               },
               child: Container(
                 padding: EdgeInsets.only(left: 10, right: 10),
@@ -86,7 +86,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "拨打官方服务电话：65256250",
+                              "拨打官方服务电话：65260001",
                               style: TextStyle(fontSize: 15),
                             ),
                             SizedBox(
@@ -231,7 +231,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                           ),
                           Expanded(
                               child: Text(
-                            '用的不满意的地方都提出来吧',
+                            '用的不满意的地方',
                             style:
                                 TextStyle(color: Colors.black26, fontSize: 14),
                           )),

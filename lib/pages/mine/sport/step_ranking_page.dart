@@ -82,6 +82,7 @@ class _StepRankingState extends State<StepRanking> implements RefreshList{
               child:  Offstage(
                 offstage: offstage,
                 child: Container(
+                  margin: EdgeInsets.only(left: 10,right: 10),
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                   height: 70,
@@ -285,22 +286,22 @@ class VisibilityMonitor {
     } else {
       if (newState.firstIndex < lastState.firstIndex) {
         addSequenceToList(
-            changeSet.exposure, lastState.firstIndex - 1, newState.firstIndex);
+            changeSet.exposure, lastState.firstIndex , newState.firstIndex);
       }
 
       if (newState.firstIndex > lastState.firstIndex) {
         addSequenceToList(
-            changeSet.hidden, lastState.firstIndex, newState.firstIndex - 1);
+            changeSet.hidden, lastState.firstIndex, newState.firstIndex );
       }
 
       if (newState.lastIndex > lastState.lastIndex) {
         addSequenceToList(
-            changeSet.exposure, lastState.lastIndex + 1, newState.lastIndex);
+            changeSet.exposure, lastState.lastIndex , newState.lastIndex);
       }
 
       if (newState.lastIndex < lastState.lastIndex) {
         addSequenceToList(
-            changeSet.hidden, lastState.lastIndex, newState.lastIndex + 1);
+            changeSet.hidden, lastState.lastIndex, newState.lastIndex );
       }
     }
 
@@ -308,14 +309,14 @@ class VisibilityMonitor {
 
     if (!changeSet.empty) {
       changeSet.exposure.forEach((i) {
-        if(i == 15){
+        if(i == 9){
           eventBus.fire(Refresh(true));
         }
-        print('第 $i 张卡片曝光了');
+//        print('第 $i 张卡片曝光了');
       });
 
        changeSet.hidden.forEach((i) {
-         if(i == 15){
+         if(i == 9){
            eventBus.fire(Refresh(false));
          }
         print('第 $i 张卡片隐藏了');

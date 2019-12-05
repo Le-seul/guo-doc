@@ -378,6 +378,7 @@ class ShowActivityTab extends Dialog {
                 ),
                 Expanded(
                   child: GridView.builder(
+                    physics: ClampingScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 10,

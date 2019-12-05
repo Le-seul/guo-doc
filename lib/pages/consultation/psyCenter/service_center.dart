@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/region.dart';
 import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
@@ -20,28 +21,42 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
     with SingleTickerProviderStateMixin implements OnPressMunu{
   List<PsyServiceCenter> ServiceList = List();
   List<PsyServiceCenter> TypeList = List();
-  bool isShowLoading = true; //\
-  String type = "心理服务分中心";
-  var tabText = ['按地区','东城区', '西城区', '朝阳区', '海淀区', '丰台区'];
+  var tabText = [];
   TabController mController;
   List<Widget> tabs = [];
   List<Widget> tabViews = [];
 
   void initState() {
     super.initState();
-    mController = TabController(
-      length: tabText.length,
-      vsync: this,
+    _getActivityTab();
+
+  }
+  _getActivityTab() {
+    DioUtils.instance.requestNetwork<RegionList>(
+      Method.get,
+      Api.GETREGIONLIST2,
+      onSuccess: (data) {
+        print('服务中心TAB获取成功');
+        setState(() {
+          tabText = data.regionList;
+          mController = TabController(
+            length: tabText.length,
+            vsync: this,
+          );
+          tabText.forEach((item) {
+            tabs.add(Text(item));
+          });
+          tabText.forEach((item) {
+            tabViews.add(ServiceChild(item));
+          });
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          print('服务中心TAB获取失败！');
+        });
+      },
     );
-    tabText.forEach((item) {
-      tabs.add(Container(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
-        child: Text(item),
-      ));
-    });
-    tabText.forEach((item) {
-      tabViews.add(ServiceChild(item));
-    });
   }
 
   @override
@@ -69,7 +84,9 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
           backgroundColor: Colors.white,
           centerTitle: true,
         ),
-        body: Container(
+        body: mController == null
+            ? LoadingWidget.childWidget()
+            : Container(
           color: Color(0xFFEEEEEE),
           child: Column(
             children: <Widget>[
@@ -88,9 +105,10 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                       isScrollable: true,
                       //是否可以滚动
                       controller: mController,
-                      labelPadding:EdgeInsets.all(0.0),
+                      labelPadding:EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
                       indicatorColor: Color(0xff2CA687),
                       labelColor: Color(0xff2CA687),
+                      indicatorSize: TabBarIndicatorSize.label,
                       unselectedLabelColor: Color(0xff666666),
                       unselectedLabelStyle: TextStyle(fontSize: 14),
                       labelStyle: TextStyle(fontSize: 14.0),

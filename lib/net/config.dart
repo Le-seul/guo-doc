@@ -9,7 +9,7 @@ class Config {
   static String get apiHost {
     switch (env) {
       case Env.LOCAL:
-        return "http://10.128.216.201:8080/jeecg";
+        return "http://10.128.205.111:8080/jeecg";
       case Env.TEST:
         return "http://10.28.233.75:8080/jeecg";
       default:
