@@ -107,8 +107,8 @@ class _StepRankingState extends State<StepRanking> {
                               decoration: BoxDecoration(
                                   color: Color(0xFFEEEEEE),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8))),
-                              margin: EdgeInsets.only(top: 10),
+                                      topLeft: Radius.circular(5))),
+                              margin: EdgeInsets.only(top: 9),
                               height: 70,
                               width: MediaQuery.of(context).size.width * 0.3,
                             ),
@@ -117,7 +117,7 @@ class _StepRankingState extends State<StepRanking> {
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.only(
-                                      top: 2, bottom: 2, left: 12, right: 12),
+                                      top: 1, bottom: 1, left: 14, right: 14),
                                   decoration: BoxDecoration(
                                       color: Colors.orangeAccent,
                                       borderRadius: BorderRadius.circular(4)),
@@ -136,7 +136,7 @@ class _StepRankingState extends State<StepRanking> {
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
                                 SizedBox(
-                                  height: 8,
+                                  height: 5,
                                 ),
                                 Text(
                                   '步数',
@@ -185,9 +185,9 @@ class _StepRankingState extends State<StepRanking> {
                                 decoration: BoxDecoration(
                                     color: Color(0xFFEEEEEE),
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8),
-                                        topRight: Radius.circular(8))),
-                                margin: EdgeInsets.only(top: 10),
+                                        topLeft: Radius.circular(5),
+                                        topRight: Radius.circular(5))),
+                                margin: EdgeInsets.only(top: 9),
                                 height: 80,
                                 width: MediaQuery.of(context).size.width * 0.4),
                             Column(
@@ -195,7 +195,7 @@ class _StepRankingState extends State<StepRanking> {
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.only(
-                                      top: 2, bottom: 2, left: 12, right: 12),
+                                      top: 1, bottom: 1, left: 14, right: 14),
                                   decoration: BoxDecoration(
                                       color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(4)),
@@ -214,7 +214,7 @@ class _StepRankingState extends State<StepRanking> {
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
                                 SizedBox(
-                                  height: 8,
+                                  height: 5,
                                 ),
                                 Text(
                                   '步数',
@@ -266,8 +266,8 @@ class _StepRankingState extends State<StepRanking> {
                                 decoration: BoxDecoration(
                                     color: Color(0xFFEEEEEE),
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(8))),
-                                margin: EdgeInsets.only(top: 10),
+                                        topRight: Radius.circular(5))),
+                                margin: EdgeInsets.only(top: 9),
                                 height: 70,
                                 width: MediaQuery.of(context).size.width * 0.3),
                             Column(
@@ -275,7 +275,7 @@ class _StepRankingState extends State<StepRanking> {
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.only(
-                                      top: 2, bottom: 2, left: 12, right: 12),
+                                      top: 1, bottom: 1, left: 14, right: 14),
                                   decoration: BoxDecoration(
                                       color: Colors.blueAccent,
                                       borderRadius: BorderRadius.circular(4)),
@@ -294,7 +294,7 @@ class _StepRankingState extends State<StepRanking> {
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
                                 SizedBox(
-                                  height: 8,
+                                  height: 5,
                                 ),
                                 Text(
                                   '步数',
@@ -333,7 +333,7 @@ class _StepRankingState extends State<StepRanking> {
               offstage: offstage,
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 10),
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   color: Colors.blue[100],
                   borderRadius: BorderRadius.only(
@@ -359,32 +359,40 @@ Widget itemWidget(int index) {
         height: 50,
         width: 50,
         child: CircleAvatar(
-          backgroundColor: index == 12?Colors.blue[200]:Colors.black12,
+          backgroundColor: index == 12 ? Colors.blue[200] : Colors.black12,
           radius: 13,
           child: Container(
             child: Text(
               '$index',
-              style: TextStyle(fontSize: 17, color: index == 12?Colors.blue:Colors.black54),
+              style: TextStyle(
+                  fontSize: 17,
+                  color: index == 12 ? Colors.blue : Colors.black54),
             ),
           ),
         ),
       ),
+      SizedBox(
+        width: 5,
+      ),
       CircleAvatar(
-        radius: 22.0,
+        radius: 20.0,
         backgroundImage: NetworkImage(
             'https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738905344,1107853336&fm=26&gp=0.jpg'),
       ),
       SizedBox(
-        width: 10,
+        width: 15,
       ),
       Expanded(
           child: Text(
         '张警官',
-        style: TextStyle(color: index == 12?Colors.black26:Colors.black),
+        style: TextStyle(
+            color: index == 12 ? Colors.black26 : Colors.black, fontSize: 12),
       )),
       Text(
         '9750',
-        style: TextStyle(fontSize: 20, color: index == 12?Colors.blue:Colors.orangeAccent),
+        style: TextStyle(
+            fontSize: 20,
+            color: index == 12 ? Colors.blue : Colors.orangeAccent),
       ),
       SizedBox(
         width: 10,
@@ -398,10 +406,10 @@ _buildItem(int index) {
     padding: EdgeInsets.only(top: 5, left: 10, right: 10),
     child: MyCard(
       shadowColor: Colors.transparent,
-      color: index == 11 ? Colors.blue[100] : Colors.white,
+      color: index == 8 ? Colors.blue[100] : Colors.white,
       child: Container(
-        padding: EdgeInsets.all(8),
-        child:  itemWidget(index+1),
+        padding: EdgeInsets.all(5),
+        child: itemWidget(index + 4),
       ),
     ),
   );
@@ -428,7 +436,7 @@ class VisibilityMonitor {
       return;
     }
     lastState = newState;
-    if (12 == lastState.lastIndex || 12 < lastState.lastIndex) {
+    if (9 == lastState.lastIndex || 9 < lastState.lastIndex) {
       eventBus.fire(Refresh(true));
     } else {
       eventBus.fire(Refresh(false));
