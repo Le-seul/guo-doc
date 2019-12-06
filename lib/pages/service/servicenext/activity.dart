@@ -21,6 +21,8 @@ class ServiceActivityPage extends StatefulWidget {
 class _ServiceActivityPageState extends State<ServiceActivityPage> {
   ActivityDetail activityDetail;
   bool isShowLoading = true;
+  String signUpText = '报名';
+
   @override
   void initState() {
     _getActivityDetail();
@@ -281,11 +283,13 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               padding: EdgeInsets.only(left: 30.0, right: 30.0),
                               child: FlatButton(
                                 onPressed: () {
-                                  sugnUpActivity();
+                                  if(signUpText == '报名'){
+                                    sugnUpActivity();
+                                  }
                                 },
                                 color: Colors.orange,
                                 child: Text(
-                                  '报名',
+                                  signUpText,
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -342,6 +346,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
               builder: (BuildContext context) {
                 return LoadingDialog();
               });
+          signUpText = '已报名';
         });
       },
       onError: (code, msg) {

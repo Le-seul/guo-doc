@@ -4,10 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/imageUrl.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/serviceLocator.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/tel_service.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/checkboxWidget.dart';
@@ -27,9 +29,15 @@ class _FeedBackPageState extends State<FeedBackPage> {
   String imageIdList = '';
   int groupValue = -1;
   String type = '';
+  String phone = '';
   TextEditingController _textController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
   final TelAndSmsService _service = locator<TelAndSmsService>();
+
+
+  @override
+  void initState() {
+    phone = StorageManager.sharedPreferences.getString(Constant.phone);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -449,7 +457,20 @@ class _FeedBackPageState extends State<FeedBackPage> {
                           margin: EdgeInsets.only(right: 10),
                           height: 25,
                           child: TextField(
-                              controller: _phoneController,
+                              controller: TextEditingController.fromValue(
+                                  TextEditingValue(
+                                      text: phone == null
+                                          ? ''
+                                          : '$phone', //判断keyword是否为空
+                                      // 保持光标在最后
+                                      selection: TextSelection.fromPosition(
+                                          TextPosition(
+                                              affinity:
+                                              TextAffinity.downstream,
+                                              offset: '${phone}'.length)))),
+                              onChanged: (val) {
+                                phone = val;
+                              },
                               inputFormatters: <TextInputFormatter>[
                                 WhitelistingTextInputFormatter
                                     .digitsOnly, //只输入数字
@@ -616,13 +637,13 @@ class _FeedBackPageState extends State<FeedBackPage> {
 
   _updateProposal() {
     print(
-        'content:${_textController.text};imageIdList:${imageIdList};type:$type;phone:${_phoneController.text}');
+        'content:${_textController.text};imageIdList:${imageIdList};type:$type;phone:$phone');
     DioUtils.instance.requestNetwork<String>(Method.post, Api.SAVESUGGESTION,
         queryParameters: {
           'content': _textController.text,
           'imageIdList': imageIdList,
           'type': type,
-          'phone': _phoneController.text
+          'phone': phone
         }, onSuccess: (data) {
       Toast.show('提交建议成功!');
       Navigator.pop(context);
