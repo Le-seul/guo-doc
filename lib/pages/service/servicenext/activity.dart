@@ -37,6 +37,9 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
         setState(() {
           isShowLoading = false;
           activityDetail = data;
+          if(activityDetail.isSignUp == 'Y'){
+            signUpText = '已报名';
+          }
           print('活动内容获取成功');
         });
       },
@@ -231,7 +234,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               ),
                             ),
                             Offstage(
-                              offstage: activityDetail.articleList.isEmpty,
+                              offstage: activityDetail.questionnaireList.isEmpty,
                               child: Column(
                                 children: <Widget>[
                                   Container(
@@ -253,7 +256,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                     child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
-                                      itemCount: 3,
+                                      itemCount: activityDetail.questionnaireList.length,
                                       itemBuilder: (context, index) =>
                                           _buildItem(index),
                                     ),
@@ -284,7 +287,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               child: FlatButton(
                                 onPressed: () {
                                   if(signUpText == '报名'){
-                                    sugnUpActivity();
+                                    signUpActivity();
                                   }
                                 },
                                 color: Colors.orange,
@@ -333,7 +336,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
     );
   }
 
-  sugnUpActivity(){
+  signUpActivity(){
     DioUtils.instance.requestNetwork<String>(
       Method.post,
       Api.SIGNUPACTIVITY,
@@ -348,10 +351,11 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
               });
           signUpText = '已报名';
         });
+        print('活动报名成功');
       },
       onError: (code, msg) {
         setState(() {
-          Toast.show('活动报名失败');
+          print('活动报名失败');
         });
       },
     );
@@ -382,21 +386,18 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                   flex: 1,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: AspectRatio(
-                        aspectRatio: 1.0,
-                        child: Image.network(
-                          activityDetail.cover,
-                          height: 100,
-                          width: 100,
-
-                        ),
+                      child: Image.network(
+                        activityDetail.questionnaireList[index].cover,
+                        height: 80,
+                        width: 120,
+                        fit: BoxFit.fill,
                       )),
                 ),
                 SizedBox(width: 10,),
                 Expanded(
                   flex: 2,
                   child: Text(
-                    activityDetail.name,
+                    activityDetail.questionnaireList[index].title,
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
