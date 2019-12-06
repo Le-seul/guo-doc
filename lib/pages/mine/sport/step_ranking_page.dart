@@ -97,7 +97,7 @@ class _StepRankingState extends State<StepRanking> implements RefreshList{
                           radius: 13,
                           child: Container(
                             child: Text(
-                              '9',
+                              '12',
                               style: TextStyle(fontSize: 17, color: Colors.black54),
                             ),
                           ),
@@ -309,14 +309,14 @@ class VisibilityMonitor {
 
     if (!changeSet.empty) {
       changeSet.exposure.forEach((i) {
-        if(i == 9){
+        if(i == 12){
           eventBus.fire(Refresh(true));
         }
 //        print('第 $i 张卡片曝光了');
       });
 
        changeSet.hidden.forEach((i) {
-         if(i == 9){
+         if(i == 12){
            eventBus.fire(Refresh(false));
          }
         print('第 $i 张卡片隐藏了');

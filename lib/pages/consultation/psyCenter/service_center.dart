@@ -126,7 +126,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                       },
                       child: Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Center(child: Icon(Icons.menu)))),
+                          child: Center(child: Icon(Icons.menu,color: Color(0xff666666),)))),
                 ],
               ),
               Flexible(
