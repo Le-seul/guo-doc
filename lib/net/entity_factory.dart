@@ -21,7 +21,6 @@ import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/bean/consultation_columns_entity.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
-
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/order_count.dart';
 import 'package:flutter_first/bean/progress_order_entity.dart';
@@ -31,7 +30,6 @@ import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/bean/psyteacher.dart';
 import 'package:flutter_first/bean/psyteacher_like.dart';
-
 import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/bean/region.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';

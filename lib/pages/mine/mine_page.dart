@@ -559,8 +559,8 @@ class _MinePageState extends State<MinePage> {
                   onPressed: () {
                     NavigatorUtil.pushWebView(
                         context,
-                        'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm',
-                        {'title': '畅享健康用户注册协议'});
+                        'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
+                        {'title': '隐私服务'});
                   },
                 ), //隐私服务
                 SizedBox(
