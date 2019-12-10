@@ -405,7 +405,7 @@ class _PsyCourseState extends State<PsyCourse>
                           size: 15,color: Color(0xff909090)
                         ),
                         SizedBox(width:5,),
-                        Text('预计12月3号上线',style: TextStyle(color: Color(0xFFFF5400),fontSize: 12))
+                        Text('预计${comingList[index].publishTime.substring(0,10)}上线',style: TextStyle(color: Color(0xFFFF5400),fontSize: 12))
                       ],
                     ),
                   ],
