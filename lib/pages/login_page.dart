@@ -23,10 +23,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //定义一个controller
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController;
+  TextEditingController _passwordController;
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
+  String inputName = 'test_mj';
+  String inputPassword = 'mj123456';
 
 
   KeyboardActionsConfig _buildConfig(BuildContext context) {
@@ -55,6 +57,24 @@ class _LoginPageState extends State<LoginPage> {
 
 
   @override
+  void initState() {
+    _nameController = TextEditingController.fromValue(TextEditingValue(
+      // 设置内容
+        text: inputName,
+        // 保持光标在最后
+        selection: TextSelection.fromPosition(TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: inputName.length))));
+    _passwordController = TextEditingController.fromValue(TextEditingValue(
+      // 设置内容
+        text: inputPassword,
+        // 保持光标在最后
+        selection: TextSelection.fromPosition(TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: inputPassword.length))));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: defaultTargetPlatform == TargetPlatform.iOS ? FormKeyboardActions(
@@ -78,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 46,),
             MyTextField(
               focusNode: _nodeText1,
-              controller: _nameController,
+              controller:_nameController,
               maxLength: 18,
               hintText: "请输入身份证号",
             ),
@@ -111,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   _userAuthCheck(){
-    var bytes1 = utf8.encode(_nameController.text); // data being hashed
+    var bytes1 = utf8.encode(_nameController.text);
     var bytes2 = utf8.encode(_passwordController.text);
     var identityNum = sha1.convert(bytes1);
     var policeNum = sha1.convert(bytes2);
@@ -141,5 +161,4 @@ class _LoginPageState extends State<LoginPage> {
         }
     );
   }
-
 }
