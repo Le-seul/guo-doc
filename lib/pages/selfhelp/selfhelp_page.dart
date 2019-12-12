@@ -221,7 +221,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ],
               ),
               onTap: (){
-                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].questionId,));
+                NavigatorUtil.pushPage(context,Test0(questionnaireId: PsyList[0].questionId,));
               },
             )
           ),

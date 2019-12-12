@@ -129,7 +129,7 @@ class _AllState extends State<All> {
                         InkWell(
                           onTap: () {
                           //  _getTestLike(psylist[index].questionId);
-                            NavigatorUtil.pushPage(context,Test0(Url: psylist[index].questionId,));
+                            NavigatorUtil.pushPage(context,Test0(questionnaireId: psylist[index].questionId,));
                           },
                           child: Container(
                             margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
@@ -241,7 +241,7 @@ class _SelectedState extends State<Selected> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  NavigatorUtil.pushPage(context,Test0(Url: Selectedlist[index].questionId,));
+                  NavigatorUtil.pushPage(context,Test0(questionnaireId: Selectedlist[index].questionId,));
                 },
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
