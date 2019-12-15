@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
@@ -9,10 +10,12 @@ import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:todaystep/audioplayers.dart';
 
 class MinePage extends StatefulWidget {
 
@@ -23,23 +26,21 @@ class MinePage extends StatefulWidget {
 
 class _MinePageState extends State<MinePage> {
 
-
+  AudioPlayer audioPlayer = AudioPlayer();
   int _counter = 0;
-  static const platform = const MethodChannel("add");
 
-  Future<Null> incrementCount() async {
-    int result = 0;
-    try {
-      //参数为方法名称
-      result = await platform.invokeMethod("getNumber");
-    } on PlatformException catch (e) {
-      print(e.message);
-    }
 
-    //获取结果后改变界面状态,更新界面
-    setState(() {
-      _counter = result;
+  @override
+  void initState() {
+    getTodayStep();
+  }
+
+  getTodayStep(){
+    Future.delayed(Duration(seconds: 10),() async{
+      Toast.show('获取步数执行');
+      _counter = await audioPlayer.getTodayStep();
     });
+
   }
 
   @override

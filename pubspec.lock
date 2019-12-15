@@ -14,7 +14,7 @@ packages:
       name: audioplayers
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.13.1"
+    version: "0.13.5"
   auth_header:
     dependency: transitive
     description:
@@ -534,6 +534,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.5"
+  todaystep:
+    dependency: "direct main"
+    description:
+      path: "plugins\\todaystep"
+      relative: true
+    source: path
+    version: "0.13.5"
   transformer_page_view:
     dependency: transitive
     description:

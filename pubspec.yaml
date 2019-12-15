@@ -22,6 +22,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 
+  todaystep:
+    path: plugins/todaystep
   cupertino_icons: ^0.1.2
   # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
   oktoast: ^2.2.0
@@ -51,10 +53,9 @@ dependencies:
   fl_chart: 0.1.5
   esys_flutter_share: 1.0.2
   jpush_flutter: 0.0.11
-  audioplayers: ^0.13.1
   scoped_model: ^1.0.1
   overlay_support: ^1.0.1
-
+  audioplayers: ^0.13.1
   flutter_webview_plugin: ^0.2.1+2
   jaguar_flutter_asset: ^2.2.0
   # 处理键盘事件 https://github.com/diegoveloper/flutter_keyboard_actions
