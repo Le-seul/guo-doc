@@ -10,10 +10,11 @@ import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/widgets/my_card.dart';
+import 'package:flutter_first/widgets/sharedialog.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-
+import 'package:fluwx/fluwx.dart' as fluwx;
 class MinePage extends StatefulWidget {
 
 
@@ -23,7 +24,7 @@ class MinePage extends StatefulWidget {
 
 class _MinePageState extends State<MinePage> {
 
-
+  String _result = '';
   int _counter = 0;
   static const platform = const MethodChannel("add");
 
@@ -40,6 +41,29 @@ class _MinePageState extends State<MinePage> {
     setState(() {
       _counter = result;
     });
+  }
+
+
+  @override
+  void initState() {
+    fluwx.responseFromAuth.listen((data) {
+      if (mounted) {
+      }
+      // 这里返回结果，errCode=1为微信用户授权成功的标志，其他看微信官方开发文档
+      setState(() {
+        _result = "initState ======   ${data.errCode}  --- ${data.code}";
+        int errCode = data.errCode;
+        if (errCode == 1) {
+          String code = data.code;
+          print('微信  $code');
+//         getWeChatAccessToken(code);
+        }else {
+
+        }
+
+      });
+    });
+
   }
 
   @override
@@ -290,9 +314,8 @@ class _MinePageState extends State<MinePage> {
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
+                              onTap: (){
+
                               },
                             ),
                           ),
@@ -317,6 +340,9 @@ class _MinePageState extends State<MinePage> {
                                   ],
                                 ),
                               ),
+                              onTap: (){
+
+                              },
                             ),
                           ),
                         ],
@@ -435,13 +461,12 @@ class _MinePageState extends State<MinePage> {
                       ],
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                 ), //问卷调查
                 SizedBox(
                   height: 9,
-//            child: Container(
-//              color: Colours.line,
-//            ),
                 ),
                 FlatButton(
                   child: Container(
@@ -599,7 +624,21 @@ class _MinePageState extends State<MinePage> {
                       ],
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                   await fluwx.registerWxApi(
+                      appId: "wx492f591816c2cd20",
+                      doOnAndroid: true,
+                      doOnIOS: true,
+                      universalLink: 'https://www.aireading.club/phms3/'
+                    );
+                   await fluwx.shareToWeChat(
+                       fluwx.WeChatShareTextModel(
+                        text: "text from fluwx",
+                        transaction: "transaction}",
+                        scene: fluwx.WeChatScene.SESSION
+                    ));
+                   print("invoke over");
+                  },
                 ), //绑定微信
                 SizedBox(
                   height: 7,

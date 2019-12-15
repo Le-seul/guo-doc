@@ -399,7 +399,7 @@ class _HomePageState extends State<HomePage> {
           CommonRequest.UserReadingLog(
               columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
         } else {
-          NavigatorUtil.pushPage(context,ConsultationDetailPage(id: columnsInfoList[index].id,));
+          NavigatorUtil.pushPage(context,ConsultationDetailPage(id: columnsInfoList[index].id,imgurl:columnsInfoList[index].cover1 ,));
           CommonRequest.UserReadingLog(
               columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
         }

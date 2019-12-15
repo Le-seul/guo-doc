@@ -11,12 +11,14 @@ import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
+import 'package:flutter_first/widgets/sharedialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ConsultationDetailPage extends StatefulWidget {
 
   String id;
-  ConsultationDetailPage({Key key, @required this.id})
+  String imgurl;
+  ConsultationDetailPage({Key key, @required this.id,@required this.imgurl})
       : super(key: key);
   _ConsultationDetailPageState createState() => _ConsultationDetailPageState();
 }
@@ -143,12 +145,13 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
             offstage: articleContent.canTransmit != 'Y',
             child: GestureDetector(
               child: Icon(Icons.share, color: Colors.white, size: 20),
-              onTap: () async {
-                Share.text(
-                    '我的分享',
-                    '${articleContent.title}:\n${articleContent.content}',
-                    'text/plain');
-                CommonRequest.UserReadingLog(articleContent.id,"A", 'ZF');
+              onTap: () {
+                showDialog<Null>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ShareDialog(title: articleContent.title,description: articleContent.description,webPage: articleContent.content,thumbnail: widget.imgurl,);
+                    }
+                );
               },
             ),
           ),

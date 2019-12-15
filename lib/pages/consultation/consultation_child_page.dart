@@ -228,6 +228,7 @@ class _ChildPageState extends State<ChildPage> {
               context,
               ConsultationDetailPage(
                 id: item.id,
+                imgurl: item.cover1??defaultImage,
               ));
           CommonRequest.UserReadingLog(item.id, item.type, 'YD');
         }
