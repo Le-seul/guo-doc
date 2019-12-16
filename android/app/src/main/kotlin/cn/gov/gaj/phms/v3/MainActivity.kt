@@ -9,7 +9,6 @@ import cn.gov.gaj.phms.v3.service.QuietPlayerChannel
 import cn.gov.gaj.phms.v3.TodayStepManager
 import cn.gov.gaj.phms.v3.TodayStepService
 import android.app.Activity
-import android.util.Log
 import android.content.ComponentName
 import android.content.Context
 import cn.gov.gaj.phms.v3.utils.log
@@ -39,6 +38,7 @@ class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GeneratedPluginRegistrant.registerWith(this)
+        log { "服务准备" }
         PluginRegistrant.registerWith(this)
         playerChannel = QuietPlayerChannel.registerWith(registrarFor("cn.gov.gaj.phms.v3.service.QuietPlayerChannel"))
         route(intent)
@@ -55,7 +55,7 @@ class MainActivity : FlutterActivity() {
                 iSportStepInterface = ISportStepInterface.Stub.asInterface(service)
                 try {
                     mStepSum = iSportStepInterface.getCurrentTimeSportStep()
-                    log { "获取步数" }
+                    log { "获取步数$mStepSum" }
                     updateStepCount()
                 } catch (e: RemoteException) {
                     e.printStackTrace()
