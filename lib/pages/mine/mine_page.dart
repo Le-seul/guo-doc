@@ -15,7 +15,7 @@ import 'package:flutter_first/widgets/my_card.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-import 'package:todaystep/audioplayers.dart';
+//import 'package:todaystep/audioplayers.dart';
 
 class MinePage extends StatefulWidget {
 
@@ -26,22 +26,22 @@ class MinePage extends StatefulWidget {
 
 class _MinePageState extends State<MinePage> {
 
-  AudioPlayer audioPlayer = AudioPlayer();
+//  AudioPlayer audioPlayer = AudioPlayer();
   int _counter = 0;
 
 
   @override
   void initState() {
-    getTodayStep();
+//    getTodayStep();
   }
 
-  getTodayStep(){
-    Future.delayed(Duration(seconds: 10),() async{
-      Toast.show('获取步数执行');
-      _counter = await audioPlayer.getTodayStep();
-    });
-
-  }
+//  getTodayStep(){
+//    Future.delayed(Duration(seconds: 10),() async{
+//      Toast.show('获取步数执行');
+//      _counter = await audioPlayer.getTodayStep();
+//    });
+//
+//  }
 
   @override
   Widget build(BuildContext context) {
