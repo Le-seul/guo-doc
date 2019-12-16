@@ -32,16 +32,33 @@ class _MinePageState extends State<MinePage> {
 
   @override
   void initState() {
-//    getTodayStep();
+    getTodayStep();
   }
 
-//  getTodayStep(){
-//    Future.delayed(Duration(seconds: 10),() async{
-//      Toast.show('获取步数执行');
-//      _counter = await audioPlayer.getTodayStep();
-//    });
-//
-//  }
+  getTodayStep(){
+    Future.delayed(Duration(seconds: 10),() async{
+      getStep().then((val){
+        setState(() {
+          _counter = val;
+        });
+
+      });
+    });
+
+  }
+
+
+  Future<int> getStep() async {
+    // Native channel
+    const platform = const MethodChannel("com.test/name"); //分析1
+    int result = 0;
+    try {
+      result = await platform.invokeMethod("isChinese"); //分析2
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
