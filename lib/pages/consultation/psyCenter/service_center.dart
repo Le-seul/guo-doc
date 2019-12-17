@@ -3,6 +3,7 @@ import 'package:flutter_first/bean/region.dart';
 import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/service_child2.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/res/colors.dart';
@@ -84,9 +85,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
           backgroundColor: Colors.white,
           centerTitle: true,
         ),
-        body: mController == null
-            ? LoadingWidget.childWidget()
-            : Container(
+        body: Container(
           color: Color(0xFFEEEEEE),
           child: Column(
             children: <Widget>[

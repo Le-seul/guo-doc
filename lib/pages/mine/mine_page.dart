@@ -1,6 +1,3 @@
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
@@ -12,13 +9,11 @@ import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-//import 'package:todaystep/audioplayers.dart';
-
+import 'package:fluwx/fluwx.dart' as fluwx;
 class MinePage extends StatefulWidget {
 
 
@@ -28,39 +23,23 @@ class MinePage extends StatefulWidget {
 
 class _MinePageState extends State<MinePage> {
 
-//  AudioPlayer audioPlayer = AudioPlayer();
+  String _result = '';
   int _counter = 0;
-  Timer timer;
+  static const platform = const MethodChannel("add");
 
-  @override
-  void initState() {
-
-    timer = Timer.periodic(Duration(seconds: 3), (timer) {
-      getStep().then((val){
-        setState(() {
-          _counter = val;
-        });
-
-      });
-    });
-  }
-
-
-  @override
-  void dispose() {
-    timer.cancel();
-  }
-
-  Future<int> getStep() async {
-    // Native channel
-    const platform = const MethodChannel("cn.gov.gaj.phms.v3/player"); //分析1
+  Future<Null> incrementCount() async {
     int result = 0;
     try {
-      result = await platform.invokeMethod("step"); //分析2
+      //参数为方法名称
+      result = await platform.invokeMethod("getNumber");
     } on PlatformException catch (e) {
-      print(e.toString());
+      print(e.message);
     }
-    return result;
+
+    //获取结果后改变界面状态,更新界面
+    setState(() {
+      _counter = result;
+    });
   }
 
   @override
@@ -580,8 +559,8 @@ class _MinePageState extends State<MinePage> {
                   onPressed: () {
                     NavigatorUtil.pushWebView(
                         context,
-                        'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
-                        {'title': '隐私服务'});
+                        'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm',
+                        {'title': '畅享健康用户注册协议'});
                   },
                 ), //隐私服务
                 SizedBox(

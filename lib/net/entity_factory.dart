@@ -34,6 +34,7 @@ import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/bean/region.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/bean/service_center.dart';
+import 'package:flutter_first/bean/service_center2_bean.dart';
 import 'package:flutter_first/bean/service_center_bean.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
@@ -110,7 +111,9 @@ class EntityFactory {
       return PsyTeacherLike.fromJson(json) as T;
     } else if (T.toString() == "ServCenter") {
       return ServCenter.fromJson(json) as T;
-    } else if (T.toString() == "CenterDetail") {
+    } else if (T.toString() == "ServCenter2") {
+      return ServCenter2.fromJson(json) as T;
+    }else if (T.toString() == "CenterDetail") {
       return CenterDetail.fromJson(json) as T;
     } else if (T.toString() == "Course") {
       return Course.fromJson(json) as T;
