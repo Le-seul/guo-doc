@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
@@ -9,11 +11,13 @@ import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+//import 'package:todaystep/audioplayers.dart';
+
 class MinePage extends StatefulWidget {
 
 
@@ -23,23 +27,34 @@ class MinePage extends StatefulWidget {
 
 class _MinePageState extends State<MinePage> {
 
-  String _result = '';
+//  AudioPlayer audioPlayer = AudioPlayer();
   int _counter = 0;
-  static const platform = const MethodChannel("add");
+  Timer timer;
 
-  Future<Null> incrementCount() async {
+  @override
+  void initState() {
+
+    timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      getStep().then((val){
+        setState(() {
+          _counter = val;
+        });
+
+      });
+    });
+  }
+
+
+  Future<int> getStep() async {
+    // Native channel
+    const platform = const MethodChannel("cn.gov.gaj.phms.v3/player"); //分析1
     int result = 0;
     try {
-      //参数为方法名称
-      result = await platform.invokeMethod("getNumber");
+      result = await platform.invokeMethod("step"); //分析2
     } on PlatformException catch (e) {
-      print(e.message);
+      print(e.toString());
     }
-
-    //获取结果后改变界面状态,更新界面
-    setState(() {
-      _counter = result;
-    });
+    return result;
   }
 
   @override
@@ -93,10 +108,10 @@ class _MinePageState extends State<MinePage> {
                       children: <Widget>[
                         Text('张警官',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
+                            TextStyle(color: Colors.white, fontSize: 16)),
                         Text('189*****111',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 12)),
+                            TextStyle(color: Colors.white, fontSize: 12)),
                       ],
                     ),
                     SizedBox(
@@ -115,7 +130,7 @@ class _MinePageState extends State<MinePage> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
+                                  BorderRadius.all(Radius.circular(4))),
                             ),
                           ),
                           Center(
@@ -143,7 +158,7 @@ class _MinePageState extends State<MinePage> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
+                                BorderRadius.all(Radius.circular(4))),
                           ),
                         ),
                         Center(
@@ -190,7 +205,7 @@ class _MinePageState extends State<MinePage> {
                             Text(
                               '5',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                              TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -198,7 +213,7 @@ class _MinePageState extends State<MinePage> {
                             Text(
                               '排名',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
+                              TextStyle(color: Colors.white, fontSize: 14),
                             )
                           ],
                         ),
@@ -559,8 +574,8 @@ class _MinePageState extends State<MinePage> {
                   onPressed: () {
                     NavigatorUtil.pushWebView(
                         context,
-                        'http://49.232.168.124/phms_resource_base/HomePageDetail/registAgreement.htm',
-                        {'title': '畅享健康用户注册协议'});
+                        'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
+                        {'title': '隐私服务'});
                   },
                 ), //隐私服务
                 SizedBox(
