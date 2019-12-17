@@ -24,6 +24,7 @@ import cn.gov.gaj.phms.v3.utils.log
 class QuietPlayerChannel(private val channel: MethodChannel) : MethodChannel.MethodCallHandler {
 
 
+    var count: Int = 0
     companion object {
 
         private const val CHANNEL_ID = "cn.gov.gaj.phms.v3/player"
@@ -172,6 +173,9 @@ class QuietPlayerChannel(private val channel: MethodChannel) : MethodChannel.Met
                 }
                 "position" -> {
                     result.success(player.position)
+                }
+                "step" -> {
+                    result.success(count)
                 }
                 "duration" -> {
                     result.success(player.duration)

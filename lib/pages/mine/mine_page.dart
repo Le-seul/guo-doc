@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
@@ -28,15 +30,12 @@ class _MinePageState extends State<MinePage> {
 
 //  AudioPlayer audioPlayer = AudioPlayer();
   int _counter = 0;
-
+  Timer timer;
 
   @override
   void initState() {
-    getTodayStep();
-  }
 
-  getTodayStep(){
-    Future.delayed(Duration(seconds: 10),() async{
+    timer = Timer.periodic(Duration(seconds: 3), (timer) {
       getStep().then((val){
         setState(() {
           _counter = val;
@@ -44,16 +43,15 @@ class _MinePageState extends State<MinePage> {
 
       });
     });
-
   }
 
 
   Future<int> getStep() async {
     // Native channel
-    const platform = const MethodChannel("com.test/name"); //分析1
+    const platform = const MethodChannel("cn.gov.gaj.phms.v3/player"); //分析1
     int result = 0;
     try {
-      result = await platform.invokeMethod("isChinese"); //分析2
+      result = await platform.invokeMethod("step"); //分析2
     } on PlatformException catch (e) {
       print(e.toString());
     }

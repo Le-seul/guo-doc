@@ -38,7 +38,6 @@ class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GeneratedPluginRegistrant.registerWith(this)
-        log { "服务准备" }
         PluginRegistrant.registerWith(this)
         playerChannel = QuietPlayerChannel.registerWith(registrarFor("cn.gov.gaj.phms.v3.service.QuietPlayerChannel"))
         route(intent)
@@ -85,6 +84,7 @@ class MainActivity : FlutterActivity() {
                         if (mStepSum != step)
                         {
                             mStepSum = step
+                            log { "获取步数$mStepSum" }
                             updateStepCount()
                         }
                     }
@@ -94,8 +94,9 @@ class MainActivity : FlutterActivity() {
             return false
         }
     }
-    private fun updateStepCount() {
 
+    private fun updateStepCount() {
+        playerChannel.count = mStepSum
     }
 
     override fun onDestroy() {
