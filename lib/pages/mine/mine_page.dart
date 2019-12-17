@@ -46,6 +46,11 @@ class _MinePageState extends State<MinePage> {
   }
 
 
+  @override
+  void dispose() {
+    timer.cancel();
+  }
+
   Future<int> getStep() async {
     // Native channel
     const platform = const MethodChannel("cn.gov.gaj.phms.v3/player"); //分析1
