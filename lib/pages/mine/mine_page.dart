@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first/bloc/bloc_provider.dart';
+import 'package:flutter_first/bloc/step_count.bloc.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
@@ -19,48 +22,17 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 //import 'package:todaystep/audioplayers.dart';
 
 class MinePage extends StatefulWidget {
-
-
   @override
   _MinePageState createState() => _MinePageState();
 }
 
 class _MinePageState extends State<MinePage> {
 
-//  AudioPlayer audioPlayer = AudioPlayer();
-  int _counter = 0;
-  Timer timer;
-
-  @override
-  void initState() {
-
-    timer = Timer.periodic(Duration(seconds: 3), (timer) {
-      getStep().then((val){
-        setState(() {
-          _counter = val;
-        });
-
-      });
-    });
-  }
-
-
-  Future<int> getStep() async {
-    // Native channel
-    const platform = const MethodChannel("cn.gov.gaj.phms.v3/player"); //分析1
-    int result = 0;
-    try {
-      result = await platform.invokeMethod("step"); //分析2
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-    return result;
-  }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
-
+    final StepCountBloc bloc = BlocProvider.of<StepCountBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -108,10 +80,10 @@ class _MinePageState extends State<MinePage> {
                       children: <Widget>[
                         Text('张警官',
                             style:
-                            TextStyle(color: Colors.white, fontSize: 16)),
+                                TextStyle(color: Colors.white, fontSize: 16)),
                         Text('189*****111',
                             style:
-                            TextStyle(color: Colors.white, fontSize: 12)),
+                                TextStyle(color: Colors.white, fontSize: 12)),
                       ],
                     ),
                     SizedBox(
@@ -130,7 +102,7 @@ class _MinePageState extends State<MinePage> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
+                                      BorderRadius.all(Radius.circular(4))),
                             ),
                           ),
                           Center(
@@ -158,7 +130,7 @@ class _MinePageState extends State<MinePage> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(4))),
+                                    BorderRadius.all(Radius.circular(4))),
                           ),
                         ),
                         Center(
@@ -174,9 +146,16 @@ class _MinePageState extends State<MinePage> {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        Text(
-                          '$_counter',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        StreamBuilder<int>(
+                          stream: bloc.stream,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<int> snapshot) {
+                            return Text(
+                              '${snapshot.data}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            );
+                          },
                         ),
                         SizedBox(
                           height: 5,
@@ -205,7 +184,7 @@ class _MinePageState extends State<MinePage> {
                             Text(
                               '5',
                               style:
-                              TextStyle(color: Colors.white, fontSize: 18),
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -213,7 +192,7 @@ class _MinePageState extends State<MinePage> {
                             Text(
                               '排名',
                               style:
-                              TextStyle(color: Colors.white, fontSize: 14),
+                                  TextStyle(color: Colors.white, fontSize: 14),
                             )
                           ],
                         ),
@@ -228,7 +207,8 @@ class _MinePageState extends State<MinePage> {
                   padding: EdgeInsets.all(15),
                   child: MyCard(
                     child: Container(
-                      margin: EdgeInsets.only(left: 10,right: 10,top: 18,bottom: 18),
+                      margin: EdgeInsets.only(
+                          left: 10, right: 10, top: 18, bottom: 18),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -238,7 +218,8 @@ class _MinePageState extends State<MinePage> {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/我的收藏.png',
@@ -268,7 +249,8 @@ class _MinePageState extends State<MinePage> {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/我的步数.png',
@@ -291,7 +273,8 @@ class _MinePageState extends State<MinePage> {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/我的活动.png',
@@ -318,7 +301,8 @@ class _MinePageState extends State<MinePage> {
                                 height: 60,
                                 width: 40,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/mine/消息通知.png',
@@ -643,8 +627,7 @@ class _MinePageState extends State<MinePage> {
                               style: TextStyle(fontSize: 14),
                             ),
                             onTap: () {
-                              NavigatorUtil.pushPage(
-                                  context, ExitLoginPage());
+                              NavigatorUtil.pushPage(context, ExitLoginPage());
                             },
                           ),
                         ),
@@ -660,7 +643,6 @@ class _MinePageState extends State<MinePage> {
                   ),
                   onPressed: () {},
                 ), //系统设
-
               ],
             ),
           ],

@@ -10,6 +10,7 @@ import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/step_count.bloc.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
@@ -119,6 +120,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
+    final StepCountBloc bloc = BlocProvider.of<StepCountBloc>(context);
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
       child: Column(children: <Widget>[
@@ -319,10 +321,17 @@ class _HomePageState extends State<HomePage> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text(
-                                    '运动步数：16480',
-                                    style: TextStyle(fontSize: 12),
-                                  )
+                                  StreamBuilder<int>(
+                                    stream: bloc.stream,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<int> snapshot) {
+                                      return Text(
+                                        '${snapshot.data}',
+                                        style: TextStyle(fontSize: 12),
+                                      );
+                                    },
+                                  ),
+
                                 ],
                               ),
                             ),
