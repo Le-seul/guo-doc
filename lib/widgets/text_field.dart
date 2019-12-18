@@ -71,8 +71,9 @@ class _MyTextFieldState extends State<MyTextField> {
     return Container(
       padding: EdgeInsets.only(left: widget.prefixIcon == null?20:10,right: 15),
       decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.circular(26)),
+          color: Colors.white,
+          border: Border.all(color: Colors.black12, width: 1),
+          borderRadius: BorderRadius.circular(10.0)),
       child: Stack(
             alignment: Alignment.centerRight,
             children: <Widget>[

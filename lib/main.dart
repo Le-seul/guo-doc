@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 
-
 import 'package:flutter_first/bloc/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/step_count.bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/data/global_user_data.dart';
 import 'package:flutter_first/event/init_data.dart';
@@ -18,6 +21,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'pages/exit_login_page.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+
 void main() async {
 // 注册服务
   setupLocator();
@@ -36,26 +40,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final model = PlayingLyric(quiet);
   String token;
+
   GlobalUserData globalUserData = GlobalUserData();
 
   final SystemUiOverlayStyle _style =
       SystemUiOverlayStyle(statusBarColor: Colors.transparent);
 //  StreamSubscription exitLogin;
   @override
-  void initState()  {
-//    exitLogin = eventBus.on<LoginEvent>().listen((event) {
-//        Navigator.of(context)
-//            .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
-//    });
-
+  void initState() {
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
-
-
   }
+
+
 
   @override
   void dispose() {
-//    exitLogin.cancel();
   }
 
   @override
@@ -66,8 +65,10 @@ class _MyAppState extends State<MyApp> {
           child: ScopedModel<PlayingLyric>(
               model: model,
               child: Quiet(
-                child: BlocProvider<ChunyuPushBloc>(
-                  bloc: ChunyuPushBloc(),
+                  child: BlocProvider<ChunyuPushBloc>(
+                bloc: ChunyuPushBloc(),
+                child: BlocProvider<StepCountBloc>(
+                  bloc: StepCountBloc(),
                   child: MaterialApp(
                     //定义路由
                     //没有路由可以进行匹配的时候
@@ -95,12 +96,12 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                     theme: new ThemeData(
-                      appBarTheme:AppBarTheme(color: Color(0xff2CA687)),
+                      appBarTheme: AppBarTheme(color: Color(0xff2CA687)),
                       platform: TargetPlatform.iOS,
                     ),
                   ),
                 ),
-              )),
+              ))),
           backgroundColor: Colors.black54,
           textPadding:
               const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
