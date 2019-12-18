@@ -73,7 +73,7 @@ class _SMSLoginState extends State<SMSLogin> {
             MyTextField(
               controller: _phoneController,
               maxLength: 11,
-              prefixIcon: 'login/mobile.png',
+              prefixIcon: 'login/phone.png',
               keyboardType: TextInputType.phone,
               hintText: "请输入手机号",
             ),
