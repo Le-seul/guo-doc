@@ -87,7 +87,7 @@ class _SMSLoginState extends State<SMSLogin> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(10)),
+                  color: Color(0xff2CA687), borderRadius: BorderRadius.circular(10)),
               child: FlatButton(
                   onPressed: () {
                     _checkVerificationCode();
@@ -140,7 +140,7 @@ class _SMSLoginState extends State<SMSLogin> {
         Container(
           decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: Colors.green, width: 1),
+              border: Border.all(color: Color(0xff2CA687), width: 1),
               borderRadius: BorderRadius.circular(10.0)),
           child: FlatButton(
             onPressed: _isClick
@@ -156,7 +156,7 @@ class _SMSLoginState extends State<SMSLogin> {
             textColor: Colors.black,
             child: Text(
               !_isClick ? "（$s s）" : "获取验证码",
-              style: TextStyle(fontSize: 13, color: Colors.green),
+              style: TextStyle(fontSize: 13, color: Color(0xff2CA687)),
             ),
           ),
         ),

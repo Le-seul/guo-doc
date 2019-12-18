@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(10)),
+                  color: Color(0xff2CA687), borderRadius: BorderRadius.circular(10)),
               child: FlatButton(
                   onPressed: () {
                     _userAuthCheck();

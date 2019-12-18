@@ -151,7 +151,7 @@ class _MinePageState extends State<MinePage> {
                           builder: (BuildContext context,
                               AsyncSnapshot<int> snapshot) {
                             return Text(
-                              '${snapshot.data}',
+                              '${snapshot.data??0}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             );
