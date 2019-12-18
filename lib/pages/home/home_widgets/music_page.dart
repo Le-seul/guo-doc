@@ -40,15 +40,11 @@ class _MusicPageState extends State<MusicPage>
     DioUtils.instance.requestNetwork<MusicTag>(Method.get, Api.GETMUSICTAG,
         isList: true, onSuccessList: (data) {
       setState(() {
-        tabs.add(Container(
-          margin: EdgeInsets.only(left: 8, right: 8),
-          alignment: Alignment.center,
-          child: Text(
-            '全部分类',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
+        tabs.add(Text(
+          '全部分类',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
           ),
         ));
         tabViews.add(MusicTabPage('0'));
@@ -56,16 +52,11 @@ class _MusicPageState extends State<MusicPage>
         _tabController = TabController(length: data.length + 1, vsync: this);
 
         musicTagList.forEach((str) {
-          tabs.add(Container(
-            margin: EdgeInsets.only(left: 8, right: 8),
-            alignment: Alignment.center,
-            child: Text(
-              str.name,
-              style: TextStyle(fontSize: 13),
-            ),
+          tabs.add(Text(
+            str.name,
+            style: TextStyle(fontSize: 13),
           ));
         });
-
         musicTagList.forEach((str) {
           tabViews.add(MusicTabPage(str.id));
         });
@@ -113,10 +104,10 @@ class _MusicPageState extends State<MusicPage>
                       child: TabBar(
                         isScrollable: true,
                         controller: _tabController,
-                        labelPadding: EdgeInsets.all(0.0),
+                        labelPadding:EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
                         indicatorColor: Color(0xff2CA687),
                         labelColor: Color(0xff2CA687),
-                        indicator: const BoxDecoration(),
+                        indicatorSize: TabBarIndicatorSize.label,
                         unselectedLabelColor: Color(0xff666666),
                         unselectedLabelStyle: TextStyle(fontSize: 14),
                         labelStyle: TextStyle(fontSize: 14.0),

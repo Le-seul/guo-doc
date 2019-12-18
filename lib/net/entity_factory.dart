@@ -21,7 +21,6 @@ import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/bean/consultation_columns_entity.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
-
 import 'package:flutter_first/bean/coursedetail.dart';
 import 'package:flutter_first/bean/order_count.dart';
 import 'package:flutter_first/bean/progress_order_entity.dart';
@@ -31,7 +30,6 @@ import 'package:flutter_first/bean/psycoursecatelog.dart';
 import 'package:flutter_first/bean/psydailytest.dart';
 import 'package:flutter_first/bean/psyteacher.dart';
 import 'package:flutter_first/bean/psyteacher_like.dart';
-
 import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/bean/region.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
@@ -40,6 +38,7 @@ import 'package:flutter_first/bean/service_center2_bean.dart';
 import 'package:flutter_first/bean/service_center_bean.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
+import 'package:flutter_first/bean/test_entity.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
 
@@ -137,6 +136,8 @@ class EntityFactory {
       return RegionList.fromJson(json) as T;
     }else if (T.toString() == "Clinic") {
       return Clinic.fromJson(json) as T;
+    }else if (T.toString() == "TestTag") {
+      return TestTag.fromJson(json) as T;
     }else {
       return null;
     }

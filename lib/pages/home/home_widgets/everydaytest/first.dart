@@ -4,19 +4,31 @@ import 'package:flutter_first/net/config.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class Test0 extends StatelessWidget {
-String Url;
-String token;
-String baseurl;
-void initState(){
+class Test0 extends StatefulWidget {
 
+String questionnaireId;
+  Test0({Key key,@required this.questionnaireId})
+      : super(key: key);
+
+  @override
+  _Test0State createState() => _Test0State();
+}
+
+class _Test0State extends State<Test0> {
+String token;
+String htmlUrl;
+String baseurl;
+
+
+@override
+void initState() {
   token = StorageManager.sharedPreferences.getString(Constant.access_Token);
   baseurl = Config.apiHost;
-
+  htmlUrl = '${baseurl}/api/staticResource.do?getResource&url=mobile_survy_ui/index.html&token=$token&questionnaireId=${widget.questionnaireId}&commonIp=${baseurl}';
+  print('htmlUrl:$htmlUrl');
 }
-  Test0({Key key, @required this.Url})
-      : super(key: key);
-  @override
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +36,7 @@ void initState(){
         centerTitle: true,
       ),
       body: WebView(
-          initialUrl:'$baseurl/api/staticResource.do?getResource&url=mobile_survy_ui/index.html&token=$token&questionnaireId=$Url',
+          initialUrl:htmlUrl,
           javascriptMode:JavascriptMode.unrestricted
       ),
     );

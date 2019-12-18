@@ -106,8 +106,8 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(top: 20,bottom: 0),
-                height: ScreenUtil().setHeight(35),
-                  color: Colors.white,
+                padding: EdgeInsets.only(bottom: 20),
+                color: Colors.white,
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -250,7 +250,7 @@ class _instructor_demeanorState extends State<instructor_demeanor> {
             ),
             Container(
               margin: EdgeInsets.only(top: 16,bottom: 0),
-                height: 198,
+              padding: EdgeInsets.only(bottom: 20),
               color: Colors.white,
                 child: Column(
                   children: <Widget>[

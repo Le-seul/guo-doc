@@ -35,10 +35,7 @@ class _ActivityParticipationState extends State<ActivityParticipation>
           tabText = data.regionList;
           _tabController = TabController(length: tabText.length, vsync: this);
           tabText.forEach((item) {
-            tabs.add(Container(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
-              child: Text(item),
-            ));
+            tabs.add(Text(item));
           });
           tabText.forEach((item) {
             tabViews.add(ActivityList2(item));
@@ -77,7 +74,7 @@ class _ActivityParticipationState extends State<ActivityParticipation>
             : Column(
           children: <Widget>[
             SizedBox(
-              height: 5,
+              height: 10,
             ),
             Flex(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,10 +84,10 @@ class _ActivityParticipationState extends State<ActivityParticipation>
                   child: TabBar(
                     isScrollable: true,
                     controller: _tabController,
-                    labelPadding: EdgeInsets.all(0.0),
+                    labelPadding:EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
                     indicatorColor: Color(0xff2CA687),
                     labelColor: Color(0xff2CA687),
-                    indicator: const BoxDecoration(),
+                    indicatorSize: TabBarIndicatorSize.label,
                     unselectedLabelColor: Color(0xff666666),
                     unselectedLabelStyle: TextStyle(fontSize: 14),
                     labelStyle: TextStyle(fontSize: 14.0),
@@ -108,9 +105,10 @@ class _ActivityParticipationState extends State<ActivityParticipation>
                     },
                     child: Container(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Center(child: Icon(Icons.menu)))),
+                        child: Center(child: Icon(Icons.menu,color: Color(0xff666666),)))),
               ],
             ),
+            SizedBox(height: 10,),
             Flexible(
                 child:
                     TabBarView(controller: _tabController, children: tabViews)),

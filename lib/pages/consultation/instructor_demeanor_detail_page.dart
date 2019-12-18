@@ -94,7 +94,7 @@ class _instructor_demeanor_detailState
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              height: ScreenUtil().setHeight(18),
+              padding: EdgeInsets.only(bottom: 20),
               color: Colors.white,
               child: Row(
                 children: <Widget>[
@@ -230,8 +230,7 @@ class _instructor_demeanor_detailState
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              padding: EdgeInsets.only(left: 20),
-              height: ScreenUtil().setHeight(18),
+              padding: EdgeInsets.only(left: 20,bottom: 20),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -261,8 +260,7 @@ class _instructor_demeanor_detailState
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              padding: EdgeInsets.only(left: 20),
-              height: ScreenUtil().setHeight(16),
+              padding: EdgeInsets.only(left: 20,bottom: 20),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -293,8 +291,7 @@ class _instructor_demeanor_detailState
 
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              padding: EdgeInsets.only(left: 20),
-              height: ScreenUtil().setHeight(37),
+              padding: EdgeInsets.only(left: 20,bottom: 20),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -343,8 +340,7 @@ class _instructor_demeanor_detailState
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              padding: EdgeInsets.only(left: 20),
-              height: 180,
+              padding: EdgeInsets.only(left: 20,bottom: 20),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

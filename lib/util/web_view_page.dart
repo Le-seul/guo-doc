@@ -27,7 +27,7 @@ class _WebViewPageState extends State<WebViewPage> {
     if(widget.params['redirection'] != null){
       redirectoon = true;
       String token = StorageManager.sharedPreferences.getString(Constant.access_Token);
-      htmlUrl = '${Config.apiHost}/api/staticResource.do?getResource&url=mobile-phy-exam-report-ui/html/index.html' + '&token=' + token;
+      htmlUrl = '${Config.apiHost}/api/staticResource.do?getResource&url=mobile-phy-exam-report-ui/html/index.html' + '&token=' + token+'&commonIp=${Config.apiHost}';
       if(widget.params['year'] != null){
         htmlUrl = htmlUrl + '&year=${widget.params['year']}';
       }

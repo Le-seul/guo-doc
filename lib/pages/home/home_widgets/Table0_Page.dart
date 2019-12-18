@@ -20,6 +20,8 @@ import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
+import 'everydaytest/daytest.dart';
+
 class Table0 extends StatefulWidget {
 
   _Table0State createState() => _Table0State();
@@ -240,7 +242,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              NavigatorUtil.pushPage(context, EverydayTest());
+              NavigatorUtil.pushPage(context, DayTest());
             },
           ),
         ]),

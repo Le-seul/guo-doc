@@ -80,6 +80,7 @@ class Api {
   //心理共读
   static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
 
+
   //心理共读类别
   static const String CoReadingKind = "/api/psyCoreading.do?getPsyCoReadingByCategoryId";
 
@@ -156,8 +157,11 @@ class Api {
   //教官点赞
   static const String PsyTeacherLike = "/api/psyTeacher.do?getPsyTeacherLike";
 
-  //每日一测全部
-  static const String PsyDailyTest = "/api/psyDailyTest.do?getPsyDailyTest";
+  //每日一测TAG
+  static const String PsyDailyTAG = "/api/psyDailyTest.do?getTagList";
+
+  //每日一测
+  static const String PsyDailyTest = "/api/psyDailyTest.do?getPsyDailyTestByTag";
 
   //每日一测已测
   static const String PsyDailyTested = "/api/psyDailyTest.do?getPsyDailyTestRecord";

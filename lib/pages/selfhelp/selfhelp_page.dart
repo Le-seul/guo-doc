@@ -162,7 +162,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)),
                   onTap: (){
-                    NavigatorUtil.pushPage(context,EverydayTest());
+                    NavigatorUtil.pushPage(context,EverydayTest("趣味自测tag实验"));
                   },
                 )
               ],
@@ -221,7 +221,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 ],
               ),
               onTap: (){
-                NavigatorUtil.pushPage(context,Test0(Url: PsyList[0].questionId,));
+                NavigatorUtil.pushPage(context,Test0(questionnaireId: PsyList[0].questionId,));
               },
             )
           ),

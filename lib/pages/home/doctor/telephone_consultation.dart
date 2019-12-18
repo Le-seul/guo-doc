@@ -154,7 +154,6 @@ class _TelConsultationState extends State<TelConsultation>
                                               ? ''
                                               : '$phone', //判断keyword是否为空
                                           // 保持光标在最后
-
                                           selection: TextSelection.fromPosition(
                                               TextPosition(
                                                   affinity:

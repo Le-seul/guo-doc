@@ -8,6 +8,7 @@ class ActivityDetail {
   String parentActivityId;
   String startTime;
   String endTime;
+  String isSignUp;
   String location;
   int state;
   String detail;
@@ -30,6 +31,7 @@ class ActivityDetail {
         this.endTime,
         this.location,
         this.state,
+        this.isSignUp,
         this.detail,
         this.onlineSignIn,
         this.signInCount,
@@ -56,6 +58,7 @@ class ActivityDetail {
     location = json['location'];
     state = json['state'];
     detail = json['detail'];
+    isSignUp = json['isSignUp'];
     onlineSignIn = json['onlineSignIn'];
     signInCount = json['signInCount'];
     publishChanel = json['publishChanel'];

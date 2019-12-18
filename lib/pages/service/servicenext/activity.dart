@@ -6,21 +6,21 @@ import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ServiceActivityPage extends StatefulWidget {
-
   String activityId;
   @override
   _ServiceActivityPageState createState() => _ServiceActivityPageState();
 
-  ServiceActivityPage(
-      {Key key, @required this.activityId})
-      : super(key: key);
+  ServiceActivityPage({Key key, @required this.activityId}) : super(key: key);
 }
 
 class _ServiceActivityPageState extends State<ServiceActivityPage> {
   ActivityDetail activityDetail;
   bool isShowLoading = true;
+  String signUpText = '报名';
+
   @override
   void initState() {
     _getActivityDetail();
@@ -35,6 +35,9 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
         setState(() {
           isShowLoading = false;
           activityDetail = data;
+          if (activityDetail.isSignUp == 'Y') {
+            signUpText = '已报名';
+          }
           print('活动内容获取成功');
         });
       },
@@ -119,7 +122,8 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                       height: 20,
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           '活动地点:',
@@ -200,8 +204,8 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                     ),
                                   ),
                                   Container(
-                                      padding: EdgeInsets.only(
-                                          left: 15,top: 15),
+                                      padding:
+                                          EdgeInsets.only(left: 15, top: 15),
                                       child: Text(
                                         '相关活动',
                                         style: TextStyle(fontSize: 18),
@@ -222,6 +226,13 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                 ],
                               ),
                             ),
+//                            Container(height: 1100,
+//                              child: WebView(
+//                                initialUrl:
+//                                    'http://49.232.168.124/phms_resource_base/HomePageDetail/HomePage02.htm',
+//                                javascriptMode: JavascriptMode.unrestricted,
+//                              ),
+//                            ),
                             SizedBox(
                               height: 20,
                               child: Container(
@@ -229,21 +240,29 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               ),
                             ),
                             Offstage(
-                              offstage: activityDetail.articleList.isEmpty,
+                              offstage:
+                                  activityDetail.questionnaireList.isEmpty,
                               child: Column(
                                 children: <Widget>[
                                   Container(
-                                    padding:
-                                    EdgeInsets.only(top: 15, left: 15, right: 15),
+                                    padding: EdgeInsets.only(
+                                        top: 15, left: 15, right: 15),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
                                             child: Text(
-                                              '相关资讯',
-                                              style: TextStyle(fontSize: 18),
-                                            )),
-                                        Text('更多',style: TextStyle(color:Colors.black54),),
-                                        Icon(Icons.chevron_right,color: Colors.black54,)
+                                          '相关资讯',
+                                          style: TextStyle(fontSize: 18),
+                                        )),
+                                        Text(
+                                          '更多',
+                                          style:
+                                              TextStyle(color: Colors.black54),
+                                        ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Colors.black54,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -251,7 +270,8 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                     child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
-                                      itemCount: 3,
+                                      itemCount: activityDetail
+                                          .questionnaireList.length,
                                       itemBuilder: (context, index) =>
                                           _buildItem(index),
                                     ),
@@ -281,11 +301,15 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               padding: EdgeInsets.only(left: 30.0, right: 30.0),
                               child: FlatButton(
                                 onPressed: () {
-                                  sugnUpActivity();
+                                  if (signUpText == '报名') {
+                                    NavigatorUtil.pushWebView(
+                                        context, 'http://49.232.168.124/phms_resource_base/mobile_survy_ui/index6.html', {"title": "调查问卷"});
+                                    signUpActivity();
+                                  }
                                 },
                                 color: Colors.orange,
                                 child: Text(
-                                  '报名',
+                                  signUpText,
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -303,7 +327,10 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
   _childItem(int index) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,ServiceActivityPage(activityId: activityDetail.childActivity[index].id));
+        NavigatorUtil.pushPage(
+            context,
+            ServiceActivityPage(
+                activityId: activityDetail.childActivity[index].id));
       },
       child: Container(
         padding: EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 8),
@@ -315,7 +342,9 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
               width: 120,
               fit: BoxFit.fill,
             ),
-            SizedBox(height: 5,),
+            SizedBox(
+              height: 5,
+            ),
             Container(
                 width: 120,
                 child: Text(
@@ -329,24 +358,26 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
     );
   }
 
-  sugnUpActivity(){
+  signUpActivity() {
     DioUtils.instance.requestNetwork<String>(
       Method.post,
       Api.SIGNUPACTIVITY,
       queryParameters: {"activityId": widget.activityId},
       onSuccess: (data) {
         setState(() {
-          showDialog<Null>(
-              context: context, //BuildContext对象
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return LoadingDialog();
-              });
+//          showDialog<Null>(
+//              context: context, //BuildContext对象
+//              barrierDismissible: false,
+//              builder: (BuildContext context) {
+//                return LoadingDialog();
+//              });
+          signUpText = '已报名';
         });
+        print('活动报名成功');
       },
       onError: (code, msg) {
         setState(() {
-          Toast.show('活动报名失败');
+          print('活动报名失败');
         });
       },
     );
@@ -354,8 +385,9 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
 
   _buildItem(int index) {
     return GestureDetector(
-      onTap: (){
-        NavigatorUtil.pushWebView(context, activityDetail.detail, {"title":"活动"});
+      onTap: () {
+        NavigatorUtil.pushWebView(
+            context, activityDetail.detail, {"title": "活动"});
       },
       child: Container(
         padding: EdgeInsets.only(bottom: 5, left: 15, right: 15),
@@ -377,21 +409,20 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                   flex: 1,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: AspectRatio(
-                        aspectRatio: 1.0,
-                        child: Image.network(
-                          activityDetail.cover,
-                          height: 100,
-                          width: 100,
-
-                        ),
+                      child: Image.network(
+                        activityDetail.questionnaireList[index].cover,
+                        height: 80,
+                        width: 120,
+                        fit: BoxFit.fill,
                       )),
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Expanded(
                   flex: 2,
                   child: Text(
-                    activityDetail.name,
+                    activityDetail.questionnaireList[index].title,
                     style: TextStyle(fontSize: 14),
                   ),
                 ),

@@ -1,351 +1,429 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/step_ranking.dart';
-import 'package:flutter_first/event/login_event.dart';
-import 'package:flutter_first/mock_request.dart';
-import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_first/widgets/my_card.dart';
 
 class StepRanking extends StatefulWidget {
   @override
   _StepRankingState createState() => _StepRankingState();
 }
 
-class _StepRankingState extends State<StepRanking> implements RefreshList{
+class _StepRankingState extends State<StepRanking> {
   List<Stepranking> steplist = List();
   List<Stepranking> Rankinglist = List();
   bool offstage = false;
-  StreamSubscription exitLogin;
 
-  void initState() {
-    exitLogin = eventBus.on<Refresh>().listen((event) {
-      setState(() {
-        offstage = event.offstage;
-      });
-    });
-  }
-
-
-  @override
-  void dispose() {
-    exitLogin.cancel();
-  }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      backgroundColor: Colours.line,
+      backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
+        elevation: 0.0,
         title: Text(
           '步数排行',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black, size: 32),
+        backgroundColor: Color(0xff2CA687),
+        iconTheme: IconThemeData(color: Colors.white, size: 32),
         actions: <Widget>[
           Container(
+            padding: EdgeInsets.all(15),
             child: Image.asset(
               'assets/images/mine/rank/fenxiang.png',
-              height: 10,
+              color: Colors.white,
             ),
-            padding: EdgeInsets.all(15),
           ),
-          SizedBox(
-            width: ScreenUtil().setWidth(4),
-          )
         ],
       ),
       body: Stack(
         children: <Widget>[
           Container(
-              margin: EdgeInsets.only(left: 10, top: 10, right: 10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              child: ListView.custom(
-                physics: ClampingScrollPhysics(),
-                childrenDelegate: MySliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return _buildItem(index);
-                  },
-                  childCount: 30,
-                ),
-                cacheExtent: 0.0,
-              )),
-          Positioned(
-              bottom: 0.0,
-              child:  Offstage(
-                offstage: offstage,
-                child: Container(
-                  margin: EdgeInsets.only(left: 10,right: 10),
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  height: 70,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        height: 50,
-                        width: 50,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black12,
-                          radius: 13,
-                          child: Container(
-                            child: Text(
-                              '9',
-                              style: TextStyle(fontSize: 17, color: Colors.black54),
+            color: Color(0xff2CA687),
+            height: 220,
+          ),
+          Column(
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 45,
+                        ),
+                        loadAssetImage('mine/rank/second.png', height: 20),
+                        CircleAvatar(
+                          radius: 38.0,
+                          backgroundColor: Color(0xff52aa9b),
+                          child: CircleAvatar(
+                            radius: 35.0,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage: NetworkImage(
+                                  'http://5b0988e595225.cdn.sohucs.com/images/20171114/0fc43e9ad58f4a5cb41a018925b0e475.jpeg'),
                             ),
                           ),
                         ),
-                      ),
-
-                      Container(
-                        height: 50,
-                        width: 50,
-                        padding: EdgeInsets.all(5),
-                        child: ClipOval(
-                          child: Image.network(
-                              'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'),
+                        SizedBox(
+                          height: 8,
                         ),
-                      ),
-                      Expanded(child: Text('  张警官')),
-                      loadAssetImage('mine/脚印.png', height: 20),
-                      Text(
-                        '  20000',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-
-                    ],
+                        Text(
+                          '王警官',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Stack(
+                          alignment: Alignment.topCenter,
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFEEEEEE),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5))),
+                              margin: EdgeInsets.only(top: 9),
+                              height: 70,
+                              width: MediaQuery.of(context).size.width * 0.3,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      top: 1, bottom: 1, left: 14, right: 14),
+                                  decoration: BoxDecoration(
+                                      color: Colors.orangeAccent,
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Text(
+                                    '第2名',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  '18350',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.orangeAccent),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '步数',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.black26),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                  Expanded(
+                    flex: 4,
+                    child: Column(
+                      children: <Widget>[
+                        loadAssetImage('mine/rank/first.png', height: 20),
+                        CircleAvatar(
+                          radius: 48.0,
+                          backgroundColor: Color(0xff52aa9b),
+                          child: CircleAvatar(
+                            radius: 45.0,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              radius: 40.0,
+                              backgroundImage: NetworkImage(
+                                  'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '张警官',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Stack(
+                          alignment: Alignment.topCenter,
+                          children: <Widget>[
+                            Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFEEEEEE),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5),
+                                        topRight: Radius.circular(5))),
+                                margin: EdgeInsets.only(top: 9),
+                                height: 80,
+                                width: MediaQuery.of(context).size.width * 0.4),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      top: 1, bottom: 1, left: 14, right: 14),
+                                  decoration: BoxDecoration(
+                                      color: Colors.redAccent,
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Text(
+                                    '第1名',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  '25350',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.orangeAccent),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '步数',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.black26),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 45,
+                        ),
+                        loadAssetImage('mine/rank/third.png', height: 20),
+                        CircleAvatar(
+                          radius: 38.0,
+                          backgroundColor: Color(0xff52aa9b),
+                          child: CircleAvatar(
+                            radius: 35.0,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage: NetworkImage(
+                                  'http://b-ssl.duitang.com/uploads/item/201809/03/20180903221703_NChzn.thumb.700_0.jpeg'),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '李警官',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Stack(
+                          alignment: Alignment.topCenter,
+                          children: <Widget>[
+                            Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFEEEEEE),
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(5))),
+                                margin: EdgeInsets.only(top: 9),
+                                height: 70,
+                                width: MediaQuery.of(context).size.width * 0.3),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      top: 1, bottom: 1, left: 14, right: 14),
+                                  decoration: BoxDecoration(
+                                      color: Colors.blueAccent,
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Text(
+                                    '第3名',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  '14350',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.orangeAccent),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '步数',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.black26),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView.custom(
+                  physics: ClampingScrollPhysics(),
+                  childrenDelegate: MySliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return _buildItem(index);
+                      },
+                      childCount: 30,
+                      isVisible: (val) {
+                        Future.delayed(Duration(milliseconds: 1)).then((value) {
+                          setState(() {
+                            offstage = val;
+                          });
+                        });
+                      }),
+                  cacheExtent: 0.0,
                 ),
               ),
+            ],
+          ),
+          Positioned(
+            bottom: 0.0,
+            child: Offstage(
+              offstage: offstage,
+              child: Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8)),
+                ),
+                width: MediaQuery.of(context).size.width - 20,
+                child: itemWidget(12),
+              ),
+            ),
           )
         ],
       ),
     );
   }
 
-  @override
-  void refresh(bool visiblity) {
-    setState(() {
-      offstage = visiblity;
-    });
-  }
-}
-
-_buildItem(int index) {
-  Widget itemWidget;
-  String num;
-
-  if (index < 9) {
-    num = "0" + "${index + 1}";
-  } else {
-    num = "${index + 1}";
-  }
-  if (index == 0) {
-    itemWidget = Container(
-      height: 50,
-      width: 50,
-      child: loadAssetImage('mine/rank/排行 1.png', height: 40),
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-    );
-  } else if (index == 1) {
-    itemWidget = Container(
-      height: 50,
-      width: 50,
-      child: loadAssetImage('mine/rank/排行 2.png', height: 40),
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-    );
-  } else if (index == 2) {
-    itemWidget = Container(
-      height: 50,
-      width: 50,
-      child: loadAssetImage('mine/rank/排行 3.png', height: 40),
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-    );
-  } else {
-    itemWidget = Container(
-      padding: EdgeInsets.all(10),
-      height: 50,
-      width: 50,
-      child: CircleAvatar(
-        backgroundColor: Colors.black12,
-        radius: 13,
-        child: Container(
-          child: Text(
-            num,
-            style: TextStyle(fontSize: 17, color: Colors.black54),
+  Widget itemWidget(int index) {
+    return Row(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(10),
+          height: 50,
+          width: 50,
+          child: CircleAvatar(
+            backgroundColor: index == 12 ? Colors.blue[200] : Colors.black12,
+            radius: 13,
+            child: Container(
+              child: Text(
+                '$index',
+                style: TextStyle(
+                    fontSize: 17,
+                    color: index == 12 ? Colors.blue : Colors.black54),
+              ),
+            ),
           ),
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        CircleAvatar(
+          radius: 20.0,
+          backgroundImage: NetworkImage(
+              'https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738905344,1107853336&fm=26&gp=0.jpg'),
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        Expanded(
+            child: Text(
+          '王警官',
+          style: TextStyle(
+              color: index == 12 ? Colors.black26 : Colors.black, fontSize: 12),
+        )),
+        Text(
+          '9750',
+          style: TextStyle(
+              fontSize: 20,
+              color: index == 12 ? Colors.blue : Colors.orangeAccent),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+      ],
+    );
+  }
+
+  _buildItem(int index) {
+    return Container(
+      padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+      child: MyCard(
+        shadowColor: Colors.transparent,
+        color: index == 8 ? Colors.blue[100] : Colors.white,
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: itemWidget(index + 4),
         ),
       ),
     );
   }
-  return GestureDetector(
-    onTap: () {},
-    child: Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
-          height: 70,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              itemWidget,
-              Container(
-                height: 50,
-                width: 50,
-                padding: EdgeInsets.all(5),
-                child: ClipOval(
-                  child: Image.network(
-                      'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2080823830,3911438045&fm=26&gp=0.jpg'),
-                ),
-              ),
-              Expanded(child: Text('  张警官')),
-              loadAssetImage('mine/脚印.png', height: 20),
-              Text(
-                '  20000',
-                style: TextStyle(color: Colors.red),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          height: 1,
-          color: Colours.line,
-        ),
-      ],
-    ),
-  );
 }
 
-
-
-class VisibilityState {
-  const VisibilityState({this.firstIndex, this.lastIndex});
-
-  final int firstIndex;
-  final int lastIndex;
-}
-
-class ChangeSet {
-  final List<int> exposure = [];
-  final List<int> hidden = [];
-
-  bool get empty => exposure.length == 0 && hidden.length == 0;
-}
-
-class VisibilityMonitor {
-  VisibilityState lastState;
-
-  addSequenceToList(List<int> list, int sequenceStart, int sequenceEnd) {
-    if (sequenceStart <= sequenceEnd) {
-      for (var i = sequenceStart; i <= sequenceEnd; i++) {
-        list.add(i);
-      }
-    } else {
-      for (var i = sequenceEnd; i >= sequenceStart; i--) {
-        list.add(i);
-      }
-    }
-  }
-
-  update(VisibilityState newState) {
-    if (lastState != null &&
-        newState.firstIndex == lastState.firstIndex &&
-        newState.lastIndex == lastState.lastIndex) {
-      return;
-    }
-
-    final changeSet = ChangeSet();
-
-    if (lastState == null) {
-      addSequenceToList(
-          changeSet.exposure, newState.firstIndex, newState.lastIndex);
-    } else if (newState.firstIndex > lastState.lastIndex) {
-      addSequenceToList(
-          changeSet.exposure, newState.firstIndex, newState.lastIndex);
-      addSequenceToList(
-          changeSet.hidden, lastState.firstIndex, lastState.lastIndex);
-    } else if (newState.lastIndex < lastState.firstIndex) {
-      addSequenceToList(
-          changeSet.exposure, newState.lastIndex, newState.firstIndex);
-      addSequenceToList(
-          changeSet.hidden, lastState.lastIndex, lastState.firstIndex);
-    } else {
-      if (newState.firstIndex < lastState.firstIndex) {
-        addSequenceToList(
-            changeSet.exposure, lastState.firstIndex , newState.firstIndex);
-      }
-
-      if (newState.firstIndex > lastState.firstIndex) {
-        addSequenceToList(
-            changeSet.hidden, lastState.firstIndex, newState.firstIndex );
-      }
-
-      if (newState.lastIndex > lastState.lastIndex) {
-        addSequenceToList(
-            changeSet.exposure, lastState.lastIndex , newState.lastIndex);
-      }
-
-      if (newState.lastIndex < lastState.lastIndex) {
-        addSequenceToList(
-            changeSet.hidden, lastState.lastIndex, newState.lastIndex );
-      }
-    }
-
-    lastState = newState;
-
-    if (!changeSet.empty) {
-      changeSet.exposure.forEach((i) {
-        if(i == 9){
-          eventBus.fire(Refresh(true));
-        }
-//        print('第 $i 张卡片曝光了');
-      });
-
-       changeSet.hidden.forEach((i) {
-         if(i == 9){
-           eventBus.fire(Refresh(false));
-         }
-        print('第 $i 张卡片隐藏了');
-      });
-    }
-  }
-}
+typedef IsVisible<bool> = void Function(bool value);
 
 class MySliverChildBuilderDelegate extends SliverChildBuilderDelegate {
+  final IsVisible<bool> isVisible;
   MySliverChildBuilderDelegate(
     Widget Function(BuildContext, int) builder, {
     int childCount,
+    this.isVisible,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
   }) : super(builder,
             childCount: childCount,
             addAutomaticKeepAlives: addAutomaticKeepAlives,
             addRepaintBoundaries: addRepaintBoundaries);
-
-  final visibilityMonitor = VisibilityMonitor();
-
   @override
   void didFinishLayout(int firstIndex, int lastIndex) {
-    visibilityMonitor.update(VisibilityState(
-      firstIndex: firstIndex,
-      lastIndex: lastIndex,
-    ));
+    if (9 == lastIndex || 9 < lastIndex) {
+      isVisible(true);
+    } else {
+      isVisible(false);
+    }
   }
-}
-abstract class RefreshList {
-  void refresh(bool offstage);
 }
