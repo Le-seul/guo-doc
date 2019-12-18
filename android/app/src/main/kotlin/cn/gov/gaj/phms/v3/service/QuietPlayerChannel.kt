@@ -111,7 +111,7 @@ class QuietPlayerChannel(private val channel: MethodChannel) : MethodChannel.Met
     private val player get() = QuietMusicPlayer.getInstance()
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-        log { "call : ${call.method}" }
+//        log { "call : ${call.method}" }
         GlobalScope.launch(Dispatchers.Main) {
             when (call.method) {
                 "init" -> {
