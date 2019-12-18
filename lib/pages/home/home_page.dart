@@ -326,7 +326,7 @@ class _HomePageState extends State<HomePage> {
                                     builder: (BuildContext context,
                                         AsyncSnapshot<int> snapshot) {
                                       return Text(
-                                        '运动步数：${snapshot.data}',
+                                        '运动步数：${snapshot.data??0}',
                                         style: TextStyle(fontSize: 12),
                                       );
                                     },
