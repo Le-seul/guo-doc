@@ -42,12 +42,14 @@ class _ReportListState extends State<ReportList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('体检报告'),
         centerTitle: true,
         backgroundColor: Colours.bg_green,
       ),
       body: Container(
+        padding: EdgeInsets.only(top: 10),
           child: ListView.builder(
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
@@ -62,14 +64,15 @@ class _ReportListState extends State<ReportList> {
         NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/psyReading/XinLiXueWZ_CZ.html',{"title": '体检报告','year':healthYearList[index].year,'redirection':true});
       },
       child: Container(
+        color: Colors.white,
         padding: EdgeInsets.only(top: 5,bottom: 5,left: 15,right: 15),
         height: 40,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            SizedBox(width: 20,),
             Image.asset('assets/images/tijian.png'),
-            Expanded(child: Center(child: Text('${healthYearList[index].year}体检报告',style: TextStyle(fontSize: 17),))),
+            SizedBox(width: 10,),
+            Expanded(child: Text('${healthYearList[index].year}体检报告',style: TextStyle(fontSize: 17),)),
             Icon(Icons.chevron_right),
             SizedBox(width: 20,),
 

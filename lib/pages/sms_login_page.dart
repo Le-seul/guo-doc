@@ -49,6 +49,7 @@ class _SMSLoginState extends State<SMSLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 50.0),
         child: Column(
@@ -57,14 +58,14 @@ class _SMSLoginState extends State<SMSLogin> {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: loadAssetImage('login/logo.png',
-                  fit: BoxFit.cover, height: 100, width: 100),
+                  fit: BoxFit.cover, height: 150, width: 150),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
               "畅享健康",
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22,color: Colors.black26),
             ),
             SizedBox(
               height: 30,
@@ -72,7 +73,7 @@ class _SMSLoginState extends State<SMSLogin> {
             MyTextField(
               controller: _phoneController,
               maxLength: 11,
-              prefixIcon: 'login/mobile.png',
+              prefixIcon: 'login/phone.png',
               keyboardType: TextInputType.phone,
               hintText: "请输入手机号",
             ),
@@ -86,7 +87,7 @@ class _SMSLoginState extends State<SMSLogin> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(26)),
+                  color: Color(0xff2CA687), borderRadius: BorderRadius.circular(10)),
               child: FlatButton(
                   onPressed: () {
                     _checkVerificationCode();
@@ -105,60 +106,62 @@ class _SMSLoginState extends State<SMSLogin> {
   }
 
   _myTextField() {
-    return Container(
-        padding: EdgeInsets.only(left: 10,right: 8),
-        decoration: BoxDecoration(
-            color: Colors.black12, borderRadius: BorderRadius.circular(26)),
-        child: Stack(alignment: Alignment.centerRight, children: <Widget>[
-          TextField(
-            maxLength: 6,
-            autofocus: false,
-            cursorColor: Colors.green,
-            controller: _vCodeController,
-            textInputAction: TextInputAction.done,
-            keyboardType: TextInputType.number,
-            // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
-              hintText: "请输入验证码",
-              counterText: "",
-              prefixIcon: Container(
-                padding: EdgeInsets.all(12),
-                child: loadAssetImage('login/password.png',
-                    width: 5, height: 5, fit: BoxFit.fitHeight),
-              ),
-              border: InputBorder.none,
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+              padding: EdgeInsets.only(left: 10,right: 8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black12, width: 1),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: TextField(
+                maxLength: 6,
+                autofocus: false,
+                cursorColor: Colors.green,
+                controller: _vCodeController,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.number,
+                // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
+                  hintText: "请输入验证码",
+                  counterText: "",
+                  prefixIcon: Container(
+                    padding: EdgeInsets.all(12),
+                    child: loadAssetImage('login/password.png',
+                        width: 5, height: 5, fit: BoxFit.fitHeight),
+                  ),
+                  border: InputBorder.none,
+                ),
+              )),
+        ),
+        SizedBox(width: 20,),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Color(0xff2CA687), width: 1),
+              borderRadius: BorderRadius.circular(10.0)),
+          child: FlatButton(
+            onPressed: _isClick
+                ? () {
+              if(Utils.checkMobile(_phoneController.text)){
+                _sendVerificationCode();
+              }else{
+                Toast.show('请输入正确手机号!');
+              }
+
+            } : null,
+
+            textColor: Colors.black,
+            child: Text(
+              !_isClick ? "（$s s）" : "获取验证码",
+              style: TextStyle(fontSize: 13, color: Color(0xff2CA687)),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Container(width: 1.5,height:18,color: Colors.green,),
-              SizedBox(width: 5,),
-              Container(
-
-                  child: FlatButton(
-                    onPressed: _isClick
-                        ? () {
-                      if(Utils.checkMobile(_phoneController.text)){
-                        _sendVerificationCode();
-                      }else{
-                        Toast.show('请输入正确手机号!');
-                      }
-
-                    } : null,
-
-                    textColor: Colors.black,
-                    child: Text(
-                      !_isClick ? "（$s s）" : "获取验证码",
-                      style: TextStyle(fontSize: 13, color: Colors.green),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-
-        ]));
+        ),
+      ],
+    );
   }
 
   _sendVerificationCode() {

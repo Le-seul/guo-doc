@@ -26,6 +26,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
   TabController mController;
   List<Widget> tabs = [];
   List<Widget> tabViews = [];
+  bool isShowLoading = true;
 
   void initState() {
     super.initState();
@@ -50,6 +51,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
           tabText.forEach((item) {
             tabViews.add(ServiceChild(item));
           });
+          isShowLoading = false;
         });
       },
       onError: (code, msg) {
@@ -85,7 +87,16 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
           backgroundColor: Colors.white,
           centerTitle: true,
         ),
-        body: Container(
+        body: isShowLoading
+            ? LoadingWidget.childWidget()
+            : tabText.isEmpty
+            ? Container(
+          width: double.infinity,
+          height: double.infinity,
+          alignment: Alignment.center,
+          child: Text('暂无数据'),
+        )
+            :Container(
           color: Color(0xFFEEEEEE),
           child: Column(
             children: <Widget>[

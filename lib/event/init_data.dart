@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/orderNum.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/chunyu_bloc.dart';
+import 'package:flutter_first/bloc/step_count.bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -27,6 +30,8 @@ class _InitDataState extends State<InitData> {
   String registrationID = '';
   var db = OrderDb();
   ChunyuPushBloc _chunyuPushBloc;
+  StepCountBloc _stepCountBloc;
+  Timer timer;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
 
   @override
@@ -36,6 +41,28 @@ class _InitDataState extends State<InitData> {
         StorageManager.sharedPreferences.getString(Constant.registrationID);
     init();
     _chunyuPushBloc = BlocProvider.of<ChunyuPushBloc>(context);
+    _stepCountBloc = BlocProvider.of<StepCountBloc>(context);
+
+    if (Platform.isAndroid) {
+      timer = Timer.periodic(Duration(seconds: 3), (timer) {
+        getStep().then((val) {
+            _stepCountBloc.sink.add(val);
+        });
+      });
+    }
+
+  }
+
+  Future<int> getStep() async {
+    // Native channel
+    const platform = const MethodChannel("cn.gov.gaj.phms.v3/player"); //分析1
+    int result = 0;
+    try {
+      result = await platform.invokeMethod("step"); //分析2
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+    return result;
   }
 
   init() {
@@ -166,6 +193,7 @@ class _InitDataState extends State<InitData> {
   @override
   void dispose() {
 //    _chunyuPushBloc.dispose();
+  timer.cancel();
   }
 
   @override
