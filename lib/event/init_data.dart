@@ -12,6 +12,8 @@ import 'package:flutter_first/bloc/step_count.bloc.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/home/doctor/talk_page.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -31,7 +33,8 @@ class _InitDataState extends State<InitData> {
   var db = OrderDb();
   ChunyuPushBloc _chunyuPushBloc;
   StepCountBloc _stepCountBloc;
-  Timer timer;
+  Timer localTimer;
+  int count = 0;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
 
   @override
@@ -44,13 +47,29 @@ class _InitDataState extends State<InitData> {
     _stepCountBloc = BlocProvider.of<StepCountBloc>(context);
 
     if (Platform.isAndroid) {
-      timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      localTimer = Timer.periodic(Duration(seconds: 10), (timer) {
+        count++;
+//        print('时间count:${count}');
         getStep().then((val) {
             _stepCountBloc.sink.add(val);
+            if(count%30 == 0){
+              _updateStepCount(val);
+            }
+
         });
       });
     }
+  }
 
+  _updateStepCount(int val){
+    DioUtils.instance.requestNetwork<String>(Method.post, Api.UPDATESTEPTCOUNT,
+        queryParameters: {
+          'stepCount': val,
+        }, onSuccess: (data) {
+          print('上传步数成功!');
+        }, onError: (code, msg) {
+          print('上传步数失败!');
+        });
   }
 
   Future<int> getStep() async {
@@ -192,8 +211,6 @@ class _InitDataState extends State<InitData> {
 
   @override
   void dispose() {
-//    _chunyuPushBloc.dispose();
-  timer.cancel();
   }
 
   @override

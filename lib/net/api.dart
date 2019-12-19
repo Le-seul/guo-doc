@@ -216,4 +216,13 @@ class Api {
 
   //门诊信息
   static const String CLINICINFO = "/api/clinicInfo.do?getClinicInfo";
+
+  //记录或更新步数
+  static const String UPDATESTEPTCOUNT = "/api/step.do?saveOrUpdateStepCount";
+
+  //获取用户步数排名
+  static const String GRTSTEPRANKING = "/api/step.do?getStepRanking";
+
+  //获取步数排名列表
+  static const String GETRANKINGLIST = "/api/step.do?getRankingList";
 }

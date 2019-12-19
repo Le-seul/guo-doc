@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_first/bean/step_ranking.dart';
+import 'package:flutter_first/bean/step_count_list.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/image_utils.dart';
+import 'package:flutter_first/bean/step_ranking.dart' as step;
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 
 class StepRanking extends StatefulWidget {
@@ -10,9 +14,50 @@ class StepRanking extends StatefulWidget {
 }
 
 class _StepRankingState extends State<StepRanking> {
-  List<Stepranking> steplist = List();
-  List<Stepranking> Rankinglist = List();
+
   bool offstage = false;
+  List<StepCount> stepCountList= List();
+  bool isShowLoading = true;
+  int stepRanking = 1;
+
+  @override
+  void initState() {
+    _getStepCountList();
+    _getStepRanking();
+  }
+  _getStepRanking() {
+    DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
+        onSuccess: (data) {
+          setState(() {
+            stepRanking = data.stepRanking;
+            print('获取排名成功！');
+          });
+        },
+        onError: (code, msg) {
+          print('获取排名失败！');
+        },
+        noExistError: (){
+          print('请求的对象不存在或已被删除！');
+        });
+  }
+  _getStepCountList(){
+    DioUtils.instance.requestNetwork<StepCount>(Method.get, Api.GETRANKINGLIST,
+        queryParameters: {
+          'pageNumber': 20,
+          'pageSize': 1,
+        },
+        isList: true,
+        onSuccessList: (data) {
+          setState(() {
+            stepCountList = data;
+            isShowLoading = false;
+            print('获取列表成功！');
+          });
+        },
+        onError: (code, msg) {
+          print('获取列表失败！');
+        });
+  }
 
 
   @override
@@ -38,7 +83,16 @@ class _StepRankingState extends State<StepRanking> {
           ),
         ],
       ),
-      body: Stack(
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : (stepCountList.isEmpty)
+          ? Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Text('暂无数据'),
+      )
+          :Stack(
         children: <Widget>[
           Container(
             color: Color(0xff2CA687),
@@ -77,7 +131,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          '王警官',
+                          stepCountList[0].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -114,7 +168,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '18350',
+                                  '${stepCountList[0].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -155,7 +209,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          '张警官',
+                          stepCountList[1].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -192,7 +246,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '25350',
+                                  '${stepCountList[1].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -236,7 +290,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          '李警官',
+                          stepCountList[2].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -272,7 +326,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '14350',
+                                  '${stepCountList[2].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -301,9 +355,9 @@ class _StepRankingState extends State<StepRanking> {
                   physics: ClampingScrollPhysics(),
                   childrenDelegate: MySliverChildBuilderDelegate(
                       (BuildContext context, int index) {
-                        return _buildItem(index);
+                        return _buildItem(index+3);
                       },
-                      childCount: 30,
+                      childCount: stepCountList.length - 3,
                       isVisible: (val) {
                         Future.delayed(Duration(milliseconds: 1)).then((value) {
                           setState(() {
@@ -339,7 +393,7 @@ class _StepRankingState extends State<StepRanking> {
     );
   }
 
-  Widget itemWidget(int index) {
+  Widget itemWidget(int ranking) {
     return Row(
       children: <Widget>[
         Container(
@@ -347,14 +401,14 @@ class _StepRankingState extends State<StepRanking> {
           height: 50,
           width: 50,
           child: CircleAvatar(
-            backgroundColor: index == 12 ? Colors.blue[200] : Colors.black12,
+            backgroundColor: ranking == stepRanking ? Colors.blue[200] : Colors.black12,
             radius: 13,
             child: Container(
               child: Text(
-                '$index',
+                '$ranking',
                 style: TextStyle(
                     fontSize: 17,
-                    color: index == 12 ? Colors.blue : Colors.black54),
+                    color: ranking == stepRanking ? Colors.blue : Colors.black54),
               ),
             ),
           ),
@@ -372,15 +426,15 @@ class _StepRankingState extends State<StepRanking> {
         ),
         Expanded(
             child: Text(
-          '王警官',
+              stepCountList[ranking].userName,
           style: TextStyle(
-              color: index == 12 ? Colors.black26 : Colors.black, fontSize: 12),
+              color: ranking == 12 ? Colors.black26 : Colors.black, fontSize: 12),
         )),
         Text(
-          '9750',
+          '${stepCountList[ranking].stepCount}',
           style: TextStyle(
               fontSize: 20,
-              color: index == 12 ? Colors.blue : Colors.orangeAccent),
+              color: ranking == stepRanking ? Colors.blue : Colors.orangeAccent),
         ),
         SizedBox(
           width: 10,
@@ -397,7 +451,7 @@ class _StepRankingState extends State<StepRanking> {
         color: index == 8 ? Colors.blue[100] : Colors.white,
         child: Container(
           padding: EdgeInsets.all(5),
-          child: itemWidget(index + 4),
+          child: itemWidget(stepCountList[index].stepRanking),
         ),
       ),
     );

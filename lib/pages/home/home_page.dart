@@ -10,6 +10,7 @@ import 'package:flutter_first/bean/chunyu_message.dart';
 import 'package:flutter_first/bean/consultation_columnsinfo_entity.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/chunyu_bloc.dart';
+import 'package:flutter_first/bean/step_ranking.dart' as step;
 import 'package:flutter_first/bloc/step_count.bloc.dart';
 import 'package:flutter_first/mock_request.dart';
 import 'package:flutter_first/net/common_dio.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
+
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -30,7 +32,6 @@ import '../../net/api.dart';
 import '../../net/dio_utils.dart';
 
 class HomePage extends StatefulWidget {
-
   VoidCallback onPress;
 
   //constructor
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   var listText = ['今年心理健康状况采集活动开始啦！', '心理健康资讯有新的内容啦！', '参与填写心理健康问卷可获取最新的健康报告！'];
   List<BannerModel> testList;
   List<BannerImage> bannerlist;
+  int stepRanking = 1;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
   List<ConsulationColumnsInfo> columnsInfoList = List();
 //  List TableList = [
@@ -58,8 +60,24 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _requestBanner();
     _getColumnsInfo();
+    _getStepRanking();
   }
 
+  _getStepRanking() {
+    DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
+        onSuccess: (data) {
+      setState(() {
+        stepRanking = data.stepRanking;
+        print('获取排名成功！');
+      });
+    },
+        onError: (code, msg) {
+          print('获取排名失败！');
+    },
+    noExistError: (){
+      print('请求的对象不存在或已被删除！');
+    });
+  }
 
   void _getColumnsInfo() {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
@@ -105,7 +123,10 @@ class _HomePageState extends State<HomePage> {
         children: list.map((model) {
           return new InkWell(
             onTap: () {
-              model.state==0?NavigatorUtil.pushWebView(context, model.actionTarget, {'title': model.name}):null;
+              model.state == 0
+                  ? NavigatorUtil.pushWebView(
+                      context, model.actionTarget, {'title': model.name})
+                  : null;
             },
             child: new CachedNetworkImage(
               fit: BoxFit.fill,
@@ -147,8 +168,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: (){
-                      },
+                      onTap: () {},
                       child: Container(
                         padding: EdgeInsets.only(right: 10),
                         height: 25,
@@ -225,7 +245,10 @@ class _HomePageState extends State<HomePage> {
                       ],
                     )),
                 onTap: () {
-                  NavigatorUtil.pushWebView(context, 'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1', {'title': '专业测评'});
+                  NavigatorUtil.pushWebView(
+                      context,
+                      'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1',
+                      {'title': '专业测评'});
                 },
               ),
               //消息通知
@@ -300,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
-                                NavigatorUtil.pushPage(context,StepRanking());
+                                NavigatorUtil.pushPage(context, StepRanking());
                               },
                               child: Row(
                                 children: <Widget>[
@@ -310,7 +333,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '步数排名：5',
+                                    '步数排名：$stepRanking',
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(
@@ -326,12 +349,11 @@ class _HomePageState extends State<HomePage> {
                                     builder: (BuildContext context,
                                         AsyncSnapshot<int> snapshot) {
                                       return Text(
-                                        '运动步数：${snapshot.data??0}',
+                                        '运动步数：${snapshot.data ?? 0}',
                                         style: TextStyle(fontSize: 12),
                                       );
                                     },
                                   ),
-
                                 ],
                               ),
                             ),
@@ -360,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(fontSize: 15),
                           )),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               widget.onPress();
                             },
                             child: Row(
@@ -372,11 +394,11 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                loadAssetImage('arrow.png', height: 12, width: 12),
+                                loadAssetImage('arrow.png',
+                                    height: 12, width: 12),
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -404,11 +426,16 @@ class _HomePageState extends State<HomePage> {
           : getThreeImagItem(columnsInfoList[index]),
       onTap: () {
         if (columnsInfoList[index].type == 'T') {
-          NavigatorUtil.pushPage(context,TopicPage(columnsInfoList[index].id));
+          NavigatorUtil.pushPage(context, TopicPage(columnsInfoList[index].id));
           CommonRequest.UserReadingLog(
               columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
         } else {
-          NavigatorUtil.pushPage(context,ConsultationDetailPage(id: columnsInfoList[index].id,imgurl:columnsInfoList[index].cover1 ,));
+          NavigatorUtil.pushPage(
+              context,
+              ConsultationDetailPage(
+                id: columnsInfoList[index].id,
+                imgurl: columnsInfoList[index].cover1,
+              ));
           CommonRequest.UserReadingLog(
               columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
         }
@@ -422,47 +449,44 @@ class _HomePageState extends State<HomePage> {
         Container(
             height: 90,
             color: Colors.white,
-            padding:
-            EdgeInsets.only(left: 5.0, right: 10.0, bottom: 10.0, top: 10.0),
+            padding: EdgeInsets.only(
+                left: 5.0, right: 10.0, bottom: 10.0, top: 10.0),
             child: Row(
               children: <Widget>[
-
                 Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 10,
-                        bottom: 0
-                      ),
+                      padding: EdgeInsets.only(left: 10, bottom: 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
                             padding: EdgeInsets.only(top: 3),
-                            child: Text(item.title,style: TextStyle(fontSize: 15),strutStyle: StrutStyle(
-                              height: 1.5
-                            ),),
+                            child: Text(
+                              item.title,
+                              style: TextStyle(fontSize: 15),
+                              strutStyle: StrutStyle(height: 1.5),
+                            ),
                           ),
-
-
                           Container(
                               child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    '中国健康网',
-                                    style: TextStyle(color: Colors.black54, fontSize: 11),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    '12小时前',
-                                    style:
-                                    TextStyle(color: Colors.black54, fontSize: 11),
-                                  ),
-                                ],
-                              )
-                          ),
-
+                            children: <Widget>[
+                              Text(
+                                '中国健康网',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 11),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '12小时前',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 11),
+                              ),
+                            ],
+                          )),
                         ],
                       ),
                     )),
@@ -478,7 +502,7 @@ class _HomePageState extends State<HomePage> {
         Container(
           color: Colours.line,
           height: 1,
-          margin: EdgeInsets.only(left: 10,right: 10),
+          margin: EdgeInsets.only(left: 10, right: 10),
         )
       ],
     );

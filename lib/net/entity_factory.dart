@@ -1,6 +1,7 @@
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/HealthYear.dart';
+
 import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/article_likestatus.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
@@ -38,6 +39,8 @@ import 'package:flutter_first/bean/service_center2_bean.dart';
 import 'package:flutter_first/bean/service_center_bean.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
+import 'package:flutter_first/bean/step_count_list.dart';
+import 'package:flutter_first/bean/step_ranking.dart';
 import 'package:flutter_first/bean/test_entity.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
@@ -138,6 +141,10 @@ class EntityFactory {
       return Clinic.fromJson(json) as T;
     }else if (T.toString() == "TestTag") {
       return TestTag.fromJson(json) as T;
+    }else if (T.toString() == "StepRanking") {
+      return StepRanking.fromJson(json) as T;
+    }else if (T.toString() == "StepCount") {
+      return StepCount.fromJson(json) as T;
     }else {
       return null;
     }
