@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/step_count.bloc.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/bean/step_ranking.dart' as step;
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
@@ -27,7 +30,29 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
+  int stepRanking = 1;
 
+
+  @override
+  void initState() {
+    _getStepRanking();
+  }
+
+  _getStepRanking() {
+    DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
+        onSuccess: (data) {
+          setState(() {
+            stepRanking = data.stepRanking;
+            print('获取排名成功！');
+          });
+        },
+        onError: (code, msg) {
+          print('获取排名失败！');
+        },
+        noExistError: (){
+          print('请求的对象不存在或已被删除！');
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +207,7 @@ class _MinePageState extends State<MinePage> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              '5',
+                              '$stepRanking',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),

@@ -18,8 +18,8 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
-
 import 'package:flutter_first/res/colors.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -63,18 +63,27 @@ class _HomePageState extends State<HomePage> {
     _getStepRanking();
   }
 
+  Future scan() async {
+    try {
+      // 此处为扫码结果，barcode为二维码的内容
+      String barcode = await BarcodeScanner.scan();
+      Toast.show('扫码结果: ' + barcode);
+    } catch (e) {
+      // 扫码错误
+      print('扫码错误: $e');
+    }
+  }
+
   _getStepRanking() {
-    DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
-        onSuccess: (data) {
+    DioUtils.instance.requestNetwork<step.StepRanking>(
+        Method.get, Api.GRTSTEPRANKING, onSuccess: (data) {
       setState(() {
         stepRanking = data.stepRanking;
         print('获取排名成功！');
       });
-    },
-        onError: (code, msg) {
-          print('获取排名失败！');
-    },
-    noExistError: (){
+    }, onError: (code, msg) {
+      print('获取排名失败！');
+    }, noExistError: () {
       print('请求的对象不存在或已被删除！');
     });
   }
@@ -168,7 +177,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        scan();
+                      },
                       child: Container(
                         padding: EdgeInsets.only(right: 10),
                         height: 25,
