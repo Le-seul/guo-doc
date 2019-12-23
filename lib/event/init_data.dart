@@ -55,7 +55,6 @@ class _InitDataState extends State<InitData> {
             if(count%30 == 0){
               _updateStepCount(val);
             }
-
         });
       });
     }

@@ -18,7 +18,7 @@ class _StepRankingState extends State<StepRanking> {
   bool offstage = false;
   List<StepCount> stepCountList= List();
   bool isShowLoading = true;
-  int stepRanking = 1;
+  int stepRanking = 12;
 
   @override
   void initState() {
@@ -131,7 +131,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList[0].userName,
+                          stepCountList[1].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -168,7 +168,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '${stepCountList[0].stepCount}',
+                                  '${stepCountList[1].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -209,7 +209,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList[1].userName,
+                          stepCountList[0].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -246,7 +246,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '${stepCountList[1].stepCount}',
+                                  '${stepCountList[0].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -357,6 +357,7 @@ class _StepRankingState extends State<StepRanking> {
                       (BuildContext context, int index) {
                         return _buildItem(index+3);
                       },
+                      stepRanking: stepRanking,
                       childCount: stepCountList.length - 3,
                       isVisible: (val) {
                         Future.delayed(Duration(milliseconds: 1)).then((value) {
@@ -384,7 +385,7 @@ class _StepRankingState extends State<StepRanking> {
                       topRight: Radius.circular(8)),
                 ),
                 width: MediaQuery.of(context).size.width - 20,
-                child: itemWidget(12),
+                child: itemWidget(stepCountList[stepRanking - 1]),
               ),
             ),
           )
@@ -393,7 +394,7 @@ class _StepRankingState extends State<StepRanking> {
     );
   }
 
-  Widget itemWidget(int ranking) {
+  Widget itemWidget(StepCount stepCount) {
     return Row(
       children: <Widget>[
         Container(
@@ -401,14 +402,14 @@ class _StepRankingState extends State<StepRanking> {
           height: 50,
           width: 50,
           child: CircleAvatar(
-            backgroundColor: ranking == stepRanking ? Colors.blue[200] : Colors.black12,
+            backgroundColor: stepCount.stepRanking == stepRanking ? Colors.blue[200] : Colors.black12,
             radius: 13,
             child: Container(
               child: Text(
-                '$ranking',
+                '${stepCount.stepRanking}',
                 style: TextStyle(
                     fontSize: 17,
-                    color: ranking == stepRanking ? Colors.blue : Colors.black54),
+                    color: stepCount.stepRanking == stepRanking ? Colors.blue : Colors.black54),
               ),
             ),
           ),
@@ -426,15 +427,15 @@ class _StepRankingState extends State<StepRanking> {
         ),
         Expanded(
             child: Text(
-              stepCountList[ranking].userName,
+              stepCount.userName,
           style: TextStyle(
-              color: ranking == 12 ? Colors.black26 : Colors.black, fontSize: 12),
+              color: stepCount.stepRanking == stepRanking ? Colors.black26 : Colors.black, fontSize: 12),
         )),
         Text(
-          '${stepCountList[ranking].stepCount}',
+          '${stepCount.stepCount}',
           style: TextStyle(
               fontSize: 20,
-              color: ranking == stepRanking ? Colors.blue : Colors.orangeAccent),
+              color: stepCount.stepRanking == stepRanking ? Colors.blue : Colors.orangeAccent),
         ),
         SizedBox(
           width: 10,
@@ -448,10 +449,10 @@ class _StepRankingState extends State<StepRanking> {
       padding: EdgeInsets.only(top: 5, left: 10, right: 10),
       child: MyCard(
         shadowColor: Colors.transparent,
-        color: index == 8 ? Colors.blue[100] : Colors.white,
+        color: index == stepRanking - 1 ? Colors.blue[100] : Colors.white,
         child: Container(
           padding: EdgeInsets.all(5),
-          child: itemWidget(stepCountList[index].stepRanking),
+          child: itemWidget(stepCountList[index]),
         ),
       ),
     );
@@ -462,9 +463,11 @@ typedef IsVisible<bool> = void Function(bool value);
 
 class MySliverChildBuilderDelegate extends SliverChildBuilderDelegate {
   final IsVisible<bool> isVisible;
+  int stepRanking;
   MySliverChildBuilderDelegate(
     Widget Function(BuildContext, int) builder, {
     int childCount,
+    this.stepRanking,
     this.isVisible,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
@@ -474,7 +477,7 @@ class MySliverChildBuilderDelegate extends SliverChildBuilderDelegate {
             addRepaintBoundaries: addRepaintBoundaries);
   @override
   void didFinishLayout(int firstIndex, int lastIndex) {
-    if (9 == lastIndex || 9 < lastIndex) {
+    if (stepRanking == lastIndex + 3 || stepRanking < lastIndex + 3) {
       isVisible(true);
     } else {
       isVisible(false);

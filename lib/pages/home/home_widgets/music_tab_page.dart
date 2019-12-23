@@ -43,6 +43,15 @@ class _MusicTabPageState extends State<MusicTabPage> {
     }
   }
 
+//  @override
+//  void deactivate() {
+//    if (widget.tagId == "0") {
+//      _getAllMusicList();
+//    } else {
+//      _getMusicListByTag();
+//    }
+//  }
+
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -183,7 +192,6 @@ class _MusicTabPageState extends State<MusicTabPage> {
       onTap: () {
         NavigatorUtil.pushPage(context,MusicListPage(allMusicList: getTagMusicList[index]));
         CommonRequest.UpdatePlayCount(getTagMusicList[index].id, 'musicList');
-
       },
       child: Container(
           color: Colors.white,

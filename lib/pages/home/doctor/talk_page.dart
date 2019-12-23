@@ -246,16 +246,17 @@ class _TalkPageState extends State<TalkPage>
 
     int count = await db.updateOrder(widget.orderId, "0");
     print('residualTime1:$residualTime');
-    OrderNum orderNum = await db.getOrder(widget.orderId);
-    print('orderNum:$orderNum');
+//    OrderNum orderNum = await db.getOrder(widget.orderId);
+//    residualTime = int.parse(orderNum.createTime);
+    residualTime = 14;
     print('residualTime2:$residualTime');
     int currentHour = DateTime.now().hour;
     setState(() {
       if(currentHour > residualTime ){
-        residualTime = 24-(DateTime.now().hour-int.parse(orderNum.createTime));
-        print('residualTime4:$residualTime');
+        residualTime = (24 - DateTime.now().hour) + residualTime;
+        print('residualTime3:$residualTime');
       }else{
-        residualTime = 24 - int.parse(orderNum.createTime) + currentHour;
+        residualTime = residualTime - currentHour;
         print('residualTime4:$residualTime');
       }
     });
