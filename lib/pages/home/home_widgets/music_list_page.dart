@@ -4,6 +4,7 @@ import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_detail.dart';
 import 'package:flutter_first/util/image_utils.dart';
@@ -215,6 +216,7 @@ class _MusicListPageState extends State<MusicListPage> {
                 music: musicList[index],
               ));
           quiet.playWithList(musicList[index], musicList, 'playlist');
+          CommonRequest.UpdatePlayCount(musicList[index].id, 'song');
         },
         child: Container(
           color: Colors.white,

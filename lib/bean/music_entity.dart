@@ -4,6 +4,7 @@ class GetAllMusic {
   String id;
   int state;
   int order;
+  int playCount;
   int songCount;
 
   GetAllMusic(
@@ -15,6 +16,7 @@ class GetAllMusic {
     id = json['id'];
     state = json['state'];
     order = json['order'];
+    playCount = json['playCount'];
     songCount = json['songCount'];
   }
 }

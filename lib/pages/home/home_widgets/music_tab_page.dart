@@ -182,6 +182,8 @@ class _MusicTabPageState extends State<MusicTabPage> {
     return GestureDetector(
       onTap: () {
         NavigatorUtil.pushPage(context,MusicListPage(allMusicList: getTagMusicList[index]));
+        CommonRequest.UpdatePlayCount(getTagMusicList[index].id, 'musicList');
+
       },
       child: Container(
           color: Colors.white,
@@ -209,12 +211,12 @@ class _MusicTabPageState extends State<MusicTabPage> {
                         margin: EdgeInsets.only(left: 10, top: 10),
                         child: Row(
                           children: <Widget>[
-                            loadAssetImage('music/music_ear.png',height: 12,width: 12),
+                            loadAssetImage('music/music_ear.png',height: 13,width: 13,color: Colors.white),
                             SizedBox(
                               width: 5,
                             ),
                             Text(
-                              '2038',
+                              '${getTagMusicList[index].playCount??0}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14),
                             ),

@@ -53,6 +53,9 @@ class Api {
   //获取所有Tag
   static const String GETMUSICTAG = "/api/music.do?getAllTag";
 
+  //记录播放数量
+  static const String ADDPLAYCOUNT = "/api/music.do?addPlayCount";
+
   //获取某个歌单的所有音乐
   static const String GETMUSICLIST = "/api/music.do?getSongOfMusicList";
 

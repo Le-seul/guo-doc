@@ -24,4 +24,16 @@ class CommonRequest {
       print('上传$action失败!');
     });
   }
+  static void UpdatePlayCount(String resourceId, String type) {
+    DioUtils.instance.requestNetwork<String>(Method.post, Api.ADDPLAYCOUNT,
+        queryParameters: {
+          'resourceId': resourceId,
+          'type': type,
+        }, onSuccess: (data) {
+          print('上传$type成功!');
+        }, onError: (code, msg) {
+          print('上传$type失败!');
+        });
+  }
+
 }
