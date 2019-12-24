@@ -216,4 +216,10 @@ class Api {
 
   //门诊信息
   static const String CLINICINFO = "/api/clinicInfo.do?getClinicInfo";
+
+  //用户信息
+  static const String USERINFOR = "/api/auUser.do?getAuUser";
+
+  //收藏
+  static const String COLLECTION = "/api/article.do?getAction&action=SC";
 }

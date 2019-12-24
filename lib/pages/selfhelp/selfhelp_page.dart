@@ -52,7 +52,9 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
 
   void _requestData() {
     DioUtils.instance.requestNetwork<PsyDailyTest>(Method.get, Api.PsyDailyTest,
-        isList: true, onSuccessList: (data) {
+        queryParameters: {'tag':'人际关系'},
+        isList: true,
+        onSuccessList: (data) {
           setState(() {
             PsyList = data;
             isShowLoading1 = false;

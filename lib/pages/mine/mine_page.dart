@@ -3,8 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first/bean/User.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/step_count.bloc.dart';
+import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
@@ -14,11 +18,16 @@ import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
+import 'package:flutter_first/widgets/word_size_dialog.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+
+import 'collection_page.dart';
 //import 'package:todaystep/audioplayers.dart';
 
 class MinePage extends StatefulWidget {
@@ -27,8 +36,31 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
+  List<UserInfor> UserList = List();
+  bool isShowLoading = true;
+  void initState() {
 
-
+    _getUser();
+  }
+  void _getUser() {
+    DioUtils.instance.requestNetwork<UserInfor>(
+      Method.get,
+      Api.USERINFOR,
+      queryParameters: {"id": '1',},
+      isList: true,
+      onSuccessList: (data) {
+        setState(() {
+          UserList.addAll(data);
+          isShowLoading = false;
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          Toast.show('请求失败');
+        });
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
@@ -58,88 +90,107 @@ class _MinePageState extends State<MinePage> {
 //              ),
             Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572862144&di=d3fabea17ef23e6434c8a3499bc74e3e&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20181003%2F17%2F1538557769-tTlpNrusja.jpg'))),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text('张警官',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
-                        Text('189*****111',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 12)),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 105,
-                    ),
-                    InkWell(
-                      child: Stack(
-                        alignment: FractionalOffset(0.5, 0.5),
+                isShowLoading
+                    ? LoadingWidget.childWidget()
+                    : (UserList.isEmpty)
+                    ? Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  child: Text('暂无数据'),
+                )
+                    :Container(
+                  margin: EdgeInsets.fromLTRB(5, 5, 5, 10),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    UserList[0].imageId ))),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Opacity(
-                            opacity: 0.5,
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              padding: EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
-                            ),
-                          ),
-                          Center(
-                            child: Image.asset('assets/images/mine/字母.png',
-                                height: 20, width: 20),
-                          )
+                          Text(UserList[0].userName,
+                              style:
+                              TextStyle(color: Colors.white, fontSize: 16)),
+                          Text(UserList[0].mobile,
+                              style:
+                              TextStyle(color: Colors.white, fontSize: 12)),
                         ],
                       ),
-                      onTap: () {
-                        Share.text('我的分享', 'www.baidu.com', 'text/plain');
-                      },
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Stack(
-                      alignment: FractionalOffset(0.5, 0.5),
-                      children: <Widget>[
-                        Opacity(
-                          opacity: 0.5,
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
+                      SizedBox(
+                        width: 105,
+                      ),
+                      InkWell(
+                        child: Stack(
+                          alignment: FractionalOffset(0.5, 0.5),
+                          children: <Widget>[
+                            Opacity(
+                              opacity: 0.5,
+                              child: Container(
+                                height: 30,
+                                width: 30,
+                                padding: EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
-                          ),
+                              ),
+                            ),
+                            Center(
+                              child: Image.asset('assets/images/mine/字母.png',
+                                  height: 20, width: 20),
+                            )
+                          ],
                         ),
-                        Center(
-                          child: Image.asset('assets/images/mine/二维码.png',
-                              height: 20, width: 20),
-                        )
-                      ],
-                    ),
-                  ],
+
+                        onTap: () {
+                          showDialog<Null>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return WordDialog();
+                              }
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+//                    Stack(
+//                      alignment: FractionalOffset(0.5, 0.5),
+//                      children: <Widget>[
+//                        Opacity(
+//                          opacity: 0.5,
+//                          child: Container(
+//                            height: 30,
+//                            width: 30,
+//                            padding: EdgeInsets.all(3),
+//                            decoration: BoxDecoration(
+//                                color: Colors.white,
+//                                borderRadius:
+//                                    BorderRadius.all(Radius.circular(4))),
+//                          ),
+//                        ),
+//                        Center(
+//                          child: Image.asset('assets/images/mine/二维码.png',
+//                              height: 20, width: 20),
+//                        )
+//                      ],
+//                    ),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -234,8 +285,7 @@ class _MinePageState extends State<MinePage> {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
+                                NavigatorUtil.pushPage(context, CollectionPage());
                               },
                             ),
                           ),
@@ -289,10 +339,8 @@ class _MinePageState extends State<MinePage> {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
                               },
-                            ),
+                             ),
                           ),
                           Expanded(
                             flex: 1,
@@ -650,4 +698,9 @@ class _MinePageState extends State<MinePage> {
       ),
     );
   }
+  static saveWordSize(String word) async {
+    await StorageManager.sharedPreferences
+        .setString(Constant.word_size, word);
+  }
+
 }

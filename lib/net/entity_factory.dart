@@ -1,6 +1,7 @@
 import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/HealthYear.dart';
+import 'package:flutter_first/bean/User.dart';
 import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/article_likestatus.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/bean/centerdetail_page.dart';
 import 'package:flutter_first/bean/chapter_record.dart';
 import 'package:flutter_first/bean/clinic_info.dart';
+import 'package:flutter_first/bean/collection.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
@@ -138,6 +140,10 @@ class EntityFactory {
       return Clinic.fromJson(json) as T;
     }else if (T.toString() == "TestTag") {
       return TestTag.fromJson(json) as T;
+    }else if (T.toString() == "UserInfor") {
+      return UserInfor.fromJson(json) as T;
+    }else if (T.toString() == "Collection") {
+      return Collection.fromJson(json) as T;
     }else {
       return null;
     }

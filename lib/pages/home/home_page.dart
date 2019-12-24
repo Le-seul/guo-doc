@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flukit/flukit.dart' as lib1;
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/User.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/banner_model.dart';
 import 'package:flutter_first/bean/chunyu_message.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/search.dart';
 import 'package:flutter_first/widgets/top_panel.dart';
@@ -50,6 +52,9 @@ class _HomePageState extends State<HomePage> {
   List<BannerImage> bannerlist;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
   List<ConsulationColumnsInfo> columnsInfoList = List();
+  List<UserInfor> UserList = List();
+  bool isShowLoading = true;
+
 //  List TableList = [
 //    Table0(),
 //    //Table1(),
@@ -58,8 +63,28 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _requestBanner();
     _getColumnsInfo();
+    _getUser();
   }
 
+  void _getUser() {
+    DioUtils.instance.requestNetwork<UserInfor>(
+      Method.get,
+      Api.USERINFOR,
+      queryParameters: {"id": '1',},
+      isList: true,
+      onSuccessList: (data) {
+        setState(() {
+          UserList.addAll(data);
+          isShowLoading = false;
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          Toast.show('请求失败');
+        });
+      },
+    );
+  }
 
   void _getColumnsInfo() {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
@@ -248,7 +273,16 @@ class _HomePageState extends State<HomePage> {
 //                                    color: Colors.black12)),
 //                          ),
                   )), //测评表格
-              Container(
+              isShowLoading
+                  ? LoadingWidget.childWidget()
+                  : (UserList.isEmpty)
+                  ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                alignment: Alignment.center,
+                child: Text('暂无数据'),
+              )
+                  :Container(
                 color: Colours.bg_gray,
                 padding: EdgeInsets.only(left: 10.0, right: 10),
                 child: MyCard(
@@ -262,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '张警官',
+                                  UserList[0].userName,
                                   style: TextStyle(fontSize: 15),
                                 ),
                                 SizedBox(
@@ -283,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
-                                  'https://www.aireading.club/phms_resource_base/image_base/%E6%95%99%E5%AE%98%E7%85%A7%E7%89%87/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B0/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B01.jpg',
+                                  UserList[0].imageId,
                                   fit: BoxFit.cover,
                                 ),
                               ),
