@@ -404,6 +404,7 @@ class _PsyCourseState extends State<PsyCourse>
                     Text(
                       '【${comingList[index].name}】',
                       style: TextStyle(fontSize: 14),
+                      maxLines: 1,overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(
                       height: 5,

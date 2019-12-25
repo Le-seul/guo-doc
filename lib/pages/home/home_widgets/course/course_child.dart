@@ -83,7 +83,7 @@ class _CourseChildState extends State<CourseChild> {
                 )),
           ),
           SizedBox(height: 10,),
-          Text('【${courseList[index].name}】',style: TextStyle(fontSize: 14,),),
+          Text('【${courseList[index].name}】',style: TextStyle(fontSize: 14,),maxLines: 1,overflow: TextOverflow.ellipsis,),
           SizedBox(height: 8,),
           Text('课程时长：${courseList[index].courseCount??0}讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
         ],
