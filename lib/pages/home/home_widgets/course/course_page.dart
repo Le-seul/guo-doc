@@ -23,7 +23,7 @@ class PsyCourse extends StatefulWidget {
 }
 
 class _PsyCourseState extends State<PsyCourse>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin implements SlideTag{
   bool isShowLoading = false;
   List<Course> ecommendrList = List();
   List<Course> comingList = List(); //我的课程
@@ -33,6 +33,7 @@ class _PsyCourseState extends State<PsyCourse>
   List<Widget> tabs = [];
   List<Widget> tabViews = [];
   TabController mController;
+  double mHeigh = 330.0;
 
   @override
   void initState() {
@@ -62,7 +63,7 @@ class _PsyCourseState extends State<PsyCourse>
             tabs.add(Text(item));
           });
           tabText.forEach((item) {
-            tabViews.add(CourseChild(item));
+            tabViews.add(CourseChild(item,this));
           });
           isShowLoading = false;
         });
@@ -219,7 +220,7 @@ class _PsyCourseState extends State<PsyCourse>
                   ),
                 ),
                 Container(
-                  height: 330,
+                  height: mHeigh,
                   child: TabBarView(
                     controller: mController,
                     children: tabViews,
@@ -314,7 +315,7 @@ class _PsyCourseState extends State<PsyCourse>
                     SizedBox(
                       height: 5,
                     ),
-                    Text('类别：情绪调节',style: TextStyle(fontSize: 12),),
+                    Text('类别：${comingList[index].category}',style: TextStyle(fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
@@ -407,11 +408,11 @@ class _PsyCourseState extends State<PsyCourse>
                     SizedBox(
                       height: 5,
                     ),
-                    Text('类别：情绪调节',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
+                    Text('类别：${comingList[index].category}',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('课程时长：16讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
+                    Text('课程时长：${comingList[index].courseCount??0}讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
@@ -441,4 +442,15 @@ class _PsyCourseState extends State<PsyCourse>
       ),
     );
   }
+
+  @override
+  void onSlide(double heigh) {
+    setState(() {
+      mHeigh = heigh;
+      print('高度：$heigh');
+    });
+  }
+}
+abstract class SlideTag {
+  void onSlide(double heigh);
 }

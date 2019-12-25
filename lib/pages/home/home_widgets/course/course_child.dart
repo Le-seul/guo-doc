@@ -4,12 +4,15 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
 class CourseChild extends StatefulWidget {
 
   String tagName ;
-  CourseChild(this.tagName);
+  final SlideTag onSlide;
+  CourseChild(this.tagName,this.onSlide);
 
   @override
   _CourseChildState createState() => _CourseChildState();
@@ -31,6 +34,7 @@ class _CourseChildState extends State<CourseChild> {
           setState(() {
             for (Course course in data) {
               courseList.add(course);
+              widget.onSlide.onSlide((data.length+1)~/2*163.0);
               print("获取课程成功！");
             }
           });
@@ -81,7 +85,7 @@ class _CourseChildState extends State<CourseChild> {
           SizedBox(height: 10,),
           Text('【${courseList[index].name}】',style: TextStyle(fontSize: 14,),),
           SizedBox(height: 8,),
-          Text('课程时长：10讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
+          Text('课程时长：${courseList[index].courseCount??0}讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
         ],
       ),
     );
