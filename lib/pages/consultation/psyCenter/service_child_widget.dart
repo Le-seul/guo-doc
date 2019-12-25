@@ -32,7 +32,6 @@ class _ServiceChildState extends State<ServiceChild> {
     } else {
       url = Api.GETPSYSERVICECENTERBYLOCATION;
     }
-    _getServiceCenter();
   }
 
   _getServiceCenter() {

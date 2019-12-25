@@ -357,7 +357,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       onTap: (){
                         NavigatorUtil.pushWebView(
                             context,
-                            'http://49.232.168.124/phms_resource_base/HomePageDetail/psyPrivacyPolicy.htm',
+                            'http://www.aireading.club/phms_resource_base/HomePageDetail/psyPrivacyPolicy.htm',
                             {'title': '心理热线服务隐私政策'});
                       },
                       child: Row(

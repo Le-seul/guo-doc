@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/course.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
 class CourseChild extends StatefulWidget {
 
-  List<Course> courseList ;
-  CourseChild(@required this.courseList);
+  String tagName ;
+  CourseChild(this.tagName);
 
   @override
   _CourseChildState createState() => _CourseChildState();
 }
 
 class _CourseChildState extends State<CourseChild> {
+
+  List<Course> courseList = List();
+
+  @override
+  void initState() {
+    _getCourse();
+  }
+
+  _getCourse(){
+    DioUtils.instance.requestNetwork<Course>(Method.get, Api.GETBYTAGNAME,
+        queryParameters: {'tagName': widget.tagName},
+        isList: true, onSuccessList: (data) {
+          setState(() {
+            for (Course course in data) {
+              courseList.add(course);
+              print("获取课程成功！");
+            }
+          });
+        }, onError: (code, msg) {
+          print("获取课程失败！");
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +46,7 @@ class _CourseChildState extends State<CourseChild> {
       child: GridView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: widget.courseList.length,
+        itemCount: courseList.length,
         //SliverGridDelegateWithFixedCrossAxisCount 构建一个横轴固定数量Widget
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           //横轴元素个数
@@ -39,7 +64,7 @@ class _CourseChildState extends State<CourseChild> {
   _buildItem(int index){
     return GestureDetector(
       onTap: (){
-        NavigatorUtil.pushPage(context,CourseDetailPage(courseId: widget.courseList[index].id,));
+        NavigatorUtil.pushPage(context,CourseDetailPage(courseId: courseList[index].id,));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,16 +74,18 @@ class _CourseChildState extends State<CourseChild> {
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  widget.courseList[index].coverImage,
+                  courseList[index].coverImage,
                   fit: BoxFit.fill,
                 )),
           ),
           SizedBox(height: 10,),
-          Text('【${widget.courseList[index].name}】',style: TextStyle(fontSize: 14,),),
+          Text('【${courseList[index].name}】',style: TextStyle(fontSize: 14,),),
           SizedBox(height: 8,),
           Text('课程时长：10讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
         ],
       ),
     );
   }
+
+
 }

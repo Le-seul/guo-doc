@@ -5,6 +5,7 @@ import 'package:flukit/flukit.dart' as lib1;
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/course.dart';
+import 'package:flutter_first/bean/course_tag_entity.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
@@ -28,21 +29,50 @@ class _PsyCourseState extends State<PsyCourse>
   List<Course> comingList = List(); //我的课程
   List<Course> lastTimeList = List(); //我的课程
   bool offstage = true;
+  var tabText = [];
+  List<Widget> tabs = [];
+  List<Widget> tabViews = [];
   TabController mController;
 
   @override
   void initState() {
     _requestPsycourse();
-    mController = TabController(
-      length: 6,
-      vsync: this,
-    );
+    _getCourseTab();
   }
 
   @override
   void dispose() {
     super.dispose();
     mController.dispose();
+  }
+
+  _getCourseTab(){
+    DioUtils.instance.requestNetwork<CourseTag>(
+      Method.get,
+      Api.GETTAGLIST,
+      onSuccess: (data) {
+        print('课程TAB获取成功');
+        setState(() {
+          tabText = data.tagList;
+          mController = TabController(
+            length: tabText.length,
+            vsync: this,
+          );
+          tabText.forEach((item) {
+            tabs.add(Text(item));
+          });
+          tabText.forEach((item) {
+            tabViews.add(CourseChild(item));
+          });
+          isShowLoading = false;
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          print('课程tag获取失败！');
+        });
+      },
+    );
   }
 
   void _requestPsycourse() {
@@ -136,7 +166,9 @@ class _PsyCourseState extends State<PsyCourse>
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
+            child: tabText.isEmpty
+                ? Container()
+                :Column(
               children: <Widget>[
                 SizedBox(
                   height: 20,
@@ -173,52 +205,37 @@ class _PsyCourseState extends State<PsyCourse>
                           isScrollable: true,
                           //是否可以滚动
                           controller: mController,
-                          labelPadding: EdgeInsets.only(left: 5, right: 5),
+                          labelPadding:EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
                           indicatorColor: Color(0xff2CA687),
                           labelColor: Color(0xff2CA687),
                           indicatorSize: TabBarIndicatorSize.label,
                           unselectedLabelColor: Color(0xff666666),
                           unselectedLabelStyle: TextStyle(fontSize: 14),
                           labelStyle: TextStyle(fontSize: 14.0),
-                          tabs: <Widget>[
-                            Container(child: Text('全部'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('情绪调节'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('亲密关系'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('自我成长'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('咨询培训'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('简单共读'),margin: EdgeInsets.only(left: 4,right: 4),),
-                          ],
+                          tabs: tabs,
                         ),
                       ),
                     ],
                   ),
                 ),
+                Container(
+                  height: 330,
+                  child: TabBarView(
+                    controller: mController,
+                    children: tabViews,
+                  ),
+                ),
+                Container(
+                  height: 20,
+                  color: Color(0xFFEEEEEE),
+                ),
+
               ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 330,
-              child: TabBarView(
-                controller: mController,
-                children: <Widget>[
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                ],
-              ),
             ),
           ),
           SliverToBoxAdapter(
             child: Column(
               children: <Widget>[
-                Container(
-                  height: 20,
-                  color: Color(0xFFEEEEEE),
-                ),
                 SizedBox(
                   height: 15,
                 ),

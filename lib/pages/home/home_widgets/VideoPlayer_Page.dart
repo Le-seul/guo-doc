@@ -18,7 +18,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.initState();
 
     _videoPlayerController = VideoPlayerController.network(
-        'http://vt1.doubanio.com/201903032315/702b9ad25c0da91e1c693e5e4dc5a86e/view/movie/M/302430864.mp4');
+        'https://www.aireading.club/phms_resource_base/attachment_base/89bd21b697acf6436af5c789ec1094f4.mp4');
 
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,

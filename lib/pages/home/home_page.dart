@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_first/util/image_utils.dart';
@@ -74,7 +76,16 @@ class _HomePageState extends State<HomePage> {
     try {
       // 此处为扫码结果，barcode为二维码的内容
       String barcode = await BarcodeScanner.scan();
-      Toast.show('扫码结果: ' + barcode);
+
+      Map<String, dynamic> _map = json.decode(barcode);
+      String model = _map["model"];
+      String target = _map["target"];
+      print('model: $model' + 'target: $target');
+      if(model == "activity"){
+        NavigatorUtil.pushPage(context,ServiceActivityPage(activityId: target));
+      }
+
+
     } catch (e) {
       // 扫码错误
       print('扫码错误: $e');
@@ -133,7 +144,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
   void _requestBanner() {
     DioUtils.instance.requestNetwork<BannerImage>(Method.get, Api.BANNER,
         isList: true, onSuccessList: (data) {
@@ -202,6 +212,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     GestureDetector(
                       onTap: (){
+                        scan();
                       },
                       child: Container(
                         padding: EdgeInsets.only(right: 10),

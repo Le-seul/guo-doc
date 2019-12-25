@@ -151,9 +151,9 @@ class _ChildPageState extends State<ChildPage> {
             print('获取资讯列表成功！');
 //            columnsInfoList.removeAt(0);
             if(data.length<20){
-              columnsInfoList.replaceRange((mIndex-1)*20, columnsInfoList.length-1, data);
+              columnsInfoList.replaceRange((mIndex-1)*20, columnsInfoList.length, data);
             }else{
-              columnsInfoList.replaceRange((mIndex-1)*20, mIndex*20-1, data);
+              columnsInfoList.replaceRange((mIndex-1)*20, mIndex*20, data);
             }
           }else{
             columnsInfoList.addAll(data);

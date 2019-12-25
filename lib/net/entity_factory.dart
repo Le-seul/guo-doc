@@ -14,6 +14,7 @@ import 'package:flutter_first/bean/collection.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
+import 'package:flutter_first/bean/course_tag_entity.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/bean/history_order_entity.dart';
@@ -146,6 +147,8 @@ class EntityFactory {
       return StepRanking.fromJson(json) as T;
     }else if (T.toString() == "StepCount") {
       return StepCount.fromJson(json) as T;
+    }else if (T.toString() == "CourseTag") {
+    return CourseTag.fromJson(json) as T;
     }else if (T.toString() == "UserInfor") {
       return UserInfor.fromJson(json) as T;
     }else if (T.toString() == "Collection") {

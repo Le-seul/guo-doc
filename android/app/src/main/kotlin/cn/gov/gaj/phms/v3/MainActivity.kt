@@ -41,7 +41,7 @@ class MainActivity : FlutterActivity() {
         PluginRegistrant.registerWith(this)
         playerChannel = QuietPlayerChannel.registerWith(registrarFor("cn.gov.gaj.phms.v3.service.QuietPlayerChannel"))
         route(intent)
-        log { "服务准备" }
+        log { "服务Service准备" }
         //初始化计步模块
         TodayStepManager.startTodayStepService(application)
         //开启计步Service，同时绑定Activity进行aidl通信
@@ -50,7 +50,7 @@ class MainActivity : FlutterActivity() {
         bindService(intent, object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 //Activity和Service通过aidl进行通信
-                log { "服务开启" }
+                log { "服务Service开启" }
                 iSportStepInterface = ISportStepInterface.Stub.asInterface(service)
                 try {
                     mStepSum = iSportStepInterface.getCurrentTimeSportStep()
@@ -61,8 +61,10 @@ class MainActivity : FlutterActivity() {
                 }
                 mDelayHandler.sendEmptyMessageDelayed(REFRESH_STEP_WHAT, TIME_INTERVAL_REFRESH)
             }
+            override fun onServiceDisconnected(name: ComponentName?) {
+                log { "链接服务Service失败" }
 
-            override fun onServiceDisconnected(name: ComponentName?) {}
+            }
         }, Context.BIND_AUTO_CREATE)
     }
 
