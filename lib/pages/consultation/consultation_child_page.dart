@@ -31,6 +31,7 @@ class _ChildPageState extends State<ChildPage> {
       'https://www.aireading.club/phms_resource_base/image_base/BJ_YaJianKang_02.jpg';
   bool offstage;
   Widget titleWidget;
+  int mIndex = 1;
   List<ConsulationColumnsInfo> columnsInfoList = List();
   bool isShowLoading = true;
   _ChildPageState(this.offstage);
@@ -43,9 +44,19 @@ class _ChildPageState extends State<ChildPage> {
       child: TitleWidget(),
     );
     if (widget.isTopic) {
-      _getTopicList();
+      _getTopicList(false);
     } else {
-      _getColumnsInfo();
+      _getColumnsInfo(false);
+    }
+  }
+
+
+  @override
+  void deactivate() {
+    if (widget.isTopic) {
+      _getTopicList(true);
+    } else {
+      _getColumnsInfo(true);
     }
   }
 
@@ -56,9 +67,9 @@ class _ChildPageState extends State<ChildPage> {
 //    Toast.show('这是下拉刷新操作');
     if (columnsInfoList == null || columnsInfoList.length == 0) {
       if (widget.isTopic) {
-        _getTopicList();
+        _getTopicList(false);
       } else {
-        _getColumnsInfo();
+        _getColumnsInfo(false);
       }
     } else {
       _refreshController.refreshCompleted();
@@ -69,13 +80,13 @@ class _ChildPageState extends State<ChildPage> {
     _refreshController.requestLoading();
 //    Toast.show('这是上拉加载操作');
     if (widget.isTopic) {
-      _getTopicList();
+      _getTopicList(false);
     } else {
-      _getColumnsInfo();
+      _getColumnsInfo(false);
     }
   }
 
-  _getTopicList() {
+  _getTopicList(bool isRefresh) {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
       Method.get,
       Api.GETARTICLETOPIC,
@@ -89,7 +100,20 @@ class _ChildPageState extends State<ChildPage> {
           _refreshController.loadComplete();
         }
         setState(() {
-          columnsInfoList.addAll(data);
+          if(isRefresh){
+            print('获取专题列表成功1！');
+//            columnsInfoList.removeAt(0);
+            if(data.length<20){
+              print('获取专题列表成功2！');
+              columnsInfoList.replaceRange((mIndex-1)*20, columnsInfoList.length, data);
+            }else{
+              print('获取专题列表成功3！');
+              columnsInfoList.replaceRange((mIndex-1)*20, mIndex*20, data);
+            }
+          }else{
+            print('获取专题列表成功4！');
+            columnsInfoList.addAll(data);
+          }
           isShowLoading = false;
           _refreshController.refreshCompleted();
         });
@@ -104,14 +128,14 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  void _getColumnsInfo() {
+  void _getColumnsInfo(bool isRefresh) {
     DioUtils.instance.requestNetwork<ConsulationColumnsInfo>(
       Method.get,
       Api.GETAllCOlUMNINFO,
       queryParameters: {
         "columnId": widget.id,
         "pageSize": 20,
-        "pageNumber": numb
+        "pageNumber": isRefresh?mIndex:numb
       },
       isList: true,
       onSuccessList: (data) {
@@ -121,14 +145,26 @@ class _ChildPageState extends State<ChildPage> {
           numb++;
           _refreshController.loadComplete();
         }
+
         setState(() {
-          columnsInfoList.addAll(data);
+          if(isRefresh){
+            print('获取资讯列表成功！');
+//            columnsInfoList.removeAt(0);
+            if(data.length<20){
+              columnsInfoList.replaceRange((mIndex-1)*20, columnsInfoList.length-1, data);
+            }else{
+              columnsInfoList.replaceRange((mIndex-1)*20, mIndex*20-1, data);
+            }
+          }else{
+            columnsInfoList.addAll(data);
+          }
           isShowLoading = false;
           _refreshController.refreshCompleted();
         });
       },
       onError: (code, msg) {
         setState(() {
+          print('获取资讯列表失败！');
           _refreshController.refreshFailed();
           _refreshController.loadFailed();
           isShowLoading = false;
@@ -157,8 +193,8 @@ class _ChildPageState extends State<ChildPage> {
                 child: Text('暂无数据'),
               )
             : SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
+                enablePullDown: widget.isTopic?false:true,
+                enablePullUp: widget.isTopic?false:true,
                 header: WaterDropHeader(),
                 footer: CustomFooter(
                   builder: (BuildContext context, LoadStatus mode) {
@@ -230,7 +266,8 @@ class _ChildPageState extends State<ChildPage> {
                 id: item.id,
                 imgurl: item.cover1??defaultImage,
               ));
-          CommonRequest.UserReadingLog(item.id, item.type, 'YD');
+          CommonRequest.UserReadingLog(item.id, item.type??"A", 'YD');
+          mIndex = index~/20+1;
         }
       },
     );

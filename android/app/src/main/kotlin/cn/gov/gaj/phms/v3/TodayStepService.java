@@ -74,7 +74,7 @@ public class TodayStepService extends Service implements Handler.Callback {
     /**
      * 刷新通知栏步数，3s一次
      */
-    private static final int REFRESH_NOTIFY_STEP_DURATION = 5 * 1000;
+    private static final int REFRESH_NOTIFY_STEP_DURATION = 3 * 1000;
 
     /**
      * 点击通知栏广播requestCode

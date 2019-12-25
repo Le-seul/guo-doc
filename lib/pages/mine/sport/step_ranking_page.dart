@@ -29,7 +29,8 @@ class _StepRankingState extends State<StepRanking> {
     DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
         onSuccess: (data) {
           setState(() {
-            stepRanking = data.stepRanking;
+
+            stepRanking = data.stepRanking??1;
             print('获取排名成功！');
           });
         },
@@ -123,7 +124,7 @@ class _StepRankingState extends State<StepRanking> {
                             child: CircleAvatar(
                               radius: 30.0,
                               backgroundImage: NetworkImage(
-                                  'http://5b0988e595225.cdn.sohucs.com/images/20171114/0fc43e9ad58f4a5cb41a018925b0e475.jpeg'),
+                                  stepCountList[1].image??'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
                             ),
                           ),
                         ),
@@ -201,7 +202,7 @@ class _StepRankingState extends State<StepRanking> {
                             child: CircleAvatar(
                               radius: 40.0,
                               backgroundImage: NetworkImage(
-                                  'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
+                                  stepCountList[0].image??'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
                             ),
                           ),
                         ),
@@ -282,7 +283,7 @@ class _StepRankingState extends State<StepRanking> {
                             child: CircleAvatar(
                               radius: 30.0,
                               backgroundImage: NetworkImage(
-                                  'http://b-ssl.duitang.com/uploads/item/201809/03/20180903221703_NChzn.thumb.700_0.jpeg'),
+                                  stepCountList[2].image??'http://b-ssl.duitang.com/uploads/item/201809/03/20180903221703_NChzn.thumb.700_0.jpeg'),
                             ),
                           ),
                         ),
@@ -420,7 +421,7 @@ class _StepRankingState extends State<StepRanking> {
         CircleAvatar(
           radius: 20.0,
           backgroundImage: NetworkImage(
-              'https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3738905344,1107853336&fm=26&gp=0.jpg'),
+              stepCount.image??'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
         ),
         SizedBox(
           width: 15,

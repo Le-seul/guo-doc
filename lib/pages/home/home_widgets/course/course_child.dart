@@ -54,7 +54,7 @@ class _CourseChildState extends State<CourseChild> {
                 )),
           ),
           SizedBox(height: 10,),
-          Text('【怎么管理情绪】',style: TextStyle(fontSize: 14,),),
+          Text('【${widget.courseList[index].name}】',style: TextStyle(fontSize: 14,),),
           SizedBox(height: 8,),
           Text('课程时长：10讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
         ],

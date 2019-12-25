@@ -291,7 +291,7 @@ class _PsyCourseState extends State<PsyCourse>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '【怎么管理情绪】',
+                      '【${comingList[index].name}】',
                       style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(
@@ -384,7 +384,7 @@ class _PsyCourseState extends State<PsyCourse>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '【怎么管理情绪】',
+                      '【${comingList[index].name}】',
                       style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(

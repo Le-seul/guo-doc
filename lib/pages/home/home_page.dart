@@ -344,7 +344,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '步数排名：$stepRanking',
+                                    '步数排名：${stepRanking??'暂无排名'}',
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(

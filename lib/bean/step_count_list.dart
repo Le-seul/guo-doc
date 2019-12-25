@@ -3,6 +3,7 @@ class StepCount {
   String userName;
   int stepCount;
   int stepRanking;
+  String image;
 
   StepCount({this.userId, this.userName, this.stepCount, this.stepRanking});
 
@@ -11,6 +12,7 @@ class StepCount {
     userName = json['userName'];
     stepCount = json['stepCount'];
     stepRanking = json['stepRanking'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,7 @@ class StepCount {
     data['userName'] = this.userName;
     data['stepCount'] = this.stepCount;
     data['stepRanking'] = this.stepRanking;
+    data['image'] = this.image;
     return data;
   }
 }
