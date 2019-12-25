@@ -19,6 +19,7 @@ import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,6 +30,7 @@ class ServicePage extends StatefulWidget {
 
 class _ServicePageState extends State<ServicePage> {
   int day1,day2,day3,hour1,hour2,hour3,min1,min2,min3,sec1,sec2,sec3;
+  bool isShowLoading = true;
   List<ServiceActivity> serviceActivityList = List();
   static Timer _timer; //倒计时的计时器
   int orderCount = 0;
@@ -38,7 +40,7 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   void initState() {
-    _requestActivity();
+    _getRegionActivity();
     init();
   }
 
@@ -71,23 +73,22 @@ class _ServicePageState extends State<ServicePage> {
 //    print("fastPhone:$intFastPhone");
   }
 
-  void _requestActivity() {
-   DioUtils.instance.requestNetwork<ServiceActivity>(
-       Method.get,
-       Api.GETACTIVITIES,
-       queryParameters: {"pageSize": 1, "pageNumber": 1},
-       isList: true,
-       onSuccessList: (data) {
-         setState(() {
-           serviceActivityList = data;
-           startTimer(DateTime(2019,12,1));
-           print('活动详情请求成功！');
-         });
-       },
-       onError: (code, msg) {
-         Toast.show('活动详情请求失败！');
-       });
- }
+
+  _getRegionActivity() {
+    DioUtils.instance.requestNetwork<ServiceActivity>(
+        Method.get, Api.GETBYREGION,
+        queryParameters: {"region": '海淀'},
+        isList: true, onSuccessList: (data) {
+      setState(() {
+        serviceActivityList = data;
+        startTimer(DateTime(2019,12,30));
+        isShowLoading = false;
+      });
+      print('请求活动列表成功！');
+    }, onError: (code, msg) {
+      print('请求活动列表失败！');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,346 +195,155 @@ class _ServicePageState extends State<ServicePage> {
 
                   ],
                 ),),
-              InkWell(
-                child: Container(
-                  margin:EdgeInsets.fromLTRB(ScreenUtil().setWidth(5),10,ScreenUtil().setWidth(5),0),
-                  height: ScreenUtil().setHeight(40),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height:ScreenUtil().setHeight(25),
-                        margin: EdgeInsets.all(13),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            image: DecorationImage(
-                                image: NetworkImage('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2530389104,3227160503&fm=26&gp=0.jpg'),fit: BoxFit.fill)
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child:
+              isShowLoading
+                  ? LoadingWidget.childWidget()
+                  : (serviceActivityList.isEmpty)
+                  ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                alignment: Alignment.center,
+                child: Text('暂无数据'),
+              )
+                  : ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: serviceActivityList.length,
+                  itemBuilder: (context,index){
+                  return InkWell(
+                    child: Container(
+                      margin:EdgeInsets.fromLTRB(ScreenUtil().setWidth(5),10,ScreenUtil().setWidth(5),0),
+                      height: ScreenUtil().setHeight(40),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.white
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
                           Container(
-                            height: ScreenUtil().setHeight(5),
+                            height:ScreenUtil().setHeight(25),
+                            margin: EdgeInsets.all(13),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(bottom:Radius.circular(10)),
-                              color: Colors.black54,
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                image: DecorationImage(
+                                    image: NetworkImage(serviceActivityList[index].cover),fit: BoxFit.fill)
                             ),
                             child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text('距结束 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(4.5),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                              alignment: Alignment.bottomCenter,
+                              child:
+                              Container(
+                                height: ScreenUtil().setHeight(5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(bottom:Radius.circular(10)),
+                                  color: Colors.black54,
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text('距结束 ',style: TextStyle(color: Colors.white)),
+                                      Container(
+                                          height: ScreenUtil().setHeight(3),
+                                          width: ScreenUtil().setHeight(4.5),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                          ),
+                                          child: Center(
+                                            child: Text(day1.toString(),style: TextStyle(color: Colors.grey.shade600),),
+                                          )
                                       ),
-                                      child: Center(
-                                        child: Text(day1.toString(),style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 天 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(3),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                      Text(' 天 ',style: TextStyle(color: Colors.white)),
+                                      Container(
+                                          height: ScreenUtil().setHeight(3),
+                                          width: ScreenUtil().setHeight(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                          ),
+                                          child: Center(
+                                            child: Text(hour1.toString(),style: TextStyle(color: Colors.grey.shade600),),
+                                          )
                                       ),
-                                      child: Center(
-                                        child: Text(hour1.toString(),style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 时 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(3),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                      Text(' 时 ',style: TextStyle(color: Colors.white)),
+                                      Container(
+                                          height: ScreenUtil().setHeight(3),
+                                          width: ScreenUtil().setHeight(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                          ),
+                                          child: Center(
+                                            child: Text(min1.toString(),style: TextStyle(color: Colors.grey.shade600),),
+                                          )
                                       ),
-                                      child: Center(
-                                        child: Text(min1.toString(),style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 分 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(3),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                      Text(' 分 ',style: TextStyle(color: Colors.white)),
+                                      Container(
+                                          height: ScreenUtil().setHeight(3),
+                                          width: ScreenUtil().setHeight(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                          ),
+                                          child: Center(
+                                            child: Text(sec1.toString(),style: TextStyle(color: Colors.grey.shade600),),
+                                          )
                                       ),
-                                      child: Center(
-                                        child: Text(sec1.toString(),style: TextStyle(color: Colors.grey.shade600),),
-                                      )
+                                      Text(' 秒 ',style: TextStyle(color: Colors.white)),
+                                    ],
                                   ),
-                                  Text(' 秒 ',style: TextStyle(color: Colors.white)),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 13),
-                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 14),)),
-                      Container(
-                        margin: EdgeInsets.only(left: 13,top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                  text:'25',
-                                  style: TextStyle(color: Colors.orange,fontSize: 12),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '人已报名',
-                                      style: TextStyle(color: Colors.black54,fontSize: 12),
-                                    )
-                                  ]
-                              ),
-
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(right: 15),
-                                width: 80,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  color: Color(0xff2AA586),
-                                ),
-                                child: Center(
-                                  child: Text('活动进行中',style: TextStyle(color: Colors.white,fontSize: 12),),
-                                )
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                onTap: (){
-                  NavigatorUtil.pushPage(context,ActivityListPage('进行中'));
-                },
-              ),
-              InkWell(
-                child: Container(
-                  margin:EdgeInsets.fromLTRB(ScreenUtil().setWidth(5),ScreenUtil().setWidth(5),ScreenUtil().setWidth(5),0),
-                  height: ScreenUtil().setHeight(40),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height:ScreenUtil().setHeight(25),
-                        margin: EdgeInsets.all(13),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            image: DecorationImage(
-                                image: NetworkImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572950573293&di=a8fb6c7d13a769a3a5197398e3c8d6c0&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F10%2F92%2F12%2F83D58PIC3Ah.jpg'),fit: BoxFit.fill)
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child:
                           Container(
-                            height: ScreenUtil().setHeight(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(bottom:Radius.circular(10)),
-                              color: Colors.black54,
-                            ),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text('距结束 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(4.5),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
-                                      ),
-                                      child: Center(
-                                        child: Text('132',style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 天 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(3),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
-                                      ),
-                                      child: Center(
-                                        child: Text('07',style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 时 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(3),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
-                                      ),
-                                      child: Center(
-                                        child: Text('46',style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 分 ',style: TextStyle(color: Colors.white)),
-                                  Container(
-                                      height: ScreenUtil().setHeight(3),
-                                      width: ScreenUtil().setHeight(3),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
-                                      ),
-                                      child: Center(
-                                        child: Text(sec1.toString(),style: TextStyle(color: Colors.grey.shade600),),
-                                      )
-                                  ),
-                                  Text(' 秒 ',style: TextStyle(color: Colors.white)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 13),
-                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 14),)),
-                      Container(
-                        margin: EdgeInsets.only(left: 13,top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                  text:'25',
-                                  style: TextStyle(color: Colors.orange,fontSize: 12),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '人已报名',
-                                      style: TextStyle(color: Colors.black54,fontSize: 12),
-                                    )
-                                  ]
-                              ),
-
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(right: 15),
-                                width: 80,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  color: Color(0xffF6A744),
-                                ),
-                                child: Center(
-                                  child: Text('即将开始',style: TextStyle(color: Colors.white,fontSize: 12),),
-                                )
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                onTap: (){
-                  NavigatorUtil.pushPage(context,ActivityListPage('即将开始'));
-                },
-              ),
-              InkWell(
-                child: Container(
-                  margin:EdgeInsets.fromLTRB(ScreenUtil().setWidth(5),ScreenUtil().setWidth(5),ScreenUtil().setWidth(5),0),
-                  height: ScreenUtil().setHeight(40),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height:ScreenUtil().setHeight(25),
-                        margin: EdgeInsets.all(13),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            image: DecorationImage(
-                                image: NetworkImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572950527165&di=92bdaf54b0a99baf5aef77fbdab726f1&imgtype=0&src=http%3A%2F%2Fimg.redocn.com%2Fsheying%2F20141023%2Fsanyayalongwanyouyongchangtupian_3306611.jpg'),fit: BoxFit.fill)
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child:
+                              margin: EdgeInsets.only(left: 13),
+                              child: Text(serviceActivityList[index].name,style: TextStyle(fontSize: 14),)),
                           Container(
-                            height: ScreenUtil().setHeight(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(bottom:Radius.circular(10)),
-                              color: Colors.black54,
-                            ),
-                            child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('25人参与活动',style: TextStyle(color: Colors.grey.shade200),)
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 13),
-                          child: Text('北京中日友好医院活动',style: TextStyle(fontSize: 14),)),
-                      Container(
-                        margin: EdgeInsets.only(left: 13,top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                  text:'25',
-                                  style: TextStyle(color: Colors.orange,fontSize: 12),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '人已报名',
-                                      style: TextStyle(color: Colors.black54,fontSize: 12),
-                                    )
-                                  ]
-                              ),
+                            margin: EdgeInsets.only(left: 13,top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                      text:'25',
+                                      style: TextStyle(color: Colors.orange,fontSize: 12),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: '人已报名',
+                                          style: TextStyle(color: Colors.black54,fontSize: 12),
+                                        )
+                                      ]
+                                  ),
 
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(right: 15),
-                                width: 80,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  color: Color(0xffC6C6C6),
                                 ),
-                                child: Center(
-                                  child: Text('活动已结束',style: TextStyle(color: Colors.white,fontSize: 12),),
+                                Container(
+                                    margin: EdgeInsets.only(right: 15),
+                                    width: 80,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      color: Color(0xff2AA586),
+                                    ),
+                                    child: Center(
+                                      child: Text('活动进行中',style: TextStyle(color: Colors.white,fontSize: 12),),
+                                    )
                                 )
+                              ],
                             ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                onTap: (){
-                  NavigatorUtil.pushPage(context,ActivityListPage('已结束'));
-                },
-              ),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      NavigatorUtil.pushPage(context,ServiceActivityPage(activityId: serviceActivityList[index].id));
+                    },
+                  );
+                  }
+
+              )
+
             ],
           )
       ),

@@ -11,6 +11,7 @@ class Constant {
   static const String onlinIsAgree = 'onlinIsAgree';
   static const String psychologicalIsAgree = 'psychologicalIsAgree';
   static const String refresh_Token = 'refreshToken';
+  static const String word_size = 'word_size';
 
 }
 class Token{

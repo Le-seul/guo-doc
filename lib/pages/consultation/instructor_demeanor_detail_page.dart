@@ -291,7 +291,8 @@ class _instructor_demeanor_detailState
 
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              padding: EdgeInsets.only(left: 20,bottom: 20),
+              padding: EdgeInsets.only(left: 20),
+              height: ScreenUtil().setHeight(37),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -340,7 +341,8 @@ class _instructor_demeanor_detailState
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              padding: EdgeInsets.only(left: 20,bottom: 20),
+              padding: EdgeInsets.only(left: 20),
+              height: 180,
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

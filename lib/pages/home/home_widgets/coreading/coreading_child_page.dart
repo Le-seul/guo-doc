@@ -141,8 +141,10 @@ class _CoreadingChildState extends State<CoreadingChild> {
               ),
             ),
             onTap: (){
-              _getCoreadingLike(list[index].id);
-              NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
+              setState(() {
+                _getCoreadingLike(list[index].id);
+                NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
+              });
             },
           );
         });

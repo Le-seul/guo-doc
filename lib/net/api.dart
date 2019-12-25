@@ -220,6 +220,7 @@ class Api {
   //门诊信息
   static const String CLINICINFO = "/api/clinicInfo.do?getClinicInfo";
 
+
   //记录或更新步数
   static const String UPDATESTEPTCOUNT = "/api/step.do?saveOrUpdateStepCount";
 
@@ -228,4 +229,11 @@ class Api {
 
   //获取步数排名列表
   static const String GETRANKINGLIST = "/api/step.do?getRankingList";
+
+  //用户信息
+  static const String USERINFOR = "/api/auUser.do?getAuUser";
+
+  //收藏
+  static const String COLLECTION = "/api/article.do?getAction&action=SC";
+}
 }
