@@ -255,7 +255,7 @@ class _MinePageState extends State<MinePage> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              '5',
+                              '$stepRanking',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),

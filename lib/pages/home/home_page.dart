@@ -327,7 +327,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '张警官',
+                                  UserList.isNotEmpty?UserList[0].userName:'张警官',
                                   style: TextStyle(fontSize: 15),
                                 ),
                                 SizedBox(
@@ -348,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
-                                  'https://www.aireading.club/phms_resource_base/image_base/%E6%95%99%E5%AE%98%E7%85%A7%E7%89%87/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B0/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B01.jpg',
+                                  UserList.isNotEmpty?UserList[0].imageId:'https://www.aireading.club/phms_resource_base/image_base/%E6%95%99%E5%AE%98%E7%85%A7%E7%89%87/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B0/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B01.jpg',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -375,7 +375,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '步数排名：5',
+                                    '步数排名：$stepRanking',
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(
