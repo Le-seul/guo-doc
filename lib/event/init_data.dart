@@ -16,6 +16,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/home/doctor/talk_page.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
@@ -108,22 +109,26 @@ class _InitDataState extends State<InitData> {
           print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
           print("flutter 接收到推送消息4: ${json.decode(message["extras"]["cn.jpush.android.EXTRA"])["model"]}");
 
-          String content = _map['message'];
+          String notice = _map['message'];
           String model = _map['model'];
           String target = _map['target'];
           String time = _map['time'];
+          String content = _map['content'];
           String type = _map['type'];
-          print('极光推送封装数据：{message:$content, target:$target, time:$time, model:$model, type:$type}');
+          print('极光推送封装数据：{message:$notice, target:$target, time:$time, model:$model, type:$type}');
 
           if(model == 'chunyuTuwen'){
             _initChunyu(model, target);
           }else if(model == 'chunyuFastphone'){
           _initChunyu(model, target);
+          }else if(model == 'notice') {
+            print('推送通知测试');
+            Future.delayed(Duration(milliseconds: 0)).then((value) {
+              ShowNoticeDialog.showMyMaterialDialog(context, content);
+            });
           }
-
-
         },
-        onOpenNotification: (Map<String, dynamic> message) {
+        onOpenNotification: (Map<String, dynamic> message) async{
           // 点击通知栏消息，在此时通常可以做一些页面跳转等
           Map<String, dynamic> _map =
           json.decode(message["extras"]["cn.jpush.android.EXTRA"]);

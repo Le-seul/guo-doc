@@ -72,8 +72,6 @@ class _ContainerPageState extends State<ContainerPage> {
   @override
   void initState() {
     super.initState();
-    print('initState _ContainerPageState');
-
     exitLogin = eventBus.on<LoginEvent>().listen((event) {
       ShowExitDialog.showMyMaterialDialog(context);
     });
@@ -126,7 +124,6 @@ class _ContainerPageState extends State<ContainerPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('build _ContainerPageState');
     return Scaffold(
       body: new Stack(
         children: [
