@@ -20,6 +20,7 @@ import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/topic_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/Table0_Page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -200,13 +201,19 @@ class _HomePageState extends State<HomePage> {
                   //扫码加搜索栏
                   children: <Widget>[
                     Expanded(
-                      child: Container(
+                      child: GestureDetector(
+                        onTap: (){
+
+                        },
                         child: SearchTextFieldWidget(
                           isborder: false,
+                          controller: TextEditingController(),
                           hintText: '请输入搜索内容',
                           margin:
                               const EdgeInsets.only(left: 15.0, right: 15.0),
-                          onTab: () {},
+                          onTab: () {
+                            NavigatorUtil.pushPage(context, SesrchPage());
+                          },
                         ),
                       ),
                     ),

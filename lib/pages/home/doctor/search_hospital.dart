@@ -71,6 +71,7 @@ class _SearchHospitalState extends State<SearchHospital>
             ),
             SearchTextFieldWidget(
               isborder: true,
+              controller: TextEditingController(),
               hintText: '请输入搜索内容',
               margin: const EdgeInsets.only(left: 15.0, right: 15.0),
               onTab: () {},

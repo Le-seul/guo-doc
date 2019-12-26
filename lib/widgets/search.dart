@@ -2,45 +2,96 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/util/image_utils.dart';
 
 ///文本搜索框
-class SearchTextFieldWidget extends StatelessWidget {
+class SearchTextFieldWidget extends StatefulWidget {
   final ValueChanged<String> onSubmitted;
   final VoidCallback onTab;
   final String hintText;
+  TextEditingController controller = TextEditingController();
   final EdgeInsetsGeometry margin;
   final bool isborder;
   final Color color;
-  SearchTextFieldWidget({Key key, this.hintText, this.onSubmitted, this.onTab, this.margin,this.isborder,this.color})
+  SearchTextFieldWidget(
+      {Key key,
+      this.hintText,
+      this.onSubmitted,
+      this.onTab,
+      this.margin,
+      this.isborder,
+      this.color,
+      this.controller})
       : super(key: key);
+
+  @override
+  _SearchTextFieldWidgetState createState() => _SearchTextFieldWidgetState();
+}
+
+class _SearchTextFieldWidgetState extends State<SearchTextFieldWidget> {
+  bool _isShowDelete = true;
+
+  @override
+  void initState() {
+    widget.controller.addListener(() {
+      setState(() {
+        _isShowDelete = widget.controller.text.isEmpty;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin == null ? EdgeInsets.all(0.0) : margin,
+      padding: EdgeInsets.only(left: 8,right: 8),
+      margin: widget.margin == null ? EdgeInsets.all(0.0) : widget.margin,
       width: MediaQuery.of(context).size.width,
       alignment: AlignmentDirectional.center,
       height: 30.0,
       decoration: BoxDecoration(
-          color: color==null? Color.fromARGB(255, 237, 236, 237):color,
-          border: Border.all(color: isborder?Colors.black12:Colors.white, width: 1),
+          color: widget.color == null
+              ? Colors.white
+              : widget.color,
+          border: Border.all(
+              color: widget.isborder ? Colors.black12 : Colors.white,
+              width: 1),
           borderRadius: BorderRadius.circular(24.0)),
       child: TextField(
-        onSubmitted: onSubmitted,
-        onTap: onTab,
+        onSubmitted: widget.onSubmitted,
+        onTap: widget.onTab,
+        controller: widget.controller,
         cursorColor: Color.fromARGB(255, 0, 189, 96),
+        onChanged: (val) {},
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 5.0),
+            contentPadding: EdgeInsets.only(top: 5,bottom: 5,left: 0,right: 0),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(24),
                 borderSide: BorderSide.none),
             filled: true,
             fillColor: Colors.white,
-            hintText: hintText,
+            hintText: widget.hintText,
+
             hintStyle: TextStyle(
                 fontSize: 15, color: Color.fromARGB(255, 192, 191, 191)),
-            prefixIcon: Container(
-              padding: EdgeInsets.only(top: 5,bottom: 5),
-              child: loadAssetImage('search.png'),
-            )),
+            suffixIcon: Offstage(
+              offstage: _isShowDelete,
+              child: GestureDetector(
+                child: Container(
+                  color: Colors.blue,
+                  padding: EdgeInsets.only(top: 5, bottom: 5,left: 0,right: 0),
+                  child: loadAssetImage(
+                    "login/qyg_shop_icon_delete.png",
+                    width: 15.0,
+                    height: 15.0,
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    widget.controller.text = "";
+                  });
+                },
+              ),
+            ),
+            prefix: Container(
+              padding: EdgeInsets.all(5),
+                child: loadAssetImage('search.png' ,)),),
         style: TextStyle(fontSize: 17),
       ),
     );

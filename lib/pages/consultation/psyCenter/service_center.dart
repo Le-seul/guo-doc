@@ -103,6 +103,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
               SearchTextFieldWidget(
                 margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
                 color: Colors.white,
+                controller: TextEditingController(),
                 hintText: '请输入',
                 isborder: true,
               ),

@@ -64,6 +64,7 @@ bool isShowLoading = true;
                 SearchTextFieldWidget(
                   margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
                   color: Colors.white,
+                  controller: TextEditingController(),
                   hintText: '搜索文章',
                   isborder: true,
                 ),
