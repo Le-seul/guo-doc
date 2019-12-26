@@ -25,6 +25,27 @@ class MainActivity : FlutterActivity() {
     private var mStepSum: Int = 0
     private lateinit var iSportStepInterface: ISportStepInterface
 
+    private val mServiceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            //Activity和Service通过aidl进行通信
+            iSportStepInterface = ISportStepInterface.Stub.asInterface(service)
+            try {
+                mStepSum = iSportStepInterface.getCurrentTimeSportStep()
+                updateStepCount()
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+            mDelayHandler.sendEmptyMessageDelayed(REFRESH_STEP_WHAT, TIME_INTERVAL_REFRESH)
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            val intent = Intent(this@MainActivity, TodayStepService::class.java)
+            startService(intent)
+            bindService(intent, this, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+
     companion object {
         const val KEY_DESTINATION = "destination"
         private const val TAG = "MainActivity"
@@ -47,25 +68,7 @@ class MainActivity : FlutterActivity() {
         //开启计步Service，同时绑定Activity进行aidl通信
         val intent = Intent(this, TodayStepService::class.java)
         startService(intent)
-        bindService(intent, object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                //Activity和Service通过aidl进行通信
-                log { "服务Service开启" }
-                iSportStepInterface = ISportStepInterface.Stub.asInterface(service)
-                try {
-                    mStepSum = iSportStepInterface.getCurrentTimeSportStep()
-                    log { "获取步数$mStepSum" }
-                    updateStepCount()
-                } catch (e: RemoteException) {
-                    e.printStackTrace()
-                }
-                mDelayHandler.sendEmptyMessageDelayed(REFRESH_STEP_WHAT, TIME_INTERVAL_REFRESH)
-            }
-            override fun onServiceDisconnected(name: ComponentName?) {
-                log { "链接服务Service失败" }
-
-            }
-        }, Context.BIND_AUTO_CREATE)
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
     internal inner class TodayStepCounterCall:Handler.Callback {
@@ -103,6 +106,9 @@ class MainActivity : FlutterActivity() {
 
     override fun onDestroy() {
         playerChannel.destroy()
+        val intent = Intent(this, TodayStepService::class.java)
+        startService(intent)
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE)
         super.onDestroy()
     }
 
