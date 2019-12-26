@@ -9,6 +9,8 @@ import cn.gov.gaj.phms.v3.service.QuietPlayerChannel
 import cn.gov.gaj.phms.v3.TodayStepManager
 import cn.gov.gaj.phms.v3.TodayStepService
 import android.app.Activity
+import android.net.Uri
+import android.provider.Settings
 import android.content.ComponentName
 import android.content.Context
 import cn.gov.gaj.phms.v3.utils.log
@@ -62,6 +64,9 @@ class MainActivity : FlutterActivity() {
         PluginRegistrant.registerWith(this)
         playerChannel = QuietPlayerChannel.registerWith(registrarFor("cn.gov.gaj.phms.v3.service.QuietPlayerChannel"))
         route(intent)
+        if (!isIgnoringBatteryOptimizations) {
+            requestIgnoreBatteryOptimizations()
+        }
         log { "服务Service准备" }
         //初始化计步模块
         TodayStepManager.startTodayStepService(application)
@@ -69,6 +74,28 @@ class MainActivity : FlutterActivity() {
         val intent = Intent(this, TodayStepService::class.java)
         startService(intent)
         bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+
+    private val isIgnoringBatteryOptimizations: Boolean
+        private get() {
+            var isIgnoring = false
+            val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+            if (powerManager != null) {
+                isIgnoring = powerManager.isIgnoringBatteryOptimizations(packageName)
+            }
+            return isIgnoring
+        }
+
+
+    fun requestIgnoreBatteryOptimizations() {
+        try {
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     internal inner class TodayStepCounterCall:Handler.Callback {

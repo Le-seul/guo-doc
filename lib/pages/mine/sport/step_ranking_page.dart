@@ -44,8 +44,8 @@ class _StepRankingState extends State<StepRanking> {
   _getStepCountList(){
     DioUtils.instance.requestNetwork<StepCount>(Method.get, Api.GETRANKINGLIST,
         queryParameters: {
-          'pageNumber': 20,
-          'pageSize': 1,
+          'pageNumber': 1,
+          'pageSize': 20,
         },
         isList: true,
         onSuccessList: (data) {
@@ -86,7 +86,7 @@ class _StepRankingState extends State<StepRanking> {
       ),
       body: isShowLoading
           ? LoadingWidget.childWidget()
-          : (stepCountList.isEmpty)
+          : (stepCountList.isEmpty||stepCountList.length<3)
           ? Container(
         width: double.infinity,
         height: double.infinity,

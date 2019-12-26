@@ -99,7 +99,7 @@ class _ActivityList2State extends State<ActivityList2> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(serviceActivity.name),
+                              Text(serviceActivity.name,maxLines: 1,overflow: TextOverflow.ellipsis,),
                               SizedBox(
                                 height: 5,
                               ),
@@ -139,6 +139,8 @@ class _ActivityList2State extends State<ActivityList2> {
                                   Expanded(
                                       child: Text(
                                     '地点：北京市东城区银闸胡同25号',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.black45,
@@ -173,7 +175,7 @@ class _ActivityList2State extends State<ActivityList2> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   Container(
                     height: 2,
