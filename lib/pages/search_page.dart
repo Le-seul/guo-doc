@@ -7,21 +7,21 @@ import 'package:flutter_first/widgets/search.dart';
 class SesrchPage extends StatefulWidget {
   bool isAll;
   String hintText;
-  SesrchPage(this.isAll,this.hintText);
+  SesrchPage(this.isAll, this.hintText);
 
   @override
   _SesrchPageState createState() => _SesrchPageState();
-
-
 }
 
-class _SesrchPageState extends State<SesrchPage> {
+class _SesrchPageState extends State<SesrchPage>
+    with SingleTickerProviderStateMixin {
   TextEditingController _SearchController = TextEditingController();
   var textList = new List<String>();
-  var tabText = ['音乐', '心理课程', '活动参与','资讯文章'];
+  var tabText = ['音乐', '心理课程', '活动参与', '资讯文章'];
   List<Widget> tabs = [];
   List<Widget> tabViews = [];
   bool isSearch = false;
+  TabController _tabController;
 
   Widget searchHistoryWidget() {
     return Container(
@@ -60,15 +60,18 @@ class _SesrchPageState extends State<SesrchPage> {
             children: List.generate(
                 textList.length,
                 (index) => GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      print('列表数1：$textList');
-                      _SearchController.text = textList[index];
-                      isSearch = true;
-                    });
-
-                  },
-                  child: Container(
+                      onTap: () {
+                        setState(() {
+                          print('列表数1：$textList');
+                          _SearchController.text = textList[index];
+                          tabViews.clear();
+                          tabText.forEach((item) {
+                            tabViews.add(SearchContent(_SearchController.text));
+                          });
+                          isSearch = true;
+                        });
+                      },
+                      child: Container(
                         padding: EdgeInsets.only(
                             left: 12, right: 12, top: 3, bottom: 3),
                         child: Text(textList[index]),
@@ -76,7 +79,7 @@ class _SesrchPageState extends State<SesrchPage> {
                             color: Color(0xFFEEEEEE),
                             borderRadius: BorderRadius.circular(18)),
                       ),
-                )),
+                    )),
           ),
         ],
       ),
@@ -85,19 +88,16 @@ class _SesrchPageState extends State<SesrchPage> {
 
   @override
   void initState() {
+    _tabController = TabController(length: tabText.length, vsync: this);
     if (StorageManager.sharedPreferences
             .getStringList(Constant.searchHistory) !=
         null) {
       textList = StorageManager.sharedPreferences
           .getStringList(Constant.searchHistory);
+      tabText.forEach((item) {
+        tabs.add(Text(item));
+      });
     }
-    tabText.forEach((item) {
-      tabs.add(Text(item));
-    });
-    tabText.forEach((item) {
-      tabViews.add(SearchContent(_SearchController.text));
-    });
-
   }
 
   @override
@@ -114,6 +114,12 @@ class _SesrchPageState extends State<SesrchPage> {
           onSubmitted: (text) async {
             setState(() {
               print('搜索:${_SearchController.text}');
+
+              tabViews.clear();
+//              tabText.forEach((item) {
+//                print('拟解决：${_SearchController.text}');
+//                tabViews.add(SearchContent(_SearchController.text));
+//              });
               isSearch = true;
               textList.insert(0, text);
             });
@@ -125,60 +131,44 @@ class _SesrchPageState extends State<SesrchPage> {
           onTab: () {},
         ),
       ),
-      body: isSearch?(widget.isAll?SearchChildWidget(_SearchController.text,tabs,tabViews):SearchContent(_SearchController.text)):searchHistoryWidget(),
-    );
-  }
-}
-
-class SearchChildWidget extends StatefulWidget {
-  String content;
-  List<Widget> tabs = [];
-  List<Widget> tabViews = [];
-  SearchChildWidget(this.content,this.tabs,this.tabViews);
-
-  @override
-  _SearchChildWidgetState createState() => _SearchChildWidgetState();
-
-}
-
-class _SearchChildWidgetState extends State<SearchChildWidget>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
-
-
-  @override
-  void initState() {
-    _tabController = TabController(length: widget.tabs.length, vsync: this);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 10,
-          ),
-          TabBar(
-            isScrollable: true,
-            controller: _tabController,
-            labelPadding: EdgeInsets.only(left: 8, right: 8, bottom: 5, top: 5),
-            indicatorColor: Color(0xff2CA687),
-            labelColor: Color(0xff2CA687),
-            indicatorSize: TabBarIndicatorSize.label,
-            unselectedLabelColor: Color(0xff666666),
-            unselectedLabelStyle: TextStyle(fontSize: 14),
-            labelStyle: TextStyle(fontSize: 14.0),
-            tabs: widget.tabs,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-              child: TabBarView(controller: _tabController, children: widget.tabViews))
-        ],
-      ),
+      body: isSearch
+          ? (widget.isAll
+              ? Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TabBar(
+                        isScrollable: true,
+                        controller: _tabController,
+                        labelPadding: EdgeInsets.only(
+                            left: 8, right: 8, bottom: 5, top: 5),
+                        indicatorColor: Color(0xff2CA687),
+                        labelColor: Color(0xff2CA687),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        unselectedLabelColor: Color(0xff666666),
+                        unselectedLabelStyle: TextStyle(fontSize: 14),
+                        labelStyle: TextStyle(fontSize: 14.0),
+                        tabs: tabs,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                          child: TabBarView(
+                              controller: _tabController, children: <Widget>[
+                            SearchContent(_SearchController.text),
+                            SearchContent(_SearchController.text),
+                            SearchContent(_SearchController.text),
+                            SearchContent(_SearchController.text)
+                          ],))
+                    ],
+                  ),
+                )
+              : SearchContent(_SearchController.text))
+          : searchHistoryWidget(),
     );
   }
 }
@@ -193,6 +183,7 @@ class SearchContent extends StatefulWidget {
 }
 
 class _SearchContentState extends State<SearchContent> {
+
   @override
   Widget build(BuildContext context) {
     return Container(

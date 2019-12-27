@@ -39,20 +39,15 @@ import '../../net/dio_utils.dart';
 
 class HomePage extends StatefulWidget {
   VoidCallback onPress;
-
-  //constructor
   HomePage(this.onPress);
 
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-//  static String tu0;
-//  static String tu1;
-//  static String tu2;
   String defaultImage =
       'https://www.aireading.club/phms_resource_base/image_base/BJ_YaJianKang_02.jpg';
-  List<BannerImage> bannerlist ;
+  List<BannerImage> bannerlist;
   List<Announcement> listAnnouncement = List();
   int stepRanking = 1;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
@@ -60,10 +55,6 @@ class _HomePageState extends State<HomePage> {
   List<UserInfor> UserList = List();
   bool isShowLoading = true;
 
-//  List TableList = [
-//    Table0(),
-//    //Table1(),
-//  ];
   @override
   void initState() {
     _requestBanner();
@@ -75,7 +66,6 @@ class _HomePageState extends State<HomePage> {
 
   Future scan() async {
     try {
-      // 此处为扫码结果，barcode为二维码的内容
       String barcode = await BarcodeScanner.scan();
 
       Map<String, dynamic> _map = json.decode(barcode);
@@ -292,23 +282,22 @@ class _HomePageState extends State<HomePage> {
                           width: 10,
                         ),
                         Expanded(
-                                child: lib2.Swiper(
-                                  autoplay: true,
-                                  autoplayDelay: 3000,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: listAnnouncement.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        listAnnouncement[index].content,
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    );
-                                  },
+                          child: lib2.Swiper(
+                            autoplay: true,
+                            autoplayDelay: 3000,
+                            scrollDirection: Axis.vertical,
+                            itemCount: listAnnouncement.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  listAnnouncement[index].content,
+                                  style: TextStyle(fontSize: 13),
                                 ),
-                              ),
+                              );
+                            },
+                          ),
+                        ),
                         Align(
                           child: loadAssetImage('arrow.png',
                               height: 12, width: 12),
@@ -632,7 +621,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ));
   }
-
 }
 
 class NumberSwiperIndicator extends SwiperIndicator {
