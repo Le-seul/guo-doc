@@ -2,6 +2,7 @@ import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/HealthYear.dart';
 import 'package:flutter_first/bean/User.dart';
+import 'package:flutter_first/bean/announcement.dart';
 import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/article_likestatus.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
@@ -153,6 +154,8 @@ class EntityFactory {
       return UserInfor.fromJson(json) as T;
     }else if (T.toString() == "Collection") {
       return Collection.fromJson(json) as T;
+    }else if (T.toString() == "Announcement") {
+    return Announcement.fromJson(json) as T;
     }else {
       return null;
     }

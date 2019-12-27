@@ -1,4 +1,8 @@
 class Api {
+
+  //获取首页公告
+  static const String GETANNOUNCEMENT = "/api/homePage.do?getAnnouncement";
+
   //资讯顶部栏目
   static const String GETAllCOlUMN = "/api/information.do?getAllColumn";
 

@@ -36,6 +36,7 @@ class _InitDataState extends State<InitData> {
   StepCountBloc _stepCountBloc;
   Timer localTimer;
   int count = 0;
+  int step = 0;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
 
   @override
@@ -52,9 +53,12 @@ class _InitDataState extends State<InitData> {
         count++;
 //        print('时间count:${count}');
         getStep().then((val) {
-            _stepCountBloc.sink.add(val);
-            if(count%30 == 0){
-              _updateStepCount(val);
+            if(step != val){
+              _stepCountBloc.sink.add(val);
+              if(count%30 == 0){
+                _updateStepCount(val);
+              }
+              step = val;
             }
         });
       });
