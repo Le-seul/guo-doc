@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                           margin:
                               const EdgeInsets.only(left: 15.0, right: 15.0),
                           onTab: () {
-                            NavigatorUtil.pushPage(context, SesrchPage());
+                            NavigatorUtil.pushPage(context, SesrchPage(true,'请输入搜索内容'));
                           },
                         ),
                       ),

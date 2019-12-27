@@ -11,7 +11,9 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_child.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -124,7 +126,9 @@ class _PsyCourseState extends State<PsyCourse>
                     hintText: '搜索课程',
                     controller: TextEditingController(),
                     margin: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    onTab: () {},
+                    onTab: () {
+                      NavigatorUtil.pushPage(context, SesrchPage(false,'搜索课程'));
+                    },
                   ),
                   SizedBox(
                     height: 15,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -53,7 +54,9 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                   controller: TextEditingController(),
                   hintText: '搜索你感兴趣的内容/咨询师',
                   margin: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  onTab: () {},
+                  onTab: () {
+                    NavigatorUtil.pushPage(context, SesrchPage(false,'搜索你感兴趣的内容/咨询师'));
+                  },
                 ),
               ),
               VideoPlayer(),

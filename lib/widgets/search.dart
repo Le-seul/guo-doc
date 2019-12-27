@@ -53,46 +53,51 @@ class _SearchTextFieldWidgetState extends State<SearchTextFieldWidget> {
               color: widget.isborder ? Colors.black12 : Colors.white,
               width: 1),
           borderRadius: BorderRadius.circular(24.0)),
-      child: TextField(
-        onSubmitted: widget.onSubmitted,
-        onTap: widget.onTab,
-        controller: widget.controller,
-        cursorColor: Color.fromARGB(255, 0, 189, 96),
-        onChanged: (val) {},
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(top: 5,bottom: 5,left: 0,right: 0),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(24),
-                borderSide: BorderSide.none),
-            filled: true,
-            fillColor: Colors.white,
-            hintText: widget.hintText,
-
-            hintStyle: TextStyle(
-                fontSize: 15, color: Color.fromARGB(255, 192, 191, 191)),
-            suffixIcon: Offstage(
-              offstage: _isShowDelete,
-              child: GestureDetector(
-                child: Container(
-                  color: Colors.blue,
-                  padding: EdgeInsets.only(top: 5, bottom: 5,left: 0,right: 0),
-                  child: loadAssetImage(
-                    "login/qyg_shop_icon_delete.png",
-                    width: 15.0,
-                    height: 15.0,
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    widget.controller.text = "";
-                  });
-                },
-              ),
-            ),
-            prefix: Container(
+      child: Row(
+        children: <Widget>[
+          Container(
               padding: EdgeInsets.all(5),
-                child: loadAssetImage('search.png' ,)),),
-        style: TextStyle(fontSize: 17),
+              child: loadAssetImage('search.png' ,)),
+          Expanded(
+            child: TextField(
+              onSubmitted: widget.onSubmitted,
+              onTap: widget.onTab,
+              controller: widget.controller,
+              cursorColor: Color.fromARGB(255, 0, 189, 96),
+              onChanged: (val) {},
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(top: 5,bottom: 5,left: 0,right: 0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: widget.hintText,
+                  hintStyle: TextStyle(
+                      fontSize: 15, color: Color.fromARGB(255, 192, 191, 191)),
+                 ),
+              style: TextStyle(fontSize: 17),
+            ),
+          ),
+          Offstage(
+            offstage: _isShowDelete,
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.all(5),
+                child: loadAssetImage(
+                  "login/qyg_shop_icon_delete.png",
+                  width: 15.0,
+                  height: 15.0,
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  widget.controller.text = "";
+                });
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
