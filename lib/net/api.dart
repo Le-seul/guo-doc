@@ -1,5 +1,8 @@
 class Api {
 
+  //搜索
+  static const String SEARCH = "/api/search.do?search";
+
   //获取首页公告
   static const String GETANNOUNCEMENT = "/api/homePage.do?getAnnouncement";
 

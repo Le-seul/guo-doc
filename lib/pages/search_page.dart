@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/search_entity.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_list2.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/widgets/search.dart';
 
 class SesrchPage extends StatefulWidget {
-  bool isAll;
+  String model;
   String hintText;
-  SesrchPage(this.isAll, this.hintText);
+  SesrchPage(this.model, this.hintText);
 
   @override
   _SesrchPageState createState() => _SesrchPageState();
 }
 
-class _SesrchPageState extends State<SesrchPage>
-    with SingleTickerProviderStateMixin {
+class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
   TextEditingController _SearchController = TextEditingController();
   var textList = new List<String>();
   var tabText = ['音乐', '心理课程', '活动参与', '资讯文章'];
   List<Widget> tabs = [];
-  List<Widget> tabViews = [];
+  List<Widget> tabViews = List<Widget>();
+  List<SearchContent> searchList = List();
   bool isSearch = false;
   TabController _tabController;
 
@@ -64,11 +67,7 @@ class _SesrchPageState extends State<SesrchPage>
                         setState(() {
                           print('列表数1：$textList');
                           _SearchController.text = textList[index];
-                          tabViews.clear();
-                          tabText.forEach((item) {
-                            tabViews.add(SearchContent(_SearchController.text));
-                          });
-                          isSearch = true;
+                          _search(_SearchController.text);
                         });
                       },
                       child: Container(
@@ -88,16 +87,45 @@ class _SesrchPageState extends State<SesrchPage>
 
   @override
   void initState() {
-    _tabController = TabController(length: tabText.length, vsync: this);
+    _tabController = TabController(length: searchList.length, vsync: this);
     if (StorageManager.sharedPreferences
             .getStringList(Constant.searchHistory) !=
         null) {
       textList = StorageManager.sharedPreferences
           .getStringList(Constant.searchHistory);
-      tabText.forEach((item) {
-        tabs.add(Text(item));
-      });
     }
+  }
+
+  _search(String keyword) {
+    DioUtils.instance.requestNetwork<SearchContent>(
+      Method.get,
+      Api.SEARCH,
+      isList: true,
+      queryParameters: {
+        "model": widget.model,
+        'keyword': keyword,
+        'pageNumber': 1,
+        'pageSize': 20
+      },
+      onSuccessList: (data) {
+        setState(() {
+          searchList = data;
+          _tabController =
+              TabController(length: searchList.length, vsync: this);
+          isSearch = true;
+          print('搜索成功!');
+        });
+      },
+      onError: (code, msg) {
+        print('搜索失败！');
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -114,13 +142,7 @@ class _SesrchPageState extends State<SesrchPage>
           onSubmitted: (text) async {
             setState(() {
               print('搜索:${_SearchController.text}');
-
-              tabViews.clear();
-//              tabText.forEach((item) {
-//                print('拟解决：${_SearchController.text}');
-//                tabViews.add(SearchContent(_SearchController.text));
-//              });
-              isSearch = true;
+              _search(_SearchController.text);
               textList.insert(0, text);
             });
             await StorageManager.sharedPreferences
@@ -132,62 +154,91 @@ class _SesrchPageState extends State<SesrchPage>
         ),
       ),
       body: isSearch
-          ? (widget.isAll
+          ? searchList.isEmpty
               ? Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TabBar(
-                        isScrollable: true,
-                        controller: _tabController,
-                        labelPadding: EdgeInsets.only(
-                            left: 8, right: 8, bottom: 5, top: 5),
-                        indicatorColor: Color(0xff2CA687),
-                        labelColor: Color(0xff2CA687),
-                        indicatorSize: TabBarIndicatorSize.label,
-                        unselectedLabelColor: Color(0xff666666),
-                        unselectedLabelStyle: TextStyle(fontSize: 14),
-                        labelStyle: TextStyle(fontSize: 14.0),
-                        tabs: tabs,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                          child: TabBarView(
-                              controller: _tabController, children: <Widget>[
-                            SearchContent(_SearchController.text),
-                            SearchContent(_SearchController.text),
-                            SearchContent(_SearchController.text),
-                            SearchContent(_SearchController.text)
-                          ],))
-                    ],
-                  ),
+                  width: double.infinity,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  child: Text('暂无数据'),
                 )
-              : SearchContent(_SearchController.text))
+              : (widget.model == '*'
+                  ? Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TabBar(
+                            isScrollable: true,
+                            controller: _tabController,
+                            labelPadding: EdgeInsets.only(
+                                left: 8, right: 8, bottom: 5, top: 5),
+                            indicatorColor: Color(0xff2CA687),
+                            labelColor: Color(0xff2CA687),
+                            indicatorSize: TabBarIndicatorSize.label,
+                            unselectedLabelColor: Color(0xff666666),
+                            unselectedLabelStyle: TextStyle(fontSize: 14),
+                            labelStyle: TextStyle(fontSize: 14.0),
+                            tabs: searchList.map((value) {
+                              return Text(value.modelName);
+                            }).toList(),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                              child: TabBarView(
+                                  controller: _tabController,
+                                  children: _buildPages()))
+                        ],
+                      ),
+                    )
+                  : SearchTabView(searchList[0]))
           : searchHistoryWidget(),
     );
   }
+
+  List<Widget> _buildPages() {
+    List<Widget> pages = List();
+    for (SearchContent searchContent in searchList) {
+      Widget page = SearchTabView(searchContent);
+      pages.add(page);
+    }
+    return pages;
+  }
 }
 
-class SearchContent extends StatefulWidget {
-  String content;
+class SearchTabView extends StatefulWidget {
+  SearchContent searchContent;
 
   @override
-  _SearchContentState createState() => _SearchContentState();
+  _SearchTabViewState createState() => _SearchTabViewState();
 
-  SearchContent(this.content);
+  SearchTabView(this.searchContent);
 }
 
-class _SearchContentState extends State<SearchContent> {
-
+class _SearchTabViewState extends State<SearchTabView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(widget.content),
+      child: ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.searchContent.list.length,
+        itemBuilder: (context, index) =>
+            _buildItem(widget.searchContent.list[index]),
+      ),
+    );
+  }
+
+  _buildItem(ListContent listContent) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Text(listContent.title),
+        ],
+      ),
     );
   }
 }

@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   String defaultImage =
       'https://www.aireading.club/phms_resource_base/image_base/BJ_YaJianKang_02.jpg';
   List<BannerImage> bannerlist;
+  var listText = ['今年心理健康状况采集活动开始啦！', '心理健康资讯有新的内容啦！', '参与填写心理健康问卷可获取最新的健康报告！'];
   List<Announcement> listAnnouncement = List();
   int stepRanking = 1;
   ChunyuMessage chunyuMessage = new ChunyuMessage();
@@ -221,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                               const EdgeInsets.only(left: 15.0, right: 15.0),
                           onTab: () {
                             NavigatorUtil.pushPage(
-                                context, SesrchPage(true, '请输入搜索内容'));
+                                context, SesrchPage('*', '请输入搜索内容'));
                           },
                         ),
                       ),
@@ -281,23 +282,26 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           width: 10,
                         ),
-                        Expanded(
-                          child: lib2.Swiper(
-                            autoplay: true,
-                            autoplayDelay: 3000,
-                            scrollDirection: Axis.vertical,
-                            itemCount: listAnnouncement.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  listAnnouncement[index].content,
-                                  style: TextStyle(fontSize: 13),
+                        listAnnouncement.isEmpty
+                            ? Container()
+                            : Expanded(
+                                child: lib2.Swiper(
+                                  autoplay: true,
+                                  autoplayDelay: 3000,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: listAnnouncement.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        listAnnouncement[index].content,
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
+                              ),
                         Align(
                           child: loadAssetImage('arrow.png',
                               height: 12, width: 12),
