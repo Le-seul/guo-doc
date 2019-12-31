@@ -11,7 +11,7 @@ import 'package:flutter_first/widgets/my_card.dart';
 
 class ServiceChild extends StatefulWidget {
   String location = '';
-  ServiceChild(@required this.location);
+  ServiceChild(this.location);
 
   @override
   _ServiceChildState createState() => _ServiceChildState();
@@ -32,6 +32,7 @@ class _ServiceChildState extends State<ServiceChild> {
     } else {
       url = Api.GETPSYSERVICECENTERBYLOCATION;
     }
+    _getServiceCenter();
   }
 
   _getServiceCenter() {

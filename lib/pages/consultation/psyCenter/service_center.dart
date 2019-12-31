@@ -109,7 +109,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
                 hintText: '请输入心理服务中心',
                 isborder: true,
                 onTab: (){
-                  NavigatorUtil.pushPage(context, SesrchPage('serviceCenter','请输入心理服务中心'));
+                  NavigatorUtil.pushPage(context, SesrchPage('psyServiceCenter','请输入心理服务中心'));
                 },
               ),
               Flex(

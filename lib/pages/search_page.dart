@@ -5,6 +5,7 @@ import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
@@ -94,7 +95,6 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
     );
   }
 
-
   @override
   void initState() {
     _tabController = TabController(length: searchList.length, vsync: this);
@@ -122,13 +122,11 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
           searchList = data;
           _tabController =
               TabController(length: searchList.length, vsync: this);
-          _tabController.index = 0;
           isSearch = true;
           print('搜索成功!');
         });
       },
       onError: (code, msg) {
-
         print('搜索失败！');
       },
     );
@@ -175,6 +173,7 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
                 )
               : (widget.model == '*'
                   ? Container(
+        color: Colors.white,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -197,16 +196,16 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
                             }).toList(),
                           ),
                           Expanded(
-                            child:TabBarView(
-                                controller: _tabController,
-                                children: searchList.map((value) {
-                                  return SearchTabView(value,_SearchController.text);
-                                }).toList())),
-
+                              child: TabBarView(
+                                  controller: _tabController,
+                                  children: searchList.map((value) {
+                                    return SearchTabView(
+                                        value, _SearchController.text);
+                                  }).toList())),
                         ],
                       ),
                     )
-                  : SearchTabView(searchList[0],_SearchController.text))
+                  : SearchTabView(searchList[0], _SearchController.text))
           : searchHistoryWidget(),
       resizeToAvoidBottomPadding: false,
     );
@@ -220,27 +219,23 @@ class SearchTabView extends StatefulWidget {
   @override
   _SearchTabViewState createState() => _SearchTabViewState();
 
-  SearchTabView(this.searchContent,this.inputText);
+  SearchTabView(this.searchContent, this.inputText);
 }
 
 class _SearchTabViewState extends State<SearchTabView> {
-
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
   var numb = 2;
 
   @override
-  void initState() {
-
-  }
-
+  void initState() {}
 
   @override
   void dispose() {
     _refreshController.dispose();
   }
 
-  _refreshContent(){
+  _refreshContent() {
     DioUtils.instance.requestNetwork<SearchContent>(
       Method.get,
       Api.SEARCH,
@@ -274,7 +269,8 @@ class _SearchTabViewState extends State<SearchTabView> {
 
   void _onRefresh() async {
 //    Toast.show('这是下拉刷新操作');
-    if (widget.searchContent.list == null || widget.searchContent.list.length == 0) {
+    if (widget.searchContent.list == null ||
+        widget.searchContent.list.length == 0) {
       _refreshContent();
     } else {
       _refreshController.refreshCompleted();
@@ -287,46 +283,45 @@ class _SearchTabViewState extends State<SearchTabView> {
     _refreshContent();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-          enablePullDown: true ,
-          enablePullUp: true,
-          header: WaterDropHeader(),
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus mode) {
-              Widget body;
-              if (mode == LoadStatus.idle) {
-                body = Text("加载完成！");
-              } else if (mode == LoadStatus.loading) {
-                body = CupertinoActivityIndicator();
-              } else if (mode == LoadStatus.failed) {
-                body = Text("Load Failed!Click retry!");
-              } else {
-                body = Text("No more Data");
-              }
-              return Container(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
-          ),
-          controller: _refreshController,
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          child: Container(
-            padding: EdgeInsets.only(top: 10),
-            child: ListView.builder(
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: widget.searchContent.list.length,
-              itemBuilder: (context, index) =>
-                  _buildItem(widget.searchContent.list[index]),
-            ),
-          ),
-        );
-
+      enablePullDown: true,
+      enablePullUp: true,
+      header: WaterDropHeader(),
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus mode) {
+          Widget body;
+          if (mode == LoadStatus.idle) {
+            body = Text("加载完成！");
+          } else if (mode == LoadStatus.loading) {
+            body = CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = Text("Load Failed!Click retry!");
+          } else {
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body),
+          );
+        },
+      ),
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.only(top: 10.0),
+        child: ListView.builder(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: widget.searchContent.list.length,
+          itemBuilder: (context, index) =>
+              _buildItem(widget.searchContent.list[index]),
+        ),
+      ),
+    );
   }
 
   _buildItem(ListContent listContent) {
@@ -343,15 +338,34 @@ class _SearchTabViewState extends State<SearchTabView> {
           NavigatorUtil.pushPage(
               context, ServiceActivityPage(activityId: listContent.id));
         } else if (widget.searchContent.model == 'song') {
-
         } else if (widget.searchContent.model == 'musicList') {
-          NavigatorUtil.pushPage(context,MusicListPage(listContent.id,listContent.image,listContent.title));
-        }else if (widget.searchContent.model == 'psyCourse') {
-          NavigatorUtil.pushPage(context,CourseDetailPage(courseId: listContent.id,));
+          NavigatorUtil.pushPage(
+              context,
+              MusicListPage(
+                  listContent.id, listContent.image, listContent.title));
+        } else if (widget.searchContent.model == 'psyCourse') {
+          NavigatorUtil.pushPage(
+              context,
+              CourseDetailPage(
+                courseId: listContent.id,
+              ));
         } else if (widget.searchContent.model == 'psyCoReading') {
-          NavigatorUtil.pushWebView(context, 'https://www.aireading.club/phms_resource_base/psyReading/XinLiXueWZ_CZ2.html', {"title":listContent.title});
-        }else if (widget.searchContent.model == 'psyDailyTest') {
-          NavigatorUtil.pushPage(context,Test0(questionnaireId: listContent.id,));
+          NavigatorUtil.pushWebView(
+              context,
+              'https://www.aireading.club/phms_resource_base/psyReading/XinLiXueWZ_CZ2.html',
+              {"title": listContent.title});
+        } else if (widget.searchContent.model == 'psyDailyTest') {
+          NavigatorUtil.pushPage(
+              context,
+              Test0(
+                questionnaireId: listContent.id,
+              ));
+        } else if (widget.searchContent.model == 'psyServiceCenter') {
+          NavigatorUtil.pushPage(
+              context,
+              PsyCenterDetail(
+                id: listContent.id,
+              ));
         }
       },
       child: Container(
