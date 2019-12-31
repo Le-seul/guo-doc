@@ -97,7 +97,8 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _tabController = TabController(length: searchList.length, vsync: this);
+    super.initState();
+
     if (StorageManager.sharedPreferences
             .getStringList(Constant.searchHistory) !=
         null) {
@@ -107,6 +108,7 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
   }
 
   _search(String keyword) {
+
     DioUtils.instance.requestNetwork<SearchContent>(
       Method.get,
       Api.SEARCH,
@@ -120,6 +122,9 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
       onSuccessList: (data) {
         setState(() {
           searchList = data;
+          if(_tabController != null){
+            _tabController.index = 0;
+          }
           _tabController =
               TabController(length: searchList.length, vsync: this);
           isSearch = true;
@@ -173,7 +178,7 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
                 )
               : (widget.model == '*'
                   ? Container(
-        color: Colors.white,
+                      color: Colors.white,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -232,6 +237,7 @@ class _SearchTabViewState extends State<SearchTabView> {
 
   @override
   void dispose() {
+    super.dispose();
     _refreshController.dispose();
   }
 
