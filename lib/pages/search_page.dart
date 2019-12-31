@@ -344,6 +344,7 @@ class _SearchTabViewState extends State<SearchTabView> {
           NavigatorUtil.pushPage(
               context, ServiceActivityPage(activityId: listContent.id));
         } else if (widget.searchContent.model == 'song') {
+
         } else if (widget.searchContent.model == 'musicList') {
           NavigatorUtil.pushPage(
               context,
@@ -358,7 +359,7 @@ class _SearchTabViewState extends State<SearchTabView> {
         } else if (widget.searchContent.model == 'psyCoReading') {
           NavigatorUtil.pushWebView(
               context,
-              'https://www.aireading.club/phms_resource_base/psyReading/XinLiXueWZ_CZ2.html',
+              listContent.url,
               {"title": listContent.title});
         } else if (widget.searchContent.model == 'psyDailyTest') {
           NavigatorUtil.pushPage(
