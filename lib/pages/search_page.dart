@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first/bean/music.dart';
 import 'package:flutter_first/bean/search_entity.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/music/page_playing.dart';
+import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/center_detail_page.dart';
@@ -231,6 +235,7 @@ class _SearchTabViewState extends State<SearchTabView> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   var numb = 2;
+  List<Music> listMusic = List();
 
   @override
   void initState() {}
@@ -344,7 +349,7 @@ class _SearchTabViewState extends State<SearchTabView> {
           NavigatorUtil.pushPage(
               context, ServiceActivityPage(activityId: listContent.id));
         } else if (widget.searchContent.model == 'song') {
-
+          _getMusicDetail(listContent.id);
         } else if (widget.searchContent.model == 'musicList') {
           NavigatorUtil.pushPage(
               context,
@@ -400,4 +405,24 @@ class _SearchTabViewState extends State<SearchTabView> {
       ),
     );
   }
+  _getMusicDetail(String songId){
+    DioUtils.instance.requestNetwork<Music>(Method.get, Api.GETSONGDETAIL,
+        queryParameters: {"songId": songId},
+        onSuccess: (data) {
+          setState(() {
+            listMusic.add(data);
+            NavigatorUtil.pushPage(
+                context,
+                PlayingPage(
+                  music: data,
+                ));
+            quiet.playWithList(data, listMusic, 'playlist');
+            CommonRequest.UpdatePlayCount(songId, 'song');
+          });
+          print('获取音乐详情成功！');
+        }, onError: (code, msg) {
+          print('获取音乐详情失败！');
+        });
+  }
+
 }

@@ -35,6 +35,7 @@ class _PlayingPageState extends State<PlayingPage> {
   @override
   void initState() {
     super.initState();
+    print('音乐测试:${widget.music.name}');
     MusicControlBar.removeControlBar();
     widget.music = quiet.value.current;
     quiet.addListener(_onPlayerStateChanged);
