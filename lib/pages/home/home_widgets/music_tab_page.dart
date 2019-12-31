@@ -130,7 +130,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
-                child: Text('暂无数据'),
+                child: Text('wu'),
               )
             : SmartRefresher(
                 enablePullDown: widget.tagId == "0" ? true : false,
@@ -190,7 +190,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
   _buildItem(int index) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: getTagMusicList[index]));
+        NavigatorUtil.pushPage(context,MusicListPage(getTagMusicList[index].id,getTagMusicList[index].image,getTagMusicList[index].name));
         CommonRequest.UpdatePlayCount(getTagMusicList[index].id, 'musicList');
       },
       child: Container(

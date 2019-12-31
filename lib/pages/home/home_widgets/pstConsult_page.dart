@@ -55,7 +55,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                   hintText: '搜索你感兴趣的内容/咨询师',
                   margin: const EdgeInsets.only(left: 15.0, right: 15.0),
                   onTab: () {
-                    NavigatorUtil.pushPage(context, SesrchPage('consultant','搜索你感兴趣的内容/咨询师'));
+                    NavigatorUtil.pushPage(context, SesrchPage('psyCourse','搜索你感兴趣的内容/咨询师'));
                   },
                 ),
               ),

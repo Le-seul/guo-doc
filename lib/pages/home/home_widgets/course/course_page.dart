@@ -127,7 +127,7 @@ class _PsyCourseState extends State<PsyCourse>
                     controller: TextEditingController(),
                     margin: const EdgeInsets.only(left: 15.0, right: 15.0),
                     onTab: () {
-                      NavigatorUtil.pushPage(context, SesrchPage('course','搜索课程'));
+                      NavigatorUtil.pushPage(context, SesrchPage('psyCourse','搜索课程'));
                     },
                   ),
                   SizedBox(

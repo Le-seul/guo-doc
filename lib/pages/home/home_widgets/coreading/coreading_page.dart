@@ -70,7 +70,7 @@ bool isShowLoading = true;
                   hintText: '搜索文章',
                   isborder: true,
                   onTab: (){
-                    NavigatorUtil.pushPage(context, SesrchPage('article','搜索文章'));
+                    NavigatorUtil.pushPage(context, SesrchPage('psyCoReading','搜索文章'));
                   },
                 ),
                 Container(
@@ -104,8 +104,6 @@ bool isShowLoading = true;
                       ],
                     ),)
                   ],)
-
-
 
                 ),
                 Flexible(

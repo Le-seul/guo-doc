@@ -1,11 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/search_entity.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
+import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_list2.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/widgets/search.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SesrchPage extends StatefulWidget {
   String model;
@@ -19,6 +27,7 @@ class SesrchPage extends StatefulWidget {
 class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
   TextEditingController _SearchController = TextEditingController();
   var textList = new List<String>();
+  var numb = 1;
   var tabText = ['音乐', '心理课程', '活动参与', '资讯文章'];
   List<Widget> tabs = [];
   List<Widget> tabViews = List<Widget>();
@@ -85,6 +94,7 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
     );
   }
 
+
   @override
   void initState() {
     _tabController = TabController(length: searchList.length, vsync: this);
@@ -104,19 +114,21 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
       queryParameters: {
         "model": widget.model,
         'keyword': keyword,
-        'pageNumber': 1,
-        'pageSize': 20
+        'pageNumber': numb,
+        'pageSize': 20,
       },
       onSuccessList: (data) {
         setState(() {
           searchList = data;
           _tabController =
               TabController(length: searchList.length, vsync: this);
+          _tabController.index = 0;
           isSearch = true;
           print('搜索成功!');
         });
       },
       onError: (code, msg) {
+
         print('搜索失败！');
       },
     );
@@ -159,7 +171,7 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
                   width: double.infinity,
                   height: double.infinity,
                   alignment: Alignment.center,
-                  child: Text('暂无数据'),
+                  child: Text('暂无搜索结果'),
                 )
               : (widget.model == '*'
                   ? Container(
@@ -184,60 +196,186 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
                               return Text(value.modelName);
                             }).toList(),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
                           Expanded(
-                              child: TabBarView(
-                                  controller: _tabController,
-                                  children: _buildPages()))
+                            child:TabBarView(
+                                controller: _tabController,
+                                children: searchList.map((value) {
+                                  return SearchTabView(value,_SearchController.text);
+                                }).toList())),
+
                         ],
                       ),
                     )
-                  : SearchTabView(searchList[0]))
+                  : SearchTabView(searchList[0],_SearchController.text))
           : searchHistoryWidget(),
+      resizeToAvoidBottomPadding: false,
     );
-  }
-
-  List<Widget> _buildPages() {
-    List<Widget> pages = List();
-    for (SearchContent searchContent in searchList) {
-      Widget page = SearchTabView(searchContent);
-      pages.add(page);
-    }
-    return pages;
   }
 }
 
 class SearchTabView extends StatefulWidget {
   SearchContent searchContent;
+  String inputText;
 
   @override
   _SearchTabViewState createState() => _SearchTabViewState();
 
-  SearchTabView(this.searchContent);
+  SearchTabView(this.searchContent,this.inputText);
 }
 
 class _SearchTabViewState extends State<SearchTabView> {
+
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
+  var numb = 2;
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: widget.searchContent.list.length,
-        itemBuilder: (context, index) =>
-            _buildItem(widget.searchContent.list[index]),
-      ),
+  void initState() {
+
+  }
+
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+  }
+
+  _refreshContent(){
+    DioUtils.instance.requestNetwork<SearchContent>(
+      Method.get,
+      Api.SEARCH,
+      isList: true,
+      queryParameters: {
+        "model": widget.searchContent.model,
+        'keyword': widget.inputText,
+        'pageNumber': numb,
+        'pageSize': 20,
+      },
+      onSuccessList: (data) {
+        if (data == null || data.length == 0) {
+          _refreshController.loadNoData();
+        } else {
+          numb++;
+          _refreshController.loadComplete();
+        }
+        setState(() {
+          widget.searchContent.list.addAll(data[0].list);
+          _refreshController.refreshCompleted();
+          print('搜索成功!');
+        });
+      },
+      onError: (code, msg) {
+        _refreshController.refreshFailed();
+        _refreshController.loadFailed();
+        print('搜索失败！');
+      },
     );
   }
 
+  void _onRefresh() async {
+//    Toast.show('这是下拉刷新操作');
+    if (widget.searchContent.list == null || widget.searchContent.list.length == 0) {
+      _refreshContent();
+    } else {
+      _refreshController.refreshCompleted();
+    }
+  }
+
+  void _onLoading() async {
+    _refreshController.requestLoading();
+//    Toast.show('这是上拉加载操作');
+    _refreshContent();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SmartRefresher(
+          enablePullDown: true ,
+          enablePullUp: true,
+          header: WaterDropHeader(),
+          footer: CustomFooter(
+            builder: (BuildContext context, LoadStatus mode) {
+              Widget body;
+              if (mode == LoadStatus.idle) {
+                body = Text("加载完成！");
+              } else if (mode == LoadStatus.loading) {
+                body = CupertinoActivityIndicator();
+              } else if (mode == LoadStatus.failed) {
+                body = Text("Load Failed!Click retry!");
+              } else {
+                body = Text("No more Data");
+              }
+              return Container(
+                height: 55.0,
+                child: Center(child: body),
+              );
+            },
+          ),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: Container(
+            padding: EdgeInsets.only(top: 10),
+            child: ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.searchContent.list.length,
+              itemBuilder: (context, index) =>
+                  _buildItem(widget.searchContent.list[index]),
+            ),
+          ),
+        );
+
+  }
+
   _buildItem(ListContent listContent) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text(listContent.title),
-        ],
+    return GestureDetector(
+      onTap: () {
+        if (widget.searchContent.model == 'article') {
+          NavigatorUtil.pushPage(
+              context,
+              ConsultationDetailPage(
+                id: listContent.id,
+                imgurl: listContent.image,
+              ));
+        } else if (widget.searchContent.model == 'activity') {
+          NavigatorUtil.pushPage(
+              context, ServiceActivityPage(activityId: listContent.id));
+        } else if (widget.searchContent.model == 'song') {
+
+        } else if (widget.searchContent.model == 'musicList') {
+          NavigatorUtil.pushPage(context,MusicListPage(listContent.id,listContent.image,listContent.title));
+        }else if (widget.searchContent.model == 'psyCourse') {
+          NavigatorUtil.pushPage(context,CourseDetailPage(courseId: listContent.id,));
+        } else if (widget.searchContent.model == 'psyCoReading') {
+          NavigatorUtil.pushWebView(context, 'https://www.aireading.club/phms_resource_base/psyReading/XinLiXueWZ_CZ2.html', {"title":listContent.title});
+        }else if (widget.searchContent.model == 'psyDailyTest') {
+          NavigatorUtil.pushPage(context,Test0(questionnaireId: listContent.id,));
+        }
+      },
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Image.network(
+              listContent.image ??
+                  'http://jyj.jl.gov.cn/tpxw/201903/W020190318527359045201.jpg',
+              height: 50,
+              width: 50,
+              fit: BoxFit.fill,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+                child: Text(
+              listContent.title,
+            )),
+          ],
+        ),
       ),
     );
   }

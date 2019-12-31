@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music_entity.dart';
 
 class MusicDetail extends StatefulWidget {
-  GetAllMusic allMusicList;
-  MusicDetail({Key key, @required this.allMusicList}) : super(key: key);
+  String name;
+  String image;
+  MusicDetail(this.image,this.name) ;
   @override
   _MusicDetailState createState() => _MusicDetailState();
 }
@@ -35,11 +36,11 @@ class _MusicDetailState extends State<MusicDetail> {
                   padding: EdgeInsets.only(top: 20, bottom: 20),
                   child: CircleAvatar(
                     radius: 100.0,
-                    backgroundImage: NetworkImage(widget.allMusicList.image),
+                    backgroundImage: NetworkImage(widget.image),
                   ),
                 ),
                 Text(
-                  widget.allMusicList.name,
+                  widget.name,
                   style: TextStyle(fontSize: 20),
                 ),
                 SizedBox(height: 20,),

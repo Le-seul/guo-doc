@@ -13,8 +13,10 @@ import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
 
 class MusicListPage extends StatefulWidget {
-  GetAllMusic allMusicList;
-  MusicListPage({Key key, @required this.allMusicList}) : super(key: key);
+  String name;
+  String id;
+  String image;
+  MusicListPage(this.id,this.image,this.name) ;
   @override
   _MusicListPageState createState() => _MusicListPageState();
 }
@@ -25,7 +27,7 @@ class _MusicListPageState extends State<MusicListPage> {
   @override
   void initState() {
     DioUtils.instance.requestNetwork<Music>(Method.get, Api.GETMUSICLIST,
-        queryParameters: {"musicListId": widget.allMusicList.id},
+        queryParameters: {"musicListId": widget.id},
         isList: true, onSuccessList: (data) {
       setState(() {
         musicList = data;
@@ -145,7 +147,7 @@ class _MusicListPageState extends State<MusicListPage> {
         NavigatorUtil.pushPage(
             context,
             MusicDetail(
-              allMusicList: widget.allMusicList,
+              widget.image,widget.name
             ));
       },
       child: Container(
@@ -165,7 +167,7 @@ class _MusicListPageState extends State<MusicListPage> {
                         child: AspectRatio(
                           aspectRatio: 1.0,
                           child: Image.network(
-                            widget.allMusicList.image,
+                            widget.image,
                             height: 140,
                             width: 140,
                             fit: BoxFit.fill,
@@ -179,7 +181,7 @@ class _MusicListPageState extends State<MusicListPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.allMusicList.name,
+                          widget.name,
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(
