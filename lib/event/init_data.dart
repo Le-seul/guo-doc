@@ -49,6 +49,9 @@ class _InitDataState extends State<InitData> {
     _stepCountBloc = BlocProvider.of<StepCountBloc>(context);
 
     if (Platform.isAndroid) {
+      getStep().then((val){
+        _stepCountBloc.sink.add(val);
+      });
       localTimer = Timer.periodic(Duration(seconds: 10), (timer) {
         count++;
 //        print('时间count:${count}');
