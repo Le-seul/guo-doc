@@ -1,11 +1,14 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_seekbar/flutter_seekbar.dart' ;
 class WordDialog extends Dialog {
 
-  WordDialog({Key key,})
+  double seekvalue;
+  WordDialog({Key key,@required this.seekvalue})
       : super(key: key);
   @override
   List<SectionTextModel> sectionTexts = [];
@@ -52,15 +55,15 @@ class WordDialog extends Dialog {
                     child: SeekBar(
                         progresseight: 10,
                         backgroundColor: Colours.bg_green,
-                        max: 15,
-                        min: 10,
-                        value: 12,
-                        sectionCount: 5,
+                        max: 4,
+                        min: 1,
+                        value:seekvalue,
+                        sectionCount:6,
                         sectionRadius: 6,
                         showSectionText: true,
                         sectionTexts: sectionTexts,
                         sectionTextMarginTop: 2,
-                        sectionDecimal: 0,
+                        sectionDecimal: 1,
                         sectionTextColor: Colors.black,
                         sectionSelectTextColor: Colors.red,
                         sectionTextSize: 14,
@@ -70,7 +73,12 @@ class WordDialog extends Dialog {
                         bubbleTextColor: Colors.white,
                         bubbleTextSize: 14,
                         bubbleMargin: 4,
-                        afterDragShowSectionText: true,
+                        afterDragShowSectionText: false,
+                      onValueChanged: ( e){
+                          seekvalue = e.value;
+                          saveWordSize(e.value);
+                          print('这个值是$seekvalue');
+                      },
                     ),
                   ),
                   new Padding(
@@ -80,7 +88,7 @@ class WordDialog extends Dialog {
                     child: InkWell(
                       child: Container(
                         child: new Text(
-                          "取消",
+                          "确定",
                         ),
                       ),
                       onTap: (){
@@ -95,6 +103,9 @@ class WordDialog extends Dialog {
         ),
       ),
     );
+  }
+  static saveWordSize(double Size) async {
+    StorageManager.sharedPreferences.setDouble(Constant.word_size, Size);
   }
 }
 

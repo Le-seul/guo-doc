@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/User.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/step_count.bloc.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/bean/step_ranking.dart' as step;
 import 'package:flutter_first/net/dio_utils.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -37,6 +39,7 @@ class _MinePageState extends State<MinePage> {
   int stepRanking = 1;
   List<UserInfor> UserList = List();
   bool isShowLoading = true;
+  double seekvalue ;
 
 
 
@@ -44,6 +47,7 @@ class _MinePageState extends State<MinePage> {
   void initState() {
     _getStepRanking();
     _getUser();
+    seekvalue = StorageManager.sharedPreferences.getDouble(Constant.word_size);
   }
 
   _getStepRanking() {
@@ -179,12 +183,16 @@ class _MinePageState extends State<MinePage> {
                         ),
 
                         onTap: () {
-                          showDialog<Null>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return WordDialog();
-                              }
-                          );
+                         setState(() {
+                           seekvalue = StorageManager.sharedPreferences.getDouble(Constant.word_size);
+                           showDialog<Null>(
+                               context: context,
+                               builder: (BuildContext context) {
+                                // print('这个值是'+ seekvalue);
+                                 return WordDialog( seekvalue: seekvalue == null?1:seekvalue);
+                               }
+                           );
+                         });
                         },
                       ),
                       SizedBox(
