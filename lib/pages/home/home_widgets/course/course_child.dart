@@ -24,6 +24,10 @@ class _CourseChildState extends State<CourseChild> {
 
   @override
   void initState() {
+    super.initState();
+    if(courseList.isNotEmpty){
+      widget.onSlide.onSlide((courseList.length+1)~/2*163.0);
+    }
     _getCourse();
   }
 

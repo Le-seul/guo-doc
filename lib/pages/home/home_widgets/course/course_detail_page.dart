@@ -281,40 +281,47 @@ class _CourseDetailPageState extends State<CourseDetailPage>
   _buildItem(ChapterList chapterList, int index) {
     return GestureDetector(
       onTap: () {
-        if(BottomControllerBar.overlayEntry == null){
-          BottomControllerBar.show(context, courseDetail, chapterList,true);
+
+        if(chapterList.state == 'N'){
+
         }else{
-          BottomControllerBar.hideBottomControllerBar(context, true);
-        }
-        NavigatorUtil.pushPage(context,CatalogDetail(Detail: chapterList.detailDescription,));
-        if(chapterList.isPlaying == false){
-          if (chapterList.state != 'N') {
-            if (chapterList.isPlaying == false) {
-              chapterList.isPlaying = true;
-              BottomControllerBar.setCourse(chapterList);
-              eventBus.fire(CourseContent(chapterList, 0));
-            } else {
-              chapterList.isPlaying = false;
-              BottomControllerBar.setCourse(chapterList);
-              eventBus.fire(CourseContent(chapterList, 1));
-            }
+          if(BottomControllerBar.overlayEntry == null){
+            BottomControllerBar.show(context, courseDetail, chapterList,true);
+          }else{
+            BottomControllerBar.hideBottomControllerBar(context, true);
+          }
+
+          NavigatorUtil.pushPage(context,CatalogDetail(Detail: chapterList.detailDescription,));
+          if(chapterList.isPlaying == false){
+            if (chapterList.state != 'N') {
+              if (chapterList.isPlaying == false) {
+                chapterList.isPlaying = true;
+                BottomControllerBar.setCourse(chapterList);
+                eventBus.fire(CourseContent(chapterList, 0));
+              } else {
+                chapterList.isPlaying = false;
+                BottomControllerBar.setCourse(chapterList);
+                eventBus.fire(CourseContent(chapterList, 1));
+              }
 //          if(BottomControllerBar.overlayEntry == null){
 //            print('创建bottomBar');
 //            BottomControllerBar.show(context, courseDetail, chapterList);
 //          }
 
-          }
-          for (ChapterList chapterList in courseDetail.chapterList) {
-            chapterList.isHighlight = false;
-            if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
-              chapterList.isPlaying = false;
             }
-          }
-          chapterList.isHighlight = true;
-          setState(() {
+            for (ChapterList chapterList in courseDetail.chapterList) {
+              chapterList.isHighlight = false;
+              if(BottomControllerBar.getCourse().chapterId != chapterList.chapterId){
+                chapterList.isPlaying = false;
+              }
+            }
+            chapterList.isHighlight = true;
+            setState(() {
 //          chapterList.isPlaying = BottomControllerBar.getCourse().isPlaying;
-          });
-          _sendBookMark(chapterList);
+            });
+            _sendBookMark(chapterList);
+          }
+
         }
 
 

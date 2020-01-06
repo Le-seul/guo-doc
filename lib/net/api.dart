@@ -81,6 +81,9 @@ class Api {
   //获取心理课程接口
   static const String GETALLCOUTSE = "/api/psyCourse.do?getAllCourse";
 
+  //获取即将发布的课程
+  static const String GETUPCOMINGCOURSE = "/api/psyCourse.do?getUpcomingCourse";
+
   //获取心理课程获取TAG列表
   static const String GETTAGLIST = "/api/psyCourse.do?getTagList";
 

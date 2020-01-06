@@ -17,6 +17,7 @@ class ConsulationColumnsInfo {
   int readCount;
   int collectCount;
   String content;
+  String createTime;
   String canLike;
 
 
@@ -43,6 +44,7 @@ class ConsulationColumnsInfo {
     likeCount = json['likeCount'];
     readCount = json['readCount'];
     collectCount = json['collectCount'];
+    createTime = json['createTime'];
     content = json['content'];
     canLike = json['canLike'];
   }

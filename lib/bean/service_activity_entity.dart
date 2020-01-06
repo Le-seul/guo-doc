@@ -5,6 +5,9 @@ class ServiceActivity {
   String type;
   String cover;
   int state;
+  String startTime;
+  String endTime;
+  String location;
   int signInCount;
 
 
@@ -16,6 +19,9 @@ class ServiceActivity {
     cover = json['cover'];
     state = json['state'];
     signInCount = json['signInCount'];
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    location = json['location'];
 
   }
 }

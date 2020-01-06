@@ -114,7 +114,7 @@ class _Table0State extends State<Table0> {
                   height: 10,
                 ),
                 Text(
-                  '活动参与',
+                  '工作动态',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(

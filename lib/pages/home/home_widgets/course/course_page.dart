@@ -39,7 +39,8 @@ class _PsyCourseState extends State<PsyCourse>
 
   @override
   void initState() {
-    _requestPsycourse();
+    _getUpcomingCourse();
+//    _requestPsycourse();
     _getCourseTab();
   }
 
@@ -47,6 +48,19 @@ class _PsyCourseState extends State<PsyCourse>
   void dispose() {
     super.dispose();
     mController.dispose();
+  }
+
+  _getUpcomingCourse(){
+    DioUtils.instance.requestNetwork<Course>(Method.get, Api.GETUPCOMINGCOURSE,
+        queryParameters: {'pageNumber': 1,'pageSize':20},
+        isList: true, onSuccessList: (data) {
+          setState(() {
+            comingList = data;
+            print("获取课程成功！");
+          });
+        }, onError: (code, msg) {
+          print("获取课程失败！");
+        });
   }
 
   _getCourseTab(){

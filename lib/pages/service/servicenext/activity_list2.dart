@@ -114,7 +114,7 @@ class _ActivityList2State extends State<ActivityList2> {
                                     width: 5,
                                   ),
                                   Text(
-                                    '时间：2019-12-25 09:30:00',
+                                    '时间：${serviceActivity.startTime.substring(0,serviceActivity.startTime.length-3)}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.black45,
@@ -138,7 +138,7 @@ class _ActivityList2State extends State<ActivityList2> {
                                   ),
                                   Expanded(
                                       child: Text(
-                                    '地点：北京市东城区银闸胡同25号',
+                                        serviceActivity.location,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -186,26 +186,26 @@ class _ActivityList2State extends State<ActivityList2> {
                   ),
                   Row(
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            isRemind = !isRemind;
-                          });
-                        },
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 18,
-                          color: isRemind?Colors.red:Colors.black45,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
+//                      GestureDetector(
+//                        onTap: (){
+//                          setState(() {
+//                            isRemind = !isRemind;
+//                          });
+//                        },
+//                        child: Icon(
+//                          Icons.check_circle,
+//                          size: 18,
+//                          color: isRemind?Colors.red:Colors.black45,
+//                        ),
+//                      ),
+//                      SizedBox(
+//                        width: 10,
+//                      ),
                       Expanded(
                           child: Text(
-                        '开启活动提醒',
-                        style: TextStyle(fontSize: 12),
-                      )),
+                        '',
+                        style: TextStyle(fontSize: 12),)
+                      ),
                       Container(
                         padding: EdgeInsets.only(
                             left: 14, right: 14, bottom: 6, top: 6),

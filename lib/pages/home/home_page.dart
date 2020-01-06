@@ -54,7 +54,9 @@ class _HomePageState extends State<HomePage> {
   ChunyuMessage chunyuMessage = new ChunyuMessage();
   List<ConsulationColumnsInfo> columnsInfoList = List();
   List<UserInfor> UserList = List();
+  String createTime;
   bool isShowLoading = true;
+  String time;
 
   @override
   void initState() {
@@ -63,6 +65,16 @@ class _HomePageState extends State<HomePage> {
     _getStepRanking();
     _getUser();
     _getAnnouncement();
+    int currenttime = DateTime.now().hour;
+    print('当下时间：$currenttime');
+    if(currenttime>=5 && currenttime<=12){
+      time = '上午好';
+    }else if(currenttime>=13 && currenttime<=18){
+      time = '下午好';
+    }else{
+      time = '晚上好';
+    }
+
   }
 
   Future scan() async {
@@ -359,7 +371,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  '上午好,欢迎您进入系统!',
+                                  '$time,欢迎您进入系统!',
                                   style: TextStyle(
                                       color: Colors.black12, fontSize: 12),
                                 ),
@@ -488,6 +500,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildItem(int index) {
+    //将时间字符串转为时间对象
+    DateTime moonLanding = DateTime.parse(columnsInfoList[index].createTime);
+    int second = (DateTime.now().millisecondsSinceEpoch-moonLanding.millisecondsSinceEpoch)~/1000;
+    if(second <= 3*60){
+      createTime = '刚刚';
+    }else if(second<= 60*60){
+      createTime = '${DateTime.now().minute-moonLanding.minute}分钟前';
+    }else if(second<= 24*60*60){
+      createTime = '${DateTime.now().hour-moonLanding.hour}小时前';
+    }else if(second<= 30*24*60*60){
+      createTime = '${DateTime.now().day-moonLanding.day}天前';
+    }else {
+      createTime = '${columnsInfoList[index].createTime.substring(0,11)}';
+    }
+
     return GestureDetector(
       child: (columnsInfoList[index].cover2 == null ||
               columnsInfoList[index].cover3 == null)
@@ -550,7 +577,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 10,
                               ),
                               Text(
-                                '12小时前',
+                                createTime??'',
                                 style: TextStyle(
                                     color: Colors.black54, fontSize: 11),
                               ),

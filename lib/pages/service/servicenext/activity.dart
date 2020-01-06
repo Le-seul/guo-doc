@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/activity_detail_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
+import 'package:flutter_first/pages/consultation/consultation_detail_page.dart';
+import 'package:flutter_first/pages/consultation/consutation_list.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/daytest.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -111,7 +115,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                           width: 15,
                                         ),
                                         Text(
-                                          activityDetail.startTime,
+                                          activityDetail.startTime.substring(0,activityDetail.startTime.length-3),
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.black54),
@@ -193,7 +197,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               height: 20,
                             ),
                             Offstage(
-                              offstage: activityDetail.childActivity == null,
+                              offstage: activityDetail.childActivity==null,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -216,9 +220,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                       scrollDirection: Axis.horizontal,
                                       physics: ClampingScrollPhysics(),
                                       shrinkWrap: false,
-                                      itemCount: widget.activityId == "1"
-                                          ? activityDetail.childActivity.length
-                                          : 0,
+                                      itemCount:activityDetail.childActivity == null ?0:activityDetail.childActivity.length,
                                       itemBuilder: (context, index) =>
                                           _childItem(index),
                                     ),
@@ -240,8 +242,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                               ),
                             ),
                             Offstage(
-                              offstage:
-                                  activityDetail.questionnaireList.isEmpty,
+                              offstage: activityDetail.articleList.isEmpty,
                               child: Column(
                                 children: <Widget>[
                                   Container(
@@ -254,10 +255,60 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                           '相关资讯',
                                           style: TextStyle(fontSize: 18),
                                         )),
-                                        Text(
-                                          '更多',
-                                          style:
-                                              TextStyle(color: Colors.black54),
+                                        GestureDetector(
+                                          onTap: (){
+                                            NavigatorUtil.pushPage(context, ConsutationList());
+                                          },
+                                          child: Text(
+                                            '更多',
+                                            style:
+                                                TextStyle(color: Colors.black54),
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Colors.black54,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    child: ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          activityDetail.articleList.length,
+                                      itemBuilder: (context, index) =>
+                                          _buildItem1(index),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Offstage(
+                              offstage:
+                                  activityDetail.questionnaireList.isEmpty,
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        top: 15, left: 15, right: 15),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Text(
+                                          '调查问卷',
+                                          style: TextStyle(fontSize: 18),
+                                        )),
+                                        GestureDetector(
+                                          onTap: (){
+                                            NavigatorUtil.pushPage(context, DayTest());
+                                          },
+                                          child: Text(
+                                            '更多',
+                                            style:
+                                                TextStyle(color: Colors.black54),
+                                          ),
                                         ),
                                         Icon(
                                           Icons.chevron_right,
@@ -303,7 +354,9 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                 onPressed: () {
                                   if (signUpText == '报名') {
                                     NavigatorUtil.pushWebView(
-                                        context, 'http://49.232.168.124/phms_resource_base/mobile_survy_ui/index6.html', {"title": "调查问卷"});
+                                        context,
+                                        'http://49.232.168.124/phms_resource_base/mobile_survy_ui/index6.html',
+                                        {"title": "调查问卷"});
                                     signUpActivity();
                                   }
                                 },
@@ -386,10 +439,16 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
   _buildItem(int index) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushWebView(
-            context, activityDetail.detail, {"title": "活动"});
+        if (activityDetail.questionnaireList[index].isFinished != "Y") {
+          NavigatorUtil.pushPage(
+              context,
+              Test0(
+                questionnaireId: activityDetail.questionnaireList[index].id,
+              ));
+        }
       },
       child: Container(
+        color: Colors.white,
         padding: EdgeInsets.only(bottom: 5, left: 15, right: 15),
         margin: EdgeInsets.only(top: 15),
         child: Column(
@@ -421,8 +480,78 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                 ),
                 Expanded(
                   flex: 2,
+                  child: Container(
+                    height: 80,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            activityDetail.questionnaireList[index].title,
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Text(
+                          activityDetail.questionnaireList[index].isFinished == "Y"?'已完成':'',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildItem1(int index) {
+    return GestureDetector(
+      onTap: () {
+        NavigatorUtil.pushPage(
+            context,
+            ConsultationDetailPage(
+              id: activityDetail.articleList[index].id,
+              imgurl:activityDetail.articleList[index].cover,
+            ));
+      },
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.only(bottom: 5, left: 15, right: 15),
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 1,
+              color: Colors.grey[200],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        activityDetail.articleList[index].cover,
+                        height: 80,
+                        width: 120,
+                        fit: BoxFit.fill,
+                      )),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  flex: 2,
                   child: Text(
-                    activityDetail.questionnaireList[index].title,
+                    activityDetail.articleList[index].title,
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
