@@ -6,19 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/User.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/step_count.bloc.dart';
-import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/bean/step_ranking.dart' as step;
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
+import 'package:flutter_first/pages/mine/collection_page.dart';
 import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
-import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -26,8 +26,6 @@ import 'package:flutter_first/widgets/word_size_dialog.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-
-import 'collection_page.dart';
 //import 'package:todaystep/audioplayers.dart';
 
 class MinePage extends StatefulWidget {
@@ -36,12 +34,35 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
+  int stepRanking = 1;
   List<UserInfor> UserList = List();
   bool isShowLoading = true;
-  void initState() {
 
+
+
+  @override
+  void initState() {
+    _getStepRanking();
     _getUser();
   }
+
+  _getStepRanking() {
+    DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
+        onSuccess: (data) {
+          setState(() {
+            stepRanking = data.stepRanking;
+            print('获取排名成功！');
+          });
+        },
+        onError: (code, msg) {
+          print('获取排名失败！');
+        },
+        noExistError: (){
+          print('请求的对象不存在或已被删除！');
+        });
+
+  }
+
   void _getUser() {
     DioUtils.instance.requestNetwork<UserInfor>(
       Method.get,
@@ -61,6 +82,7 @@ class _MinePageState extends State<MinePage> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
@@ -233,7 +255,7 @@ class _MinePageState extends State<MinePage> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              '5',
+                              '$stepRanking',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
@@ -285,7 +307,8 @@ class _MinePageState extends State<MinePage> {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(context, CollectionPage());
+                                NavigatorUtil.pushPage(
+                                    context, CollectionPage());
                               },
                             ),
                           ),
@@ -339,8 +362,10 @@ class _MinePageState extends State<MinePage> {
                                 ),
                               ),
                               onTap: () {
+                                NavigatorUtil.pushPage(
+                                    context, instructor_demeanor());
                               },
-                             ),
+                            ),
                           ),
                           Expanded(
                             flex: 1,
@@ -563,7 +588,7 @@ class _MinePageState extends State<MinePage> {
                   onPressed: () {
                     NavigatorUtil.pushWebView(
                         context,
-                        'http://49.232.168.124/phms_resource_base/HomePageDetail/contactUs.htm',
+                        'http://www.aireading.club/phms_resource_base/HomePageDetail/contactUs.htm',
                         {'title': '关于“畅享健康”APP'});
                   },
                 ), //联系我们
@@ -606,7 +631,7 @@ class _MinePageState extends State<MinePage> {
                   onPressed: () {
                     NavigatorUtil.pushWebView(
                         context,
-                        'http://49.232.168.124/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
+                        'http://www.aireading.club/phms_resource_base/HomePageDetail/PrivacyPolicy.htm',
                         {'title': '隐私服务'});
                   },
                 ), //隐私服务
@@ -698,9 +723,4 @@ class _MinePageState extends State<MinePage> {
       ),
     );
   }
-  static saveWordSize(String word) async {
-    await StorageManager.sharedPreferences
-        .setString(Constant.word_size, word);
-  }
-
 }

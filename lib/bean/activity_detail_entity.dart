@@ -162,19 +162,22 @@ class QuestionnaireList {
   String id;
   String title;
   String cover;
+  String isFinished;
 
-  QuestionnaireList({this.id, this.title, this.cover});
+  QuestionnaireList({this.id, this.title, this.cover,this.isFinished});
 
   QuestionnaireList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     cover = json['cover'];
+    isFinished = json['isFinished'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    data['isFinished'] = this.isFinished;
     data['cover'] = this.cover;
     return data;
   }

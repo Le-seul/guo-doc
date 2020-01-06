@@ -443,7 +443,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: GetAllMusicList[0]));
+                        NavigatorUtil.pushPage(context,MusicListPage(GetAllMusicList[0].id,GetAllMusicList[0].image,GetAllMusicList[0].name));
                       },
                     ),
 
@@ -480,7 +480,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: GetAllMusicList[1]));
+                        NavigatorUtil.pushPage(context,MusicListPage(GetAllMusicList[1].id,GetAllMusicList[1].image,GetAllMusicList[1].name));
                       },
                     ),
 
@@ -517,7 +517,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                         ),
                       ),
                       onTap: (){
-                        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: GetAllMusicList[2],));
+                        NavigatorUtil.pushPage(context,MusicListPage(GetAllMusicList[2].id,GetAllMusicList[2].image,GetAllMusicList[2].name));
                       },
                     ),
 

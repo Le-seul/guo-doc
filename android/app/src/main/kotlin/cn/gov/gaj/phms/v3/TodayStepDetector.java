@@ -321,9 +321,9 @@ public class TodayStepDetector implements SensorEventListener{
         this.timeOfLastPeak1 = this.timeOfThisPeak1;
         this.timeOfThisPeak1 = System.currentTimeMillis();
         if (this.timeOfThisPeak1 - this.timeOfLastPeak1 <= 3000L){
-            if(this.count<9){
+            if(this.count<3){
                 this.count++;
-            }else if(this.count == 9){
+            }else if(this.count == 3){
                 this.count++;
                 this.mCount += this.count;
                 PreferencesHelper.setCurrentStep(mContext, mCount);

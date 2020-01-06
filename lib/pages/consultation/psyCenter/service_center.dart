@@ -5,9 +5,11 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child2.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/dialog.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -103,8 +105,12 @@ class _ServiceCenterPageState extends State<ServiceCenterPage>
               SearchTextFieldWidget(
                 margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
                 color: Colors.white,
-                hintText: '请输入',
+                controller: TextEditingController(),
+                hintText: '请输入心理服务中心',
                 isborder: true,
+                onTab: (){
+                  NavigatorUtil.pushPage(context, SesrchPage('psyServiceCenter','请输入心理服务中心'));
+                },
               ),
               Flex(
                 crossAxisAlignment: CrossAxisAlignment.center,

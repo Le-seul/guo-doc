@@ -43,6 +43,15 @@ class _MusicTabPageState extends State<MusicTabPage> {
     }
   }
 
+//  @override
+//  void deactivate() {
+//    if (widget.tagId == "0") {
+//      _getAllMusicList();
+//    } else {
+//      _getMusicListByTag();
+//    }
+//  }
+
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -121,7 +130,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
-                child: Text('暂无数据'),
+                child: Text('wu'),
               )
             : SmartRefresher(
                 enablePullDown: widget.tagId == "0" ? true : false,
@@ -181,7 +190,8 @@ class _MusicTabPageState extends State<MusicTabPage> {
   _buildItem(int index) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushPage(context,MusicListPage(allMusicList: getTagMusicList[index]));
+        NavigatorUtil.pushPage(context,MusicListPage(getTagMusicList[index].id,getTagMusicList[index].image,getTagMusicList[index].name));
+        CommonRequest.UpdatePlayCount(getTagMusicList[index].id, 'musicList');
       },
       child: Container(
           color: Colors.white,
@@ -209,12 +219,12 @@ class _MusicTabPageState extends State<MusicTabPage> {
                         margin: EdgeInsets.only(left: 10, top: 10),
                         child: Row(
                           children: <Widget>[
-                            loadAssetImage('music/music_ear.png',height: 12,width: 12),
+                            loadAssetImage('music/music_ear.png',height: 13,width: 13,color: Colors.white),
                             SizedBox(
                               width: 5,
                             ),
                             Text(
-                              '2038',
+                              '${getTagMusicList[index].playCount??0}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14),
                             ),

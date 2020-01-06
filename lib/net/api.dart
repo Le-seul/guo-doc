@@ -1,4 +1,11 @@
 class Api {
+
+  //搜索
+  static const String SEARCH = "/api/search.do?search";
+
+  //获取首页公告
+  static const String GETANNOUNCEMENT = "/api/homePage.do?getAnnouncement";
+
   //资讯顶部栏目
   static const String GETAllCOlUMN = "/api/information.do?getAllColumn";
 
@@ -53,11 +60,17 @@ class Api {
   //获取所有Tag
   static const String GETMUSICTAG = "/api/music.do?getAllTag";
 
+  //记录播放数量
+  static const String ADDPLAYCOUNT = "/api/music.do?addPlayCount";
+
   //获取某个歌单的所有音乐
   static const String GETMUSICLIST = "/api/music.do?getSongOfMusicList";
 
   //获取包含某个Tag的所有歌单
   static const String GETMUSICLISTBYTAG = "/api/music.do?getMusicListByTag";
+
+  //获取歌曲详情
+  static const String GETSONGDETAIL = "/api/music.do?getSongDetail";
 
   //轮播图
   static const String BANNER = "/api/homePage.do?getBanner";
@@ -67,6 +80,15 @@ class Api {
 
   //获取心理课程接口
   static const String GETALLCOUTSE = "/api/psyCourse.do?getAllCourse";
+
+  //获取即将发布的课程
+  static const String GETUPCOMINGCOURSE = "/api/psyCourse.do?getUpcomingCourse";
+
+  //获取心理课程获取TAG列表
+  static const String GETTAGLIST = "/api/psyCourse.do?getTagList";
+
+  //根据tag获取课程列表
+  static const String GETBYTAGNAME = "/api/psyCourse.do?getByTagName";
 
   //心理课程详情1
   static const String COURSEDETAIL1 = "/api/psyCourse.do?getCouserDetail&id=1";
@@ -216,6 +238,16 @@ class Api {
 
   //门诊信息
   static const String CLINICINFO = "/api/clinicInfo.do?getClinicInfo";
+
+
+  //记录或更新步数
+  static const String UPDATESTEPTCOUNT = "/api/step.do?saveOrUpdateStepCount";
+
+  //获取用户步数排名
+  static const String GRTSTEPRANKING = "/api/step.do?getStepRanking";
+
+  //获取步数排名列表
+  static const String GETRANKINGLIST = "/api/step.do?getRankingList";
 
   //用户信息
   static const String USERINFOR = "/api/auUser.do?getAuUser";

@@ -6,6 +6,7 @@ class Constant {
   static const String phone = 'phone';
   static const String registrationID = 'registrationID';
   static const String tuWenNum = 'tuWenNum';
+  static const String searchHistory = 'searchHistory';
   static const String fastFhoneNum = 'fastFhoneNum';
   static const String access_Token = 'accessToken';
   static const String onlinIsAgree = 'onlinIsAgree';

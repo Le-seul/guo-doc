@@ -176,9 +176,11 @@ class DioUtils {
         }else if(result.customCode == -3){
           expiredError();
         }else{
-          isList ? onSuccessList(result.obj) : onSuccess(result.obj);
+          isList ?onSuccessList(result.obj) : onSuccess(result.obj);
         }
 
+      }else if(result.statusCode == -3){
+        noExistError();
       }else if(result.statusCode == 104){
 //        eventBus.fire(LoginEvent());
         Toast.show("用户授权信息无效");

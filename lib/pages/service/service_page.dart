@@ -191,7 +191,7 @@ class _ServicePageState extends State<ServicePage> {
                     GestureDetector(
                       onTap: (){
                       },
-                        child: Text('   活动参与',style: TextStyle(fontSize: 16.5),)),
+                        child: Text('   工作动态',style: TextStyle(fontSize: 16.5),)),
 
                   ],
                 ),),
@@ -307,7 +307,7 @@ class _ServicePageState extends State<ServicePage> {
                               children: <Widget>[
                                 RichText(
                                   text: TextSpan(
-                                      text:'25',
+                                      text:'${serviceActivityList[index].signInCount}',
                                       style: TextStyle(color: Colors.orange,fontSize: 12),
                                       children: <TextSpan>[
                                         TextSpan(

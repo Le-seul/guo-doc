@@ -24,7 +24,7 @@ String baseurl;
 void initState() {
   token = StorageManager.sharedPreferences.getString(Constant.access_Token);
   baseurl = Config.apiHost;
-  htmlUrl = '${baseurl}/api/staticResource.do?getResource&url=mobile_survy_ui/index.html&token=$token&questionnaireId=${widget.questionnaireId}&commonIp=${baseurl}';
+  htmlUrl = '${baseurl}/api/staticResource.do?getResource&url=mobile_survy_ui/index2.html&token=$token&questionnaireIds=${widget.questionnaireId}&commonIp=${baseurl}';
   print('htmlUrl:$htmlUrl');
 }
 

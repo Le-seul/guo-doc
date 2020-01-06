@@ -65,12 +65,12 @@ class _ReportListState extends State<ReportList> {
       },
       child: Container(
         color: Colors.white,
-        padding: EdgeInsets.only(top: 5,bottom: 5,left: 15,right: 15),
-        height: 40,
+        padding: EdgeInsets.only(top: 10,bottom: 10,left: 15,right: 15),
+
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Image.asset('assets/images/tijian.png'),
+            Image.asset('assets/images/tijian.png',height: 35,width: 35,),
             SizedBox(width: 10,),
             Expanded(child: Text('${healthYearList[index].year}体检报告',style: TextStyle(fontSize: 17),)),
             Icon(Icons.chevron_right),

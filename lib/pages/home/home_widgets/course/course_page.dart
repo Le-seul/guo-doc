@@ -5,12 +5,15 @@ import 'package:flukit/flukit.dart' as lib1;
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/banner.dart';
 import 'package:flutter_first/bean/course.dart';
+import 'package:flutter_first/bean/course_tag_entity.dart';
 import 'package:flutter_first/bean/psycourse.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_child.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -22,27 +25,71 @@ class PsyCourse extends StatefulWidget {
 }
 
 class _PsyCourseState extends State<PsyCourse>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin implements SlideTag{
   bool isShowLoading = false;
   List<Course> ecommendrList = List();
   List<Course> comingList = List(); //我的课程
   List<Course> lastTimeList = List(); //我的课程
   bool offstage = true;
+  var tabText = [];
+  List<Widget> tabs = [];
+  List<Widget> tabViews = [];
   TabController mController;
+  double mHeigh = 330.0;
 
   @override
   void initState() {
-    _requestPsycourse();
-    mController = TabController(
-      length: 6,
-      vsync: this,
-    );
+    _getUpcomingCourse();
+//    _requestPsycourse();
+    _getCourseTab();
   }
 
   @override
   void dispose() {
     super.dispose();
     mController.dispose();
+  }
+
+  _getUpcomingCourse(){
+    DioUtils.instance.requestNetwork<Course>(Method.get, Api.GETUPCOMINGCOURSE,
+        queryParameters: {'pageNumber': 1,'pageSize':20},
+        isList: true, onSuccessList: (data) {
+          setState(() {
+            comingList = data;
+            print("获取课程成功！");
+          });
+        }, onError: (code, msg) {
+          print("获取课程失败！");
+        });
+  }
+
+  _getCourseTab(){
+    DioUtils.instance.requestNetwork<CourseTag>(
+      Method.get,
+      Api.GETTAGLIST,
+      onSuccess: (data) {
+        print('课程TAB获取成功');
+        setState(() {
+          tabText = data.tagList;
+          mController = TabController(
+            length: tabText.length,
+            vsync: this,
+          );
+          tabText.forEach((item) {
+            tabs.add(Text(item));
+          });
+          tabText.forEach((item) {
+            tabViews.add(CourseChild(item,this));
+          });
+          isShowLoading = false;
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+          print('课程tag获取失败！');
+        });
+      },
+    );
   }
 
   void _requestPsycourse() {
@@ -91,8 +138,11 @@ class _PsyCourseState extends State<PsyCourse>
                   SearchTextFieldWidget(
                     isborder: false,
                     hintText: '搜索课程',
+                    controller: TextEditingController(),
                     margin: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    onTab: () {},
+                    onTab: () {
+                      NavigatorUtil.pushPage(context, SesrchPage('psyCourse','搜索课程'));
+                    },
                   ),
                   SizedBox(
                     height: 15,
@@ -136,7 +186,9 @@ class _PsyCourseState extends State<PsyCourse>
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
+            child: tabText.isEmpty
+                ? Container()
+                :Column(
               children: <Widget>[
                 SizedBox(
                   height: 20,
@@ -173,52 +225,37 @@ class _PsyCourseState extends State<PsyCourse>
                           isScrollable: true,
                           //是否可以滚动
                           controller: mController,
-                          labelPadding: EdgeInsets.only(left: 5, right: 5),
+                          labelPadding:EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
                           indicatorColor: Color(0xff2CA687),
                           labelColor: Color(0xff2CA687),
                           indicatorSize: TabBarIndicatorSize.label,
                           unselectedLabelColor: Color(0xff666666),
                           unselectedLabelStyle: TextStyle(fontSize: 14),
                           labelStyle: TextStyle(fontSize: 14.0),
-                          tabs: <Widget>[
-                            Container(child: Text('全部'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('情绪调节'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('亲密关系'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('自我成长'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('咨询培训'),margin: EdgeInsets.only(left: 4,right: 4),),
-                            Container(child: Text('简单共读'),margin: EdgeInsets.only(left: 4,right: 4),),
-                          ],
+                          tabs: tabs,
                         ),
                       ),
                     ],
                   ),
                 ),
+                Container(
+                  height: mHeigh,
+                  child: TabBarView(
+                    controller: mController,
+                    children: tabViews,
+                  ),
+                ),
+                Container(
+                  height: 20,
+                  color: Color(0xFFEEEEEE),
+                ),
+
               ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 330,
-              child: TabBarView(
-                controller: mController,
-                children: <Widget>[
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                  CourseChild(ecommendrList),
-                ],
-              ),
             ),
           ),
           SliverToBoxAdapter(
             child: Column(
               children: <Widget>[
-                Container(
-                  height: 20,
-                  color: Color(0xFFEEEEEE),
-                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -291,13 +328,13 @@ class _PsyCourseState extends State<PsyCourse>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '【怎么管理情绪】',
+                      '【${comingList[index].name}】',
                       style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('类别：情绪调节',style: TextStyle(fontSize: 12),),
+                    Text('类别：${comingList[index].category}',style: TextStyle(fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
@@ -384,17 +421,18 @@ class _PsyCourseState extends State<PsyCourse>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '【怎么管理情绪】',
+                      '【${comingList[index].name}】',
                       style: TextStyle(fontSize: 14),
+                      maxLines: 1,overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('类别：情绪调节',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
+                    Text('类别：${comingList[index].category}',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('课程时长：16讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
+                    Text('课程时长：${comingList[index].courseCount??0}讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),),
                     SizedBox(
                       height: 5,
                     ),
@@ -424,4 +462,15 @@ class _PsyCourseState extends State<PsyCourse>
       ),
     );
   }
+
+  @override
+  void onSlide(double heigh) {
+    setState(() {
+      mHeigh = heigh;
+      print('高度：$heigh');
+    });
+  }
+}
+abstract class SlideTag {
+  void onSlide(double heigh);
 }

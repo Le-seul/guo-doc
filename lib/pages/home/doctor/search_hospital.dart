@@ -1,6 +1,7 @@
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/doctor/search_hospital_detail.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
@@ -71,9 +72,12 @@ class _SearchHospitalState extends State<SearchHospital>
             ),
             SearchTextFieldWidget(
               isborder: true,
+              controller: TextEditingController(),
               hintText: '请输入搜索内容',
               margin: const EdgeInsets.only(left: 15.0, right: 15.0),
-              onTab: () {},
+              onTab: () {
+                NavigatorUtil.pushPage(context, SesrchPage('hospital','请输入搜索内容'));
+              },
             ),
             Flexible(
                 flex: 1,

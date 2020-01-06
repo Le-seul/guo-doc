@@ -296,7 +296,7 @@ class MusicControlBar {
                 ),
               ),
               onTap: () {
-                NavigatorUtil.pushPage(context,PlayingPage());
+                NavigatorUtil.pushPage(context,PlayingPage(music: music,));
               },
             ),
           ));

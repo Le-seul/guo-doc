@@ -409,6 +409,28 @@ class ShowActivityTab extends Dialog {
   }
 }
 
+class ShowNoticeDialog extends Dialog {
+  static showMyMaterialDialog(BuildContext context,String content) {
+    showDialog<Null>(
+      context: context, // BuildContext对象
+      barrierDismissible: true, // 屏蔽点击对话框外部自动关闭
+      builder: (_) =>  AlertDialog(
+          content: Text(
+           content,
+          ),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () {
+                 Navigator.pop(context);
+                },
+                child: Text('确认')),
+          ],
+        ),
+
+    );
+  }
+}
+
 class ShowExitDialog extends Dialog {
   static showMyMaterialDialog(BuildContext context) {
     showDialog<Null>(

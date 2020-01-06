@@ -3,7 +3,9 @@ import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/res/colors.dart';
+import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/search.dart';
@@ -64,8 +66,12 @@ bool isShowLoading = true;
                 SearchTextFieldWidget(
                   margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
                   color: Colors.white,
+                  controller: TextEditingController(),
                   hintText: '搜索文章',
                   isborder: true,
+                  onTab: (){
+                    NavigatorUtil.pushPage(context, SesrchPage('psyCoReading','搜索文章'));
+                  },
                 ),
                 Container(
                   height: 30,
@@ -98,8 +104,6 @@ bool isShowLoading = true;
                       ],
                     ),)
                   ],)
-
-
 
                 ),
                 Flexible(

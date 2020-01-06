@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/pages/home/home_widgets/VideoPlayer_Page.dart';
+import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -50,9 +51,12 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                 margin: EdgeInsets.only(top: 15, bottom: 15),
                 child: SearchTextFieldWidget(
                   isborder: false,
+                  controller: TextEditingController(),
                   hintText: '搜索你感兴趣的内容/咨询师',
                   margin: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  onTab: () {},
+                  onTab: () {
+                    NavigatorUtil.pushPage(context, SesrchPage('psyCourse','搜索你感兴趣的内容/咨询师'));
+                  },
                 ),
               ),
               VideoPlayer(),
@@ -357,7 +361,7 @@ class _PsychologicalConcultState extends State<PsychologicalConcult> {
                       onTap: (){
                         NavigatorUtil.pushWebView(
                             context,
-                            'http://49.232.168.124/phms_resource_base/HomePageDetail/psyPrivacyPolicy.htm',
+                            'http://www.aireading.club/phms_resource_base/HomePageDetail/psyPrivacyPolicy.htm',
                             {'title': '心理热线服务隐私政策'});
                       },
                       child: Row(

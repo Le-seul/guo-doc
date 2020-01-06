@@ -2,6 +2,7 @@ import 'package:flutter_first/bean/CoreadingCatelog.dart';
 import 'package:flutter_first/bean/CoreadingDetail.dart';
 import 'package:flutter_first/bean/HealthYear.dart';
 import 'package:flutter_first/bean/User.dart';
+import 'package:flutter_first/bean/announcement.dart';
 import 'package:flutter_first/bean/article_detail.dart';
 import 'package:flutter_first/bean/article_likestatus.dart';
 import 'package:flutter_first/bean/audioUrl.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_first/bean/collection.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
+import 'package:flutter_first/bean/course_tag_entity.dart';
 import 'package:flutter_first/bean/doctorInfo.dart';
 import 'package:flutter_first/bean/fastphone_info.dart';
 import 'package:flutter_first/bean/history_order_entity.dart';
@@ -34,12 +36,15 @@ import 'package:flutter_first/bean/psyteacher.dart';
 import 'package:flutter_first/bean/psyteacher_like.dart';
 import 'package:flutter_first/bean/psyteacherlist.dart';
 import 'package:flutter_first/bean/region.dart';
+import 'package:flutter_first/bean/search_entity.dart';
 import 'package:flutter_first/bean/service_activity_entity.dart';
 import 'package:flutter_first/bean/service_center.dart';
 import 'package:flutter_first/bean/service_center2_bean.dart';
 import 'package:flutter_first/bean/service_center_bean.dart';
 import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
+import 'package:flutter_first/bean/step_count_list.dart';
+import 'package:flutter_first/bean/step_ranking.dart';
 import 'package:flutter_first/bean/test_entity.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
@@ -140,10 +145,20 @@ class EntityFactory {
       return Clinic.fromJson(json) as T;
     }else if (T.toString() == "TestTag") {
       return TestTag.fromJson(json) as T;
+    }else if (T.toString() == "StepRanking") {
+      return StepRanking.fromJson(json) as T;
+    }else if (T.toString() == "StepCount") {
+      return StepCount.fromJson(json) as T;
+    }else if (T.toString() == "CourseTag") {
+    return CourseTag.fromJson(json) as T;
     }else if (T.toString() == "UserInfor") {
       return UserInfor.fromJson(json) as T;
     }else if (T.toString() == "Collection") {
       return Collection.fromJson(json) as T;
+    }else if (T.toString() == "Announcement") {
+    return Announcement.fromJson(json) as T;
+    }else if (T.toString() == "SearchContent") {
+      return SearchContent.fromJson(json) as T;
     }else {
       return null;
     }

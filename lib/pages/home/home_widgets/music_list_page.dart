@@ -4,6 +4,7 @@ import 'package:flutter_first/bean/music_entity.dart';
 import 'package:flutter_first/music/page_playing.dart';
 import 'package:flutter_first/music/player.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/common_dio.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_detail.dart';
 import 'package:flutter_first/util/image_utils.dart';
@@ -12,8 +13,10 @@ import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
 
 class MusicListPage extends StatefulWidget {
-  GetAllMusic allMusicList;
-  MusicListPage({Key key, @required this.allMusicList}) : super(key: key);
+  String name;
+  String id;
+  String image;
+  MusicListPage(this.id,this.image,this.name) ;
   @override
   _MusicListPageState createState() => _MusicListPageState();
 }
@@ -24,7 +27,7 @@ class _MusicListPageState extends State<MusicListPage> {
   @override
   void initState() {
     DioUtils.instance.requestNetwork<Music>(Method.get, Api.GETMUSICLIST,
-        queryParameters: {"musicListId": widget.allMusicList.id},
+        queryParameters: {"musicListId": widget.id},
         isList: true, onSuccessList: (data) {
       setState(() {
         musicList = data;
@@ -144,7 +147,7 @@ class _MusicListPageState extends State<MusicListPage> {
         NavigatorUtil.pushPage(
             context,
             MusicDetail(
-              allMusicList: widget.allMusicList,
+              widget.image,widget.name
             ));
       },
       child: Container(
@@ -164,7 +167,7 @@ class _MusicListPageState extends State<MusicListPage> {
                         child: AspectRatio(
                           aspectRatio: 1.0,
                           child: Image.network(
-                            widget.allMusicList.image,
+                            widget.image,
                             height: 140,
                             width: 140,
                             fit: BoxFit.fill,
@@ -178,7 +181,7 @@ class _MusicListPageState extends State<MusicListPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.allMusicList.name,
+                          widget.name,
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(
@@ -215,6 +218,7 @@ class _MusicListPageState extends State<MusicListPage> {
                 music: musicList[index],
               ));
           quiet.playWithList(musicList[index], musicList, 'playlist');
+          CommonRequest.UpdatePlayCount(musicList[index].id, 'song');
         },
         child: Container(
           color: Colors.white,
