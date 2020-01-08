@@ -16,6 +16,7 @@ import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/mine/collection_page.dart';
 import 'package:flutter_first/pages/mine/feedback_page.dart';
+import 'package:flutter_first/pages/mine/message_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -389,6 +390,10 @@ class _MinePageState extends State<MinePage> {
                                   ],
                                 ),
                               ),
+                              onTap: (){
+                                NavigatorUtil.pushPage(
+                                    context, MessagePage());
+                              },
                             ),
                           ),
                         ],
