@@ -174,7 +174,7 @@ class Api {
   static const String PsyTeacherLocal = "/api/psyTeacher.do?getPsyTeacherByOrgId";
 
   //教官列表最美教官
-  static const String PsyTeacherBest = "/api/psyTeacher.do?getPsyTeacherBest&teacherId=1";
+  static const String PsyTeacherBest = "/api/psyTeacher.do?getPsyTeacherBest";
 
   //教官点赞
   static const String PsyTeacherLike = "/api/psyTeacher.do?getPsyTeacherLike";

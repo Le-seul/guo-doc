@@ -170,22 +170,22 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 )
               ],
             ),),
+          isShowLoading1
+              ? LoadingWidget.childWidget()
+              : (PsyList.length == 0)
+              ? Container(
+            width: double.infinity,
+            height: double.infinity,
+            alignment: Alignment.center,
+            child: Text('暂无数据'),
+          ):
           Container(
             margin: EdgeInsets.all(10),
             height: ScreenUtil().setHeight(40),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
-            child:isShowLoading1
-                ? LoadingWidget.childWidget()
-                : (PsyList.length == 0)
-                ? Container(
-              width: double.infinity,
-              height: double.infinity,
-              alignment: Alignment.center,
-              child: Text('暂无数据'),
-            )
-                :  InkWell(
+            child:InkWell(
               child: Column(
                 children: <Widget>[
                   Expanded(

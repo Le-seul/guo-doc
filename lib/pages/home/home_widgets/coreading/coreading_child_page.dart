@@ -8,7 +8,7 @@ import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CoreadingChild extends StatefulWidget {
+class CoreadingChild extends StatefulWidget  {
   String Kind;
 
   CoreadingChild({Key key, @required this.Kind})
@@ -23,6 +23,12 @@ class _CoreadingChildState extends State<CoreadingChild> {
 
   @override
   void initState() {
+    _requestCoreading();
+  }
+
+
+  @override
+  void deactivate() {
     _requestCoreading();
   }
 
@@ -125,7 +131,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
                         Row(
                           children: <Widget>[
                             Icon(Icons.star,color:  Color(0xffFF9935),size: 18,),
-                            Text('${list[index].learnedUserCount}人在读',style: TextStyle(color:  Color(0xffFF9935))),
+                            Text('${list[index].learnedUserCount}人已读',style: TextStyle(color:  Color(0xffFF9935))),
                           ],
                         ),
                         SizedBox(height: 8,),
@@ -140,11 +146,9 @@ class _CoreadingChildState extends State<CoreadingChild> {
                 ],
               ),
             ),
-            onTap: (){
-              setState(() {
-                _getCoreadingLike(list[index].id);
-                NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
-              });
+            onTap: () {
+              _getCoreadingLike(list[index].id);
+              NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
             },
           );
         });

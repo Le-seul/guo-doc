@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_first/bean/User.dart';
 import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/step_count.bloc.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/bean/step_ranking.dart' as step;
 import 'package:flutter_first/net/dio_utils.dart';
@@ -18,8 +19,10 @@ import 'package:flutter_first/pages/mine/collection_page.dart';
 import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/message_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_first/widgets/my_card.dart';
@@ -38,6 +41,7 @@ class _MinePageState extends State<MinePage> {
   int stepRanking = 1;
   List<UserInfor> UserList = List();
   bool isShowLoading = true;
+  double seekvalue ;
 
 
 
@@ -45,6 +49,7 @@ class _MinePageState extends State<MinePage> {
   void initState() {
     _getStepRanking();
     _getUser();
+    seekvalue = StorageManager.sharedPreferences.getDouble(Constant.word_size);
   }
 
   _getStepRanking() {
@@ -148,7 +153,7 @@ class _MinePageState extends State<MinePage> {
                           Text(UserList[0].userName,
                               style:
                               TextStyle(color: Colors.white, fontSize: 16)),
-                          Text(UserList[0].mobile,
+                          Text(UserList[0].mobile.substring(0,3)+'****'+UserList[0].mobile.substring(6,10),
                               style:
                               TextStyle(color: Colors.white, fontSize: 12)),
                         ],
@@ -180,12 +185,15 @@ class _MinePageState extends State<MinePage> {
                         ),
 
                         onTap: () {
-                          showDialog<Null>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return WordDialog();
-                              }
-                          );
+                         setState(() {
+                           seekvalue = StorageManager.sharedPreferences.getDouble(Constant.word_size);
+                           showDialog<Null>(
+                               context: context,
+                               builder: (BuildContext context) {
+                                 return WordDialog( seekvalue: seekvalue == null?1:seekvalue);
+                               }
+                           );
+                         });
                         },
                       ),
                       SizedBox(
@@ -317,7 +325,7 @@ class _MinePageState extends State<MinePage> {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
-                                NavigatorUtil.pushPage(context, PsyCourse());
+                                NavigatorUtil.pushPage(context, StepRanking());
                               },
                               child: Container(
                                 height: 60,
@@ -363,8 +371,7 @@ class _MinePageState extends State<MinePage> {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
+                                NavigatorUtil.pushPage(context, ActivityParticipation());
                               },
                             ),
                           ),
