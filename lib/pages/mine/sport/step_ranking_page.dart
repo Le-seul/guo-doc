@@ -14,8 +14,8 @@ class StepRanking extends StatefulWidget {
 }
 
 class _StepRankingState extends State<StepRanking> {
-
-  bool offstage = false;
+  bool isShowLoading = true;
+  bool offstage = true;
   List<StepCount> stepCountList= List();
   int stepRanking = 12;
 
@@ -49,6 +49,7 @@ class _StepRankingState extends State<StepRanking> {
         onSuccessList: (data) {
           setState(() {
             stepCountList = data;
+            isShowLoading = false;
             print('获取列表成功！');
           });
         },
@@ -81,7 +82,16 @@ class _StepRankingState extends State<StepRanking> {
           ),
         ],
       ),
-      body: Stack(
+      body: isShowLoading
+          ? LoadingWidget.childWidget()
+          : (stepCountList.isEmpty||stepCountList == null)
+          ? Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Text('暂无数据'),
+      )
+          :Stack(
         children: <Widget>[
           Container(
             color: Color(0xff2CA687),
