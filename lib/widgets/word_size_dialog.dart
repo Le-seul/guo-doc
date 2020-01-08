@@ -5,30 +5,65 @@ import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_seekbar/flutter_seekbar.dart' ;
-class WordDialog extends Dialog {
+
+
+
+class WordDialog extends Dialog  {
+
 
   double seekvalue;
   WordDialog({Key key,@required this.seekvalue})
       : super(key: key);
   @override
-  List<SectionTextModel> sectionTexts = [];
 
-  @override
-  void initState() {
-    sectionTexts.add(
-        SectionTextModel(position: 0, text: 'bad', progressColor: Colors.red));
-    sectionTexts.add(SectionTextModel(
-        position: 2, text: 'good', progressColor: Colors.yellow));
-    sectionTexts.add(SectionTextModel(
-        position: 4, text: 'great', progressColor: Colors.green));
-  }
   Widget build(BuildContext context) {
     return Center(
       child: new Material(
         ///背景透明
         color: Colors.transparent,
         ///保证控件居中效果
-        child: new Center(
+        child:  Seekbar(seekvalue: seekvalue,),
+      ),
+    );
+  }
+
+}
+
+
+
+class Seekbar extends StatefulWidget {
+  double seekvalue;
+
+  Seekbar({Key key,@required this.seekvalue})
+      : super(key: key);
+  @override
+  _SeekbarState createState() => _SeekbarState();
+}
+
+class _SeekbarState extends State<Seekbar> {
+  double seekvalue2;
+  List<SectionTextModel> sectionTexts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    sectionTexts.add(SectionTextModel(position: 0, text: '小', progressColor: Colors.blue));
+    sectionTexts.add(SectionTextModel(position: 1, text: '', progressColor: Colors.blue));
+    sectionTexts.add(SectionTextModel(position: 2, text: '标准', progressColor: Colors.blue));
+    sectionTexts.add(SectionTextModel(position: 3, text: '', progressColor: Colors.blue));
+    sectionTexts.add(SectionTextModel(position: 4, text: '大', progressColor: Colors.blue));
+    sectionTexts.add(SectionTextModel(position: 5, text: '', progressColor: Colors.blue));
+    sectionTexts.add(SectionTextModel(position: 6, text: '超大', progressColor: Colors.blue));
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        GestureDetector(onTap:(){
+          Navigator.pop(context);
+        }),
+        Center(
           ///弹框大小
           child: new SizedBox(
             width: 300.0,
@@ -48,36 +83,40 @@ class WordDialog extends Dialog {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '字体大小'
+                    '字体大小',
+                    style: TextStyle(
+                        fontSize: 11+(seekvalue2==null?widget.seekvalue:seekvalue2)*2
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     child: SeekBar(
-                        progresseight: 10,
-                        backgroundColor: Colours.bg_green,
-                        max: 4,
-                        min: 1,
-                        value:seekvalue,
-                        sectionCount:6,
-                        sectionRadius: 6,
-                        showSectionText: true,
-                        sectionTexts: sectionTexts,
-                        sectionTextMarginTop: 2,
-                        sectionDecimal: 1,
-                        sectionTextColor: Colors.black,
-                        sectionSelectTextColor: Colors.red,
-                        sectionTextSize: 14,
-                        hideBubble: false,
-                        bubbleRadius: 14,
-                        bubbleColor: Colours.bg_green,
-                        bubbleTextColor: Colors.white,
-                        bubbleTextSize: 14,
-                        bubbleMargin: 4,
-                        afterDragShowSectionText: false,
+                      progresseight: 10,
+                      backgroundColor: Colours.bg_green,
+                      max: 6,
+                      min: 1,
+                      value:seekvalue2==null?widget.seekvalue:seekvalue2,
+                      sectionCount:6,
+                      sectionRadius: 6,
+                      showSectionText: true,
+                      sectionTexts: sectionTexts,
+                      sectionTextMarginTop: 2,
+                      sectionDecimal: 1,
+                      sectionTextColor: Colors.black,
+                      sectionSelectTextColor: Colors.red,
+                      sectionTextSize: 14,
+                      hideBubble: true,
+                      bubbleRadius: 14,
+                      bubbleColor: Colours.bg_green,
+                      bubbleTextColor: Colors.white,
+                      bubbleTextSize: 14,
+                      bubbleMargin: 4,
+                      afterDragShowSectionText: false,
                       onValueChanged: ( e){
-                          seekvalue = e.value;
-                          saveWordSize(e.value);
-                          print('这个值是$seekvalue');
+                        setState(() {
+                          seekvalue2 = e.value;
+                          print('这个值是$seekvalue2');
+                        });
                       },
                     ),
                   ),
@@ -91,7 +130,8 @@ class WordDialog extends Dialog {
                           "确定",
                         ),
                       ),
-                      onTap: (){
+                      onTap: () {
+                        saveWordSize(seekvalue2);
                         Navigator.pop(context);
                       },
                     ),
@@ -101,7 +141,7 @@ class WordDialog extends Dialog {
             ),
           ),
         ),
-      ),
+      ],
     );
   }
   static saveWordSize(double Size) async {

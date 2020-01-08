@@ -18,6 +18,7 @@ import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/mine/collection_page.dart';
 import 'package:flutter_first/pages/mine/feedback_page.dart';
 import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/storage_manager.dart';
@@ -151,7 +152,7 @@ class _MinePageState extends State<MinePage> {
                           Text(UserList[0].userName,
                               style:
                               TextStyle(color: Colors.white, fontSize: 16)),
-                          Text(UserList[0].mobile,
+                          Text(UserList[0].mobile.substring(0,3)+'****'+UserList[0].mobile.substring(6,10),
                               style:
                               TextStyle(color: Colors.white, fontSize: 12)),
                         ],
@@ -188,7 +189,6 @@ class _MinePageState extends State<MinePage> {
                            showDialog<Null>(
                                context: context,
                                builder: (BuildContext context) {
-                                // print('这个值是'+ seekvalue);
                                  return WordDialog( seekvalue: seekvalue == null?1:seekvalue);
                                }
                            );
@@ -324,7 +324,7 @@ class _MinePageState extends State<MinePage> {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
-                                NavigatorUtil.pushPage(context, PsyCourse());
+                                NavigatorUtil.pushPage(context, StepRanking());
                               },
                               child: Container(
                                 height: 60,
@@ -370,8 +370,7 @@ class _MinePageState extends State<MinePage> {
                                 ),
                               ),
                               onTap: () {
-                                NavigatorUtil.pushPage(
-                                    context, instructor_demeanor());
+                                NavigatorUtil.pushPage(context, ActivityParticipation());
                               },
                             ),
                           ),
