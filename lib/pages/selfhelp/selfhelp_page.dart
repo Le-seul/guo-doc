@@ -10,6 +10,7 @@ import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_detail_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
+import 'package:flutter_first/pages/home/home_widgets/everydaytest/daytest.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/everydaytestpage.dart';
 import 'package:flutter_first/pages/home/home_widgets/everydaytest/first.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_list_page.dart';
@@ -164,7 +165,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 InkWell(
                   child:Container(child: Text('更多>',style: TextStyle(fontSize: 12,color: Color(0xff6C6C6C)),)),
                   onTap: (){
-                    NavigatorUtil.pushPage(context,EverydayTest("趣味自测tag实验"));
+                    NavigatorUtil.pushPage(context,DayTest());
                   },
                 )
               ],
@@ -247,18 +248,18 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
 
               ],
             ),),
-          SingleChildScrollView(
+          isShowLoading2
+              ? LoadingWidget.childWidget()
+              : (mycourselist.length == 0)
+              ? Container(
+            width: double.infinity,
+            height: double.infinity,
+            alignment: Alignment.center,
+            child: Text('暂无数据'),
+          )
+              : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: isShowLoading2
-                ? LoadingWidget.childWidget()
-                : (mycourselist.length == 0)
-                ? Container(
-              width: double.infinity,
-              height: double.infinity,
-              alignment: Alignment.center,
-              child: Text('暂无数据'),
-            )
-                : Row(
+            child: Row(
               children: <Widget>[
                 InkWell(
                   onTap: () {
@@ -412,7 +413,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
                 )
               ],
             ),),
-          isShowLoading1
+          isShowLoading3
               ? LoadingWidget.childWidget()
               : (GetAllMusicList.length == 0)
               ? Container(
