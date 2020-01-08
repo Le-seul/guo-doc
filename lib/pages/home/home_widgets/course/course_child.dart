@@ -25,10 +25,30 @@ class _CourseChildState extends State<CourseChild> {
   @override
   void initState() {
     super.initState();
-    if(courseList.isNotEmpty){
-      widget.onSlide.onSlide((courseList.length+1)~/2*163.0);
-    }
+//    print('心理课程：initState');
     _getCourse();
+  }
+
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print('${widget.tagName}心理课程：deactivate开始');
+    _getCourse();
+  }
+
+
+
+  @override
+  void didUpdateWidget(CourseChild oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('${widget.tagName}心理课程：deactivate开始');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print('${widget.tagName}心理课程：didChangeDependencies');
   }
 
   _getCourse(){
@@ -36,11 +56,9 @@ class _CourseChildState extends State<CourseChild> {
         queryParameters: {'tagName': widget.tagName},
         isList: true, onSuccessList: (data) {
           setState(() {
-            for (Course course in data) {
-              courseList.add(course);
-              widget.onSlide.onSlide((data.length+1)~/2*163.0);
-              print("获取课程成功！");
-            }
+            courseList = data;
+            widget.onSlide.onSlide((data.length+1)~/2*163.0);
+            print("获取课程成功！");
           });
         }, onError: (code, msg) {
           print("获取课程失败！");
@@ -49,6 +67,7 @@ class _CourseChildState extends State<CourseChild> {
 
   @override
   Widget build(BuildContext context) {
+    print('${widget.tagName}心理课程：build');
     return Container(
       padding: EdgeInsets.only(left: 15,right: 15),
       child: GridView.builder(
@@ -74,26 +93,27 @@ class _CourseChildState extends State<CourseChild> {
       onTap: (){
         NavigatorUtil.pushPage(context,CourseDetailPage(courseId: courseList[index].id,));
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 11/6,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  courseList[index].coverImage,
-                  fit: BoxFit.fill,
-                )),
-          ),
-          SizedBox(height: 10,),
-          Text('【${courseList[index].name}】',style: TextStyle(fontSize: 14,),maxLines: 1,overflow: TextOverflow.ellipsis,),
-          SizedBox(height: 8,),
-          Text('课程时长：${courseList[index].courseCount??0}讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
-        ],
+      child: Container(
+        height: 163.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 11/6,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    courseList[index].coverImage,
+                    fit: BoxFit.fill,
+                  )),
+            ),
+            SizedBox(height: 10,),
+            Text('【${courseList[index].name}】',style: TextStyle(fontSize: 14,),maxLines: 1,overflow: TextOverflow.ellipsis,),
+            SizedBox(height: 8,),
+            Text('课程时长：${courseList[index].courseCount??0}讲',style: TextStyle(color: Color(0xff909090),fontSize: 12),)
+          ],
+        ),
       ),
     );
   }
-
-
 }

@@ -16,6 +16,7 @@ class ConsutationList extends StatefulWidget {
 
 class _ConsutationListState extends State<ConsutationList> {
   List<ConsulationColumnsInfo> columnsInfoList = List();
+  String createTime;
   String defaultImage =
       'https://www.aireading.club/phms_resource_base/image_base/BJ_YaJianKang_02.jpg';
   @override
@@ -63,6 +64,22 @@ class _ConsutationListState extends State<ConsutationList> {
     );
   }
   _buildItem(int index) {
+
+    //将时间字符串转为时间对象
+    DateTime moonLanding = DateTime.parse(columnsInfoList[index].createTime);
+    int second = (DateTime.now().millisecondsSinceEpoch-moonLanding.millisecondsSinceEpoch)~/1000;
+    if(second <= 3*60){
+      createTime = '刚刚';
+    }else if(second<= 60*60){
+      createTime = '${DateTime.now().minute-moonLanding.minute}分钟前';
+    }else if(second<= 24*60*60){
+      createTime = '${DateTime.now().hour-moonLanding.hour}小时前';
+    }else if(second<= 30*24*60*60){
+      createTime = '${DateTime.now().day-moonLanding.day}天前';
+    }else {
+      createTime = '${columnsInfoList[index].createTime.substring(0,11)}';
+    }
+
     return GestureDetector(
       child: (columnsInfoList[index].cover2 == null ||
           columnsInfoList[index].cover3 == null)
@@ -124,7 +141,7 @@ class _ConsutationListState extends State<ConsutationList> {
                                     width: 10,
                                   ),
                                   Text(
-                                    '12小时前',
+                                    createTime??'',
                                     style: TextStyle(
                                         color: Colors.black54, fontSize: 11),
                                   ),
