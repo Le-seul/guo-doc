@@ -17,7 +17,7 @@ class _StepRankingState extends State<StepRanking> {
   bool isShowLoading = true;
   bool offstage = true;
   List<StepCount> stepCountList= List();
-  int stepRanking = 12;
+  int stepRanking = 1;
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList.length<2?'无名氏':stepCountList[1].userName,
+                          stepCountList.length<2?'无':stepCountList[1].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -167,7 +167,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  stepCountList.length<2?'666':'${stepCountList[1].stepCount}',
+                                  stepCountList.length<2?'0':'${stepCountList[1].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -208,7 +208,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList.length<1?'无名氏':stepCountList[0].userName,
+                          stepCountList.length<1?'无':stepCountList[0].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -245,7 +245,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  stepCountList.length<1?'666':'${stepCountList[0].stepCount}',
+                                  stepCountList.length<1?'0':'${stepCountList[0].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -289,7 +289,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList.length<3?'无名氏':stepCountList[2].userName,
+                          stepCountList.length<3?'无':stepCountList[2].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -325,7 +325,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  stepCountList.length<3?'666':'${stepCountList[2].stepCount}',
+                                  stepCountList.length<3?'0':'${stepCountList[2].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
