@@ -30,25 +30,17 @@ class _CourseChildState extends State<CourseChild> {
   }
 
 
-  @override
-  void deactivate() {
-    super.deactivate();
-    print('${widget.tagName}心理课程：deactivate开始');
-    _getCourse();
-  }
-
-
 
   @override
   void didUpdateWidget(CourseChild oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print('${widget.tagName}心理课程：deactivate开始');
+//    print('${widget.tagName}心理课程：deactivate开始');
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print('${widget.tagName}心理课程：didChangeDependencies');
+//    print('${widget.tagName}心理课程：didChangeDependencies');
   }
 
   _getCourse(){
@@ -67,7 +59,7 @@ class _CourseChildState extends State<CourseChild> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.tagName}心理课程：build');
+//    print('${widget.tagName}心理课程：build');
     return Container(
       padding: EdgeInsets.only(left: 15,right: 15),
       child: GridView.builder(
