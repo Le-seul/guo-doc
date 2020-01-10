@@ -293,7 +293,7 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                             ),
                             Offstage(
                               offstage:
-                                  activityDetail.questionnaireList.isEmpty,
+                                  activityDetail.questionnaireList.isEmpty&&activityDetail.questionnaireCollectionList.isEmpty,
                               child: Column(
                                 children: <Widget>[
                                   Container(
@@ -331,6 +331,17 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
                                           .questionnaireList.length,
                                       itemBuilder: (context, index) =>
                                           _buildItem(index),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: activityDetail
+                                          .questionnaireCollectionList.length,
+                                      itemBuilder: (context, index) =>
+                                          _buildItem2(activityDetail
+                                              .questionnaireCollectionList[index]),
                                     ),
                                   ),
                                 ],
@@ -513,6 +524,90 @@ class _ServiceActivityPageState extends State<ServiceActivityPage> {
       ),
     );
   }
+
+
+  _buildItem2(QuestionnaireCollectionList questionnaireCollectionList) {
+    String ids = '';
+    bool isFinished = true;
+    for(QuestionnaireChildList questionnaireChildList in questionnaireCollectionList.questionnaireList){
+      if(questionnaireChildList.isFinished == "N"){
+        isFinished = false;
+      }
+      ids = (ids + questionnaireChildList.id + ".");
+
+    }
+    ids = ids.substring(0,ids.length-1);
+    print('活动集id:$ids');
+    return GestureDetector(
+      onTap: () {
+        if (!isFinished) {
+          NavigatorUtil.pushPage(
+              context,
+              Test0(
+                questionnaireId: ids,
+              ));
+        }
+      },
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.only(bottom: 10,top: 10, left: 15, right: 15),
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          children: <Widget>[
+//            Container(
+//              height: 1,
+//              color: Colors.grey[200],
+//            ),
+//            SizedBox(
+//              height: 20,
+//            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        questionnaireCollectionList.cover,
+                        height: 80,
+                        width: 120,
+                        fit: BoxFit.fill,
+                      )),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    height: 80,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            questionnaireCollectionList.name,
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Text(
+                          isFinished?'已完成':'',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 
   _buildItem1(int index) {
     return GestureDetector(
