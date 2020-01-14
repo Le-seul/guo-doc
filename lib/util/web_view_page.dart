@@ -20,10 +20,24 @@ class _WebViewPageState extends State<WebViewPage> {
 
   String htmlUrl = '';
   bool redirectoon = false;
-
+  WebViewController _controller;
+  double wordsize;
+  String SizeClass;
   @override
   void initState() {
-
+    //Swichsize = int.parse(StorageManager.sharedPreferences.getDouble(Constant.word_size).toString());
+    wordsize = StorageManager.sharedPreferences.getDouble(Constant.word_size);
+    switch(wordsize.toInt()){
+      case 1: SizeClass = 'size1()';break;
+      case 2 : SizeClass = 'size2()';break;
+      case 3 : SizeClass = 'size3()';break;
+      case 4: SizeClass = 'size4()';break;
+      case 5: SizeClass = 'size5()';break;
+      case 6 : SizeClass = 'size6()';break;
+      case 7 : SizeClass = 'size7()';break;
+      default : SizeClass = 'size3()';break;
+    };
+    print("打印出来${wordsize.toInt()}");
     if(widget.params['redirection'] != null){
       redirectoon = true;
       String token = StorageManager.sharedPreferences.getString(Constant.access_Token);
@@ -46,7 +60,21 @@ class _WebViewPageState extends State<WebViewPage> {
         body: WebView(
           initialUrl: redirectoon?htmlUrl:widget.url,
           javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController){
+            webViewController.canGoBack();
+            _controller = webViewController;
+          },
+          onPageFinished: (url){
+            _controller?.evaluateJavascript(SizeClass)?.then((result){
+              print('调用成功');
+              print(result);
+              setState(() {
+              });
+            });
+          },
+
         ));
+
   }
 
 

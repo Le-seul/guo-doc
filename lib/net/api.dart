@@ -102,6 +102,8 @@ class Api {
   //心理共读
   static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
 
+  //心理共读TAG
+  static const String CoReadingTag = "/api/psyCoreading.do?getTagList";
 
   //心理共读类别
   static const String CoReadingKind = "/api/psyCoreading.do?getPsyCoReadingByCategoryId";

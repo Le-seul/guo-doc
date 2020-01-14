@@ -189,7 +189,7 @@ class _MinePageState extends State<MinePage> {
                            showDialog<Null>(
                                context: context,
                                builder: (BuildContext context) {
-                                 return WordDialog( seekvalue: seekvalue == null?1:seekvalue);
+                                 return WordDialog( seekvalue: seekvalue == null?3:seekvalue);
                                }
                            );
                          });
@@ -678,7 +678,8 @@ class _MinePageState extends State<MinePage> {
                       ],
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                  },
                 ), //绑定微信
                 SizedBox(
                   height: 7,

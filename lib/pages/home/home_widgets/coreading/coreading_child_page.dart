@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/CoreadingLike.dart';
 import 'package:flutter_first/bean/coreading.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/config.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,10 +23,14 @@ class CoreadingChild extends StatefulWidget  {
 class _CoreadingChildState extends State<CoreadingChild> {
   List<CoReading> list = List();
   bool isShowLoading = true;
+  String token;
 
+  String baseurl;
   @override
   void initState() {
     _requestCoreading();
+    token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+    baseurl = Config.apiHost;
   }
 
 
@@ -34,7 +41,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
 
   void _requestCoreading() {
     DioUtils.instance.requestNetwork<CoReading>(Method.get,
-        widget.Kind==''? Api.CoReading:Api.CoReadingKind,
+        widget.Kind=='全部文章'? Api.CoReading:Api.CoReadingKind,
         queryParameters: {'categoryId': widget.Kind},
         isList: true, onSuccessList: (data) {
           setState(() {
@@ -148,7 +155,7 @@ class _CoreadingChildState extends State<CoreadingChild> {
             ),
             onTap: () {
               _getCoreadingLike(list[index].id);
-              NavigatorUtil.pushWebView(context, list[index].detailDesc, {"title":list[index].shortDesc});
+              NavigatorUtil.pushWebView(context, '${baseurl}/api/staticResource.do?getResource&url=mobile_service_ui/CoReadingDetail.html&token=$token&id=${list[index].id}&commonIp=${baseurl}', {"title":list[index].shortDesc});
             },
           );
         });

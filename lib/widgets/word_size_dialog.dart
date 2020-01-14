@@ -85,7 +85,7 @@ class _SeekbarState extends State<Seekbar> {
                   Text(
                     '字体大小',
                     style: TextStyle(
-                        fontSize: 11+(seekvalue2==null?widget.seekvalue:seekvalue2)*2
+                        fontSize: 10+(seekvalue2==null?widget.seekvalue:seekvalue2)*2
                     ),
                   ),
                   Container(
@@ -93,7 +93,7 @@ class _SeekbarState extends State<Seekbar> {
                     child: SeekBar(
                       progresseight: 10,
                       backgroundColor: Colours.bg_green,
-                      max: 6,
+                      max: 7,
                       min: 1,
                       value:seekvalue2==null?widget.seekvalue:seekvalue2,
                       sectionCount:6,

@@ -8,6 +8,7 @@ class Course {
   int courseCount;
   String state;
   String publishTime;
+  String courseId;
 
   Course(
       {this.id,
@@ -18,6 +19,8 @@ class Course {
         this.learnedUserCount,
         this.courseCount,
         this.state,
+        this.courseId,
+
         this.publishTime});
 
   Course.fromJson(Map<String, dynamic> json) {
@@ -30,6 +33,8 @@ class Course {
     courseCount = json['courseCount'];
     state = json['state'];
     publishTime = json['publishTime'];
+    courseId = json['courseId'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +48,8 @@ class Course {
     data['courseCount'] = this.courseCount;
     data['state'] = this.state;
     data['publishTime'] = this.publishTime;
+    data['courseId'] = this.courseId;
+
     return data;
   }
 }
