@@ -7,6 +7,7 @@ class Constant {
   static const String registrationID = 'registrationID';
   static const String tuWenNum = 'tuWenNum';
   static const String searchHistory = 'searchHistory';
+  static const String messageHistory = 'messageHistory';
   static const String fastFhoneNum = 'fastFhoneNum';
   static const String access_Token = 'accessToken';
   static const String onlinIsAgree = 'onlinIsAgree';

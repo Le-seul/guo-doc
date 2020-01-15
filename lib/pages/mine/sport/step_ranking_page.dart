@@ -14,11 +14,10 @@ class StepRanking extends StatefulWidget {
 }
 
 class _StepRankingState extends State<StepRanking> {
-
-  bool offstage = false;
-  List<StepCount> stepCountList= List();
   bool isShowLoading = true;
-  int stepRanking = 12;
+  bool offstage = true;
+  List<StepCount> stepCountList= List();
+  int stepRanking = 1;
 
   @override
   void initState() {
@@ -29,7 +28,6 @@ class _StepRankingState extends State<StepRanking> {
     DioUtils.instance.requestNetwork<step.StepRanking>(Method.get, Api.GRTSTEPRANKING,
         onSuccess: (data) {
           setState(() {
-
             stepRanking = data.stepRanking??1;
             print('获取排名成功！');
           });
@@ -86,7 +84,7 @@ class _StepRankingState extends State<StepRanking> {
       ),
       body: isShowLoading
           ? LoadingWidget.childWidget()
-          : (stepCountList.isEmpty||stepCountList.length<3)
+          : (stepCountList.isEmpty||stepCountList == null)
           ? Container(
         width: double.infinity,
         height: double.infinity,
@@ -124,7 +122,7 @@ class _StepRankingState extends State<StepRanking> {
                             child: CircleAvatar(
                               radius: 30.0,
                               backgroundImage: NetworkImage(
-                                  stepCountList[1].image??'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
+                                  stepCountList.length<2?'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg':stepCountList[1].image),
                             ),
                           ),
                         ),
@@ -132,7 +130,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList[1].userName,
+                          stepCountList.length<2?'无':stepCountList[1].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -169,7 +167,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '${stepCountList[1].stepCount}',
+                                  stepCountList.length<2?'0':'${stepCountList[1].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -202,7 +200,7 @@ class _StepRankingState extends State<StepRanking> {
                             child: CircleAvatar(
                               radius: 40.0,
                               backgroundImage: NetworkImage(
-                                  stepCountList[0].image??'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg'),
+                                  stepCountList.length<1?'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg':stepCountList[0].image)
                             ),
                           ),
                         ),
@@ -210,7 +208,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList[0].userName,
+                          stepCountList.length<1?'无':stepCountList[0].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -247,7 +245,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '${stepCountList[0].stepCount}',
+                                  stepCountList.length<1?'0':'${stepCountList[0].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),
@@ -283,7 +281,7 @@ class _StepRankingState extends State<StepRanking> {
                             child: CircleAvatar(
                               radius: 30.0,
                               backgroundImage: NetworkImage(
-                                  stepCountList[2].image??'http://b-ssl.duitang.com/uploads/item/201809/03/20180903221703_NChzn.thumb.700_0.jpeg'),
+                                  stepCountList.length<3?'http://b-ssl.duitang.com/uploads/item/201804/21/20180421134937_creUP.thumb.700_0.jpeg':stepCountList[2].image)
                             ),
                           ),
                         ),
@@ -291,7 +289,7 @@ class _StepRankingState extends State<StepRanking> {
                           height: 8,
                         ),
                         Text(
-                          stepCountList[2].userName,
+                          stepCountList.length<3?'无':stepCountList[2].userName,
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         SizedBox(
@@ -327,7 +325,7 @@ class _StepRankingState extends State<StepRanking> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '${stepCountList[2].stepCount}',
+                                  stepCountList.length<3?'0':'${stepCountList[2].stepCount}',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.orangeAccent),
                                 ),

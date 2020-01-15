@@ -25,7 +25,10 @@ class Api {
   static const String GRTLIKESTATUS = "/api/article.do?getSocialActionStatus";
 
   //获取活动列表
-  static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
+ static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
+
+  //扫码参加活动
+  static const String SIGNUPBYQRCODE = "/api/activity.do?signUpByQRCode";
 
   //获取活动详情
   static const String GETACTIVITIEDETAIL = "/api/activity.do?getActivityInfo";

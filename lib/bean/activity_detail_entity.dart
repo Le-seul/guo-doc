@@ -8,7 +8,6 @@ class ActivityDetail {
   String parentActivityId;
   String startTime;
   String endTime;
-  String isSignUp;
   String location;
   int state;
   String detail;
@@ -18,6 +17,8 @@ class ActivityDetail {
   String chanelInfoMethod;
   List<ArticleList> articleList;
   List<QuestionnaireList> questionnaireList;
+  String isSignUp;
+  List<QuestionnaireCollectionList> questionnaireCollectionList;
 
   ActivityDetail(
       {this.childActivity,
@@ -31,14 +32,15 @@ class ActivityDetail {
         this.endTime,
         this.location,
         this.state,
-        this.isSignUp,
         this.detail,
         this.onlineSignIn,
         this.signInCount,
         this.publishChanel,
         this.chanelInfoMethod,
         this.articleList,
-        this.questionnaireList});
+        this.questionnaireList,
+        this.isSignUp,
+        this.questionnaireCollectionList});
 
   ActivityDetail.fromJson(Map<String, dynamic> json) {
     if (json['childActivity'] != null) {
@@ -58,7 +60,6 @@ class ActivityDetail {
     location = json['location'];
     state = json['state'];
     detail = json['detail'];
-    isSignUp = json['isSignUp'];
     onlineSignIn = json['onlineSignIn'];
     signInCount = json['signInCount'];
     publishChanel = json['publishChanel'];
@@ -73,6 +74,14 @@ class ActivityDetail {
       questionnaireList = new List<QuestionnaireList>();
       json['questionnaireList'].forEach((v) {
         questionnaireList.add(new QuestionnaireList.fromJson(v));
+      });
+    }
+    isSignUp = json['isSignUp'];
+    if (json['questionnaireCollectionList'] != null) {
+      questionnaireCollectionList = new List<QuestionnaireCollectionList>();
+      json['questionnaireCollectionList'].forEach((v) {
+        questionnaireCollectionList
+            .add(new QuestionnaireCollectionList.fromJson(v));
       });
     }
   }
@@ -104,6 +113,11 @@ class ActivityDetail {
     if (this.questionnaireList != null) {
       data['questionnaireList'] =
           this.questionnaireList.map((v) => v.toJson()).toList();
+    }
+    data['isSignUp'] = this.isSignUp;
+    if (this.questionnaireCollectionList != null) {
+      data['questionnaireCollectionList'] =
+          this.questionnaireCollectionList.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -158,13 +172,14 @@ class ArticleList {
     return data;
   }
 }
+
 class QuestionnaireList {
   String id;
   String title;
   String cover;
   String isFinished;
 
-  QuestionnaireList({this.id, this.title, this.cover,this.isFinished});
+  QuestionnaireList({this.id, this.title, this.cover, this.isFinished});
 
   QuestionnaireList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -177,8 +192,61 @@ class QuestionnaireList {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['isFinished'] = this.isFinished;
     data['cover'] = this.cover;
+    data['isFinished'] = this.isFinished;
+    return data;
+  }
+}
+
+class QuestionnaireCollectionList {
+  String id;
+  String name;
+  List<QuestionnaireChildList> questionnaireList;
+  String cover;
+
+  QuestionnaireCollectionList(
+      {this.id, this.name, this.questionnaireList, this.cover});
+
+  QuestionnaireCollectionList.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    if (json['questionnaireList'] != null) {
+      questionnaireList = new List<QuestionnaireChildList>();
+      json['questionnaireList'].forEach((v) {
+        questionnaireList.add(new QuestionnaireChildList.fromJson(v));
+      });
+    }
+    cover = json['cover'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.questionnaireList != null) {
+      data['questionnaireList'] =
+          this.questionnaireList.map((v) => v.toJson()).toList();
+    }
+    data['cover'] = this.cover;
+    return data;
+  }
+}
+
+class QuestionnaireChildList {
+  String id;
+  String isFinished;
+
+  QuestionnaireChildList({this.id, this.isFinished});
+
+  QuestionnaireChildList.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    isFinished = json['isFinished'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['isFinished'] = this.isFinished;
     return data;
   }
 }

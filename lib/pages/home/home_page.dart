@@ -25,6 +25,7 @@ import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/toast.dart';
@@ -85,9 +86,11 @@ class _HomePageState extends State<HomePage> {
       String model = _map["model"];
       String target = _map["target"];
       print('model: $model' + 'target: $target');
+
       if (model == "activity") {
-        NavigatorUtil.pushPage(
-            context, ServiceActivityPage(activityId: target));
+        Future.delayed(Duration(milliseconds: 1)).then((value) {
+          ShowIsSignDialog.showMyMaterialDialog(context, target);
+        });
       }
     } catch (e) {
       // 扫码错误

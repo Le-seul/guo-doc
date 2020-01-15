@@ -467,7 +467,7 @@ class _PsyCourseState extends State<PsyCourse>
   void onSlide(double heigh) {
     setState(() {
       mHeigh = heigh;
-      print('高度：$heigh');
+      print('心理课程高度：$heigh');
     });
   }
 }

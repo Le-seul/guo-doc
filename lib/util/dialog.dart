@@ -2,13 +2,17 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
+import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
+import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/pages/service/servicenext/initiateconsultation_page.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/util/storage_manager.dart';
+import 'package:flutter_first/util/toast.dart';
 
 //class MyDialog {
 //  static void showMyMaterialDialog(BuildContext context) {
@@ -429,6 +433,54 @@ class ShowNoticeDialog extends Dialog {
 
     );
   }
+}
+
+
+class ShowIsSignDialog extends Dialog {
+
+  static showMyMaterialDialog(BuildContext context,String activityId) {
+    showDialog<Null>(
+      context: context, // BuildContext对象
+      barrierDismissible: true, // 屏蔽点击对话框外部自动关闭
+      builder: (_) =>  AlertDialog(
+        content: Text(
+          '是否报名活动',
+        ),
+        actions: <Widget>[
+          FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('否')),
+          FlatButton(
+              onPressed: () {
+                _signUpByQRCode(context,activityId);
+                Navigator.pop(context);
+              },
+              child: Text('是')),
+        ],
+      ),
+
+    );
+  }
+
+  static _signUpByQRCode(BuildContext context,String activityId){
+    DioUtils.instance.requestNetwork<String>(
+      Method.post,
+      Api.SIGNUPBYQRCODE,
+      queryParameters: {"activityId": activityId},
+      onSuccess: (data) {
+
+        NavigatorUtil.pushPage(
+            context, ServiceActivityPage(activityId: activityId));
+        print("扫码报名成功！");
+      },
+      onError: (code, msg) {
+        Toast.show("扫码报名失败！");
+      },
+    );
+  }
+
 }
 
 class ShowExitDialog extends Dialog {

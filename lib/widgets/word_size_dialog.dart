@@ -1,16 +1,11 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_seekbar/flutter_seekbar.dart' ;
 
-
-
 class WordDialog extends Dialog  {
-
-
   double seekvalue;
   WordDialog({Key key,@required this.seekvalue})
       : super(key: key);

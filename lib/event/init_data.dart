@@ -30,6 +30,7 @@ class InitData extends StatefulWidget {
 }
 
 class _InitDataState extends State<InitData> {
+
   String registrationID = '';
   var db = OrderDb();
   ChunyuPushBloc _chunyuPushBloc;
@@ -44,6 +45,7 @@ class _InitDataState extends State<InitData> {
     super.initState();
     registrationID =
         StorageManager.sharedPreferences.getString(Constant.registrationID);
+
     init();
     _chunyuPushBloc = BlocProvider.of<ChunyuPushBloc>(context);
     _stepCountBloc = BlocProvider.of<StepCountBloc>(context);
@@ -124,13 +126,33 @@ class _InitDataState extends State<InitData> {
           String type = _map['type'];
           print('极光推送封装数据：{message:$notice, target:$target, time:$time, model:$model, type:$type}');
 
+          var messageList = new List<String>();
+          if (StorageManager.sharedPreferences
+              .getStringList(Constant.messageHistory) !=
+              null) {
+            messageList = StorageManager.sharedPreferences
+                .getStringList(Constant.messageHistory);
+          }
+
+          var messageMap = Map();
+          messageMap['content'] = content;
+          messageMap['time'] = time;
+          messageMap['type'] = type;
+          messageMap['model'] = model;
+
+
+          print('消息记录：${jsonEncode(messageMap)}');
+          messageList.add(jsonEncode(messageMap));
+          await StorageManager.sharedPreferences
+              .setStringList(Constant.messageHistory, messageList);
+
           if(model == 'chunyuTuwen'){
             _initChunyu(model, target);
           }else if(model == 'chunyuFastphone'){
           _initChunyu(model, target);
           }else if(model == 'notice') {
             print('推送通知测试');
-            Future.delayed(Duration(milliseconds: 0)).then((value) {
+            Future.delayed(Duration(milliseconds: 1)).then((value) {
               ShowNoticeDialog.showMyMaterialDialog(context, content);
             });
           }
@@ -140,7 +162,7 @@ class _InitDataState extends State<InitData> {
           Map<String, dynamic> _map =
           json.decode(message["extras"]["cn.jpush.android.EXTRA"]);
 
-          print("flutter 接收到推送消息0: ${json.encode(message)}");
+          print("flutter 接收到推送消息0: ${json.encode(message).toString()}");
           print("flutter 接收到推送消息1: $message");
           print("flutter 接收到推送消息2: ${message["extras"]}");
           print("flutter 接收到推送消息3: ${message["extras"]["cn.jpush.android.EXTRA"]}");
