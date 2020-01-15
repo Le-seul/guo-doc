@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/chapter_record.dart';
 import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/config.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/bottom_player%20bar.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/catalog_detail_page.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -228,7 +231,7 @@ class _CourseDetailPageState extends State<CourseDetailPage>
                           controller: mTabController,
                           children: <Widget>[
                             Detail(
-                              Detailurl: courseDetail.detailDescription,
+                              id: courseDetail.id,
                             ),
                             itemWidget2(),
                           ],
@@ -391,10 +394,10 @@ class _CourseDetailPageState extends State<CourseDetailPage>
 }
 
 class Detail extends StatefulWidget {
-  String Detailurl;
+  String id;
   Detail({
     Key key,
-    @required this.Detailurl,
+    @required this.id,
   }) : super(key: key);
 
   @override
@@ -402,12 +405,21 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
+  String token;
+
+  String baseurl;
+
+  @override
+  void initState() {
+    token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+    baseurl = Config.apiHost;
+  }
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
 
     return WebView(
-      initialUrl: widget.Detailurl,
+      initialUrl: '${baseurl}/api/staticResource.do?getResource&url=mobile_course_ui/courseCatalog.html&token=$token&catalogId=${widget.id}&commonIp=${baseurl}',
       javascriptMode: JavascriptMode.unrestricted,
     );
   }

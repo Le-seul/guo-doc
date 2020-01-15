@@ -679,6 +679,7 @@ class _MinePageState extends State<MinePage> {
                     ),
                   ),
                   onPressed: () {
+                    NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/psyReading/XinLiXueWZ_CZ.html',{"title": '体检报告','redirection':true});
                   },
                 ), //绑定微信
                 SizedBox(
