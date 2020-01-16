@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/centerdetail_page.dart';
+import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
+import 'package:flutter_first/net/config.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/navigator_util.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
 import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
@@ -23,10 +26,15 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
   InAppWebViewController _controller;
   double _htmlHeight = 400; // 目的是在回调完成之前先展示出200高度的内容, 提高用户体验
   static const String HANDLER_NAME = 'InAppWebView';
+  String token;
 
+  String baseurl;
   @override
   void initState() {
     _getServiceCenter();
+    token = StorageManager.sharedPreferences.getString(Constant.access_Token);
+    baseurl = Config.apiHost;
+
   }
 
   @override
@@ -241,8 +249,9 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                         Container(
                           height: ScreenUtil().setHeight(2),
                         ),
-                        widget.id == "1"
-                            ? Container(
+//                        widget.id == "1"
+//                            ?
+                        Container(
                                 color: Colors.white,
                                 padding: EdgeInsets.only(
                                     top: 15,
@@ -265,7 +274,7 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                                       height: _htmlHeight,
                                       child: InAppWebView(
                                         initialUrl:
-                                            'https://www.jianshu.com/p/19853b8efc51',
+                                        '${baseurl}/api/staticResource.do?getResource&url=mobile_service_ui/serviceCDetail.html&token=$token&id=${list[0].scId}&commonIp=${baseurl}',
                                         onWebViewCreated:
                                             (InAppWebViewController
                                                 controller) {
@@ -286,115 +295,116 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                                   ],
                                 ),
                               )
-                            : Container(
-                                color: Colors.white,
-                                padding: EdgeInsets.only(
-                                    top: 15,
-                                    left: ScreenUtil().setWidth(5),
-                                    right: ScreenUtil().setWidth(5)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Text(
-                                        '总体概况',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                      height: ScreenUtil().setHeight(32),
-                                      width: ScreenUtil().setWidth(90),
-                                      child: Image.asset(
-                                        'assets/images/consultation/中心1.png',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '接待室',
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '配备了监督管理公共信息网络的安全监察工作；指导和监督国家机关、社会团体、企业事业组织和重点建设工程的治安保卫工作，指导治安保卫委员会等群众性治安保卫组织的治安防范工作。',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w200,
-                                            height: 1.5),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                      height: ScreenUtil().setHeight(32),
-                                      width: ScreenUtil().setWidth(90),
-                                      child: Image.asset(
-                                        'assets/images/consultation/中心2.png',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '接待室',
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '配备了监督管理公共信息网络的安全监察工作；指导和监督国家机关、社会团体、企业事业组织和重点建设工程的治安保卫工作，指导治安保卫委员会等群众性治安保卫组织的治安防范工作。',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w200,
-                                            height: 1.5),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                      height: ScreenUtil().setHeight(32),
-                                      width: ScreenUtil().setWidth(90),
-                                      child: Image.asset(
-                                        'assets/images/consultation/中心3.png',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '接待室',
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '配备了监督管理公共信息网络的安全监察工作；指导和监督国家机关、社会团体、企业事业组织和重点建设工程的治安保卫工作，指导治安保卫委员会等群众性治安保卫组织的治安防范工作。',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w200,
-                                            height: 1.5),
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(top: 5, bottom: 10),
-                                    ),
-                                  ],
-                                ),
-                              ),
+//                            : Container(
+//                                color: Colors.white,
+//                                padding: EdgeInsets.only(
+//                                    top: 15,
+//                                    left: ScreenUtil().setWidth(5),
+//                                    right: ScreenUtil().setWidth(5)),
+//                                child: Column(
+//                                  crossAxisAlignment: CrossAxisAlignment.start,
+//                                  children: <Widget>[
+//                                    Container(
+//                                      child: Text(
+//                                        '总体概况',
+//                                        style: TextStyle(
+//                                            fontSize: 16,
+//                                            fontWeight: FontWeight.w400),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                    Container(
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                      height: ScreenUtil().setHeight(32),
+//                                      width: ScreenUtil().setWidth(90),
+//                                      child: Image.asset(
+//                                        'assets/images/consultation/中心1.png',
+//                                        fit: BoxFit.fill,
+//                                      ),
+//                                    ),
+//                                    Container(
+//                                      child: Text(
+//                                        '接待室',
+//                                        style: TextStyle(fontSize: 14),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                    Container(
+//                                      child: Text(
+//                                        '配备了监督管理公共信息网络的安全监察工作；指导和监督国家机关、社会团体、企业事业组织和重点建设工程的治安保卫工作，指导治安保卫委员会等群众性治安保卫组织的治安防范工作。',
+//                                        style: TextStyle(
+//                                            fontSize: 14,
+//                                            fontWeight: FontWeight.w200,
+//                                            height: 1.5),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                    Container(
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                      height: ScreenUtil().setHeight(32),
+//                                      width: ScreenUtil().setWidth(90),
+//                                      child: Image.asset(
+//                                        'assets/images/consultation/中心2.png',
+//                                        fit: BoxFit.fill,
+//                                      ),
+//                                    ),
+//                                    Container(
+//                                      child: Text(
+//                                        '接待室',
+//                                        style: TextStyle(fontSize: 14),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                    Container(
+//                                      child: Text(
+//                                        '配备了监督管理公共信息网络的安全监察工作；指导和监督国家机关、社会团体、企业事业组织和重点建设工程的治安保卫工作，指导治安保卫委员会等群众性治安保卫组织的治安防范工作。',
+//                                        style: TextStyle(
+//                                            fontSize: 14,
+//                                            fontWeight: FontWeight.w200,
+//                                            height: 1.5),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                    Container(
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                      height: ScreenUtil().setHeight(32),
+//                                      width: ScreenUtil().setWidth(90),
+//                                      child: Image.asset(
+//                                        'assets/images/consultation/中心3.png',
+//                                        fit: BoxFit.fill,
+//                                      ),
+//                                    ),
+//                                    Container(
+//                                      child: Text(
+//                                        '接待室',
+//                                        style: TextStyle(fontSize: 14),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                    Container(
+//                                      child: Text(
+//                                        '配备了监督管理公共信息网络的安全监察工作；指导和监督国家机关、社会团体、企业事业组织和重点建设工程的治安保卫工作，指导治安保卫委员会等群众性治安保卫组织的治安防范工作。',
+//                                        style: TextStyle(
+//                                            fontSize: 14,
+//                                            fontWeight: FontWeight.w200,
+//                                            height: 1.5),
+//                                      ),
+//                                      margin:
+//                                          EdgeInsets.only(top: 5, bottom: 10),
+//                                    ),
+//                                  ],
+//                                ),
+//                              ),
+                          ,
                         Container(
                           padding: EdgeInsets.only(
                               top: 15,

@@ -30,9 +30,22 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
   bool isShowLoading = true;
   LikeStatus likeStatus = new LikeStatus();
   ArticleContent articleContent = new ArticleContent();
-
+  WebViewController _controller;
+  double wordsize = 3.0;
+  String SizeClass;
   @override
   void initState() {
+    wordsize = StorageManager.sharedPreferences.getDouble(Constant.word_size);
+    switch(wordsize.toInt()){
+      case 1: SizeClass = 'size1()';break;
+      case 2 : SizeClass = 'size2()';break;
+      case 3 : SizeClass = 'size3()';break;
+      case 4: SizeClass = 'size4()';break;
+      case 5: SizeClass = 'size5()';break;
+      case 6 : SizeClass = 'size6()';break;
+      case 7 : SizeClass = 'size7()';break;
+      default : SizeClass = 'size3()';break;
+    };
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
     _getArticleDetail();
     _getLikeStatus();
@@ -173,7 +186,17 @@ class _ConsultationDetailPageState extends State<ConsultationDetailPage> {
         child: Text('暂无数据'),
       )
           :WebView(
-        onWebViewCreated: (WebViewController webViewController) {},
+        onWebViewCreated: (WebViewController webViewController) {
+          _controller = webViewController;
+        },
+        onPageFinished: (url){
+          _controller?.evaluateJavascript(SizeClass)?.then((result){
+            print('调用成功');
+            print(result);
+            setState(() {
+            });
+          });
+        },
         initialUrl: articlUrl,
         javascriptMode: JavascriptMode.unrestricted,
       ),

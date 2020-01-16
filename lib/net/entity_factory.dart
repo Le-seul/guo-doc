@@ -12,6 +12,7 @@ import 'package:flutter_first/bean/centerdetail_page.dart';
 import 'package:flutter_first/bean/chapter_record.dart';
 import 'package:flutter_first/bean/clinic_info.dart';
 import 'package:flutter_first/bean/collection.dart';
+import 'package:flutter_first/bean/coreadinglist.dart';
 import 'package:flutter_first/bean/course.dart';
 import 'package:flutter_first/bean/course_bookmark.dart';
 import 'package:flutter_first/bean/course_detail.dart';
@@ -159,6 +160,8 @@ class EntityFactory {
     return Announcement.fromJson(json) as T;
     }else if (T.toString() == "SearchContent") {
       return SearchContent.fromJson(json) as T;
+    }else if (T.toString() == "Coreadinglist") {
+      return Coreadinglist.fromJson(json) as T;
     }else {
       return null;
     }

@@ -88,10 +88,10 @@ class Api {
   static const String GETUPCOMINGCOURSE = "/api/psyCourse.do?getUpcomingCourse";
 
   //获取心理课程获取TAG列表
-  static const String GETTAGLIST = "/api/psyCourse.do?getTagList";
+  static const String GETTAGLIST = "/api/psyCourse.do?getAllCategory";
 
   //根据tag获取课程列表
-  static const String GETBYTAGNAME = "/api/psyCourse.do?getByTagName";
+  static const String GETBYTAGNAME = "/api/psyCourse.do?getByCategory";
 
   //心理课程详情1
   static const String COURSEDETAIL1 = "/api/psyCourse.do?getCouserDetail&id=1";
@@ -105,6 +105,8 @@ class Api {
   //心理共读
   static const String CoReading = "/api/psyCoreading.do?getPsyCoReading";
 
+  //心理共读TAG
+  static const String CoReadingTag = "/api/psyCoreading.do?getTagList";
 
   //心理共读类别
   static const String CoReadingKind = "/api/psyCoreading.do?getPsyCoReadingByCategoryId";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/coreading.dart';
+import 'package:flutter_first/bean/coreadinglist.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/psyCenter/service_child_widget.dart';
@@ -20,35 +21,47 @@ class SimpleCoreading extends StatefulWidget {
 
 class _SimpleCoreadingState extends State<SimpleCoreading>
     with SingleTickerProviderStateMixin {
-  TabController mController;
-List<CoReading> Coreadinglist = List();
-bool isShowLoading = true;
+
+  bool isShowLoading = true;
+  var tabText = [];
+  TabController _tabController;
+  List<Widget> tabs = [];
+  List<Widget> tabViews = [];
+
   void initState(){
-    _requestImage();
-    mController = TabController(
-      length: 5,
-      vsync: this,
+    _getCoreadingTab();
+  }
+
+  _getCoreadingTab() {
+    DioUtils.instance.requestNetwork<Coreadinglist>(
+      Method.get,
+      Api.CoReadingTag,
+      onSuccess: (data) {
+        print('共读获取成功');
+        setState(() {
+          tabText = data.tagList;
+          _tabController = TabController(length: tabText.length+1, vsync: this);
+          tabs.add(Text('全部文章'));
+          tabText.forEach((item) {
+            tabs.add(Text(item));
+          });
+          tabViews.add(CoreadingChild(Kind:'全部文章'));
+          tabText.forEach((item) {
+            tabViews.add(CoreadingChild(Kind:item));
+          });
+          print('活动TAB获取成功');
+        });
+      },
+      onError: (code, msg) {
+        setState(() {
+
+          print('活动TAB获取失败！');
+        });
+      },
     );
   }
 
-  void _requestImage() {
-    DioUtils.instance.requestNetwork<CoReading>(
-        Method.get,
-        Api.CoReading,
-        isList: true,
-        onSuccessList: (data) {
-          setState(() {
-            Coreadinglist = data;
-            isShowLoading = false;
 
-            //Coreadinglist.sort();
-
-          });
-        },
-        onError: (code, msg) {
-          print("sssss");
-        });
-  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 100, height: 100)..init(context);
@@ -61,7 +74,9 @@ bool isShowLoading = true;
       ),
       body:Container(
             color: Color(0xFFEEEEEE),
-            child: Column(
+            child: _tabController == null
+                ? LoadingWidget.childWidget()
+                :Column(
               children: <Widget>[
                 SearchTextFieldWidget(
                   margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
@@ -86,36 +101,24 @@ bool isShowLoading = true;
                       padding: EdgeInsets.only(bottom: 2),
                     ),
                     Expanded(child: TabBar(
-                      isScrollable: false,
+                      isScrollable: true,
                       //是否可以滚动
-                      controller: mController,
+                      controller: _tabController,
                       labelPadding:EdgeInsets.only(left: 5),
                       indicator: BoxDecoration(),
                       labelColor: Color(0xff2CA687),
                       unselectedLabelColor: Color(0xff666666),
                       unselectedLabelStyle: TextStyle(fontSize: 13),
                       labelStyle: TextStyle(fontSize: 13.0),
-                      tabs: <Widget>[
-                        Text('全部文章'),
-                        Text('情绪压力'),
-                        Text('咨询科普'),
-                        Text('亲密关系'),
-                        Text('个人成长'),
-                      ],
+                      tabs: tabs
                     ),)
                   ],)
 
                 ),
                 Flexible(
                   child: TabBarView(
-                    controller: mController,
-                    children: <Widget>[
-                      CoreadingChild(Kind:''),
-                      CoreadingChild(Kind:'情绪压力'),
-                      CoreadingChild(Kind:'咨询科普'),
-                      CoreadingChild(Kind:'亲子关系'),
-                      CoreadingChild(Kind:'个人成长'),
-                    ],
+                    controller: _tabController,
+                    children: tabViews
                   ),
                 ),
               ],
