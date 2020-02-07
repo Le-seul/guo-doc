@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/user_entity.dart';
@@ -29,8 +31,10 @@ class _SMSLoginState extends State<SMSLogin> {
   Token tokenData;
   bool _isClick = true;
   final int second = 30;
+  String macAddress = "";
   StreamSubscription _subscription;
   String registrationID = '';
+
   /// 当前秒数
   int s;
 
@@ -42,8 +46,26 @@ class _SMSLoginState extends State<SMSLogin> {
 
   @override
   void initState() {
-    registrationID = StorageManager.sharedPreferences.getString(Constant.registrationID);
+    super.initState();
+
+    _getDeviceInfo();
+    registrationID =
+        StorageManager.sharedPreferences.getString(Constant.registrationID);
     print('极光 id：$registrationID');
+  }
+
+  _getDeviceInfo() async{
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if(Platform.isAndroid){
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      macAddress = androidInfo.androidId;
+      print('Running on ${androidInfo.androidId}');  // e.g. "Moto G (4)"
+    }else{
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      macAddress = iosInfo.utsname.machine;
+      print('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
+    }
+
   }
 
   @override
@@ -65,7 +87,7 @@ class _SMSLoginState extends State<SMSLogin> {
             ),
             Text(
               "畅享健康",
-              style: TextStyle(fontSize: 22,color: Colors.black26),
+              style: TextStyle(fontSize: 22, color: Colors.black26),
             ),
             SizedBox(
               height: 30,
@@ -87,17 +109,17 @@ class _SMSLoginState extends State<SMSLogin> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Color(0xff2CA687), borderRadius: BorderRadius.circular(10)),
+                  color: Color(0xff2CA687),
+                  borderRadius: BorderRadius.circular(10)),
               child: FlatButton(
                   onPressed: () {
                     _checkVerificationCode();
                   },
                   child: Text(
                     '登录',
-                    style: TextStyle(color: Colors.white,fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   )),
             )
-
           ],
         ),
       ),
@@ -110,7 +132,7 @@ class _SMSLoginState extends State<SMSLogin> {
       children: <Widget>[
         Expanded(
           child: Container(
-              padding: EdgeInsets.only(left: 10,right: 8),
+              padding: EdgeInsets.only(left: 10, right: 8),
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black12, width: 1),
@@ -136,7 +158,9 @@ class _SMSLoginState extends State<SMSLogin> {
                 ),
               )),
         ),
-        SizedBox(width: 20,),
+        SizedBox(
+          width: 20,
+        ),
         Container(
           decoration: BoxDecoration(
               color: Colors.white,
@@ -145,14 +169,13 @@ class _SMSLoginState extends State<SMSLogin> {
           child: FlatButton(
             onPressed: _isClick
                 ? () {
-              if(Utils.checkMobile(_phoneController.text)){
-                _sendVerificationCode();
-              }else{
-                Toast.show('请输入正确手机号!');
-              }
-
-            } : null,
-
+                    if (Utils.checkMobile(_phoneController.text)) {
+                      _sendVerificationCode();
+                    } else {
+                      Toast.show('请输入正确手机号!');
+                    }
+                  }
+                : null,
             textColor: Colors.black,
             child: Text(
               !_isClick ? "（$s s）" : "获取验证码",
@@ -202,6 +225,7 @@ class _SMSLoginState extends State<SMSLogin> {
   static savePhone(String phone) async {
     StorageManager.sharedPreferences.setString(Constant.phone, phone);
   }
+
   static saveToken(String token) async {
     StorageManager.sharedPreferences.setString(Constant.access_Token, token);
   }
@@ -209,6 +233,7 @@ class _SMSLoginState extends State<SMSLogin> {
   _checkVerificationCode() async {
     DioUtils.instance
         .requestNetwork<Token>(Method.post, Api.CHECKVCODE, queryParameters: {
+      'macAddress': macAddress,
       'userId': widget.user.userId,
       'verificationCode': _vCodeController.text,
     }, onSuccess: (data) {
@@ -220,7 +245,7 @@ class _SMSLoginState extends State<SMSLogin> {
         saveToken(tokenData.token);
         dio.unlock();
         _updateRegistrationID();
-        NavigatorUtil.pushReplacementNamed(context,ContainerPage());
+        NavigatorUtil.pushReplacementNamed(context, ContainerPage());
       });
     }, onError: (code, msg) {
       setState(() {
@@ -243,7 +268,7 @@ class _SMSLoginState extends State<SMSLogin> {
 
   void _updateRegistrationID() {
     print("极光Id：$registrationID");
-    if(registrationID!=null){
+    if (registrationID != null) {
       DioUtils.instance.requestNetwork<String>(
           Method.post, Api.UPDATEREGISTRATIONID,
           queryParameters: {

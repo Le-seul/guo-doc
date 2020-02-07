@@ -1,5 +1,7 @@
 
 
+import 'package:flutter/services.dart';
+import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,6 +10,11 @@ class Utils {
     return 'assets/images/$name';
   }
 
+
+  static Future<void> pop() async {
+    StorageManager.exite();
+    await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
   static void launchTelURL(String phone) async {
     String url = 'tel:'+ phone;
     if (await canLaunch(url)) {
