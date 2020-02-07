@@ -364,11 +364,16 @@ class _HomePageState extends State<HomePage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  UserList.isNotEmpty
-                                      ? UserList[0].userName
-                                      : '张警官',
-                                  style: TextStyle(fontSize: 15),
+                                GestureDetector(
+                                  onTap: (){
+                                    NavigatorUtil.pushWebView(context,'https://www.aireading.club/jeecg/api/staticResource.do?getResource&url=/mobilearticleui/index.html&token=5b595894-03de-40fe-a24d-051ffe0e58c0&commonIp=https://www.aireading.club/jeecg',{"title": '体检报告'});
+                                  },
+                                  child: Text(
+                                    UserList.isNotEmpty
+                                        ? UserList[0].userName
+                                        : '张警官',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 5,
