@@ -29,7 +29,7 @@ class _DayTestState extends State<DayTest>  with SingleTickerProviderStateMixin 
           onSuccess: (data) {
             print('自测TAB获取成功');
             setState(() {
-              tabText = data.regionList;
+              tabText = data.categoryList;
               _tabController = TabController(length: tabText.length, vsync: this);
               tabText.forEach((item) {
                 tabs.add(Text(item));

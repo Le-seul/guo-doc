@@ -46,6 +46,7 @@ import 'package:flutter_first/bean/service_center_model.dart';
 import 'package:flutter_first/bean/coreading.dart';
 import 'package:flutter_first/bean/step_count_list.dart';
 import 'package:flutter_first/bean/step_ranking.dart';
+import 'package:flutter_first/bean/tag_entity.dart';
 import 'package:flutter_first/bean/test_entity.dart';
 import 'package:flutter_first/bean/user_entity.dart';
 import 'package:flutter_first/common/common.dart';
@@ -70,8 +71,8 @@ class EntityFactory {
       return SeviceLocation.fromJson(json) as T;
     } else if (T.toString() == "GetAllMusic") {
       return GetAllMusic.fromJson(json) as T;
-    } else if (T.toString() == "MusicTag") {
-      return MusicTag.fromJson(json) as T;
+    } else if (T.toString() == "Tag") {
+      return Tag.fromJson(json) as T;
     } else if (T.toString() == "Music") {
       return Music.fromJson(json) as T;
     } else if (T.toString() == "Coursedetail") {

@@ -1,9 +1,9 @@
 class CourseTag {
-  var tagList;
+  var categoryList;
 
-  CourseTag({this.tagList});
+  CourseTag({this.categoryList});
 
   CourseTag.fromJson(Map<String, dynamic> json) {
-    tagList = json['tagList'];
+    categoryList = json['categoryList'];
   }
 }
