@@ -17,9 +17,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/pages/consultation/title_widget.dart';
 
 class MusicTabPage extends StatefulWidget {
-  String tagId;
+  String tag;
 
-  MusicTabPage(this.tagId);
+  MusicTabPage(this.tag);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -36,7 +36,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.tagId == "0") {
+    if (widget.tag == "0") {
       _getAllMusicList();
     } else {
       _getMusicListByTag();
@@ -73,7 +73,7 @@ class _MusicTabPageState extends State<MusicTabPage> {
   _getMusicListByTag() {
     DioUtils.instance.requestNetwork<GetAllMusic>(
         Method.get, Api.GETMUSICLISTBYTAG,
-        queryParameters: {"tagId": widget.tagId},
+        queryParameters: {"category": widget.tag},
         isList: true, onSuccessList: (data) {
       setState(() {
         getTagMusicList = data;
@@ -133,8 +133,8 @@ class _MusicTabPageState extends State<MusicTabPage> {
                 child: Text('wu'),
               )
             : SmartRefresher(
-                enablePullDown: widget.tagId == "0" ? true : false,
-                enablePullUp: widget.tagId == "0" ? true : false,
+                enablePullDown: widget.tag == "0" ? true : false,
+                enablePullUp: widget.tag == "0" ? true : false,
                 header: WaterDropHeader(),
                 footer: CustomFooter(
                   builder: (BuildContext context, LoadStatus mode) {

@@ -19,6 +19,7 @@ import 'package:flutter_first/pages/home/doctor/talk_page.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/storage_manager.dart';
+import 'package:flutter_first/util/toast.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 
 class InitData extends StatefulWidget {
@@ -150,8 +151,9 @@ class _InitDataState extends State<InitData> {
             _initChunyu(model, target);
           }else if(model == 'chunyuFastphone'){
           _initChunyu(model, target);
+          }else if(model == 'login'){
+            eventBus.fire(LoginEvent('该账号在其他设备登录，是否重新登陆'));
           }else if(model == 'notice') {
-            print('推送通知测试');
             Future.delayed(Duration(milliseconds: 1)).then((value) {
               ShowNoticeDialog.showMyMaterialDialog(context, content);
             });
@@ -244,6 +246,7 @@ class _InitDataState extends State<InitData> {
 
   @override
   void dispose() {
+    super.dispose();
   }
 
   @override

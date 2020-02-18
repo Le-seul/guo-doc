@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/music_entity.dart';
+import 'package:flutter_first/bean/tag_entity.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/home/home_widgets/music_tab_page.dart';
@@ -20,7 +21,7 @@ class MusicPage extends StatefulWidget {
 class _MusicPageState extends State<MusicPage>
     with SingleTickerProviderStateMixin {
   List<GetAllMusic> GetAllMusicList = List();
-  List<MusicTag> musicTagList = List();
+  var musicTagList = [];
   List<Widget> tabs = [];
   List<Widget> tabViews = [];
   int tagNum = 1;
@@ -37,8 +38,8 @@ class _MusicPageState extends State<MusicPage>
   }
 
   _getMusicTag() {
-    DioUtils.instance.requestNetwork<MusicTag>(Method.get, Api.GETMUSICTAG,
-        isList: true, onSuccessList: (data) {
+    DioUtils.instance.requestNetwork<Tag>(Method.get, Api.GETMUSICTAG,
+        onSuccess: (data) {
       setState(() {
         tabs.add(Text(
           '全部分类',
@@ -48,17 +49,17 @@ class _MusicPageState extends State<MusicPage>
           ),
         ));
         tabViews.add(MusicTabPage('0'));
-        musicTagList = data;
-        _tabController = TabController(length: data.length + 1, vsync: this);
+        musicTagList = data.categoryList;
+        _tabController = TabController(length: musicTagList.length + 1, vsync: this);
 
         musicTagList.forEach((str) {
           tabs.add(Text(
-            str.name,
+            str,
             style: TextStyle(fontSize: 13),
           ));
         });
         musicTagList.forEach((str) {
-          tabViews.add(MusicTabPage(str.id));
+          tabViews.add(MusicTabPage(str));
         });
       });
     }, onError: (code, msg) {

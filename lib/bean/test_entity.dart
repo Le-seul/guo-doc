@@ -1,9 +1,9 @@
 class TestTag {
-  var regionList;
+  var categoryList;
 
-  TestTag({this.regionList});
+  TestTag({this.categoryList});
 
   TestTag.fromJson(Map<String, dynamic> json) {
-    regionList = json['tagList'];
+    categoryList = json['categoryList'];
   }
 }

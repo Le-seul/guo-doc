@@ -21,12 +21,15 @@ class _WebViewPageState extends State<WebViewPage> {
   String htmlUrl = '';
   bool redirectoon = false;
   WebViewController _controller;
-  double wordsize = 3.0;
+  double wordsize;
   String SizeClass;
   @override
   void initState() {
     //Swichsize = int.parse(StorageManager.sharedPreferences.getDouble(Constant.word_size).toString());
     wordsize = StorageManager.sharedPreferences.getDouble(Constant.word_size);
+    if(wordsize == null){
+      wordsize = 3.0;
+    }
     switch(wordsize.toInt()){
       case 1: SizeClass = 'size1()';break;
       case 2 : SizeClass = 'size2()';break;

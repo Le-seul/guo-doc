@@ -70,7 +70,7 @@ class _PsyCourseState extends State<PsyCourse>
       onSuccess: (data) {
         print('课程TAB获取成功');
         setState(() {
-          tabText = data.tagList;
+          tabText = data.categoryList;
           mController = TabController(
             length: tabText.length,
             vsync: this,

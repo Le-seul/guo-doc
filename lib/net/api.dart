@@ -61,7 +61,7 @@ class Api {
   static const String GETAllMUSICLIST = "/api/music.do?getAllMusicList";
 
   //获取所有Tag
-  static const String GETMUSICTAG = "/api/music.do?getAllTag";
+  static const String GETMUSICTAG = "/api/music.do?getAllCategory";
 
   //记录播放数量
   static const String ADDPLAYCOUNT = "/api/music.do?addPlayCount";
@@ -70,7 +70,7 @@ class Api {
   static const String GETMUSICLIST = "/api/music.do?getSongOfMusicList";
 
   //获取包含某个Tag的所有歌单
-  static const String GETMUSICLISTBYTAG = "/api/music.do?getMusicListByTag";
+  static const String GETMUSICLISTBYTAG = "/api/music.do?getMusicListByCategory";
 
   //获取歌曲详情
   static const String GETSONGDETAIL = "/api/music.do?getSongDetail";
@@ -185,10 +185,10 @@ class Api {
   static const String PsyTeacherLike = "/api/psyTeacher.do?getPsyTeacherLike";
 
   //每日一测TAG
-  static const String PsyDailyTAG = "/api/psyDailyTest.do?getTagList";
+  static const String PsyDailyTAG = "/api/psyDailyTest.do?getAllCategory";
 
   //每日一测
-  static const String PsyDailyTest = "/api/psyDailyTest.do?getPsyDailyTestByTag";
+  static const String PsyDailyTest = "/api/psyDailyTest.do?getByCategory";
 
   //每日一测已测
   static const String PsyDailyTested = "/api/psyDailyTest.do?getPsyDailyTestRecord";

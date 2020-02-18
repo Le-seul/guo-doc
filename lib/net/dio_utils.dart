@@ -189,7 +189,7 @@ class DioUtils {
       }else if(result.statusCode == 106){
         Toast.show("用户账户被禁用");
       }else if(result.statusCode == -11){
-        eventBus.fire(LoginEvent());
+        eventBus.fire(LoginEvent('账户登录信息已过期，请重新登录'));
       }else{
         onError == null ? _onError(result.statusCode, result.msg) : onError(result.statusCode, result.msg);
 //        eventBus.fire(LoginEvent());

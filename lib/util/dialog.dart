@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/net/dio_utils.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_first/util/navigator_util.dart';
 
 import 'package:flutter_first/util/storage_manager.dart';
 import 'package:flutter_first/util/toast.dart';
+import 'package:flutter_first/util/utils.dart';
 
 //class MyDialog {
 //  static void showMyMaterialDialog(BuildContext context) {
@@ -484,14 +486,14 @@ class ShowIsSignDialog extends Dialog {
 }
 
 class ShowExitDialog extends Dialog {
-  static showMyMaterialDialog(BuildContext context) {
+  static showMyMaterialDialog(BuildContext context,String content) {
     showDialog<Null>(
       context: context, // BuildContext对象
       barrierDismissible: false, // 屏蔽点击对话框外部自动关闭
       builder: (_) => WillPopScope(
         child: AlertDialog(
           content: Text(
-            '账户登录信息已过期，请重新登录',
+            content,
           ),
           actions: <Widget>[
             FlatButton(
@@ -501,6 +503,11 @@ class ShowExitDialog extends Dialog {
                       "/login", (Route<dynamic> route) => false);
                 },
                 child: Text('确认')),
+            FlatButton(
+                onPressed: () async{
+                  await Utils.pop();
+                },
+                child: Text('取消')),
           ],
         ),
         onWillPop: () async {

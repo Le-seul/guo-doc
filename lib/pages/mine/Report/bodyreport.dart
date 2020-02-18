@@ -12,13 +12,16 @@ class BodyReport extends StatefulWidget {
 }
 
 class _BodyReportState extends State<BodyReport> {
-  double Wordsize = 3;
+  double wordsize ;
   int Swichsize;
   String SizeClass ='';
   WebViewController _controller;
   @override
   void initState() {
-    Wordsize =  StorageManager.sharedPreferences.getDouble(Constant.word_size);
+    wordsize =  StorageManager.sharedPreferences.getDouble(Constant.word_size);
+    if(wordsize == null){
+      wordsize = 3.0;
+    }
     Swichsize = int.parse(Swichsize.toString());
   }
   @override
