@@ -11,6 +11,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/bean/step_ranking.dart' as step;
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
+import 'package:flutter_first/pages/consultation/work_dynamics_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
@@ -29,6 +30,8 @@ import 'package:flutter_first/widgets/my_card.dart';
 import 'package:flutter_first/widgets/word_size_dialog.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
+
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 //import 'package:todaystep/audioplayers.dart';
 
@@ -684,7 +687,7 @@ class _MinePageState extends State<MinePage> {
                     ),
                   ),
                   onPressed: () {
-                    NavigatorUtil.pushWebView(context,'http://49.232.168.124/phms_resource_base/psyReading/XinLiXueWZ_CZ.html',{"title": '体检报告','redirection':true});
+                    NavigatorUtil.pushPage(context, ssssss());
                   },
                 ), //绑定微信
                 SizedBox(
