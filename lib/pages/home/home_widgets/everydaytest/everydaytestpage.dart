@@ -52,7 +52,7 @@ class _EverydayTestState extends State<EverydayTest>
        void _requestData() {
          DioUtils.instance.requestNetwork<PsyDailyTest>(
              Method.get, Api.PsyDailyTest,
-             queryParameters: {'tag':widget.tagId},
+             queryParameters: {'category':widget.tagId},
              isList: true, onSuccessList: (data) {
            setState(() {
              psylist = data;

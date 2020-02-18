@@ -3,13 +3,17 @@ import 'package:flutter_first/res/colors.dart';
 import 'dart:math' as math;
 
 TabController _tabController;
-List tabs = ["sssss", "sssss", "sssss"];
+List tabs = ["sssss", "sssss", "sssss", "sssss", "sssss", "sssss", "sssss", "sssss"];
 
 List<Widget> tabList=[
   Text('sssss',style: TextStyle(fontSize: 15,),),
   Text('dddddd',style: TextStyle(fontSize: 15,),),
   Text('safsa',style: TextStyle(fontSize: 15,),),
-
+  Text('safsa',style: TextStyle(fontSize: 15,),),
+  Text('safsa',style: TextStyle(fontSize: 15,),),
+  Text('safsa',style: TextStyle(fontSize: 15,),),
+  Text('safsa',style: TextStyle(fontSize: 15,),),
+  Text('safsa',style: TextStyle(fontSize: 15,),),
 ];
 
 class WorkDynamics extends StatefulWidget {
