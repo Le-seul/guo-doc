@@ -16,53 +16,14 @@ List<Widget> tabList=[
   Text('safsa',style: TextStyle(fontSize: 15,),),
 ];
 
-class WorkDynamics extends StatefulWidget {
-  @override
-  _WorkDynamicsState createState() => _WorkDynamicsState();
-}
-
-class _WorkDynamicsState extends State<WorkDynamics> with SingleTickerProviderStateMixin{
-  TabController _tabController; //需要定义一个Controller
-  List tabs = ["ddddd", "dddd", "ddddd"];
-  List<Widget> tabview = [
-    ssssss(),
-    Text('ssss'),
-    Text('ssss'),
-
-  ];
-  @override
-  void initState() {
-    super.initState();
-    // 创建Controller
-    _tabController = TabController(length: tabs.length, vsync: this);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-
-        bottom: TabBar(   //生成Tab菜单
-        controller: _tabController,
-        tabs: tabs.map((e) => Tab(text: e)).toList()
-    ),),
-
-      body: TabBarView(
-        controller: _tabController,
-        children: tabview,
-      ),
-    );
-    }
-}
 
 
-
-  class ssssss extends StatefulWidget {
+  class WorkDynamics extends StatefulWidget {
     @override
-    _ssssssState createState() => _ssssssState();
+    _WorkDynamicsState createState() => _WorkDynamicsState();
   }
 
-  class _ssssssState extends State<ssssss> with SingleTickerProviderStateMixin{
+  class _WorkDynamicsState extends State<WorkDynamics> with SingleTickerProviderStateMixin{
 
     @override
     void initState() {

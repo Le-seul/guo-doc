@@ -687,7 +687,7 @@ class _MinePageState extends State<MinePage> {
                     ),
                   ),
                   onPressed: () {
-                    NavigatorUtil.pushPage(context, ssssss());
+                    NavigatorUtil.pushPage(context, WorkDynamics());
                   },
                 ), //绑定微信
                 SizedBox(
