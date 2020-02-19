@@ -73,7 +73,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
             mycourselist = data;
             isShowLoading2 = false;
 //            for (Psycourse index in psycourselist) {
-//              if (index.categoryId == "轮播图") {
+//              if (index.categoryId == "轮  播图") {
 //                mycourselist.add(index);
 //              }
 //            }

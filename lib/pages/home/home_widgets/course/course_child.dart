@@ -45,7 +45,7 @@ class _CourseChildState extends State<CourseChild> {
 
   _getCourse(){
     DioUtils.instance.requestNetwork<Course>(Method.get, Api.GETBYTAGNAME,
-        queryParameters: {'tagName': widget.tagName},
+        queryParameters: {'category': widget.tagName},
         isList: true, onSuccessList: (data) {
           setState(() {
             courseList = data;
