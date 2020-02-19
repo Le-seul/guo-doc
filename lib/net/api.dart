@@ -259,4 +259,10 @@ class Api {
 
   //收藏
   static const String COLLECTION = "/api/article.do?getAction&action=SC";
+
+  //获取工作动态TAG
+  static const String WORKTAG = "/api/article.do?getAllWorkStatusTag";
+
+  //获取工作动态详情
+  static const String WORKDETAIL = "/api/article.do?getWorkStatusByTag";
 }

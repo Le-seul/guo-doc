@@ -83,7 +83,7 @@ class _CourseChildState extends State<CourseChild> {
   _buildItem(int index){
     return GestureDetector(
       onTap: (){
-        NavigatorUtil.pushPage(context,CourseDetailPage(courseId: courseList[index].id,));
+        NavigatorUtil.pushPage(context,CourseDetailPage(courseId: courseList[index].id,courseurl:courseList[index].shortDescription ,));
       },
       child: Container(
         height: 163.0,

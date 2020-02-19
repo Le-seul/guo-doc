@@ -7,6 +7,8 @@ import 'package:flutter_first/bloc/bloc_provider.dart';
 import 'package:flutter_first/bloc/chunyu_bloc.dart';
 import 'package:flutter_first/db/order_db.dart';
 import 'package:flutter_first/event/login_event.dart';
+import 'package:flutter_first/pages/consultation/workdynamics/work_dynamics_page.dart';
+import 'package:flutter_first/pages/consultation/workdynamics/work_page.dart';
 import 'package:flutter_first/pages/home/doctor/doctor_chunyu_home_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/coreading/coreading_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
@@ -123,7 +125,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              NavigatorUtil.pushPage(context, ActivityParticipation());
+              NavigatorUtil.pushPage(context, Work());
             },
           ),
           GestureDetector(
@@ -319,20 +321,28 @@ class _Table0State extends State<Table0> {
                 NavigatorUtil.pushPage(context, PsychologicalConcult());
               }),
           GestureDetector(
-            child: Container(),
-//            child: Column(
-//              children: <Widget>[
-//                loadAssetImage('entry/physical_assessment.png',height: 50,
-//                  width: 50,),
-//                SizedBox(height: 8,),
-//                Text(
-//                  '身体评估',
-//                  style: TextStyle(fontSize: 12),
-//                ),
-//                SizedBox(height: 10,)
-//              ],
-//            ),
-            onTap: () {},
+            child: Column(
+              children: <Widget>[
+                loadAssetImage(
+                  'entry/physical_assessment.png',
+                  height: 50,
+                  width: 50,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  '活动',
+                  style: TextStyle(fontSize: 12),
+                ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
+            onTap: () {
+              NavigatorUtil.pushPage(context, ActivityParticipation());
+            },
           ),
           GestureDetector(
             child: Container(),

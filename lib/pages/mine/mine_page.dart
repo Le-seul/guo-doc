@@ -11,7 +11,7 @@ import 'package:flutter_first/net/api.dart';
 import 'package:flutter_first/bean/step_ranking.dart' as step;
 import 'package:flutter_first/net/dio_utils.dart';
 import 'package:flutter_first/pages/consultation/instructor_demeanor_page.dart';
-import 'package:flutter_first/pages/consultation/work_dynamics_page.dart';
+import 'package:flutter_first/pages/consultation/workdynamics/work_dynamics_page.dart';
 import 'package:flutter_first/pages/exit_login_page.dart';
 import 'package:flutter_first/pages/home/doctor/history_record.dart';
 import 'package:flutter_first/pages/home/home_widgets/course/course_page.dart';
