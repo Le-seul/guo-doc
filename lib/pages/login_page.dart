@@ -59,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    super.initState();
     _nameController = TextEditingController.fromValue(TextEditingValue(
       // 设置内容
         text: inputName,

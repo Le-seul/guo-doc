@@ -64,18 +64,18 @@ class CachedImage extends ImageProvider<CachedImage> implements CacheKey {
   int get hashCode => hashValues(id, scale, _size);
 
   @override
-  ImageStreamCompleter load(CachedImage key) {
+  ImageStreamCompleter load(CachedImage key, decode) {
     return MultiFrameImageStreamCompleter(
         codec: _loadAsync(key)
-//          ..then((value) {
-//            value.getNextFrame().then((image) {
-//              debugPrint(
-//                  "load ${key.toString()} : ${image.image.width} * ${image.image.height}");
-//              debugPrint(
-//                  "cached image count =  ${PaintingBinding.instance.imageCache.currentSize}, "
-//                  "total size ${PaintingBinding.instance.imageCache.currentSizeBytes / 1024} KB");
-//            });
-//          })
+          ..then((value) {
+            value.getNextFrame().then((image) {
+              debugPrint(
+                  "load ${key.toString()} : ${image.image.width} * ${image.image.height}");
+              debugPrint(
+                  "cached image count =  ${PaintingBinding.instance.imageCache.currentSize}, "
+                  "total size ${PaintingBinding.instance.imageCache.currentSizeBytes / 1024} KB");
+            });
+          })
         ,
         scale: key.scale);
   }

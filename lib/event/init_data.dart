@@ -23,7 +23,7 @@ import 'package:flutter_first/util/toast.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 
 class InitData extends StatefulWidget {
-  Widget child;
+  final Widget child;
 
   InitData({Key key, this.child}) : super(key: key);
   @override

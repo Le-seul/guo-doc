@@ -20,13 +20,15 @@ import 'package:flutter_first/util/storage_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'pages/exit_login_page.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
 // 注册服务
   setupLocator();
 // 运行主界面
   await StorageManager.init();
+
   runApp(MyApp());
 }
 
@@ -51,11 +53,6 @@ class _MyAppState extends State<MyApp> {
     token = StorageManager.sharedPreferences.getString(Constant.access_Token);
   }
 
-
-
-  @override
-  void dispose() {
-  }
 
   @override
   Widget build(BuildContext context) {

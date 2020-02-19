@@ -4,8 +4,6 @@ import 'package:flutter_first/pages/consultation/consulation_detail_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_first/bean/health_adv.dart';
 import 'package:flutter_first/mock_request.dart';
-import 'package:flutter_first/pages/consultation/title_widget.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_first/res/styles.dart';
 import 'package:flutter_first/util/toast.dart';
 
