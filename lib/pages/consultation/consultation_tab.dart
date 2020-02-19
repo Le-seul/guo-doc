@@ -4,7 +4,7 @@ import 'package:flutter_first/pages/consultation/consultation_child_page.dart';
 
 class FlutterTabBarView extends StatelessWidget {
   final TabController tabController;
-  List<ConsulationColumns> columnsList;
+  final List<ConsulationColumns> columnsList;
 
   FlutterTabBarView({Key key, @required this.tabController,@required this.columnsList}) : super(key: key);
 
