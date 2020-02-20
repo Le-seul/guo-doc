@@ -17,6 +17,7 @@ import 'package:flutter_first/pages/home/home_widgets/music_page.dart';
 import 'package:flutter_first/pages/home/home_widgets/pstConsult_page.dart';
 import 'package:flutter_first/pages/mine/Report/reportlist.dart';
 import 'package:flutter_first/pages/service/service_page.dart';
+import 'package:flutter_first/pages/service/servicenext/activity_all_page.dart';
 import 'package:flutter_first/pages/service/servicenext/activity_participation.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
@@ -341,7 +342,7 @@ class _Table0State extends State<Table0> {
               ],
             ),
             onTap: () {
-              NavigatorUtil.pushPage(context, ActivityParticipation());
+              NavigatorUtil.pushPage(context, ActivityAll());
             },
           ),
           GestureDetector(

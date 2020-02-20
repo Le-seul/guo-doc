@@ -24,7 +24,7 @@ class Api {
   //查询点赞状态
   static const String GRTLIKESTATUS = "/api/article.do?getSocialActionStatus";
 
-  //获取活动列表
+  //获取全部活动
  static const String GETACTIVITIES = "/api/activity.do?getAllActivity";
 
   //扫码参加活动
