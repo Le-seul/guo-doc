@@ -53,7 +53,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
 
   void _requestData() {
     DioUtils.instance.requestNetwork<PsyDailyTest>(Method.get, Api.PsyDailyTest,
-        queryParameters: {'tag':'人际关系'},
+        queryParameters: {'category':'人际关系'},
         isList: true,
         onSuccessList: (data) {
           setState(() {
@@ -73,7 +73,7 @@ class _SelfHelpPageState extends State<SelfHelpPage> {
             mycourselist = data;
             isShowLoading2 = false;
 //            for (Psycourse index in psycourselist) {
-//              if (index.categoryId == "轮播图") {
+//              if (index.categoryId == "轮  播图") {
 //                mycourselist.add(index);
 //              }
 //            }

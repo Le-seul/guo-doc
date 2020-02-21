@@ -20,7 +20,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class CourseDetailPage extends StatefulWidget {
   String courseId;
-  CourseDetailPage({Key key, @required this.courseId}) : super(key: key);
+  String courseurl;
+
+  CourseDetailPage({Key key, @required this.courseId,this.courseurl}) : super(key: key);
 
   @override
   _CourseDetailPageState createState() => _CourseDetailPageState();
@@ -231,7 +233,8 @@ class _CourseDetailPageState extends State<CourseDetailPage>
                           controller: mTabController,
                           children: <Widget>[
                             Detail(
-                              id: courseDetail.id,
+                              id: widget.courseId,
+                              url: widget.courseurl,
                             ),
                             itemWidget2(),
                           ],
@@ -395,9 +398,12 @@ class _CourseDetailPageState extends State<CourseDetailPage>
 
 class Detail extends StatefulWidget {
   String id;
+  String url;
+
   Detail({
     Key key,
     @required this.id,
+    this.url
   }) : super(key: key);
 
   @override
@@ -419,7 +425,9 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
 
     return WebView(
-      initialUrl: '${baseurl}/api/staticResource.do?getResource&url=mobile_course_ui/courseCatalog.html&token=$token&catalogId=${widget.id}&commonIp=${baseurl}',
+     //  initialUrl: '${baseurl}/api/staticResource.do?getResource&url=mobile_course_ui/courseDetail.html&token=$token&courseId=${widget.id}&commonIp=${baseurl}',
+      initialUrl:widget.url,
+
       javascriptMode: JavascriptMode.unrestricted,
     );
   }

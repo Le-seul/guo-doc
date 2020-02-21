@@ -49,6 +49,7 @@ import 'package:flutter_first/bean/step_ranking.dart';
 import 'package:flutter_first/bean/tag_entity.dart';
 import 'package:flutter_first/bean/test_entity.dart';
 import 'package:flutter_first/bean/user_entity.dart';
+import 'package:flutter_first/bean/work_dunamics_tag.dart';
 import 'package:flutter_first/common/common.dart';
 
 class EntityFactory {
@@ -163,6 +164,8 @@ class EntityFactory {
       return SearchContent.fromJson(json) as T;
     }else if (T.toString() == "Coreadinglist") {
       return Coreadinglist.fromJson(json) as T;
+    }else if (T.toString() == "WorkTag") {
+      return WorkTag.fromJson(json) as T;
     }else {
       return null;
     }

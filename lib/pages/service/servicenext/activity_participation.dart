@@ -64,7 +64,7 @@ class _ActivityParticipationState extends State<ActivityParticipation>
         elevation: 0.0,
         backgroundColor: Color(0xff2CA687),
         title: Text(
-          '工作动态',
+          '活动',
         ),
       ),
       body: Container(
