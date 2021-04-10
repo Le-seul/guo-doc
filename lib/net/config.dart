@@ -13,7 +13,7 @@ class Config {
       case Env.TEST:
         return "http://10.28.233.75:8080/jeecg";
       default:
-        return "http://103.83.47.30/jeecg";
+        return "http://103.83.47.30:8080/phms3";
     }
   }
 }

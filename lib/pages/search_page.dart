@@ -104,7 +104,7 @@ class _SesrchPageState extends State<SesrchPage> with TickerProviderStateMixin {
     super.initState();
 
     if (StorageManager.sharedPreferences
-            .getStringList(Constant.searchHistory) !=
+        .getStringList(Constant.searchHistory) !=
         null) {
       textList = StorageManager.sharedPreferences
           .getStringList(Constant.searchHistory);

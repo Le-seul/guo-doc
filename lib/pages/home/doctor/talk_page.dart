@@ -309,15 +309,15 @@ class _TalkPageState extends State<TalkPage>
   ];
 
   void getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      final String uuid = Uuid().v1();
-      var file = new UploadFileInfo(image, '$uuid.png',
-          contentType: ContentType.parse("image/png"));
-
-      FormData formData = new FormData.from({'file': file});
-      _updateImage(image.path, formData);
-    }
+//    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+//    if (image != null) {
+//      final String uuid = Uuid().v1();
+//      var file = new UploadFileInfo(image, '$uuid.png',
+//          contentType: ContentType.parse("image/png"));
+//
+//      FormData formData = new FormData.from({'file': file});
+//      _updateImage(image.path, formData);
+//    }
   }
 
   autoTalk(val, type, url) async {
@@ -802,25 +802,25 @@ class _TalkPageState extends State<TalkPage>
   }
 
   void startRecorder(String num) async {
-    try {
-      String path = await flutterSound.startRecorder(num, bitRate: 320000);
-      File audioFile = new File(path);
-
-      var file = new UploadFileInfo(audioFile, '${path}$num.mp3',
-          contentType: ContentType.parse("video/mp3"));
-      formData = new FormData.from({'file': file});
-      print("数据$path");
-      _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
-            e.currentPosition.toInt(),
-            isUtc: true);
-        // print("时长$date");
-        String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
-        _playSeconds = txt.substring(3, 5);
-      });
-    } catch (err) {
-      print('startRecorder error: $err');
-    }
+//    try {
+//      String path = await flutterSound.startRecorder(num, bitRate: 320000);
+//      File audioFile = new File(path);
+//
+//      var file = new UploadFileInfo(audioFile, '${path}$num.mp3',
+//          contentType: ContentType.parse("video/mp3"));
+//      formData = new FormData.from({'file': file});
+//      print("数据$path");
+//      _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
+//        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+//            e.currentPosition.toInt(),
+//            isUtc: true);
+//        // print("时长$date");
+//        String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+//        _playSeconds = txt.substring(3, 5);
+//      });
+//    } catch (err) {
+//      print('startRecorder error: $err');
+//    }
   }
 
   void stopRecorder() async {
@@ -897,30 +897,30 @@ class _TalkPageState extends State<TalkPage>
   }
 
   _updateImage(String path, FormData formData) {
-    DioUtils.instance.requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,
-        params: formData, isList: true, onSuccessList: (data) {
-      setState(() {
-        autoTalk(path, 'image', data[0].url);
-        print('上传图片成功!');
-      });
-    }, onError: (code, msg) {
-      setState(() {
-        print('上传图片失败!');
-      });
-    });
+//    DioUtils.instance.requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,
+//        params: formData, isList: true, onSuccessList: (data) {
+//      setState(() {
+//        autoTalk(path, 'image', data[0].url);
+//        print('上传图片成功!');
+//      });
+//    }, onError: (code, msg) {
+//      setState(() {
+//        print('上传图片失败!');
+//      });
+//    });
   }
 
   _uploadAudio(FormData formData) {
-    DioUtils.instance.requestNetwork<AudioUrl>(Method.post, Api.UPLOADAUDIO,
-        params: formData, isList: true, onSuccessList: (data) {
-      setState(() {
-        autoTalk('num$num', 'audio', data[0].url);
-        Toast.show('上传音频成功!');
-      });
-    }, onError: (code, msg) {
-      setState(() {
-        Toast.show('上传音频失败!');
-      });
-    });
+//    DioUtils.instance.requestNetwork<AudioUrl>(Method.post, Api.UPLOADAUDIO,
+//        params: formData, isList: true, onSuccessList: (data) {
+//      setState(() {
+//        autoTalk('num$num', 'audio', data[0].url);
+//        Toast.show('上传音频成功!');
+//      });
+//    }, onError: (code, msg) {
+//      setState(() {
+//        Toast.show('上传音频失败!');
+//      });
+//    });
   }
 }

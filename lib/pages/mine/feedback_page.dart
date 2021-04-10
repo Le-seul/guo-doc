@@ -572,67 +572,67 @@ class _FeedBackPageState extends State<FeedBackPage> {
   FormData formData;
 
   clickIcon() async {
-    var arr = new Map();
-    List<UploadFileInfo> files = [];
-    try {
-      List<Asset> resultList =
-          await MultiImagePicker.pickImages(maxImages: 9, enableCamera: true);
-      if (resultList.length > 0) {
-        formData = new FormData.from({});
-        for (int i = 0; i < resultList.length; i++) {
-          Asset asset = resultList[i];
-          ByteData byteData = await asset.requestThumbnail(200, 200);
-          List<int> imageData = byteData.buffer.asUint8List();
-
-          //获得一个uuud码用于给图片命名
-          final String uuid = Uuid().v1();
-          //获得应用临时目录路径
-          final Directory _directory = await getTemporaryDirectory();
-          final Directory _imageDirectory =
-              await new Directory('${_directory.path}/image/')
-                  .create(recursive: true);
-          var path = _imageDirectory.path;
-          print('本次获得路径：${_imageDirectory.path}');
-          //将压缩的图片暂时存入应用缓存目录
-          File imageFile = new File('${path}originalImage_$uuid.png')
-            ..writeAsBytesSync(imageData);
-          setState(() {
-            list.add(imageFile.path);
-          });
-
-          print('图片path：${imageFile.path}');
-          var file = new UploadFileInfo(
-              imageFile, '${path}originalImage_$uuid.png',
-              contentType: ContentType.parse("image/png"));
-          arr['file$i'] = file;
-          print("file$i");
-          formData["file$i"] = file;
-        }
-        ;
-//        formData = new FormData.from(arr);
-//        print("formData:${json.encode(arr)}");
-      } else {}
-    } catch (e) {
-      print(e.message);
-    }
+//    var arr = new Map();
+//    List<UploadFileInfo> files = [];
+//    try {
+//      List<Asset> resultList =
+//          await MultiImagePicker.pickImages(maxImages: 9, enableCamera: true);
+//      if (resultList.length > 0) {
+//        formData = new FormData.from({});
+//        for (int i = 0; i < resultList.length; i++) {
+//          Asset asset = resultList[i];
+//          ByteData byteData = await asset.requestThumbnail(200, 200);
+//          List<int> imageData = byteData.buffer.asUint8List();
+//
+//          //获得一个uuud码用于给图片命名
+//          final String uuid = Uuid().v1();
+//          //获得应用临时目录路径
+//          final Directory _directory = await getTemporaryDirectory();
+//          final Directory _imageDirectory =
+//              await new Directory('${_directory.path}/image/')
+//                  .create(recursive: true);
+//          var path = _imageDirectory.path;
+//          print('本次获得路径：${_imageDirectory.path}');
+//          //将压缩的图片暂时存入应用缓存目录
+//          File imageFile = new File('${path}originalImage_$uuid.png')
+//            ..writeAsBytesSync(imageData);
+//          setState(() {
+//            list.add(imageFile.path);
+//          });
+//
+//          print('图片path：${imageFile.path}');
+//          var file = new UploadFileInfo(
+//              imageFile, '${path}originalImage_$uuid.png',
+//              contentType: ContentType.parse("image/png"));
+//          arr['file$i'] = file;
+//          print("file$i");
+//          formData["file$i"] = file;
+//        }
+//        ;
+////        formData = new FormData.from(arr);
+////        print("formData:${json.encode(arr)}");
+//      } else {}
+//    } catch (e) {
+//      print(e.message);
+//    }
   }
 
   updateImage() {
-    DioUtils.instance.requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,
-        params: formData, isList: true, onSuccessList: (data) {
-      setState(() {
-        for (ImageUrl imageUrl in data) {
-          imageIdList = imageUrl.id + ',' + imageIdList;
-        }
-        imageIdList = imageIdList.substring(0, imageIdList.length - 1);
-        print('上传图片成功!');
-        _updateProposal();
-      });
-    }, onError: (code, msg) {
-      setState(() {
-        print('上传图片失败!');
-      });
-    });
+//    DioUtils.instance.requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,
+//        params: formData, isList: true, onSuccessList: (data) {
+//      setState(() {
+//        for (ImageUrl imageUrl in data) {
+//          imageIdList = imageUrl.id + ',' + imageIdList;
+//        }
+//        imageIdList = imageIdList.substring(0, imageIdList.length - 1);
+//        print('上传图片成功!');
+//        _updateProposal();
+//      });
+//    }, onError: (code, msg) {
+//      setState(() {
+//        print('上传图片失败!');
+//      });
+//    });
   }
 
   _updateProposal() {

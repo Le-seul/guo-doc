@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/res/colors.dart';
 import 'package:flutter_first/util/storage_manager.dart';
-import 'package:flutter_seekbar/flutter_seekbar.dart' ;
+//import 'package:flutter_seekbar/flutter_seekbar.dart' ;
 
 class WordDialog extends Dialog  {
   double seekvalue;
@@ -37,18 +37,18 @@ class Seekbar extends StatefulWidget {
 
 class _SeekbarState extends State<Seekbar> {
   double seekvalue2;
-  List<SectionTextModel> sectionTexts = [];
+//  List<SectionTextModel> sectionTexts = [];
 
   @override
   void initState() {
     super.initState();
-    sectionTexts.add(SectionTextModel(position: 0, text: '小', progressColor: Colors.blue));
-    sectionTexts.add(SectionTextModel(position: 1, text: '', progressColor: Colors.blue));
-    sectionTexts.add(SectionTextModel(position: 2, text: '标准', progressColor: Colors.blue));
-    sectionTexts.add(SectionTextModel(position: 3, text: '', progressColor: Colors.blue));
-    sectionTexts.add(SectionTextModel(position: 4, text: '大', progressColor: Colors.blue));
-    sectionTexts.add(SectionTextModel(position: 5, text: '', progressColor: Colors.blue));
-    sectionTexts.add(SectionTextModel(position: 6, text: '超大', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 0, text: '小', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 1, text: '', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 2, text: '标准', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 3, text: '', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 4, text: '大', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 5, text: '', progressColor: Colors.blue));
+//    sectionTexts.add(SectionTextModel(position: 6, text: '超大', progressColor: Colors.blue));
   }
   @override
   Widget build(BuildContext context) {
@@ -83,38 +83,38 @@ class _SeekbarState extends State<Seekbar> {
                         fontSize: 10+(seekvalue2==null?widget.seekvalue:seekvalue2)*2
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: SeekBar(
-                      progresseight: 10,
-                      backgroundColor: Colours.bg_green,
-                      max: 7,
-                      min: 1,
-                      value:seekvalue2==null?widget.seekvalue:seekvalue2,
-                      sectionCount:6,
-                      sectionRadius: 6,
-                      showSectionText: true,
-                      sectionTexts: sectionTexts,
-                      sectionTextMarginTop: 2,
-                      sectionDecimal: 1,
-                      sectionTextColor: Colors.black,
-                      sectionSelectTextColor: Colors.red,
-                      sectionTextSize: 14,
-                      hideBubble: true,
-                      bubbleRadius: 14,
-                      bubbleColor: Colours.bg_green,
-                      bubbleTextColor: Colors.white,
-                      bubbleTextSize: 14,
-                      bubbleMargin: 4,
-                      afterDragShowSectionText: false,
-                      onValueChanged: ( e){
-                        setState(() {
-                          seekvalue2 = e.value;
-                          print('这个值是$seekvalue2');
-                        });
-                      },
-                    ),
-                  ),
+//                  Container(
+//                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+//                    child: SeekBar(
+//                      progresseight: 10,
+//                      backgroundColor: Colours.bg_green,
+//                      max: 7,
+//                      min: 1,
+//                      value:seekvalue2==null?widget.seekvalue:seekvalue2,
+//                      sectionCount:6,
+//                      sectionRadius: 6,
+//                      showSectionText: true,
+////                      sectionTexts: sectionTexts,
+//                      sectionTextMarginTop: 2,
+//                      sectionDecimal: 1,
+//                      sectionTextColor: Colors.black,
+//                      sectionSelectTextColor: Colors.red,
+//                      sectionTextSize: 14,
+//                      hideBubble: true,
+//                      bubbleRadius: 14,
+//                      bubbleColor: Colours.bg_green,
+//                      bubbleTextColor: Colors.white,
+//                      bubbleTextSize: 14,
+//                      bubbleMargin: 4,
+//                      afterDragShowSectionText: false,
+//                      onValueChanged: ( e){
+//                        setState(() {
+//                          seekvalue2 = e.value;
+//                          print('这个值是$seekvalue2');
+//                        });
+//                      },
+//                    ),
+//                  ),
                   new Padding(
                     padding: const EdgeInsets.only(
                       top: 20.0,

@@ -1,4 +1,4 @@
-import 'package:esys_flutter_share/esys_flutter_share.dart';
+//import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/home/doctor/search_hospital_detail.dart';
 import 'package:flutter_first/pages/search_page.dart';
@@ -55,10 +55,10 @@ class _SearchHospitalState extends State<SearchHospital>
                  ),
             ),
             onTap: (){
-              Share.text(
-                  '我的分享',
-                  '北京协和医院:\nhttps://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%8D%8F%E5%92%8C%E5%8C%BB%E9%99%A2/322752?fr=aladdin',
-                  'text/plain');
+//              Share.text(
+//                  '我的分享',
+//                  '北京协和医院:\nhttps://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%8D%8F%E5%92%8C%E5%8C%BB%E9%99%A2/322752?fr=aladdin',
+//                  'text/plain');
             },
           )
         ],

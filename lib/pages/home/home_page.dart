@@ -24,7 +24,7 @@ import 'package:flutter_first/pages/mine/sport/step_ranking_page.dart';
 import 'package:flutter_first/pages/search_page.dart';
 import 'package:flutter_first/pages/service/servicenext/activity.dart';
 import 'package:flutter_first/res/colors.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+//import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_first/util/dialog.dart';
 import 'package:flutter_first/util/image_utils.dart';
 import 'package:flutter_first/util/navigator_util.dart';
@@ -80,18 +80,18 @@ class _HomePageState extends State<HomePage> {
 
   Future scan() async {
     try {
-      String barcode = await BarcodeScanner.scan();
+//      String barcode = await BarcodeScanner.scan();
 
-      Map<String, dynamic> _map = json.decode(barcode);
-      String model = _map["model"];
-      String target = _map["target"];
-      print('model: $model' + 'target: $target');
+//      Map<String, dynamic> _map = json.decode(barcode);
+//      String model = _map["model"];
+//      String target = _map["target"];
+//      print('model: $model' + 'target: $target');
 
-      if (model == "activity") {
-        Future.delayed(Duration(milliseconds: 1)).then((value) {
-          ShowIsSignDialog.showMyMaterialDialog(context, target);
-        });
-      }
+//      if (model == "activity") {
+////        Future.delayed(Duration(milliseconds: 1)).then((value) {
+////          ShowIsSignDialog.showMyMaterialDialog(context, target);
+////        });
+//      }
     } catch (e) {
       // 扫码错误
       print('扫码错误: $e');
@@ -104,12 +104,12 @@ class _HomePageState extends State<HomePage> {
         isList: true, onSuccessList: (data) {
       setState(() {
         listAnnouncement = data;
-        print('获取通告成功！');
+        print('ssssss获取通告成功！');
       });
     }, onError: (code, msg) {
-      print('获取通告失败！');
+      print('ssssss获取通告失败！');
     }, noExistError: () {
-      print('请求的对象不存在或已被删除！');
+      print('ssssss请求的对象不存在或已被删除！');
     });
   }
 
@@ -118,12 +118,12 @@ class _HomePageState extends State<HomePage> {
         Method.get, Api.GRTSTEPRANKING, onSuccess: (data) {
       setState(() {
         stepRanking = data.stepRanking;
-        print('获取排名成功！');
+        print('ssssss获取排名成功！');
       });
     }, onError: (code, msg) {
-      print('获取排名失败！');
+      print('ssssss获取排名失败！');
     }, noExistError: () {
-      print('请求的对象不存在或已被删除！');
+      print('ssssss请求的对象不存在或已被删除！');
     });
   }
 
@@ -139,11 +139,13 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           UserList.addAll(data);
           isShowLoading = false;
+          print('ssssssUser成功！');
         });
       },
       onError: (code, msg) {
         setState(() {
           Toast.show('请求失败');
+          print('ssssssUser失败！');
         });
       },
     );
@@ -158,10 +160,12 @@ class _HomePageState extends State<HomePage> {
       onSuccessList: (data) {
         setState(() {
           columnsInfoList.addAll(data);
+          print("ssssssColumnsInfo成功");
         });
       },
       onError: (code, msg) {
         setState(() {
+          print("ssssssColumnsInfo成功");
           Toast.show('请求失败');
         });
       },
@@ -172,10 +176,11 @@ class _HomePageState extends State<HomePage> {
     DioUtils.instance.requestNetwork<BannerImage>(Method.get, Api.BANNER,
         isList: true, onSuccessList: (data) {
       setState(() {
+        print("ssssssBanner成功");
         bannerlist = data;
       });
     }, onError: (code, msg) {
-      print("sssss");
+      print("ssssssBanner失败");
     });
   }
 
@@ -214,130 +219,131 @@ class _HomePageState extends State<HomePage> {
     final StepCountBloc bloc = BlocProvider.of<StepCountBloc>(context);
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
-      child: Column(children: <Widget>[
-        Stack(
-          children: <Widget>[
-            LoginTopPanel(),
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQueryData.fromWindow(window).padding.top + 15,
-                ),
-                Row(
-                  //扫码加搜索栏
-                  children: <Widget>[
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: SearchTextFieldWidget(
-                          isborder: false,
-                          controller: TextEditingController(),
-                          hintText: '请输入搜索内容',
-                          margin:
-                              const EdgeInsets.only(left: 15.0, right: 15.0),
-                          onTab: () {
-                            NavigatorUtil.pushPage(
-                                context, SesrchPage('*', '请输入搜索内容'));
-                          },
+      child: Container(
+        child: Column(children: <Widget>[
+          Stack(
+            children: <Widget>[
+              LoginTopPanel(),
+              Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQueryData.fromWindow(window).padding.top + 15,
+                  ),
+                  Row(
+                    //扫码加搜索栏
+                    children: <Widget>[
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: SearchTextFieldWidget(
+                            isborder: false,
+                            controller: TextEditingController(),
+                            hintText: '请输入搜索内容',
+                            margin:
+                                const EdgeInsets.only(left: 15.0, right: 15.0),
+                            onTab: () {
+                              NavigatorUtil.pushPage(
+                                  context, SesrchPage('*', '请输入搜索内容'));
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        scan();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(right: 10),
-                        height: 25,
-                        child: loadAssetImage('scanning.png'),
+                      GestureDetector(
+                        onTap: () {
+                          scan();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(right: 10),
+                          height: 25,
+                          child: loadAssetImage('scanning.png'),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 190,
-                      child: buildBanner(context, bannerlist),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        height: 190,
+                        child: buildBanner(context, bannerlist),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          ],
-        ),
-        Container(
-          color: Colours.bg_gray,
-          child: Column(
-            children: <Widget>[
-              GestureDetector(
-                child: Container(
-                    //通知栏
-                    padding: EdgeInsets.only(right: 8, left: 15, top: 5),
-                    height: 25,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            '公告',
-                            style: TextStyle(color: Colors.white, fontSize: 10),
-                          ),
-                          decoration: BoxDecoration(
-                              color: Color(0xff2CA687),
-                              borderRadius: BorderRadius.circular(2.0)),
-                          padding: EdgeInsets.only(
-                              top: 2, bottom: 2, right: 5, left: 5),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        listAnnouncement.isEmpty
-                            ? Container()
-                            : Expanded(
-                                child: lib2.Swiper(
-                                  autoplay: true,
-                                  autoplayDelay: 3000,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: listAnnouncement.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        listAnnouncement[index].content,
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                        Align(
-                          child: loadAssetImage('arrow.png',
-                              height: 12, width: 12),
-                          alignment: Alignment.centerRight,
-                        )
-                      ],
-                    )),
-                onTap: () {
-                  NavigatorUtil.pushWebView(
-                      context,
-                      'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1',
-                      {'title': '专业测评'});
-                },
-              ),
-              //消息通知
-              Padding(
-                  //测评小表格
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                ],
+              )
+            ],
+          ),
+          Container(
+            color: Colours.bg_gray,
+            child: Column(
+              children: <Widget>[
+                GestureDetector(
                   child: Container(
-                    height: 175,
-                    child: Table0(),
+                      //通知栏
+                      padding: EdgeInsets.only(right: 8, left: 15, top: 5),
+                      height: 25,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              '公告',
+                              style: TextStyle(color: Colors.white, fontSize: 10),
+                            ),
+                            decoration: BoxDecoration(
+                                color: Color(0xff2CA687),
+                                borderRadius: BorderRadius.circular(2.0)),
+                            padding: EdgeInsets.only(
+                                top: 2, bottom: 2, right: 5, left: 5),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          listAnnouncement.isEmpty
+                              ? Container()
+                              : Expanded(
+                                  child: lib2.Swiper(
+                                    autoplay: true,
+                                    autoplayDelay: 3000,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: listAnnouncement.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          listAnnouncement[index].content,
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                          Align(
+                            child: loadAssetImage('arrow.png',
+                                height: 12, width: 12),
+                            alignment: Alignment.centerRight,
+                          )
+                        ],
+                      )),
+                  onTap: () {
+                    NavigatorUtil.pushWebView(
+                        context,
+                        'http://ygyd.aireading.top/ygyd/create?taskId=aaa&userId=1&scaleCode=10012&sex=0&age=1',
+                        {'title': '专业测评'});
+                  },
+                ),
+                //消息通知
+                Padding(
+                    //测评小表格
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Container(
+                      height: 175,
+                      child: Table0(),
 //                          lib2.Swiper(
 //                            itemCount: 1,
 //                            itemBuilder: (BuildContext context, int index) {
@@ -350,160 +356,161 @@ class _HomePageState extends State<HomePage> {
 //                                builder: DotSwiperPaginationBuilder(
 //                                    color: Colors.black12)),
 //                          ),
-                  )), //测评表格
-              Container(
-                color: Colours.bg_gray,
-                padding: EdgeInsets.only(left: 10.0, right: 10),
-                child: MyCard(
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: (){
-                                    NavigatorUtil.pushWebView(context,'https://www.aireading.club/jeecg/api/staticResource.do?getResource&url=/mobilearticleui/index.html&token=5b595894-03de-40fe-a24d-051ffe0e58c0&commonIp=https://www.aireading.club/jeecg',{"title": '体检报告'});
-                                  },
-                                  child: Text(
+                    )), //测评表格
+                Container(
+                  color: Colours.bg_gray,
+                  padding: EdgeInsets.only(left: 10.0, right: 10),
+                  child: MyCard(
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: (){
+                                      NavigatorUtil.pushWebView(context,'https://www.aireading.club/jeecg/api/staticResource.do?getResource&url=/mobilearticleui/index.html&token=5b595894-03de-40fe-a24d-051ffe0e58c0&commonIp=https://www.aireading.club/jeecg',{"title": '体检报告'});
+                                    },
+                                    child: Text(
+                                      UserList.isNotEmpty
+                                          ? UserList[0].userName
+                                          : '张警官',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    '$time,欢迎您进入系统!',
+                                    style: TextStyle(
+                                        color: Colors.black12, fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                  child: Container(
+                                height: 50,
+                                width: 50,
+                                alignment: Alignment.centerRight,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
                                     UserList.isNotEmpty
-                                        ? UserList[0].userName
-                                        : '张警官',
-                                    style: TextStyle(fontSize: 15),
+                                        ? UserList[0].imageId
+                                        : 'https://www.aireading.club/phms_resource_base/image_base/%E6%95%99%E5%AE%98%E7%85%A7%E7%89%87/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B0/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B01.jpg',
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  '$time,欢迎您进入系统!',
-                                  style: TextStyle(
-                                      color: Colors.black12, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                                child: Container(
-                              height: 50,
-                              width: 50,
-                              alignment: Alignment.centerRight,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  UserList.isNotEmpty
-                                      ? UserList[0].imageId
-                                      : 'https://www.aireading.club/phms_resource_base/image_base/%E6%95%99%E5%AE%98%E7%85%A7%E7%89%87/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B0/%E7%8E%8B%E5%BB%BA%E6%9D%B0-%E4%B8%B0%E5%8F%B01.jpg',
-                                  fit: BoxFit.cover,
+                              ))
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 10),
+                            height: 2,
+                            color: Colors.black12,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  NavigatorUtil.pushPage(context, StepRanking());
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    Image.asset('assets/images/ranking.png',
+                                        height: 14, width: 14),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '步数排名：$stepRanking',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Image.asset('assets/images/step_num.png',
+                                        height: 14, width: 14),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    StreamBuilder<int>(
+                                      stream: bloc.stream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<int> snapshot) {
+                                        return Text(
+                                          '运动步数：${snapshot.data ?? 0}',
+                                          style: TextStyle(fontSize: 12),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ))
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10, bottom: 10),
-                          height: 2,
-                          color: Colors.black12,
-                        ),
-                        Row(
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.all(10.0),
+                  child: MyCard(
+                      child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            Expanded(
+                                child: Text(
+                              '健康知识',
+                              style: TextStyle(fontSize: 15),
+                            )),
                             GestureDetector(
                               onTap: () {
-                                NavigatorUtil.pushPage(context, StepRanking());
+                                widget.onPress();
                               },
                               child: Row(
                                 children: <Widget>[
-                                  Image.asset('assets/images/ranking.png',
-                                      height: 14, width: 14),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
                                   Text(
-                                    '步数排名：$stepRanking',
-                                    style: TextStyle(fontSize: 12),
+                                    '更多',
+                                    style: TextStyle(color: Colors.black12),
                                   ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 10,
                                   ),
-                                  Image.asset('assets/images/step_num.png',
-                                      height: 14, width: 14),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  StreamBuilder<int>(
-                                    stream: bloc.stream,
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<int> snapshot) {
-                                      return Text(
-                                        '运动步数：${snapshot.data ?? 0}',
-                                        style: TextStyle(fontSize: 12),
-                                      );
-                                    },
-                                  ),
+                                  loadAssetImage('arrow.png',
+                                      height: 12, width: 12),
                                 ],
                               ),
                             ),
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.all(10.0),
-                child: MyCard(
-                    child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                              child: Text(
-                            '健康知识',
-                            style: TextStyle(fontSize: 15),
-                          )),
-                          GestureDetector(
-                            onTap: () {
-                              widget.onPress();
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '更多',
-                                  style: TextStyle(color: Colors.black12),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                loadAssetImage('arrow.png',
-                                    height: 12, width: 12),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                    ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(0.0),
-                        itemCount: columnsInfoList.length,
-                        itemBuilder: (context, index) => _buildItem(index)),
-                  ],
-                )),
-              ),
-            ],
+                      ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(0.0),
+                          itemCount: columnsInfoList.length,
+                          itemBuilder: (context, index) => _buildItem(index)),
+                    ],
+                  )),
+                ),
+              ],
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
@@ -523,28 +530,10 @@ class _HomePageState extends State<HomePage> {
       createTime = '${columnsInfoList[index].createTime.substring(0,11)}';
     }
 
-    return GestureDetector(
-      child: (columnsInfoList[index].cover2 == null ||
-              columnsInfoList[index].cover3 == null)
-          ? getContentItem(columnsInfoList[index], index)
-          : getThreeImagItem(columnsInfoList[index]),
-      onTap: () {
-        if (columnsInfoList[index].type == 'T') {
-          NavigatorUtil.pushPage(context, TopicPage(columnsInfoList[index].id));
-          CommonRequest.UserReadingLog(
-              columnsInfoList[index].id, columnsInfoList[index].type, 'DJ');
-        } else {
-          NavigatorUtil.pushPage(
-              context,
-              ConsultationDetailPage(
-                id: columnsInfoList[index].id,
-                imgurl: columnsInfoList[index].cover1,
-              ));
-          CommonRequest.UserReadingLog(
-              columnsInfoList[index].id, columnsInfoList[index].type, 'YD');
-        }
-      },
-    );
+    return (columnsInfoList[index].cover2 == null ||
+            columnsInfoList[index].cover3 == null)
+        ? getContentItem(columnsInfoList[index], index)
+        : getThreeImagItem(columnsInfoList[index]);
   }
 
   getContentItem(ConsulationColumnsInfo item, int index) {

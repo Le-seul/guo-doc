@@ -46,7 +46,6 @@ class _InitDataState extends State<InitData> {
     super.initState();
     registrationID =
         StorageManager.sharedPreferences.getString(Constant.registrationID);
-
     init();
     _chunyuPushBloc = BlocProvider.of<ChunyuPushBloc>(context);
     _stepCountBloc = BlocProvider.of<StepCountBloc>(context);

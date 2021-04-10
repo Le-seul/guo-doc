@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:device_info/device_info.dart';
+//import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first/bean/user_entity.dart';
@@ -55,15 +55,16 @@ class _SMSLoginState extends State<SMSLogin> {
   }
 
   _getDeviceInfo() async{
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+//    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if(Platform.isAndroid){
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      macAddress = androidInfo.androidId;
-      print('Running on ${androidInfo.androidId}');  // e.g. "Moto G (4)"
+//      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+//      macAddress = androidInfo.androidId;
+//      print('Running on ${androidInfo.androidId}');  // e.g. "Moto G (4)"
     }else{
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      macAddress = iosInfo.utsname.machine;
-      print('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
+//      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+//      macAddress = iosInfo.utsname.machine;
+//      prmacAddress = iosInfo.utsname.machine;
+//      print('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
     }
 
   }
@@ -189,7 +190,7 @@ class _SMSLoginState extends State<SMSLogin> {
 
   _sendVerificationCode() {
     DioUtils.instance
-        .requestNetwork<String>(Method.post, Api.SENDVCODE, queryParameters: {
+        .requestNetwork<String>(Method.post, Api. SENDVCODE, queryParameters: {
       'userId': widget.user.userId,
       'phoneNumber': _phoneController.text,
     }, onSuccess: (data) {

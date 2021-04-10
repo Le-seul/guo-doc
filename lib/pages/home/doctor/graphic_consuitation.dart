@@ -152,14 +152,14 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
   FormData formData;
   clickIcon() async {
     var arr = new Map();
-    List<UploadFileInfo> files = [];
+//    List<UploadFileInfo> files = [];
     try {
       List<Asset> resultList = await MultiImagePicker.pickImages(
           maxImages: 9,
           enableCamera: true
       );
       if (resultList.length > 0) {
-        formData = new FormData.from({});
+//        formData = new FormData.from({});
         for(int i = 0; i< resultList.length; i ++) {
           Asset asset = resultList[i];
           ByteData byteData = await asset.requestThumbnail(200, 200);
@@ -182,10 +182,10 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
           });
 
           print('图片path：${imageFile.path}');
-          var file = new UploadFileInfo(imageFile, '${path}originalImage_$uuid.png', contentType: ContentType.parse("image/png"));
-          arr['file$i'] = file;
-          print("file$i");
-          formData["file$i"] = file;
+//          var file = new UploadFileInfo(imageFile, '${path}originalImage_$uuid.png', contentType: ContentType.parse("image/png"));
+//          arr['file$i'] = file;
+//          print("file$i");
+//          formData["file$i"] = file;
         };
 //        formData = new FormData.from(arr);
 //        print("formData:${json.encode(arr)}");
@@ -208,22 +208,22 @@ class _GraphicConsultationState extends State<GraphicConsultation> {
     }else if(formData == null) {
       _creatOrder(content.toString());
     }else{
-      DioUtils.instance
-          .requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,params: formData,isList: true,
-          onSuccessList: (data) {
-            setState(() {
-              for(ImageUrl imageUrl in data){
-                var image = "{\"type\":\"image\",\"file\":\"${imageUrl.url}\"}";
-                content.add(image);
-              }
-              _creatOrder(content.toString());
-              Toast.show('上传成功!');
-            });
-          }, onError: (code, msg) {
-            setState(() {
-              Toast.show('上传失败!');
-            });
-          });
+//      DioUtils.instance
+//          .requestNetwork<ImageUrl>(Method.post, Api.UPLOADIMAGE,params: formData,isList: true,
+//          onSuccessList: (data) {
+//            setState(() {
+//              for(ImageUrl imageUrl in data){
+//                var image = "{\"type\":\"image\",\"file\":\"${imageUrl.url}\"}";
+//                content.add(image);
+//              }
+//              _creatOrder(content.toString());
+//              Toast.show('上传成功!');
+//            });
+//          }, onError: (code, msg) {
+//            setState(() {
+//              Toast.show('上传失败!');
+//            });
+//          });
     }
   }
 

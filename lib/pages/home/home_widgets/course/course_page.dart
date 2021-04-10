@@ -124,6 +124,9 @@ class _PsyCourseState extends State<PsyCourse>
         backgroundColor: Colours.bg_green,
         elevation: 0.0,
       ),
+      endDrawer: Drawer(
+        child:Text('你好'),
+      ),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[

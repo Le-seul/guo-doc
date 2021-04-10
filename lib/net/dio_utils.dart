@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
 import 'package:flustars/flustars.dart';
 import 'package:flutter_first/common/common.dart';
 import 'package:flutter_first/event/login_event.dart';
@@ -90,7 +91,6 @@ class DioUtils {
     }
     return BaseEntity(_customCode,_statusCode, _msg, _obj);
   }
-
   Future<BaseEntity<List<T>>> _requestList<T>(String method, String url, {Map<String, dynamic> data, Map<String, dynamic> queryParameters, CancelToken cancelToken, Options options}) async {
     var response = await _dio.request(url, data: data, queryParameters: queryParameters, options: _checkOptions(method, options), cancelToken: cancelToken);
     int _customCode;

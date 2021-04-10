@@ -9,7 +9,7 @@ import 'package:flutter_first/util/navigator_util.dart';
 import 'package:flutter_first/util/storage_manager.dart';
 
 import 'package:flutter_first/widgets/loading_widget.dart';
-import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
+//import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -23,7 +23,7 @@ class PsyCenterDetail extends StatefulWidget {
 class _PsyCenterDetailState extends State<PsyCenterDetail> {
   List<CenterDetail> list = List();
   bool isShowLoading = true;
-  InAppWebViewController _controller;
+//  InAppWebViewController _controller;
   double _htmlHeight = 400; // 目的是在回调完成之前先展示出200高度的内容, 提高用户体验
   static const String HANDLER_NAME = 'InAppWebView';
   String token;
@@ -40,24 +40,24 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
   @override
   void dispose() {
     super.dispose();
-    _controller?.removeJavaScriptHandler(HANDLER_NAME);
-    _controller = null;
+//    _controller?.removeJavaScriptHandler(HANDLER_NAME);
+//    _controller = null;
   }
 
-  void _setJSHandler(InAppWebViewController controller) {
-    print("webView创建");
-    JavaScriptHandlerCallback callback = (List<dynamic> arguments) async {
-      // 解析argument, 获取到高度, 直接设置即可(iphone手机需要+20高度)
-      print('高度:${arguments[0]}');
-      double height = double.parse(arguments[0].toString());
-      if (height > 0) {
-        setState(() {
-          _htmlHeight = height;
-        });
-      }
-    };
-    controller.addJavaScriptHandler(HANDLER_NAME, callback);
-  }
+//  void _setJSHandler(InAppWebViewController controller) {
+//    print("webView创建");
+//    JavaScriptHandlerCallback callback = (List<dynamic> arguments) async {
+//      // 解析argument, 获取到高度, 直接设置即可(iphone手机需要+20高度)
+//      print('高度:${arguments[0]}');
+//      double height = double.parse(arguments[0].toString());
+//      if (height > 0) {
+//        setState(() {
+//          _htmlHeight = height;
+//        });
+//      }
+//    };
+//    controller.addJavaScriptHandler(HANDLER_NAME, callback);
+//  }
 
   _getServiceCenter() {
     DioUtils.instance
@@ -270,28 +270,28 @@ class _PsyCenterDetailState extends State<PsyCenterDetail> {
                                       margin:
                                           EdgeInsets.only(top: 5, bottom: 10),
                                     ),
-                                    Container(
-                                      height: _htmlHeight,
-                                      child: InAppWebView(
-                                        initialUrl:
-                                        '${baseurl}/api/staticResource.do?getResource&url=mobile_service_ui/serviceCDetail.html&token=$token&id=${list[0].scId}&commonIp=${baseurl}',
-                                        onWebViewCreated:
-                                            (InAppWebViewController
-                                                controller) {
-                                          _controller = controller;
-                                          _setJSHandler(
-                                              _controller); // 设置js方法回掉, 拿到高度
-                                        },
-                                        onLoadStop:
-                                            (InAppWebViewController controller,
-                                                String url) {
-                                          // 页面加载完成后注入js方法, 获取页面总高度
-                                          controller.injectScriptCode("""
-                  window.flutter_inappbrowser.callHandler('InAppWebView', document.body.scrollHeight);
-                """);
-                                        },
-                                      ),
-                                    )
+//                                    Container(
+//                                      height: _htmlHeight,
+//                                      child: InAppWebView(
+//                                        initialUrl:
+//                                        '${baseurl}/api/staticResource.do?getResource&url=mobile_service_ui/serviceCDetail.html&token=$token&id=${list[0].scId}&commonIp=${baseurl}',
+//                                        onWebViewCreated:
+//                                            (InAppWebViewController
+//                                                controller) {
+//                                          _controller = controller;
+//                                          _setJSHandler(
+//                                              _controller); // 设置js方法回掉, 拿到高度
+//                                        },
+//                                        onLoadStop:
+//                                            (InAppWebViewController controller,
+//                                                String url) {
+//                                          // 页面加载完成后注入js方法, 获取页面总高度
+//                                          controller.injectScriptCode("""
+//                  window.flutter_inappbrowser.callHandler('InAppWebView', document.body.scrollHeight);
+//                """);
+//                                        },
+//                                      ),
+//                                    )
                                   ],
                                 ),
                               )
